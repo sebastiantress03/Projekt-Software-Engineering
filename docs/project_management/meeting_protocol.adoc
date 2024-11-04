@@ -5,7 +5,7 @@ include::../_includes/default-attributes.inc.adoc[]
 // Platzhalter für weitere Dokumenten-Attribute
 
 In diesem Dokument werden alle teaminterne -, Coach- und Auftraggeber-Meetings protokolliert.
-Wann das Dokument zuletzt geupdated wurde, ist oben angegeben.
+
 
 
 == Teaminterne Meetings
