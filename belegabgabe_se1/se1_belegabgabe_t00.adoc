@@ -1,7 +1,7 @@
 // --- 1. Projektthema -------------------------
 = SE I - Belegabgabe: {project-name}
 // --- 2. Teammitglieder -----------------------
-Thomas Sweeney <s86208@htw-dresden.de>; Sebastian Treß <sebastian.tress@stud.htw-dresden.de>; Louai Alrefai <Louai.Alrefai@htw-dresden.de>; Oliver Theumer <s86407@htw-dresden.de>; Vorname Nachname <s00000@htw-dresden.de>; Vorname Nachname <s00000@htw-dresden.de>
+Thomas Sweeney <s86208@htw-dresden.de>; Sebastian Treß <sebastian.tress@stud.htw-dresden.de>; Louai Alrefai <Louai.Alrefai@htw-dresden.de>; Oliver Theumer <s86407@htw-dresden.de>; Julius Schramm <julius.schramm@stud.htw-dresden.de>; Vorname Nachname <s00000@htw-dresden.de>
 // --- 3. Abgabedatum --------------------------
 01. Januar 2020
 // ---------------------------------------------
@@ -34,7 +34,7 @@ include::{docs}/_includes/default-attributes.inc.adoc[]
 :docs-test: {docs}/test
 :docs-development: {docs}/development
 
-<<<
+
 
 // --- 4. include Pfade anpassen ---------------
 
