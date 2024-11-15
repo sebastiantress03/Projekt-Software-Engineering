@@ -175,7 +175,57 @@ Wie im Coach-Meeting schon betont: Es ist förderlich, dass pro Rolle ein Back-U
 *Uhrzeit*: 13:15 Uhr 
 *Ort*: HTW Dresden - Bibliothek
 
+=== Zweite Iteration
 
+==== Erstes Meeting
+
+|===
+| Datum | Ort | Uhrzeit
+| 15.11.2024 | Discord | 14:00 Uhr – 14:40 Uhr
+|===
+
+===== Teilnehmerliste
+
+[cols="3", options="header"]
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Ja | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+===== Agenda
+
+1. Aufgaben und Beschlüsse
+2. Teambuilding-Event
+3. Entscheidung über Coach- und Auftraggeber-Meetings
+
+===== Aufgaben und Beschlüsse
+[cols="4*", options="header"]
+|===
+| Aufgabe / Beschluss | Verantwortlicher | Fälligkeitsdatum | Status
+| Vision.adoc bearbeiten | Oliver Theumer, Julius Schramm, Luke Reeder | 22.11.2024 | In Bearbeitung
+| Erste User Stories erstellen | Oliver Theumer, Louai Alrefai, Thomas Sweeney | 22.11.2024 | In Bearbeitung
+| Erster Wireframe-Entwurf | Niklas Große, Sebastian Treß, Thomas Sweeney | 29.11.2024 | In Bearbeitung
+| Persona während des nächsten Meetings ausarbeiten | Alle | 22.11.2024 | Geplant
+| Risiken und Gegenmaßnahmen erarbeiten | Julius Schramm | 22.11.2024 | In Bearbeitung
+|===
+
+=====  Teambuilding-Event
+Das Team plant ein Billardspiel als Teambuilding-Event. Nähere Besprechungen folgen während des nächsten Meetings.
+
+=====  Entscheidung über Coach- und Auftraggeber-Meetings
+- **Coach-Meeting**: Geplant für Freitag, den 22.11.2024, um Probleme zu besprechen und Unterstützung bei Personas sowie User Stories einzuholen.
+- **Auftraggeber-Meeting (StuRa)**: Geplant für Freitag, den 29.11.2024. Ziel ist die Vorstellung der Wireframes und Klärung von Unklarheiten aus den User Stories.
+
+=====  Nächstes Meeting
+- **Datum:** 18.11.2024
+- **Uhrzeit:** 13:00 Uhr
+- **Ort:** Discord
 
 
 == Coach-Meetings
