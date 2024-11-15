@@ -1,5 +1,5 @@
 = Projektplan: {project-name}
-Vorname Nachname <email@domain.org>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
+Julius Schramm <julius.schramm@stud.htw-dresden.de>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
 {localdatetime}
 include::../_includes/default-attributes.inc.adoc[]
 // Platzhalter für weitere Dokumenten-Attribute
@@ -7,11 +7,30 @@ include::../_includes/default-attributes.inc.adoc[]
 
 == Einführung
 //Briefly describe the content of the project plan.
-
+In diesem Dokument wird der Projektplan für das Projekt {project-name} vorgestellt. Der Projektplan beschreibt die Ziele, den Umfang, die Organisation, die Praktiken und Bewertungen, die Meilensteine und Ziele, das Deployment und die Erkenntnisse des Projekts.
 
 == Projektorganisation
 //Introduce the project team, team members, and roles that they play during this project. If applicable, introduce work areas, domains, or technical work packages that are assigned to team members. Introduce neighboring projects, relationships, and communication channels. If the project is introduced somewhere else, reference that location with a link.
+=== Projektteam
 
+|===
+| *Name* | *Rolle* | *Kontakt* | *Studiengang*
+| Sebastian Treß | Architekt, Programmierer | s86372@htw-dresden.de | Informatik
+| Niklas Große | Archtitekt, Programmierer | s86379@htw-dresden.de | Informatik
+| Louai Alrefai | Analyst | s85081@htw-dresden.de | Wirtschaftsinformatik
+| Luke Reeder | Tester | s85591@htw-dresden.de | Wirtschaftsinformatik
+| Thomas Sweeney | Analyst | s86208@htw-dresden.de  | Wirtschaftsinformatik
+| Oliver Theumer | Analyst, stellvertr. Projektleiter | s86407@htw-dresden.de| Wirtschaftsinformatik
+| Julius Schramm | Projektleiter | s85699@htw-dresden.de | Wirtschaftsingeneurwesen
+|===
+
+=== Kommunikationswege
+
+Die *zentrale Kommunikation* erfolgt über Discord.
+
+Die *Dokumentation* wird in einem Git-Repository auf GitHub gepflegt.
+
+Die *Aufgabenverwaltung* erfolgt über GitHub Projects. 
 
 == Praktiken und Bewertung
 //Describe or reference which management and technical practices will be used in the project, such as iterative development, continuous integration, independent testing and list any changes or particular configuration to the project. Specify how you will track progress in each practice. As an example, for iterative development the team may decide to use iteration assessments and iteration burndown reports and collect metrics such as velocity (completed work item points/ iteration).
@@ -48,5 +67,5 @@ include::../_includes/default-attributes.inc.adoc[]
 //Outline the strategy for deploying the software (and its updates) into the production environment.
 
 
-== Erkenntnisse (Lessons learned)
+== Erkenntnisse / Retrospektive (Lessons learned)
 //List lessons learned from the retrospective, with special emphasis on actions to be taken to improve, for example: the development environment, the process, or team collaboration.
