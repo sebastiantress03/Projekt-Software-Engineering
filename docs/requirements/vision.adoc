@@ -32,10 +32,10 @@ Siehe <<#glossary, Glossar>>.
 
 [cols="1,3"]
 |===
-| Das Problem | [beschreiben Sie das Problem]
-| betrifft | [die Stakeholder, die vom Problem betroffen sind]
-| die Auswirkung davon ist | [welche Auswirkungen hat das Problem?]
-| eine erfolgreiche Lösung wäre | Führen Sie einige wesentliche Vorteile einer erfolgreichen Lösung auf]
+| Das Problem | zeitaufwändige, unorganisierte Turnierplanung, -dokumentation und -auswertung
+| betrifft | Turnierorganisatoren, Spieler, Zuschauer
+| die Auswirkung davon ist | unübersichtliche, fehleranfällige Turnierdurchführung
+| eine erfolgreiche Lösung wäre | eine Turnierverwaltungssoftware, die einen vereinfachten Turnierablauf ermöglicht
 |===
 
 ////
@@ -56,12 +56,12 @@ Beispiel:
 
 [cols="1,3"]
 |===
-| Für | [Zielkunde / Nutzer]
-| der / die | [Angabe des Bedarfs oder Chance]
-| Das Produkt / die Lösung ist ein | [Produktkategorie]
-| Die / Das | [Aussage zum Hauptvorteil / Alleinstellungsmerkmal]
-| Im Gegensatz zu | [wesentliche Lösungsalternative]
-| Unser Produkt | [Aussage zum Hauptunterschied]
+| Für | StuRa
+| die | einmal jährlich ein Volleyball-Turnier organisieren und daran teilnehmen
+| Das Produkt / die Lösung ist ein | Software-Tool / Web-App
+| Die / Das | Organisieren und Durchführen von Turnieren vereinfacht
+| Im Gegensatz zu | manuellen Planung und Dokumentation über Excel, Stift und Papier
+| Unser Produkt | verhilft zu einer effizienten und fehlerfreien Turnierdurchführung
 |===
 
 ////
@@ -85,9 +85,27 @@ Beispiel Produkt:
 |===
 | Name | Beschreibung | Verantwortlichkeiten
 
-| [Benennung des Stakeholder-Typs.]
-| [Kurze Beschreibung des Stakeholders.]
-| [Fassen Sie die wesentlichen Verantwortlichkeiten des Stakeholder mit Bezug auf das zu entwickelnde System kurz zusammen, d.h. ihr besonderen Interessen. Beispiele: Dieser Stakeholder sorgt dafür, dass das System gewartet wird / dass die angezeigten Daten aktuell sind / überwacht den Projektfortschritt / usw.]
+| Lotte Richter (Auftraggeber)
+| Eine Studentin, die den Auftrag innitiert hat, um die Organisation der Turnierplanung weniger komplex zu machen
+| Festlegung der Anforderungen und Ziele des Projekts; Nutzt die App; Expoertierung der Ergebnisse und des Turnierplans
+
+| Turnierteilnehmer
+| Höchstwahrscheinlich Studierende der HTW Dresden, die Volleyball spielen wollen
+| Nutzung der App zur Teilnahme an Turnieren; Eintragen der Ergebnisse in die App
+
+| Entwicklungsteam
+| Studenten der HTW Dresden, die die App entwickeln
+| Zuständig für die Umsetzung der Anforderungen; Entwicklung der App; Testen der App; Dokumentation der App; Weiterentwicklung der Software; Support
+
+| HTW Dresden
+| Hochschule für Technik und Wirtschaft Dresden. Sie ist ein indirekter Stakeholder, da das Projekt für Veranstaltungen der Hochschule entwickelt wird
+| Bereitstellung von Ressourcen (Lektüren, Vorlesungen, usw.); Unterstützung des Projekts (Dozent, Coach); Könnte die App in Zukunft auch für andere Veranstaltungen nutzen
+
+| Zukündtige Nutzer
+| Potenziell interessierte Nutzer, wenn die Software für andere Tunriere oder Sportarten angepasst wird
+| Nutzung der App; Feedback geben
+
+
 |===
 
 === Benutzerumgebung
