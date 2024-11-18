@@ -34,7 +34,7 @@ Eine Persona ist eine fiktive Person, die stellvertretend für eine Gruppe von B
 
 == Ingeborg Regina
 
-image::images/Ingeborg_Regina.png[width=300, height=200]
+image::images/Ingeborg_Regina.png[width=300, height=300]
 
 === Demographie
 
@@ -84,11 +84,11 @@ Studium: Informatik
 
 === Verhaltensvariablen
 
-image::images/Ingeborg_Regina_Verhaltensweisen.png[width=300, height=200]
+image::images/Ingeborg_Regina_Verhaltensweisen.png[width=300, height=300]
 
 == Julia Ludolf
 
-image::images/Julia_Ludolf.jpg[width=300, height=200]
+image::images/Julia_Ludolf.jpg[width=300, height=300]
 
 === Demographie
 
@@ -133,4 +133,4 @@ Studium: Betriebswirtschaftslehre
 |===
 === Verhaltensvariablen
 
-image::images/Julia_Ludolf_Verhaltensweisen.png[width=300, height=200]
+image::images/Julia_Ludolf_Verhaltensweisen.png[width=300, height=300]
