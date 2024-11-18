@@ -1,17 +1,40 @@
 = Personas: {project-name}
 Vorname Nachname <email@domain.org>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
 {localdatetime}
-include::../_includes/default-attributes.inc.adoc[]
+:project-name: Turnierauswertungssoftware
+:project-system-name: Turnierauswertungssoftware
+// Settings:
+:toc:
+:toc-title: Inhaltsverzeichnis
+:toclevels: 2
+:sectnums:
+:icons: font
+//:source-highlighter: highlightjs
+:source-highlighter: rouge
+:rouge-style: github
+:xrefstyle: full
+:figure-caption: Abbildung
+:table-caption: Tabelle
+:!example-caption:
+:experimental:
+// folders
+ifndef::diagramsdir[:diagramsdir: diagrams]
+ifndef::plantumlsdir[:plantumlsdir: plantuml]
+// Hyphenation for PDF dokumente
+:lang: DE
+:hyphens:
+// main document
+:main-document:
+
 // Platzhalter für weitere Dokumenten-Attribute
 
 == Einführung
 In diesem Dokument werden die wesentlichen Personas des Projektes "{project-name}" definiert.
 Eine Persona ist eine fiktive Person, die stellvertretend für eine Gruppe von Benutzern steht. Die Erstellung einer solchen Persona hilft dabei, die Bedürfnisse und Anforderungen der Benutzergruppe besser zu verstehen und in der Softwareentwicklung zu berücksichtigen.
 
-
 == Ingeborg Regina
 
-image::docs/requirements/images/Ingeborg_Regina.png[width = 300, height = 200]
+image::images/Ingeborg_Regina.png[width=300, height=200]
 
 === Demographie
 
@@ -61,13 +84,11 @@ Studium: Informatik
 
 === Verhaltensvariablen
 
-image::Ingeborg_Regina_Verhaltensweisen.png[width = 300, height = 200]
-
-
+image::images/Ingeborg_Regina_Verhaltensweisen.png[width=300, height=200]
 
 == Julia Ludolf
 
-image::Julia_Ludolf.jpg[width = 300, height = 200]
+image::images/Julia_Ludolf.jpg[width=300, height=200]
 
 === Demographie
 
@@ -81,7 +102,6 @@ image::Julia_Ludolf.jpg[width = 300, height = 200]
 === Ausbildung
 
 Studium: Betriebswirtschaftslehre
-
 
 === Fähigkeiten, Bedürfnisse und Hindernisse
 [cols="1,1", options="header", align="center"]
@@ -113,6 +133,4 @@ Studium: Betriebswirtschaftslehre
 |===
 === Verhaltensvariablen
 
-image::Julia_Ludolf_Verhaltensweisen.png[width = 300, height = 200]
-
-
+image::images/Julia_Ludolf_Verhaltensweisen.png[width=300, height=200]
