@@ -11,7 +11,7 @@ Eine Persona ist eine fiktive Person, die stellvertretend für eine Gruppe von B
 
 == Ingeborg Regina
 
-image::Ingeborg_Regina.png[width = 300, height = 200]
+image::docs/requirements/images/Ingeborg_Regina.png[width = 300, height = 200]
 
 === Demographie
 
