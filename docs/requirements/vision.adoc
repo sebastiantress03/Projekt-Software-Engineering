@@ -1,5 +1,5 @@
 = Vision: {project-name}
-Vorname Nachname <email@domain.org>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
+Julius Schramm <julius.schramm@stud.htw-dresden.de>; Oliver Theumer <oliver.theumer@stud.htw-dresden.de>; Luke Reeder <luke.reeder@stud.htw-dresden.de>
 {localdatetime}
 include::../_includes/default-attributes.inc.adoc[]
 // Platzhalter für weitere Dokumenten-Attribute
@@ -12,7 +12,8 @@ Der Zweck dieses Dokuments ist es, die wesentlichen Bedarfe und Funktionalitäte
 Der Zweck dieses Dokuments ist es, die wesentlichen Anforderungen an das System aus Sicht und mit den Begriffen der künftigen Anwender zu beschreiben.
 
 === Gültigkeitsbereich (Scope)
-Dieses Visions-Dokument bezieht sich auf das System {project-system-name}, das von <Team> entwickelt wird. Das System wird es <Zielkunde/Auftraggeber> erlauben, <Hauptfunktionen> zu nutzen, um damit <Vorteile> zu erreichen / <Aufgabe> zu erleichtern / <Problem> zu lösen.
+Dieses Visions-Dokument bezieht sich auf das System {project-name}, das von <<#project_plan, Team B>> entwickelt wird. Das System wird es dem StuRa erlauben, eine Software zu nutzen, welche den Prozess der Spielplangenerierung, der Erfassung der Spielstände und der Auswertung der Ergebnisse effizienter und einfacher gestaltet. Die Erfassung der Spielstände erfolgt eigenständig über die teilnehmenden Teams. Die Software sollte außerdem auch ohne Internetverbindung funktional bleiben und auf mobilen Endgeräten nutzbar sein.
+Dies dient dem Ziel die Organisation und Auswertung zukünftiger Turniere nicht mehr mittels Excel-Tabellen durchführen zu müssen.
 
 === Definitionen, Akronyme und Abkürzungen
 //Verweis passend zum Belegabgabe-Template se1_belegabgabe_t00.adoc
@@ -26,6 +27,8 @@ Siehe <<#glossary, Glossar>>.
 
 === Fachliche Motivation
 //Erläutern Sie kurz den Hintergrund, in dem das Projekt angesiedelt ist. Welches Problem soll gelöst werden, wie ist es entstanden? Welche Verbesserung wird angestrebt. Achten Sie darauf, eine fachliche (organisatorische, betriebswirtschaftliche) Perspektive einzunehmen.
+
+Die Turnierauswertungssoftware soll vorerst die organisatorischen Herausforderungen des Nikolaus-Volleyball-Turniers der HTW Dresden lösen. Aktuell erfordert die manuelle Erfassung von Spielständen und die Auswertung der Ergebnisse viel Aufwand und führt zu Fehlern und Verzögerungen. Die Software wird die Erstellung des Spielplans automatisieren, eine einfache Eingabe der Ergebnisse ermöglichen und die Auswertung der Sieger vereinfachen. Ziel ist es, den organisatorischen Aufwand zu reduzieren, Fehlerquellen zu minimieren und die Effizienz sowie Benutzerfreundlichkeit zu steigern.
 
 === Problem Statement
 //Stellen Sie zusammenfassend das Problem dar, das mit diesem Projekt gelöst werden soll. Das folgende Format kann dazu verwendet werden:
@@ -109,16 +112,36 @@ Beispiel Produkt:
 |===
 
 === Benutzerumgebung
-Beschreiben Sie die Arbeitsumgebung des Nutzers. Hier sind einige Anregungen:
+//Beschreiben Sie die Arbeitsumgebung des Nutzers. Hier sind einige Anregungen:
 
 //Zutreffendes angeben, nicht zutreffendes streichen oder auskommentieren
-. Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind. Ändert sich das?
-. Wie lange dauert die Bearbeitung der Aufgabe? Wie viel Zeit wird für jeden Arbeitsschritt benötigt? Ändert sich das?
-. Gibt es besondere Umgebungsbedingungen, z.B. mobil, offline, Außeneinsatz, Touchbedienung, Nutzung durch seh- oder hörbeeinträchtigte Personen?
-. Welche Systemplattformen werden heute eingesetzt? Welche sind es ggf. zukünftig?
-. Welche anderen Anwendungen sind im Einsatz? Muss ihre Anwendung mit diesen integriert werden?
+//Derzeitige Nutzerumgebung!!
+_Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind. Ändert sich das?_
 
-Hier können zudem bei Bedarf Teile des Unternehmensmodells (Prozesse, Organigramme, IT-Landschaft, ...) eingefügt werden, um die beteiligten Aufgaben und Rollen zu skizzieren.
+Die Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind, beträgt in der Regel 1-2 Personen. In Ausnahmefällen kann es auch mehr Personen sein, die an der Erfüllung der Aufgabe beteiligt sind.
+
+_Wie lange dauert die Bearbeitung der Aufgabe? Wie viel Zeit wird für jeden Arbeitsschritt benötigt? Ändert sich das?_
+
+ANNAHME: (Klären mit Auftraggeber)
+
+Die Zusammenstellung des Turnierbaums kann mehrere Stunden bis Tage dauern, je nachdem wie viele Teams teilnehmen. Gleiches gilt für die Auswertung der Ergebnisse.
+
+//_Gibt es besondere Umgebungsbedingungen, z.B. mobil, offline, Außeneinsatz, Touchbedienung, Nutzung durch seh- oder hörbeeinträchtigte Personen?_
+
+
+
+_Welche Systemplattformen werden heute eingesetzt? Welche sind es ggf. zukünftig?_
+
+Zur Zeit wird die Software auf einem ???Windows-PC??? genutzt. Zukünftig soll die Software auch auf mobilen Endgeräten (Smartphones, Tablets) genutzt werden können, über eine Webanwendung.
+
+// Windows oder Mac zur Zeit???
+
+_Welche anderen Anwendungen sind im Einsatz? Muss ihre Anwendung mit diesen integriert werden?_
+
+Die Anwendungssoftware Excel ist im Moment im Einsatz. Die neue Software soll die händische Erstellung des Turnierbaums und der Auswertung via Excel ersetzen 
+
+
+//Hier können zudem bei Bedarf Teile des Unternehmensmodells (Prozesse, Organigramme, IT-Landschaft, ...) eingefügt werden, um die beteiligten Aufgaben und Rollen zu skizzieren.
 
 
 == Produkt-/Lösungsüberblick
@@ -126,25 +149,51 @@ Hier können zudem bei Bedarf Teile des Unternehmensmodells (Prozesse, Organigra
 === Bedarfe und Hauptfunktionen
 //Vermeiden Sie Angaben zum Entwurf. Nennen wesentliche Features (Produktmerkmale) auf allgemeiner Ebene. Fokussieren Sie sich auf die benötigten Fähigkeiten des Systems und warum (nicht wie!) diese realisiert werden sollen. Geben Sie die von den Stakeholdern vorgegebenen Prioritäten und das geplante Release für die Veröffentlichung der Features an.
 
-[%header, cols="4,1,4,1"]
+[%header, cols="4,1,4,1", align="center"]
 |===
 | Bedarf | Priorität | Features | Geplantes Release
-| xx | xx | xx | xx
+
+| Automatisierte Erstellung eines Spielplans zur optimalen Nutzung der Felder und Teams | Hoch | - Generierung eines Turnierplans basierend auf Parameter wie Anzahl Felder, Teams, und Leistungsgruppen  
+- Berücksichtigung von gerechter Verteilung von Spiel-, Pfeif- und Pausenzeiten
+- Export als PDF | ???Version 1.0???
+
+| Selbstständige Erfassung der Spielergebnisse durch Teams | Hoch | - Eingabemöglichkeit der Spielergebnisse während des Turniers| ???Version 1.0???
+
+| Automatisierte Auswertung des Turniers | Hoch | - Berechnung der Sieger basierend auf Anzahl der Siege und erzielten Punkte 
+- Generierung einer Liste mit Teams, Siegen, und Punktdifferenzen | ???Version 1.0???
+
+| nachträgliche Speicherung und Wiederverwendbarkeit der Turnierdaten | Niedrig | - Speicherung von Spielplänen und Ergebnissen für spätere Einsicht und Nutzung | Version 2.0
 |===
 
 
 == Zusätzliche Produktanforderungen
 //Zutreffendes angeben, nicht zutreffendes streichen oder auskommentieren
-Hinweise:
+//Hinweise:
 
-. Führen Sie die wesentlichen anzuwendenden Standards, Hardware oder andere Plattformanforderungen, Leistungsanforderungen und Umgebungsanforderungen auf
-. Definieren Sie grob die Qualitätsanforderungen für Leistung, Robustheit, Ausfalltoleranz, Benutzbarkeit und ähnliche Merkmale, die nicht von den genannten Features erfasst werden.
-. Notieren Sie alle Entwurfseinschränkungen, externe Einschränkungen, Annahmen oder andere Abhängigkeiten, die wenn Sie geändert werden, das Visions-Dokument beeinflussen. Ein Beispiel wäre die Annahme, dass ein bestimmtes Betriebssystem für die vom System erforderliche Hardware verfügbar ist. Ist das Betriebssystem nicht verfügbar, muss das Visions-Dokument angepasst werden.
-. Definieren Sie alle Dokumentationsanforderugen, inkl. Benutzerhandbücher, Onlinehilfe, Installations-, Kennzeichnungs- und Auslieferungsanforderungen-
-. Definieren Sie die Priorität für diese zusätzlichen Produktanforderungen. Ergänzen Sie, falls sinnvoll, Angaben zu Stabilität, Nutzen, Aufwand und Risiko für diese Anforderungen.
+//. Führen Sie die wesentlichen anzuwendenden Standards, Hardware oder andere Plattformanforderungen, Leistungsanforderungen und Umgebungsanforderungen auf
+//. Definieren Sie grob die Qualitätsanforderungen für Leistung, Robustheit, Ausfalltoleranz, Benutzbarkeit und ähnliche Merkmale, die nicht von den genannten Features erfasst werden.
+//. Notieren Sie alle Entwurfseinschränkungen, externe Einschränkungen, Annahmen oder andere Abhängigkeiten, die wenn Sie geändert werden, das Visions-Dokument beeinflussen. Ein Beispiel wäre die Annahme, dass ein bestimmtes Betriebssystem für die vom System erforderliche Hardware verfügbar ist. Ist das Betriebssystem nicht verfügbar, muss das Visions-Dokument angepasst werden.
+//. Definieren Sie alle Dokumentationsanforderugen, inkl. Benutzerhandbücher, Onlinehilfe, Installations-, Kennzeichnungs- und Auslieferungsanforderungen-
+//. Definieren Sie die Priorität für diese zusätzlichen Produktanforderungen. Ergänzen Sie, falls sinnvoll, Angaben zu Stabilität, Nutzen, Aufwand und Risiko für diese Anforderungen.
 
 [%header, cols="4,1,1"]
 |===
 | Anforderung | Priorität | Geplantes Release
-| xx | xx | xx
+
+| Offline-Verfügbarkeit für Turnierverwaltung | Hoch | ???Version 1.0???
+
+| Robustheit gegen Fehleingaben und Abstürze z.B. Fehlererkennung bei Ergebniseingabe; Rücknahme des Ergebnisses => Bestätigungsmeldung | Hoch | ???Version 1.0???
+
+| Vollkommene Plattformunabhängigkeit durch Webtechnologie (Mobil und Web)| Hoch | ???Version 1.0???
+
+| Flexibilität und einfache Bedienung | Mittel | ???Version 1.0???
+
+| Optimierung für schnelle Datenverarbeitung ( Eingabe von Spielständen oder die Berechnung der Ergebnisse schnell sichtbar) | Niedrig | Version 2.0
+
+| Unterstützung mehrsprachiger Benutzeroberflächen (für Auslandsstudenten) | Niedrig | Version 2.0
+
+| Möglichkeit für einen einfachen Zugang zu den Turnierdaten für die Teilnehmer | Niedrig | Version 2.0
+
 |===
+
+// öffentliche Sicht für alle und für Turnierorga selektiv??
