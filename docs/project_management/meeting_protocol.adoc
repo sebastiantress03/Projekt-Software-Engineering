@@ -294,6 +294,50 @@ Der Coach riet, nach jeder Iteration eine Retrospektive durchzuführen, um Stär
 
 noch unbekannt
 
+=== Zweite Iteration
+
+|===
+| *Datum* | *Ort* | *Uhrzeit*
+| 22.11.2024 | HTW Dresden - Bibliothek | 14:00 Uhr – 15:30 Uhr
+|===
+
+==== Teilnehmerliste
+
+|===
+|Name |Anwesenheit |Studiengang
+|Julius Schramm |Nein ( entschuldigt ) |WIng
+|Sebastian Treß |Ja |Info
+|Niklas Große |Nein ( krankheitsbedingt )|Info
+|Louai Alrefai |Ja |WInfo
+|Luke Reeder |Nein |WInfo
+|Thomas Sweeney |Nein |WInfo
+|Oliver Theumer |Ja |WInfo
+|===
+
+==== Agenda
+
+1. Fragen an den Coach
+2. Vorführen der Teamdynamik
+3. Tipps 
+
+==== Zusammenfassung der besprochenen Themen
+
+===== 1. Fragen an den Coach
+Unser Team hat ihre vorbereiteten Fragen bezüglich der Personas und der User-Stories an den Coach gestellt. 
+
+===== 2. Vorführen der Teamdynamik
+
+Dem Coach ging es bei diesem Treffen darum einen Eindruck unserer Teamdynamik zu erhalten. Dies hatte den Sinn das der Coach unserem Team individuellere Ratschläge geben kann, damit wir unsere Teamdynamik verbessern und eventuelle Risken vermeiden können.
+
+===== 3. Tipps
+
+Der Coach riet uns festere Strukturen in unserem Team einzuführen. Einen Termin festzulegen, an dem jeder Zeithaben muss, auch wenn dies früh am Morgen oder spät am Abend ist. Klare Regeln für das Bearbeiten von Dokumenten und dem Schreiben von Code festlegen, um eine Einheitliche Struktur zu besitzen. 
+Bei den Risiken empfahl uns der Coach mindestens 10 Risiken festzulegen an denen wir als Team arbeiten können.
+
+
+==== Nächstes Coach-Meeting
+
+noch unbekannt
 
 == Auftraggeber-Meetings
 
