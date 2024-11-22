@@ -6,14 +6,27 @@ include::../_includes/default-attributes.inc.adoc[]
 
 
 == Einführung
-In diesem Dokument werden die wesentlichen Begriffe aus dem Anwendungsgebiet (Fachdomäne) der <Projektthema-Systems> definiert. Zur besseren Übersichtlichkeit sind Begriffe, Abkürzungen und Datendefinitionen gesondert aufgeführt.
+In diesem Dokument werden die wesentlichen Begriffe aus dem Anwendungsgebiet (Fachdomäne) der Volleyball-Software definiert. Zur besseren Übersichtlichkeit sind Begriffe, Abkürzungen und Datendefinitionen gesondert aufgeführt.
 
 == Begriffe
 [%header]
 |===
 | Begriff | Definition und Erläuterung | Synonyme
 //| Kommissionierung | Bereitstellung von Waren aus einem Lager entsprechend eines Kundenauftrags | (keine)
-| xx | xx | xx
+| Turnierorganisator | Die Person oder Gruppe, die das Turnier plant, organisiert und verwaltet. (Stura) | Organisator
+| Turnierteilnehmer | Spielerinnen und Spieler, die am Turnier teilnehmen und die Ergebnisse ihrer Spiele eintragen. | Spieler
+| Spielplangenerierung | Der Prozess der automatisierten Erstellung eines Turnierplans, der die Spiele, Felder und Teams optimal verteilt. | Spielplanerstellung
+| Ergebniseingabe | Das Eintragen der Spielergebnisse direkt durch die Turnierteilnehmer in die Software. | Ergebnisdokumentation
+| Turnierauswertung | Die automatisierte Analyse der Spielergebnisse, um die Siegerteams zu ermitteln. | Auswertung
+| Leistungsgruppen | Eine Einteilung der Teams basierend auf ihrer Spielstärke, in Gruppe 1 und 2| Skill-Level-Gruppen
+| Offline-Verfügbarkeit | Die Fähigkeit der Software, auch ohne Internetverbindung zu funktionieren. | Offline-Modus
+| Punktdifferenz | Der Unterschied zwischen erzielten und erhaltenen Punkten eines Teams. | Punktabstand
+| Schiedsrichterfunktion | Eine Rolle, die von einem Team übernommen wird, um ein Spiel zu überwachen. | Pfeifen
+| Mobilgeräte | Smartphones oder Tablets, auf denen die Software genutzt werden kann. | Mobile Endgeräte
+| Hin- und Rückspiel | Ein Turniermodus, bei dem jedes Team gegen jedes andere Team mindestens zweimal spielt – einmal "hin" und einmal "zurück". | (keine)
+| PDF-Export | Die Funktion, Spielpläne und Ergebnisse als PDF-Dateien zu speichern oder auszudrucken. | PDF-Erstellung
+| Turniermodus | Die Struktur und Regeln, nach denen das Turnier abläuft, z. B. Gruppenphase oder Jeder-gegen-jeden. | Spielmodus
+
 |===
 
 
@@ -22,7 +35,9 @@ In diesem Dokument werden die wesentlichen Begriffe aus dem Anwendungsgebiet (Fa
 |===
 | Abkürzung | Bedeutung | Erläuterung
 //| UP | Unified Process | Vorgehensmodell für die Softwareentwicklung
-| xx | xx | xx
+| StuRa | Studierendenrat | Vertretung der Studierenden an der Hochschule für Technik und Wirtschaft Dresden.
+| HTW | Hochschule für Technik und Wirtschaft | Hochschule in Dresden, an der das Turnier stattfindet.
+| PDF | Portable Document Format | Ein Dateiformat, das für den Austausch von Dokumenten verwendet wird.
 |===
 
 == Verzeichnis der Datenstrukturen
