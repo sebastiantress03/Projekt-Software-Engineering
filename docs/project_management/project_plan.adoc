@@ -15,8 +15,8 @@ In diesem Dokument wird der Projektplan für das Projekt {project-name} vorgeste
 
 |===
 | *Name* | *Rolle* | *Kontakt* | *Studiengang*
-| Sebastian Treß | Architekt, Programmierer | s86372@htw-dresden.de | Informatik
-| Niklas Große | Archtitekt, Programmierer | s86379@htw-dresden.de | Informatik
+| Sebastian Treß | Architekt| s86372@htw-dresden.de | Informatik
+| Niklas Große |Programmierer | s86379@htw-dresden.de | Informatik
 | Louai Alrefai | Analyst | s85081@htw-dresden.de | Wirtschaftsinformatik
 | Luke Reeder | Tester | s85591@htw-dresden.de | Wirtschaftsinformatik
 | Thomas Sweeney | Analyst | s86208@htw-dresden.de  | Wirtschaftsinformatik

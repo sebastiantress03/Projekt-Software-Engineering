@@ -116,6 +116,9 @@ Beispiel Produkt:
 
 //Zutreffendes angeben, nicht zutreffendes streichen oder auskommentieren
 //Derzeitige Nutzerumgebung!!
+
+==== Turnierorganisator
+
 _Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind. Ändert sich das?_
 
 Die Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind, beträgt in der Regel 1-2 Personen. In Ausnahmefällen kann es auch mehr Personen sein, die an der Erfüllung der Aufgabe beteiligt sind.
@@ -140,8 +143,31 @@ _Welche anderen Anwendungen sind im Einsatz? Muss ihre Anwendung mit diesen inte
 
 Die Anwendungssoftware Excel ist im Moment im Einsatz. Die neue Software soll die händische Erstellung des Turnierbaums und der Auswertung via Excel ersetzen 
 
-
 //Hier können zudem bei Bedarf Teile des Unternehmensmodells (Prozesse, Organigramme, IT-Landschaft, ...) eingefügt werden, um die beteiligten Aufgaben und Rollen zu skizzieren.
+
+==== Turnierteilnehmer
+
+_Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind. Ändert sich das?_
+
+Die Anzahl der Personen innerhalb eines Teams beträgt in der Regel 6-8 Personen. Die Anzahl Mitglieder eines Teams kann variieren.
+
+_Wie lange dauert die Bearbeitung der Aufgabe? Wie viel Zeit wird für jeden Arbeitsschritt benötigt? Ändert sich das?_
+
+Die Eingabe der Ergebnisse dauert in der Regel wenige Minuten. Die Dauer eines Spiels beträgt ca. 20 Minuten.
+
+_Gibt es besondere Umgebungsbedingungen, z.B. mobil, offline, Außeneinsatz, Touchbedienung, Nutzung durch seh- oder hörbeeinträchtigte Personen?_
+
+Die Eingabe der Ergebnisse sollte offline und mobil möglich sein, da die Turniere in der Regel in der Sporthalle stattfinden. Die Bedienung sollte einfach und intuitiv sein, da die Nutzer keine Vorkenntnisse haben. Eine Nutzung durch hörbeeinträchtigte Personen stellt kein Problem im Hinblick der Bedienung dar. Sehbeeinträchtigte Personen, sollten die Eingabe der Ergebnisse und die Auswertung der Ergebnisse nicht übernehmen.
+
+_Welche Systemplattformen werden heute eingesetzt? Welche sind es ggf. zukünftig?_
+
+Zur Zeit werden keine Systemplattformen verwendet. Annahme: Die Schiedsrichterteams tragen nach jedem Spiel die Ergebnisse händisch auf ein Blatt Papier ein Die Spielstände sind auf Papier festgehalten. Zukünftig soll die Software auf mobilen Endgeräten (Smartphones, Tablets) genutzt werden können, über eine Webanwendung.
+
+_Welche anderen Anwendungen sind im Einsatz? Muss ihre Anwendung mit diesen integriert werden?_
+
+Keine
+
+
 
 
 == Produkt-/Lösungsüberblick
