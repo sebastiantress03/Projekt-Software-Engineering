@@ -26,6 +26,12 @@ In diesem Dokument werden die wesentlichen Begriffe aus dem Anwendungsgebiet (Fa
 | Hin- und Rückspiel | Ein Turniermodus, bei dem jedes Team gegen jedes andere Team mindestens zweimal spielt – einmal "hin" und einmal "zurück". | (keine)
 | PDF-Export | Die Funktion, Spielpläne und Ergebnisse als PDF-Dateien zu speichern oder auszudrucken. | PDF-Erstellung
 | Turniermodus | Die Struktur und Regeln, nach denen das Turnier abläuft, z. B. Gruppenphase oder Jeder-gegen-jeden. | Spielmodus
+| Schwitzer-Gruppe | Eine Leistungsgruppe, in der die stärksten Teams gegeneinander antreten. | Top-Gruppe
+| Fun-Gruppe | Eine Leistungsgruppe, in der Teams spielen, die weniger Erfahrung haben oder einfach nur zum Spaß spielen. | Freizeit-Gruppe
+| Spielplanübersicht | Eine grafische Darstellung des Turnierplans, die alle Spiele und Felder anzeigt. | Turnierübersicht
+| Spielabbruch | Die vorzeitige Beendigung eines Spiels aufgrund von Verletzungen, Wetter oder anderen Gründen. | Abbruch
+| Spielverlegung | Die Verschiebung eines Spiels auf einen anderen Zeitpunkt oder Ort. | Verlegung
+| Spielzeit | Die Dauer eines Spiels, ca. 20 Minuten | Spieldauer
 
 |===
 
