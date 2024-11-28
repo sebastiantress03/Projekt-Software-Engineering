@@ -18,6 +18,19 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 
 //Formulieren Sie eine Reihe von Zielen, die die Architektur in ihrer Struktur und ihrem Verhalten erfüllen muss. Identifizieren Sie kritische Fragen, die von der Architektur adressiert werden müssen, z.B. besondere Hardware-Abhängigkeiten, die vom Rest des Systems isoliert werden sollten oder Sicherstellung der Funktionsfähigkeit unter besonderen Bedingungen (z.B. Offline-Nutzung).
 
+- Erstellen von "Volleyball" Turnierplänen für den Stura 
+- Anzahl Spielfelder variable
+- Anzahl Spieler variable
+- Auswahl, ob es Hin- und Rückspiele gibt
+- muss offline funktionieren
+- soll auf jedem Gerät (z.B. Mobil, Computer, ... ) und Betriebssystem Laufen
+- Turnierpläne müssen exportierbar sein
+- erfassen der Spielergebnissen
+- Einsicht von allen Teilnehmern
+- Spielpläne individueller Teams sollen einsehbar sein
+- Pausen sollen bei den Teams gleichmäßig verteilt sein
+- Turnier soll auswertbar und speicherbar sein
+
 
 == Annahmen und Abhängigkeiten
 //[List the assumptions and dependencies that drive architectural decisions. This could include sensitive or critical areas, dependencies on legacy interfaces, the skill and experience of the team, the availability of important resources, and so forth]
@@ -30,8 +43,18 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 == Entscheidungen, Nebenbedingungen und Begründungen
 //[List the decisions that have been made regarding architectural approaches and the constraints being placed on the way that the developers build the system. These will serve as guidelines for defining architecturally significant parts of the system. Justify each decision or constraint so that developers understand the importance of building the system according to the context created by those decisions and constraints. This may include a list of DOs and DON’Ts to guide the developers in building the system.]
 
-. Entscheidung oder Einschränkung oder Begründung 1
+. Wir haben uns dazu entschieden die Turnierapp in Form einer Progressiven Web App umzusetzen, um die Nutzung auf den unterschiedlichsten Geräten zu ermöglichen.
+
+. Um die unterschiedlichen Turniere zu Speicherung und abrufbar zu machen haben wir uns dafür entschieden die Daten der Turniere in einer Datenbank zu Speichern. Dies ermöglicht eine effiziente und zentrale Speicherung der Spieldaten. 
+
+
+
+
+
 . Entscheidung oder Einschränkung oder Begründung 2
+
+
+
 
 
 == Architekturmechanismen
