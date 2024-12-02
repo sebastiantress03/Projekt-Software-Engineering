@@ -227,6 +227,151 @@ Das Team plant ein Billardspiel als Teambuilding-Event. Nähere Besprechungen fo
 - **Uhrzeit:** 13:00 Uhr
 - **Ort:** Discord
 
+==== Zweites Meeting
+
+|===
+| Datum | Ort | Uhrzeit
+| 18.11.2024 | Discord | 14:00 Uhr – 14:40 Uhr
+|===
+
+===== Teilnehmerliste
+
+[cols="3", options="header"]
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Ja | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+===== Agenda
+1. Besprechung der Aufgaben
+2. Erstellung der Personas
+
+===== Zusammenfassung der besprochenen Themen
+
+====== 1. Besprechung der Aufgaben
+Die Aufgaben wurden besprochen und der aktuelle Stand der Bearbeitung wurde erfragt. Mit den User Stories und dem Wireframe-Entwurf wird bis zum nächsten Praktikum gewartet.
+
+====== 2. Erstellung der Personas
+Die Erstellung der Personas wurde besprochen und die Teammitglieder haben sich über die Vorgehensweise informiert. Es wurden 2 Personas erstellt.
+
+===== Nächstes Meeting
+- **Datum:** 25.11.2024
+- **Uhrzeit:** 14:00 Uhr
+- **Ort:** Discord
+
+==== Drittes Meeting
+
+|===
+| Datum | Ort | Uhrzeit
+| 25.11.2024 | Discord | 14:00 Uhr – 14:20 Uhr
+|===
+
+===== Teilnehmerliste
+
+[cols="3", options="header"]
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Ja | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+===== Agenda
+1. Besprechung der Aufgaben
+2. Projektfortschritt
+
+===== Zusammenfassung der besprochenen Themen
+
+====== 1. Besprechung der Aufgaben
+Die Aufgaben wurden besprochen und der aktuelle Stand der Bearbeitung wurde erfragt. Die User Stories und der Wireframe-Entwurf sind in Bearbeitung.
+
+====== 2. Projektfortschritt
+Der Projektfortschritt wurde besprochen und die Teammitglieder haben sich gegenseitig über den Stand der Aufgaben informiert. Der Review des Vision.adoc-Dokuments wurde eingeholt und die Verbesserungen wurden besprochen. Der Termin mit dem Auftraggeber wurde auf Freitag, den 29.11.2024, um 13:00 Uhr festgelegt.
+
+===== Beschlüsse und To-Dos
+Die User-Stories wurden angefangen und der Wireframe-Entwurf ist in Bearbeitung. Die Risikoliste soll bis zum Ende der Woche mindestens 10 Risiken enthalten. 
+
+===== Nächstes Meeting
+- **Datum:** 02.12.2024
+- **Uhrzeit:** 14:00 Uhr
+- **Ort:** Discord
+
+
+=== Dritte Iteration
+
+==== Erstes Meeting - Retrospektive
+
+|===
+| Datum | Ort | Uhrzeit
+| 02.12.2024 | HTW Dresden Audimax | 14:00 Uhr – 14:40 Uhr
+|===
+
+===== Teilnehmerliste
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Nein | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+==== Agenda
+
+. Rückblick auf die letzte Iteration
+. Zusammenarbeit und Kommunikation
+. Verbesserungsmöglichkeiten
+. Termin und Treffpunkt des nächsten Meetings
+
+==== Zusammenfassung der besprochenen Themen
+
+===== 1. Rückblick auf die letzte Iteration
+
+**Positive Aspekte:**
+    Alle Abgaben waren erfolgreich und pünktlich.
+    Aufgabenverteilung funktionierte gut.
+    Projekte waren gut strukturiert.
+
+**Negative Aspekte:**
+    Kommunikation zeigte Schwächen.
+    Meetings wurden als unproduktiv wahrgenommen.
+    Niedrige Teilnahmequote bei Coach- und Auftraggeber-Meetings.
+    Unklarheit über die Teilnahme von Teammitgliedern
+
+**Diskussion:**
+    Anpassung der Termine für Meetings angeregt, um bessere Ergebnisse zu erzielen.
+
+===== 2. Zusammenarbeit und Kommunikation
+
+**Herausforderungen:**
+    Unklare Kommunikation, insbesondere bei den Wireframes, da sie nicht über zentrale Kanäle verteilt wurden.
+    Kurzfristige Absagen, was besonders in der Analysephase problematisch ist.
+
+
+===== 3. Verbesserungsmöglichkeiten
+
+**Vorschläge:**
+    Einführung von Review-Sessions zusätzlich zu den regulären Meetings, um Aufgaben und Fortschritte zu präsentieren.
+    Nutzung von Discord für Events und Meetings, um die Beteiligung zu fördern.
+    Klare Abmeldungen im Falle einer Abwesenheit.
+
+==== Termin und Treffpunkt des nächsten Meetings
+Datum: Mittwoch, den 04.12.2024
+Uhrzeit: 19:00 Uhr
+Treffpunkt: Discord
+
 
 == Coach-Meetings
 
@@ -405,3 +550,74 @@ Die Spielergebnisse werden über eine Web-Anwendung eingetragen, die auch offlin
 
 image::../images/turnierplan.png[Turnierplan des Vorjahres]
 
+=== Zweite Iteration
+
+|===
+| *Datum* | *Ort* | *Uhrzeit*
+| 29.11.2024 | HTW Dresden A-Gebäude | 13:00 Uhr – 13:35 Uhr
+|===
+
+==== Teilnehmerliste
+
+|===
+|Name |Anwesenheit |Studiengang
+|Julius Schramm |Ja |WIng
+|Sebastian Treß |Ja |Info
+|Niklas Große |Ja |Info
+|Louai Alrefai |Ja |WInfo
+|Luke Reeder |Nein |WInfo
+|Thomas Sweeney |Nein |WInfo
+|Oliver Theumer |Ja |WInfo
+|===
+
+==== Agenda
+
+. Vorstellung der Wireframes
+. Fragen und Diskussion
+
+==== Zusammenfassung der besprochenen Themen
+
+===== 1. Vorstellung der Wireframes
+
+*Leistungsgruppen:*
+Entscheidung über zwei Leistungsgruppen (abhängig von der Verfügbarkeit der Spielfelder).
+
+*Punktedifferenz:*
+Schwierigkeit der technischen Synchronisierung bei Punktedifferenzen festgestellt.
+
+*Spielmodus:*
+Hin- und Rückspiel werden nacheinander eingetragen. Möglichkeit eines einzelnen Spiels (Hin- oder Rückspiel) wurde diskutiert.
+
+*Exportmöglichkeiten:*
+Export als PDF wurde als "nice-to-have" eingestuft, jedoch nicht als essenziell.
+
+===== 2. Fragen und Diskussion
+
+*Eintragungen und Benutzerfreundlichkeit:*
+    Einfache und fehlerfreie Gestaltung der Eintragungsmöglichkeiten ist wichtig.
+    Spielergebnisse sollten direkt im Turnierplan eingetragen werden können.
+    Minimale Anzahl an Buttons zur Fehlerreduktion.
+
+**Offline-Synchronisierung:**
+    Diskussion über die Herausforderung der Offline-Synchronisierung.
+    Möglichkeit, Mobilgeräte lokal zu verbinden, wurde erörtert.
+    Zentraler Rechner als mögliche Lösung vorgeschlagen.
+
+**Zeiterfassung:**
+    Uhrzeiten der laufenden Spiele könnten hervorgehoben werden.
+    Hinzufügen von Pausen (z. B. Einspielen, Auswertung) im Zeitplan.
+
+**Technische Anforderungen:**
+    WebApp mit zentralem Gerät angestrebt.
+    Variable Turnhallen – keine feste Datenbank erforderlich.
+
+**Team-Anmeldung:**
+    Teams und Einzelspieler sollen vor Ort Namen eintragen können.
+    Eventuell Zugangsbeschränkung (z. B. nur für StuRa) für die Erstellung von Turnieren.
+
+**Serverbereitstellung:**
+    Offene Frage, ob ein Server zur Verfügung gestellt werden kann (Zirkelbach wird kontaktiert).
+
+**Sonstige Anforderungen:**
+    Einfache Benutzeroberfläche, um Fehlereingaben zu minimieren.
+    Unnötige Funktionen wie Filterung wurden als nicht sinnvoll bewertet.
