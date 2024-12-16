@@ -17,6 +17,18 @@ NOTE: Die funktionalen Anforderungen, die sich aus der Interaktion von Nutzern m
 
 == Systemweite funktionale Anforderungen
 //Angabe von system-weiten funktionalen Anforderungen, die nicht als Use Cases ausgedrückt werden können. Beispiele sind Drucken, Berichte, Authentifizierung, Änderungsverfolgung (Auditing), zeitgesteuerte Aktivitäten (Scheduling), Sicherheit / Maßnahmen zum Datenschutz
+- **Authentifizierung und Berechtigungen**:  
+  Das System unterstützt unterschiedliche Benutzerrollen (z. B. Organisator, Teilnehmer) mit entsprechenden Berechtigungen. Der Teilnehmer benötigt keine Authentifizierung. Bereiche, welche nur dem Organisator (Stura) zustehen, werden mit einem festgelegtem Passwort in der Web-App gesperrt.
+  
+- **Protokollierung (Auditing)**:  
+  Alle Änderungen an Spielständen, Turnierplänen und Ergebnissen werden protokolliert und sind nachvollziehbar.
+  
+- **Berichtserstellung**:  
+  Export von Spielplänen als druckfertige PDF-Dokumente.
+
+- **Zeitsteuerung**:  
+  Planung von Turnieren mit Startzeiten für die einzelnen Spiele, sowie einer Pause, welche in der Turniererstellung festgelegt werden kann. (nach welchem Spiel und wie lange)
+
 
 
 == Qualitätsanforderungen für das Gesamtsystem
@@ -25,38 +37,146 @@ NOTE: Die funktionalen Anforderungen, die sich aus der Interaktion von Nutzern m
 === Benutzbarkeit (Usability)
 //Beschreiben Sie Anforderungen für Eigenschaften wie einfache Bedienung, einfaches Erlernen, Standards für die Benutzerfreundlichkeit, Lokalisierung (landesspezifische Anpassungen von Sprache, Datumsformaten, Währungen usw.)
 
+- **Erlernbarkeit**:  
+  Das System soll für neue Nutzer (Teilnehmer) ohne Vorkenntnisse innerhalb von 3 Minuten verständlich sein. Eine intuitive Benutzeroberfläche wird bereitgestellt.
+  
+- **Aufgabeneffizienz**:  
+  Die Eingabe von Ergebnissen soll in maximal 4 Klicks möglich sein.  
+ 
+- **Lokalisierung**:  
+  Unterstützung vorerst nur in Deutsch.
+
+
 === Zuverlässigkeit (Reliability)
 // Zuverlässigkeit beinhaltet die Fähigkeit des Produkts und/oder des Systems unter Stress und ungünstigen Bedingungen am laufen zu bleiben. Spezifizieren Sie Anforderungen für zuverlässige Akzeptanzstufen, und wie diese gemessen und evaluiert werden. Vorgeschlagene Themen sind Verfügbarkeit, Häufigkeit und Schwere von Fehlern und Wiederherstellbarkeit.
+- **Fehlertoleranz**:  
+  Das System erkennt ungültige Eingaben (z. B. Text im Spielstandsfeld oder Spielstände, welche keinen Gewinner nach Punkten darstellen), verhindert deren Speicherung und gibt eine verständliche Fehlermeldung aus.
+  
+- **Verfügbarkeit**:  
+  Das System muss über die gesamte Dauer eines Turnieres sicher funktionieren.
+  
+- **Wiederherstellbarkeit**:  
+  Im Falle eines Fehlers (z. B. Serverabsturz oder Ausfall des in der Halle genutzten Laptops) kann der zuletzt bekannte Zustand innerhalb von 10 Minuten wiederhergestellt werden.
+
+
 
 === Effizienz (Performance)
 // Die Performanz Charakteristiken des Systems sollten in diesem Bereich ausgeführt werden. Beispiele sind Antwortzeit, Durchsatz, Kapazität und Zeiten zum Starten oder Beenden.
+- **Antwortzeit**:  
+  Jede Aktion im System (z. B. Ergebniseingabe oder Auswertung) darf nicht länger als 5 Sekunden dauern.  
+  
+- **Kapazität**:  
+  Das System muss mindestens 30 gleichzeitige Nutzer und bis zu 250 Spiele in einem Turnier unterstützen.  
+
 
 === Wartbarkeit (Supportability)
 // Dieser Bereich beschreibt sämtliche Anforderungen welche die Supportfähigkeit oder Wartbarkeit des zu entwickelnden Systems verbessern, einschließlich Anpassungsfähigkeit und Erweiterbarkeit, Kompatibilität, Skalierbarkeit und Anforderungen bezüglich der System Installation sowie Maß an Support und Wartbarkeit.
+
+- **Anpassbarkeit**:  
+  Das System ermöglicht einfache Änderungen der Turnieranforderungen (Hin- und Rückspiel, Anzahl der Mannschaften, Leistungsgruppen).  
+
+- **Installierbarkeit**:  
+  Die Software soll ohne zusätzliche Konfigurationen auf gängigen Betriebssystemen (Windows, macOS, Linux) genutzt werden können.
 
 
 == Zusätzliche Anforderungen
 
 === Technische Einschränkungen
 //Angaben ergänzen, nicht relevante Unterpunkte streichen oder auskommentieren
-* Ressourcenbegrenzungen
-* zu nutzende Komponenten / Bibliotheken / Frameworks
-* Vorgaben für die Programmiersprache
-* zu unterstützende Plattformen / Betriebssysteme
-* Physische Begrenzungen für Hardware, auf der das System betrieben werden soll
+//* Ressourcenbegrenzungen
+//* zu nutzende Komponenten / Bibliotheken / Frameworks
+//* Vorgaben für die Programmiersprache
+//* zu unterstützende Plattformen / Betriebssysteme
+//* Physische Begrenzungen für Hardware, auf der das System betrieben werden soll
+- **Programmiersprache**:  
+  Die Software wird in Python entwickelt, mit einer Benutzeroberfläche basierend in Form einer Progressive Web App (PWA). 
+  
+- **Datenbank**:  
+  Verwendung einer relationalen Datenbank (SQLlite) für die Speicherung von Turnierdaten.
+
+- **Plattformen**:  
+  Unterstützung für Webbrowser und mobile Endgeräte.
 
 === Interface Anforderungen
 // Describe both the user interface and interfaces with external systems.
+** **Benutzeroberfläche (User Interface)**:
+   * **Plattformunabhängigkeit**: 
+    Die Benutzeroberfläche muss auf Desktop-Browsern, Tablets und Smartphones (responsive Design) nutzbar sein.
+  *  **Intuitive Navigation**: 
+    - Klare Menüpunkte wie „Turnier erstellen“, „Spielplan anzeigen“, „Ergebnisse eintragen“.
+    - Maximale Tiefe der Navigation: 5 Klicks für jede Funktion.
+  * **Ergebniseingabe**: 
+    - Teilnehmer können über ein einfaches Pop-up Menü Ergebnisse für ihre Spiele eintragen.
+    - Validierung von Eingaben (z. B. keine negativen Punktzahlen).
+  * **Spielplananzeige**: 
+    - Zeigt Teams, Felder, Zeiten und Ergebnisse in einer klaren und visuell ansprechenden Tabelle.
+    - Live-Aktualisierung der Spielstände und Platzierungen.
+  * **Farbschema und Design**: 
+    - Einheitliches Farbschema (Stura Farben).
+    - Farbliches Hervorheben der verschiedenen Leistungsgruppen.
+
+---
+
+** **Interaktion mit externen Systemen**:
+  * **Datenbankanbindung**:
+    - Speicherung aller Turnierdaten (Teams, Spielstände, Pläne) in einer relationalen Datenbank (SQLlite).
+    - Zugriff auf gespeicherte Turniere für Nachbearbeitung und Archivierung.
+  * **QR-Code Integration**:
+    - Jeder Spielplan wird mit einem QR-Code verlinkt, der zu einer Live-Ansicht des Turnierstatus führt.
+  * **PDF-Export**:
+    - Export von Spielplänen als druckfertige PDFs.
+    - PDF-Links für den einfachen Download durch den Organisator.
+
 
 === Geschäftsregeln
 // Besides technical requirements, also consider the particular business domain in which the system needs to fit.
 
+- Nach Abschluss eines Turniers sind Änderungen an Spielständen nur noch durch den Organisator möglich.
+- PDF-Exporte sind nur für den Organisator zugänglich. 
+- Turniererstellung ist nur für den Organisator möglich.
+
+
 === Organisatorische Randbedingungen
 //Angaben ergänzen, nicht relevante Unterpunkte streichen oder auskommentieren
-* Anforderungen an Betrieb, Management und Wartung der Anwendung
-* zu beachtende Standards, Normen und Regeln
+//* Anforderungen an Betrieb, Management und Wartung der Anwendung
+//* zu beachtende Standards, Normen und Regeln
+
+
+** **Anforderungen an Betrieb, Management und Wartung der Anwendung**:
+  * **Betrieb**:
+    - Die Anwendung wird auf einem dedizierten Server des StuRa HTW Dresden gehostet.
+    - Alternativ auf einem Laptop der als Server fungiert. 
+  
+  * **Management**:
+    - Der Organisator ist für die Pflege der Turnierdaten verantwortlich.
+    - Der Organisator kann Turniere erstellen, verwalten und abschließen.
+
+---
+
+** **Zu beachtende Standards, Normen und Regeln**:
+  * **Datenschutz (DSGVO)**:
+    - nicht relevant
+
+  * **Technische Standards**:
+    - Die Anwendung ist responsiv und optimiert für verschiedene Geräte (Desktop, Smartphones).
+
+  * **Entwicklungsstandards**:
+    - Die Software wird gemäß den Clean Code Prinzipien entwickelt.
+    - Regelmäßige Code-Reviews und automatisierte Tests gewährleisten die Qualität.
+
+  * **Dokumentation**:
+    - Eine vollständige Benutzer- und Entwicklerdokumentation wird erstellt.
+    - Änderungen an der Software und neue Features werden in einem Changelog dokumentiert.
+
+
 
 === Rechtliche Anforderungen
 //Angaben ergänzen, nicht relevante Unterpunkte streichen oder auskommentieren
-* Lizensierung der Anwendung
-* Datenschutz
+//* Lizensierung der Anwendung
+//* Datenschutz
+
+- **Datenschutz**:  
+  Auf die DSGVO muss keine Rücksicht genommen werden, da keine personenbezogenen Daten gespeichert werden.
+  
+- **Lizenzierung**:  
+  Open-Source-Lizenz für die Nutzung und Weiterentwicklung durch andere.
