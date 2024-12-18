@@ -1,5 +1,5 @@
 = Architecture Notebook: {project-name}
-Vorname Nachname <email@domain.org>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
+Sebastian Treß <s86372@htw-dresden.de>
 {localdatetime}
 include::../_includes/default-attributes.inc.adoc[]
 // Platzhalter für weitere Dokumenten-Attribute
@@ -18,18 +18,31 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 
 //Formulieren Sie eine Reihe von Zielen, die die Architektur in ihrer Struktur und ihrem Verhalten erfüllen muss. Identifizieren Sie kritische Fragen, die von der Architektur adressiert werden müssen, z.B. besondere Hardware-Abhängigkeiten, die vom Rest des Systems isoliert werden sollten oder Sicherstellung der Funktionsfähigkeit unter besonderen Bedingungen (z.B. Offline-Nutzung).
 
-- Erstellen von "Volleyball" Turnierplänen für den Stura 
-- Anzahl Spielfelder variable
-- Anzahl Spieler variable
-- Auswahl, ob es Hin- und Rückspiele gibt
-- muss offline funktionieren
-- soll auf jedem Gerät (z.B. Mobil, Computer, ... ) und Betriebssystem Laufen
-- Turnierpläne müssen exportierbar sein
-- erfassen der Spielergebnissen
-- Einsicht von allen Teilnehmern
-- Spielpläne individueller Teams sollen einsehbar sein
-- Pausen sollen bei den Teams gleichmäßig verteilt sein
-- Turnier soll auswertbar und speicherbar sein
+- offline und online Nutzbar
+- einheitliche Syntax für Programmcode
+- übersichtliche Programmstruktur
+- keine besonderen Geschwindigkeitsanforderungen 
+- keine besonderen Sicherheitsanforderungen
+- Modularer Aufbau um eine leichte Weiterentwicklung zu ermöglichen
+- Datenspeicherung
+- exportieren von Dateien
+- soll für unterschiedlichen Betriebssystemen funktionieren 
+- soll für unterschiedlichen Gerätetypen funktionieren (z.B. Handy, Laptop, Tablet, ... )
+- Zugriff von mehreren Geräten soll möglich sein
+- Einfach Kompilieren/Testen
+
+// - Erstellen von "Volleyball" Turnierplänen für den Stura 
+// - Anzahl Spielfelder variable
+// - Anzahl Spieler variable
+// - Auswahl, ob es Hin- und Rückspiele gibt
+// - muss offline funktionieren
+// - soll auf jedem Gerät (z.B. Mobil, Computer, ... ) und Betriebssystem Laufen
+// - Turnierpläne müssen exportierbar sein
+// - erfassen der Spielergebnissen
+// - Einsicht von allen Teilnehmern
+// - Spielpläne individueller Teams sollen einsehbar sein
+// - Pausen sollen bei den Teams gleichmäßig verteilt sein
+// - Turnier soll auswertbar und speicherbar sein
 
 
 == Annahmen und Abhängigkeiten
@@ -39,6 +52,9 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 == Architektur-relevante Anforderungen
 //Fügen Sie eine Referenz / Link zu den Anforderungen ein, die implementiert werden müssen, um die Architektur zu erzeugen.
 
+- Informationsübertragung mit einen Datenspeicherung.
+- 
+
 
 == Entscheidungen, Nebenbedingungen und Begründungen
 //[List the decisions that have been made regarding architectural approaches and the constraints being placed on the way that the developers build the system. These will serve as guidelines for defining architecturally significant parts of the system. Justify each decision or constraint so that developers understand the importance of building the system according to the context created by those decisions and constraints. This may include a list of DOs and DON’Ts to guide the developers in building the system.]
@@ -47,14 +63,7 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 
 . Um die unterschiedlichen Turniere zu Speicherung und abrufbar zu machen haben wir uns dafür entschieden die Daten der Turniere in einer Datenbank zu Speichern. Dies ermöglicht eine effiziente und zentrale Speicherung der Spieldaten. 
 
-
-
-
-
-. Entscheidung oder Einschränkung oder Begründung 2
-
-
-
+. Um einen einfachen zugriff auf die Datenbank zu besitzen, haben wir uns dafür entschieden eine API zu verwenden.
 
 
 == Architekturmechanismen
@@ -65,8 +74,9 @@ https://www2.htw-dresden.de/~anke/openup/core.tech.common.extend_supp/guidances/
 
 //Beschreiben Sie den Zweck, Eigenschaften und Funktion der Architekturmechanismen.
 
-. Architekturmechanismus 1
-. Architekturmechanismus 2
+. Komponenten verwenden
+. leserlichen Code schreiben
+. standardisierten Syntax
 
 
 == Wesentliche Abstraktionen
@@ -75,6 +85,10 @@ https://www2.htw-dresden.de/~anke/openup/core.tech.common.extend_supp/guidances/
 
 == Schichten oder Architektur-Framework
 //[Describe the architectural pattern that you will use or how the architecture will be consistent and uniform. This could be a simple reference to an existing or well-known architectural pattern, such as the Layer framework, a reference to a high-level model of the framework, or a description of how the major system components should be put together.]
+- FastAPI (Python)
+- SQLite (SQL)
+- SQLAlchemy (Python)
+- Vue (Java Script)
 
 
 == Architektursichten (Views)
