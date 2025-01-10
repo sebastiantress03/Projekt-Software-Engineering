@@ -1,6 +1,6 @@
 // Meta
-:project-name: Turnierauswertungssoftware
-:project-system-name: Turnierauswertungssoftware
+:project-name: Turnierorganisationssoftware
+:project-system-name: Turnierorganisationssoftware
 // Settings:
 :toc:
 :toc-title: Inhaltsverzeichnis
