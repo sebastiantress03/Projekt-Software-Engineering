@@ -19,18 +19,21 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 
 //Formulieren Sie eine Reihe von Zielen, die die Architektur in ihrer Struktur und ihrem Verhalten erfüllen muss. Identifizieren Sie kritische Fragen, die von der Architektur adressiert werden müssen, z.B. besondere Hardware-Abhängigkeiten, die vom Rest des Systems isoliert werden sollten oder Sicherstellung der Funktionsfähigkeit unter besonderen Bedingungen (z.B. Offline-Nutzung).
 
-- offline und online Nutzbar
-- einheitliche Syntax für Programmcode
-- übersichtliche Programmstruktur
-- keine besonderen Geschwindigkeitsanforderungen 
-- keine besonderen Sicherheitsanforderungen
-- Modularer Aufbau um eine leichte Weiterentwicklung zu ermöglichen
-- Datenspeicherung
-- exportieren von Dateien
-- soll für unterschiedlichen Betriebssystemen funktionieren 
-- soll für unterschiedlichen Gerätetypen funktionieren (z.B. Handy, Laptop, Tablet, ... )
-- Zugriff von mehreren Geräten soll möglich sein
-- Einfach Kompilieren/Testen
+Das System ist eine vollständige Turniersoftware, primär für den Sport Volleyball. Es soll die Organisation von Turnieren erleichtern, sowie die Durchführung und Auswertung von Spielen ermöglichen. Die Organisation soll mittels eines Turnierplangenerator erfolgen, der die Erstellung von Turnierplänen für unterschiedliche Anzahl an Spielfeldern Spielern und Leistungsgruppen ermöglicht. Die Turnierdurchführung soll durch die Erfassung von Spielergebnissen und die Einsicht von allen Teilnehmern ermöglicht werden. Die Auswertung soll die Ermittlung von Siegern und die Speicherung der Turnierergebnisse ermöglichen. Die Software soll offline und online nutzbar sein und auf unterschiedlichen Geräten und Betriebssystemen laufen. 
+
+
+// - offline und online Nutzbar
+// - einheitliche Syntax für Programmcode
+// - übersichtliche Programmstruktur
+// - keine besonderen Geschwindigkeitsanforderungen 
+// - keine besonderen Sicherheitsanforderungen
+// - Modularer Aufbau um eine leichte Weiterentwicklung zu ermöglichen
+// - Datenspeicherung
+// - exportieren von Dateien
+// - soll für unterschiedlichen Betriebssystemen funktionieren 
+// - soll für unterschiedlichen Gerätetypen funktionieren (z.B. Handy, Laptop, Tablet, ... )
+// - Zugriff von mehreren Geräten soll möglich sein
+// - Einfach Kompilieren/Testen
 
 // - Erstellen von "Volleyball" Turnierplänen für den Stura 
 // - Anzahl Spielfelder variable
@@ -48,7 +51,14 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 
 == Annahmen und Abhängigkeiten
 //[List the assumptions and dependencies that drive architectural decisions. This could include sensitive or critical areas, dependencies on legacy interfaces, the skill and experience of the team, the availability of important resources, and so forth]
+Annahmen: +
+Jeder Nutzer hat ein Gerät mit Internetzugang.
+Jeder Nutzer benutzt einen HTML5 fähigen Browser und hat JavaScript aktiviert.
+Der StuRa hat ein Zentrales Gerät, auf dem die Turnierapp installiert ist.
+Dieses Gerät ist fähig ein mobiles Netzwerk aufzubauen.
 
+Abhängigkeiten: +
+Wir sind darauf angewiesen, dass alle eingesetzten Frameworks und Bibliotheken weiterhin unterstützt werden.
 
 == Architektur-relevante Anforderungen
 //Fügen Sie eine Referenz / Link zu den Anforderungen ein, die implementiert werden müssen, um die Architektur zu erzeugen.
@@ -59,12 +69,17 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 
 == Entscheidungen, Nebenbedingungen und Begründungen
 //[List the decisions that have been made regarding architectural approaches and the constraints being placed on the way that the developers build the system. These will serve as guidelines for defining architecturally significant parts of the system. Justify each decision or constraint so that developers understand the importance of building the system according to the context created by those decisions and constraints. This may include a list of DOs and DON’Ts to guide the developers in building the system.]
+. Das Interface und Design ist von der HTW-Mobil App, sowie von dem StuRa farbschema inspiriert, um eine intuitive und
+Ansprechende Oberfläche zu schaffen.
 
-. Wir haben uns dazu entschieden die Turnierapp in Form einer Progressiven Web App umzusetzen, um die Nutzung auf den unterschiedlichsten Geräten zu ermöglichen.
+. Wir haben uns dazu entschieden die Turnierapp in Form einer Progressiven Web App umzusetzen, um die Nutzung auf den unterschiedlichsten Geräten, sowie die Funktionalität bei Verbindungsabbrüchen zu gewährleisten. Dazu haben wir uns für die Verwendung von Vue.js entschieden, da es eine einfache und effiziente Möglichkeit bietet, um Webanwendungen zu erstellen. Des Weiteren verwenden wir Nuxt.js, um die Entwicklung zu vereinfachen und die Performance zu steigern. Diese wird auf einem Gerät des StuRa gehostet, somit kann auch ohne ein Internetzugang am Turnierort mit einem mobilen Hotspot auf die App zugegriffen werden. Dadurch wird ebenfalls einem Zugriff auf ein Laufendes Turnier von außerhalb entgegengewirkt.
 
-. Um die unterschiedlichen Turniere zu Speicherung und abrufbar zu machen haben wir uns dafür entschieden die Daten der Turniere in einer Datenbank zu Speichern. Dies ermöglicht eine effiziente und zentrale Speicherung der Spieldaten. 
+. Um die unterschiedlichen Turniere zu Speicherung und abrufbar zu machen haben wir uns dafür entschieden die Daten der Turniere in einer Datenbank unter Verwendung von SQLight zu Speichern. Dies ermöglicht eine effiziente und zentrale Speicherung der Spieldaten, sowie die Möglichkeit der Skalierung z.B. durch Migiration auf PostgreSQL.
+Da SQLight kein dedizierten Datenbankserver benötigt, wird das System zunächst auf dem Gerät des StuRa installiert und kann von dort aus genutzt werden. Es besteht dennoch die Möglichkeit, das System auf einem Server zu installieren und damit eine zentrale Speicherung der Daten zu ermöglichen.
 
-. Um einen einfachen zugriff auf die Datenbank zu besitzen, haben wir uns dafür entschieden eine API zu verwenden.
+. Um einen einfachen zugriff auf die Datenbank zu besitzen, haben wir uns dafür entschieden eine FastAPI zu verwenden.
+
+. Wir haben unseren Fokus für die Auswahl der Technologien auf die kompabilität mit Python gelegt, um einen möglichst einfachen und konsistenten Syntax und Code zu gewährleisten.
 
 
 == Architekturmechanismen
