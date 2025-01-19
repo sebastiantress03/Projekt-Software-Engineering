@@ -51,8 +51,8 @@ Das System ist eine vollständige Turniersoftware, primär für den Sport Volley
 
 == Annahmen und Abhängigkeiten
 //[List the assumptions and dependencies that drive architectural decisions. This could include sensitive or critical areas, dependencies on legacy interfaces, the skill and experience of the team, the availability of important resources, and so forth]
-Annahmen: +
-Jeder Nutzer hat ein Gerät mit Internetzugang.
+Annahmen:
+//Jeder Nutzer hat ein Gerät mit Internetzugang. (dikutabel)
 Jeder Nutzer benutzt einen HTML5 fähigen Browser und hat JavaScript aktiviert.
 Der StuRa hat ein Zentrales Gerät, auf dem die Turnierapp installiert ist.
 Dieses Gerät ist fähig ein mobiles Netzwerk aufzubauen.
@@ -72,14 +72,14 @@ Wir sind darauf angewiesen, dass alle eingesetzten Frameworks und Bibliotheken w
 . Das Interface und Design ist von der HTW-Mobil App, sowie von dem StuRa farbschema inspiriert, um eine intuitive und
 Ansprechende Oberfläche zu schaffen.
 
-. Wir haben uns dazu entschieden die Turnierapp in Form einer Progressiven Web App umzusetzen, um die Nutzung auf den unterschiedlichsten Geräten, sowie die Funktionalität bei Verbindungsabbrüchen zu gewährleisten. Dazu haben wir uns für die Verwendung von Vue.js entschieden, da es eine einfache und effiziente Möglichkeit bietet, um Webanwendungen zu erstellen. Des Weiteren verwenden wir Nuxt.js, um die Entwicklung zu vereinfachen und die Performance zu steigern. Diese wird auf einem Gerät des StuRa gehostet, somit kann auch ohne ein Internetzugang am Turnierort mit einem mobilen Hotspot auf die App zugegriffen werden. Dadurch wird ebenfalls einem Zugriff auf ein Laufendes Turnier von außerhalb entgegengewirkt.
+. Wir haben uns dazu entschieden die Turnierapp in Form einer Progressiven Web App umzusetzen, um die Nutzung auf den unterschiedlichsten Geräten, sowie die Funktionalität bei Verbindungsabbrüchen zu gewährleisten. Dazu haben wir uns für die Verwendung von Vue.js entschieden, da es eine einfache und effiziente Möglichkeit bietet, um Webanwendungen zu erstellen. Diese wird auf einem Gerät des StuRa gehosted, somit kann auch ohne ein Internetzugang am Turnierort mit einem mobilen Hotspot auf die App zugegriffen werden.
 
-. Um die unterschiedlichen Turniere zu Speicherung und abrufbar zu machen haben wir uns dafür entschieden die Daten der Turniere in einer Datenbank unter Verwendung von SQLight zu Speichern. Dies ermöglicht eine effiziente und zentrale Speicherung der Spieldaten, sowie die Möglichkeit der Skalierung z.B. durch Migiration auf PostgreSQL.
+. Um die unterschiedlichen Turniere zu Speicherung und abrufbar zu machen haben wir uns dafür entschieden die Daten der Turniere in einer Datenbank unter Verwendung von SQLight zu Speichern. Dies ermöglicht eine effiziente und zentrale Speicherung der Spieldaten, sowie die Möglichkeit der Skalierung z.B. durch migration auf PostgreSQL.
 Da SQLight kein dedizierten Datenbankserver benötigt, wird das System zunächst auf dem Gerät des StuRa installiert und kann von dort aus genutzt werden. Es besteht dennoch die Möglichkeit, das System auf einem Server zu installieren und damit eine zentrale Speicherung der Daten zu ermöglichen.
 
-. Um einen einfachen zugriff auf die Datenbank zu besitzen, haben wir uns dafür entschieden eine FastAPI zu verwenden.
+. Um einen einfachen zugriff auf die Datenbank zu besitzen, haben wir uns dafür entschieden eine API zu verwenden.
 
-. Wir haben unseren Fokus für die Auswahl der Technologien auf die kompabilität mit Python gelegt, um einen möglichst einfachen und konsistenten Syntax und Code zu gewährleisten.
+. Wir haben unseren Fokus für die Auswahl der Technologien auf die kompatibilität mit Python gelegt, um einen möglichst einfachen und konsistenten Syntax und Code zu gewährleisten.
 
 
 == Architekturmechanismen
@@ -101,8 +101,8 @@ https://www2.htw-dresden.de/~anke/openup/core.tech.common.extend_supp/guidances/
 
 == Schichten oder Architektur-Framework
 //[Describe the architectural pattern that you will use or how the architecture will be consistent and uniform. This could be a simple reference to an existing or well-known architectural pattern, such as the Layer framework, a reference to a high-level model of the framework, or a description of how the major system components should be put together.]
-- FastAPI (Python)
 - SQLite (SQL)
+- FastAPI (Python)
 - Vue (Java Script)
 
 
