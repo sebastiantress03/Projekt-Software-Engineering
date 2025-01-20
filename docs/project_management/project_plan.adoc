@@ -1,13 +1,39 @@
 = Projektplan: {project-name}
 Julius Schramm <julius.schramm@stud.htw-dresden.de>; Oliver Theumer <s86407@htw-dresden.de>
 {localdatetime}
-include::../_includes/default-attributes.inc.adoc[]
+// Meta
+:project-name: Turnierorganisationssoftware
+:project-system-name: Turnierorganisationssoftware
+// Settings:
+:toc:
+:toc-title: Inhaltsverzeichnis
+:toclevels: 2
+:sectnums:
+:icons: font
+//:source-highlighter: highlightjs
+:source-highlighter: rouge
+:rouge-style: github
+:xrefstyle: full
+:figure-caption: Abbildung
+:table-caption: Tabelle
+:!example-caption:
+:experimental:
+// folder
+ifndef::diagramsdir[:diagramsdir: diagrams]
+ifndef::plantumlsdir[:plantumlsdir: plantuml]
+// Hyphenation for PDF dokumente
+:lang: DE
+:hyphens:
+// main document
+:main-document:
 // Platzhalter für weitere Dokumenten-Attribute
 
 
 == Einführung
 //Briefly describe the content of the project plan.
 In diesem Dokument wird der Projektplan für das Projekt {project-name} vorgestellt. Der Projektplan beschreibt die Ziele, den Umfang, die Organisation, die Praktiken und Bewertungen, die Meilensteine und Ziele, das Deployment und die Erkenntnisse des Projekts.
+
+Die generelle Projektorganisation fand hauptsächlich auf https://github.com/users/sebastiantress03/projects/6[Github Projects] statt. Dort sind auch die Risikoliste, sowie die Issues und User Stories zu finden.
 
 == Projektorganisation
 //Introduce the project team, team members, and roles that they play during this project. If applicable, introduce work areas, domains, or technical work packages that are assigned to team members. Introduce neighboring projects, relationships, and communication channels. If the project is introduced somewhere else, reference that location with a link.
@@ -60,9 +86,20 @@ Außerdem helfen Fields, wie beispielsweise Status (To Do, In Progress, In Revie
 
 Darüber hinaus gibt es noch die Möglichkeit, Labels zu verwenden, um die Issues zu kategorisieren. Beispielsweise können Labels wie "Bug", "Feature", "Enhancement" oder "Documentation" verwendet werden.
 
+.Beispielausschnitt einer Iteration im GitHub Projects
+image::images/Beispielsausschnitt GitHub Projects.png[]
+
 Die Risikoanalyse wird ebenfalls im Project Board abgebildet. Hierfür gibt es folgende Views:
 - Risks: Hier werden alle Risiken angezeigt, die im Projekt auftreten können
 - Risk Board: Hier werden die Risiken mit ihrem Status (Neu, Analyse, Bewertung und Bewältigung) angezeigt
+
+.Überblick der Risikoliste
+image::images/Risikoliste Überblick.png[width=1000, height=500]
+
+.Detaillierte Ansicht eines Risikos
+image::images/Risiko Unproduktive Meetings detailliert.png[]
+
+
 
 === Fortschrittskontrollen
 
@@ -72,27 +109,37 @@ Außerdem wird mithilfe der Retrospektiven gewährleistet, dass die Effizienz, Z
 == Meilensteine und Ziele
 //Define and describe the high-level objectives for the iterations and define milestones. For example, use the following table to lay out the schedule. If needed you may group the iterations into phases and use a separate table for each phase
 
-[%header, cols="1,3a,2,1"]
+[%header, cols="1,3a,2", align="center"]
 |===
 | Iteration
-| Primary objectives +
-(risks and use case scenarios)
+| Primary objectives
 | Scheduled start or milestone
-| Target velocity
 
 | I1
-|
-* Mitigate Risk1
-* Develop Use Case 3, Scenario 2
-| Date from/Date to
-| 15
+| * Teammitglieder kennenlernen
+    * Förderung der Zusammenarbeit durch eine Etablierung von klaren und zentralen Kommunikationswegen
+
+| 21/10/2024 - 10/11/2024
 
 | I2
-|
-* Mitigate Risk 2
-* Develop Use Case 1, Scenario 2
-| Date from/Date to
-| 16
+| * Anforderungen des Kunden verstehen, desses Analyse anfangen
+    * Ausarbeitung der Vision und der Personas
+    * Erstes Konzept für die Wireframes ausarbeiten
+| 11/11/2024 - 01/12/2025
+
+| I3
+| * Anforderungensanalyse vertiefen
+    * Identifikation der wichtigsten User Stories und Verfeinerung dieser
+    * User Story Map
+    * Erste Idee für den Prototypen entwickeln
+| 02/12/2024 - 22/12/2024
+
+| I4
+| * Idee des Prototypen umsetzen und diesen fertigstellen
+    * Prototypen für die Vorstellung vorbereiten
+    * Präsentation vorbereiten
+    * Belegdokumente überarbeiten und fertigstellen
+| 06/01/2025 - 26/01/2025
 |===
 
 
@@ -104,3 +151,5 @@ Außerdem wird mithilfe der Retrospektiven gewährleistet, dass die Effizienz, Z
 //List lessons learned from the retrospective, with special emphasis on actions to be taken to improve, for example: the development environment, the process, or team collaboration.
 
 Nutzung von Story Points, Burn-Up Diagrammen und Iterationszielen mehr in den Fokus rücken, um die Effizienz und Effektivität des Teams zu steigern.
+
+Am Anfang meetings schon klar strukturieren und plan vorgeben --> jeder kann sich gleich daran gewöhnen und mit dran teilnehmen
