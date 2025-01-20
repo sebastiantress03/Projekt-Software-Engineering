@@ -96,7 +96,7 @@ Die Risikoanalyse wird ebenfalls im Project Board abgebildet. Hierfür gibt es f
 - Risk Board: Hier werden die Risiken mit ihrem Status (Neu, Analyse, Bewertung und Bewältigung) angezeigt
 
 .Überblick der Risikoliste
-image::images/Risikoliste Überblick.png[width=1000, height=500]
+image::images/Risikoliste Überblick.png[]
 
 
 
@@ -159,7 +159,7 @@ Außerdem wird mithilfe der Retrospektiven gewährleistet, dass die Effizienz, Z
 Eine Verbesserung konnte durch eine Einführung von Knowledge-Sharing-Meetings bzw. Review-Sessions erreicht werden. Diese fanden  in Form von Präsentationen statt, um das Wissen der Teammitglieder zu teilen und die Zusammenarbeit zu fördern.
 
 *Unproduktive Meetings:*
-Um unproduktive Meetings zu vermeiden, wurden die Meetings entsprechend vorbereitet, eine Agenda wurde angefertigt, welche jedem Teammitglied vor dem Meeting zur Verfügung gestellt wurde. Dadurch können sich die einzelnen Teammitglieder im Laufe des Projektes an die Struktur gewöhnen und sich besser auf die Meetings vorbereiten.
+Um unproduktive Meetings zu vermeiden, wurden die Meetings entsprechend vorbereitet und eine Agenda wurde angefertigt, welche jedem Teammitglied vor dem Meeting zur Verfügung gestellt wurde. Dadurch können sich die einzelnen Teammitglieder im Laufe des Projektes an die Struktur gewöhnen und sich besser auf die Meetings vorbereiten.
 
 *Häufige kurzfristige Absagen und Zuspätkommen von Teammitgliedern:*
 Um die Absagen und das Zuspätkommen zu reduzieren, wurde die Funktion der "Events" in Discord genutzt, um die Teammitglieder an die Meetings zu erinnern. Außerdem erinnerte das Projektmanagement die Teammitgliedern an die Meetings mit einer Nachricht in der WhatsApp-Gruppe. Eine fehlende Konsequenz bei Absagen und Zuspätkommen würde zu einer schleichenden Akzeptanz führen. Deshalb wurde dies angesprochen und es wurde erwähnt, dass das der Teamdynmaik schaden würde. Im Falle des nicht Erscheinens eines Teammitglieds, half das Meeting-Protokoll, um die Person über den Inhalt des Meetings zu informieren.

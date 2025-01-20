@@ -32,7 +32,11 @@ In diesem Dokument werden die wesentlichen Begriffe aus dem Anwendungsgebiet (Fa
 | Spielabbruch | Die vorzeitige Beendigung eines Spiels aufgrund von Verletzungen, Wetter oder anderen Gründen. | Abbruch
 | Spielverlegung | Die Verschiebung eines Spiels auf einen anderen Zeitpunkt oder Ort. | Verlegung
 | Spielzeit | Die Dauer eines Spiels, ca. 20 Minuten | Spieldauer
-
+| Timeout | Eine Unterbrechung des Spiels, die von einem Team oder Schiedsrichter beantragt wird. | Spielpause
+| Spielstand | Der aktuelle Punktestand eines Teams während eines Spiels. | Punktzahl
+| Spielregeln | Die festgelegten Regeln und Vorschriften, nach denen ein Spiel gespielt wird. | Regeln
+| Spielwiederholung | Die Wiederholung eines Spiels aufgrund von Regelverstößen oder anderen Gründen. | Wiederholung
+| Spielabbruch | Die vorzeitige Beendigung eines Spiels aufgrund von Verletzungen oder anderen Gründen. | Abbruch
 |===
 
 
@@ -40,26 +44,27 @@ In diesem Dokument werden die wesentlichen Begriffe aus dem Anwendungsgebiet (Fa
 [%header]
 |===
 | Abkürzung | Bedeutung | Erläuterung
-//| UP | Unified Process | Vorgehensmodell für die Softwareentwicklung
+// | UP | Unified Process | Vorgehensmodell für die Softwareentwicklung
 | StuRa | Studierendenrat | Vertretung der Studierenden an der Hochschule für Technik und Wirtschaft Dresden.
 | HTW | Hochschule für Technik und Wirtschaft | Hochschule in Dresden, an der das Turnier stattfindet.
 | PDF | Portable Document Format | Ein Dateiformat, das für den Austausch von Dokumenten verwendet wird.
+| API | Application Programming Interface | Eine Schnittstelle, die es Anwendungen ermöglicht, miteinander zu kommunizieren.
 |===
 
-== Verzeichnis der Datenstrukturen
-[%header]
-|===
-| Bezeichnung | Definition | Format | Gültigkeitsregeln | Aliase
+//== Verzeichnis der Datenstrukturen
+//[%header]
+//|===
+//| Bezeichnung | Definition | Format | Gültigkeitsregeln | Aliase
 
-| Anmeldedaten
-| Zusammensetzung von Benutzername und Passwort.
-| String
-| Emailadresse muss `@`-Zeichen und `.` Punkt enthalten.
-| Login
+//| Anmeldedaten
+//| Zusammensetzung von Benutzername und Passwort.
+//| String
+//| Emailadresse muss `@`-Zeichen und `.` Punkt enthalten.
+//| Login
 
-| xx
-| xx
-| xx
-| xx
-| xx
-|===
+//| xx
+//| xx
+//| xx
+//| xx
+//| xx
+//|===
