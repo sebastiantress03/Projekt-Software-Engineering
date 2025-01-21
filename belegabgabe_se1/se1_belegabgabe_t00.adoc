@@ -42,7 +42,7 @@ include::{docs}/_includes/default-attributes.inc.adoc[]
 = Projektdokumentation
 * Projektplan
 
-:imagesdir: {docs-project-management}
+:imagesdir: {docs-project-management}/images
 
 // Projektplan
 include::{docs-project-management}/project_plan.adoc[lines=1..1;4..-1,leveloffset=+1]
@@ -56,7 +56,7 @@ include::{docs-project-management}/project_plan.adoc[lines=1..1;4..-1,leveloffse
 * Domänenmodel
 * UX-Konzept
 
-:imagesdir: {docs-requirements}
+:imagesdir: {docs-requirements}/images
 
 // Vision
 include::{docs-requirements}/vision.adoc[lines=1..1;4..-1,leveloffset=+1]
