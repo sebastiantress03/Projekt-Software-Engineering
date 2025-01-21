@@ -10,7 +10,7 @@ In diesem Dokument wird das Domänenmodell des Projekts {project-name} beschrieb
 
 == UML-Diagramm: Turniermodell
 [.text-center]
-image::Domainmodell.png[width=300]
+image::Domainmodell.png[width=305]
 
 [source,plantuml]
 @startuml
