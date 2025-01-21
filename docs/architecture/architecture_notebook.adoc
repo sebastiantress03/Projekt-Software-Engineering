@@ -1,7 +1,7 @@
 = Architecture Notebook: {project-name}
-Sebastian Treß <s86372@htw-dresden.de>
+Sebastian Treß <s86372@htw-dresden.de>; Niklas Benjamin Große <niklasbenjamin.grosse@stud.htw-dresden.de>
 {localdatetime}
-:imagesdir:images/
+:imagedir:
 include::../_includes/default-attributes.inc.adoc[]
 // Platzhalter für weitere Dokumenten-Attribute
 
@@ -63,8 +63,14 @@ Wir sind darauf angewiesen, dass alle eingesetzten Frameworks und Bibliotheken w
 == Architektur-relevante Anforderungen
 //Fügen Sie eine Referenz / Link zu den Anforderungen ein, die implementiert werden müssen, um die Architektur zu erzeugen.
 
-- Informationsübertragung mit einen Datenspeicherung.
-- 
+- offline Funktionalitäten
+- soll für unterschiedlichen Gerätetypen funktionieren (z.B. Handy, Laptop, Tablet, ... )
+- soll für unterschiedlichen Betriebssystemen funktionieren 
+- Modularer Aufbau um eine leichte Weiterentwicklung zu ermöglichen
+- Speichern von Daten auf Gerät
+- exportieren von der Turnierpläne und Auswertungen als PDF 
+- Zugriff von mehreren Geräten soll möglich sein
+- Syntax für Programmcode soll einheitlich sein
 
 
 == Entscheidungen, Nebenbedingungen und Begründungen
@@ -72,7 +78,7 @@ Wir sind darauf angewiesen, dass alle eingesetzten Frameworks und Bibliotheken w
 . Das Interface und Design ist von der HTW-Mobil App, sowie von dem StuRa farbschema inspiriert, um eine intuitive und
 Ansprechende Oberfläche zu schaffen.
 
-. Wir haben uns dazu entschieden die Turnierapp in Form einer Progressiven Web App umzusetzen, um die Nutzung auf den unterschiedlichsten Geräten, sowie die Funktionalität bei Verbindungsabbrüchen zu gewährleisten. Dazu haben wir uns für die Verwendung von Vue.js entschieden, da es eine einfache und effiziente Möglichkeit bietet, um Webanwendungen zu erstellen. Diese wird auf einem Gerät des StuRa gehosted, somit kann auch ohne ein Internetzugang am Turnierort mit einem mobilen Hotspot auf die App zugegriffen werden.
+. Wir haben uns dazu entschieden die Turnierapp in Form einer Progressiven Web App und nicht als Webapplikation umzusetzen, da eine Progressiven Web App nicht nur die Nutzung auf den unterschiedlichsten Geräten und Betriebssystemen wie Webapplikation ermöglicht, sondern auch offline Funktionalität besitzt.Dazu haben wir uns für die Verwendung von Vue.js entschieden, da es eine einfache und effiziente Möglichkeit bietet, um Webanwendungen zu erstellen. Diese wird auf einem Gerät des StuRa gehosted, somit kann auch ohne ein Internetzugang am Turnierort mit einem mobilen Hotspot auf die App zugegriffen werden.
 
 . Um die unterschiedlichen Turniere zu Speicherung und abrufbar zu machen haben wir uns dafür entschieden die Daten der Turniere in einer Datenbank unter Verwendung von SQLight zu Speichern. Dies ermöglicht eine effiziente und zentrale Speicherung der Spieldaten, sowie die Möglichkeit der Skalierung z.B. durch migration auf PostgreSQL.
 Da SQLight kein dedizierten Datenbankserver benötigt, wird das System zunächst auf dem Gerät des StuRa installiert und kann von dort aus genutzt werden. Es besteht dennoch die Möglichkeit, das System auf einem Server zu installieren und damit eine zentrale Speicherung der Daten zu ermöglichen.
@@ -90,10 +96,17 @@ https://www2.htw-dresden.de/~anke/openup/core.tech.common.extend_supp/guidances/
 
 //Beschreiben Sie den Zweck, Eigenschaften und Funktion der Architekturmechanismen.
 
-. Komponenten verwenden
-. leserlichen Code schreiben
-. standardisierten Syntax
-
+- Event Management
+* soll synchron und asynchron funktionieren
+- Information Exchange
+* Wie lange und wie oft passieren diese
+- Persistence
+* dauer der Speicherung
+* Umfang
+- System Management 
+- Printing
+* Dateien als PDF exportieren
+- Scheduling
 
 == Wesentliche Abstraktionen
 //[List and briefly describe the key abstractions of the system. This should be a relatively short list of the critical concepts that define the system. The key abstractions will usually translate to the initial analysis classes and important patterns.]
@@ -115,15 +128,15 @@ Folgende Sichten werden empfohlen:
 //Beschreibt die Struktur und das Verhalten Systemteilen, die hohen Einfluss auf die Architektur haben. Dies kann die Paketstruktur, kritische Schnittstellen, wichtige Klassen und Subsysteme sowie die Beziehungen zwischen diesen Elementen enthalten. Zudem sollten die physische und logische Sicht persistenter Daten beschrieben werden, wenn es diesen Aspekt im System gibt. Dies ist ein hier dokumentierter Teilaspekt des Entwurfs.
 
 Layer 1:
-image:images/C4_Model_Layer1.png[]
+image:C4_Model_Layer1.png[]
 
 Layer 2:
-image:images/C4_Model_Layer2.png[]
+image:C4_Model_Layer2.png[]
 
-=== Physische Sicht (Betriebssicht)
+// === Physische Sicht (Betriebssicht)
 //Beschreibt die physischen Knoten (Rechner) des Systems, der Prozesse, Threads und Komponenten, die in diesen Knoten ausgeführt werden. Diese Sicht wird nicht benötigt, wenn das System in einem einzelnen Prozess oder Thread ausgeführt wird.
 
 
 
-=== Use cases
+// === Use cases
 //Eine Liste oder ein Diagramm der Use Cases, die architektur-relevante Anforderungne enthalten.
