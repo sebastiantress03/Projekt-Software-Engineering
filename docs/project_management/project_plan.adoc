@@ -1,33 +1,7 @@
 = Projektplan: {project-name}
 Julius Schramm <julius.schramm@stud.htw-dresden.de>; Oliver Theumer <s86407@htw-dresden.de>
 {localdatetime}
-// Meta
-:project-name: Turnierorganisationssoftware
-:project-system-name: Turnierorganisationssoftware
-// Settings:
-:toc:
-:toc-title: Inhaltsverzeichnis
-:toclevels: 2
-:sectnums:
-:icons: font
-//:source-highlighter: highlightjs
-:source-highlighter: rouge
-:rouge-style: github
-:xrefstyle: full
-:figure-caption: Abbildung
-:table-caption: Tabelle
-:!example-caption:
-:experimental:
-// folder
-ifndef::diagramsdir[:diagramsdir: diagrams]
-ifndef::plantumlsdir[:plantumlsdir: plantuml]
-// Hyphenation for PDF dokumente
-:lang: DE
-:hyphens:
-// main document
-:main-document:
-// Platzhalter für weitere Dokumenten-Attribute
-
+include::../_includes/default-attributes.inc.adoc[]
 
 == Einführung
 //Briefly describe the content of the project plan.
@@ -86,24 +60,18 @@ Außerdem helfen Fields, wie beispielsweise Status (To Do, In Progress, In Revie
 
 Darüber hinaus gibt es noch die Möglichkeit, Labels zu verwenden, um die Issues zu kategorisieren. Beispielsweise können Labels wie "Bug", "Feature", "Enhancement" oder "Documentation" verwendet werden.
 
+image:Beispielsausschnitt GitHub Projects.png[]
 .Beispielausschnitt einer Iteration im GitHub Projects
-image::images/Beispielsausschnitt GitHub Projects.png[]
-
-
 
 Die Risikoanalyse wird ebenfalls im Project Board abgebildet. Hierfür gibt es folgende Views:
 - Risks: Hier werden alle Risiken angezeigt, die im Projekt auftreten können
 - Risk Board: Hier werden die Risiken mit ihrem Status (Neu, Analyse, Bewertung und Bewältigung) angezeigt
 
+image:Risikoliste Überblick.png[]
 .Überblick der Risikoliste
-image::images/Risikoliste Überblick.png[]
 
-
-
+image:Risiko Unproduktive Meetings detailliert.png[]
 .Detaillierte Ansicht eines Risikos
-image::images/Risiko Unproduktive Meetings detailliert.png[]
-
-
 
 === Fortschrittskontrollen
 
@@ -149,9 +117,8 @@ Außerdem wird mithilfe der Retrospektiven gewährleistet, dass die Effizienz, Z
 
 == Deployment
 //Outline the strategy for deploying the software (and its updates) into the production environment.
-- Wir überlegen auf dem StuRa Server Docker zu verwenden um unsere Turniersoftware auszuführen. Dies würde durch die Erstellung eines Docker Containers funktionieren welcher unsere kompilierten Dateien enthält.
 
-- für updates müssten lediglich die kompilierten Dateien mit der neuen Version ausgetauscht werden
+
 
 == Erkenntnisse / Retrospektive (Lessons learned)
 //List lessons learned from the retrospective, with special emphasis on actions to be taken to improve, for example: the development environment, the process, or team collaboration.
