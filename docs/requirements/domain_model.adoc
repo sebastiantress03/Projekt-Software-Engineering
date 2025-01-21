@@ -11,26 +11,20 @@ include::../_includes/default-attributes.inc.adoc[]
 == UML-Diagramm: Turniermodell
 
 [source,plantuml]
----
 @startuml
 class Teams {
     + Name
-    + Mitgliederliste
-    + Rang
     + Leistungsgruppe 
 }
 class Veranstalter {
     + Name
     + Kontaktinformationen
 }
-class Schiedsrichter {
-    + Team
-}
 class Turnier {
     + Name
     + Datum
     + Spielmodus
-    + Anzahl Teams
+    + Anzahl Teams 
     + Anzahl Felder 
     + Anzahl Leistungsgruppen
 }
@@ -40,11 +34,11 @@ class Spiel {
     + Ergebnis
     + Startzeit
 }
-Schiedsrichter "1" --|> "1" Teams
 Veranstalter "1" -- "0..*" Turnier : organisiert
 Turnier "1" -- "1..*" Spiel : besteht aus
 Turnier "1" -- "1..*" Teams : hat Teilnehmer
-Teams "2..*" -- "1..*" Spiel : nimmt teil an
-Spiel "1..*" -- "1" Schiedsrichter : wird geleitet von
+Teams "1" -- "1..*" Spiel : Team 1 
+Teams "1" -- "1..*" Spiel : Team 2 
+Spiel "0..*" -- "1" Teams : Schiedsrichter
 @enduml
 ---
