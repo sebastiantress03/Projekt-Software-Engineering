@@ -1,31 +1,7 @@
 = Personas: {project-name}
-Vorname Nachname <email@domain.org>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
+Julius Schramm <julius.schramm@stud.htw-dresden.de> ; Oliver Theumer <oliver.theumner@stud.htw-dresden.de> ; Louai Alrefai <loaui.alrefai@stud.htw-dresden.de>
 {localdatetime}
-:project-name: Turnierauswertungssoftware
-:project-system-name: Turnierauswertungssoftware
-// Settings:
-:toc:
-:toc-title: Inhaltsverzeichnis
-:toclevels: 2
-:sectnums:
-:icons: font
-//:source-highlighter: highlightjs
-:source-highlighter: rouge
-:rouge-style: github
-:xrefstyle: full
-:figure-caption: Abbildung
-:table-caption: Tabelle
-:!example-caption:
-:experimental:
-// folders
-ifndef::diagramsdir[:diagramsdir: diagrams]
-ifndef::plantumlsdir[:plantumlsdir: plantuml]
-// Hyphenation for PDF dokumente
-:lang: DE
-:hyphens:
-// main document
-:main-document:
-
+include::../_includes/default-attributes.inc.adoc[]
 // Platzhalter für weitere Dokumenten-Attribute
 
 == Einführung
@@ -34,7 +10,7 @@ Eine Persona ist eine fiktive Person, die stellvertretend für eine Gruppe von B
 
 == Ingeborg Regina
 
-image::images/Ingeborg_Regina.png[width=300, height=300]
+image:Ingeborg_Regina.png[width=300, height=300]
 
 === Demographie
 
@@ -84,11 +60,11 @@ Studium: Informatik
 
 === Verhaltensvariablen
 
-image::images/Ingeborg_Regina_Verhaltensweisen.png[width=300, height=300]
+image:Ingeborg_Regina_Verhaltensweisen.png[width=300, height=300]
 
 == Julia Ludolf
 
-image::images/Julia_Ludolf.jpg[width=300, height=300]
+image:Julia_Ludolf.jpg[width=300, height=300]
 
 === Demographie
 
@@ -133,4 +109,4 @@ Studium: Betriebswirtschaftslehre
 |===
 === Verhaltensvariablen
 
-image::images/Julia_Ludolf_Verhaltensweisen.png[width=300, height=300]
+image:Julia_Ludolf_Verhaltensweisen.png[width=300, height=300]
