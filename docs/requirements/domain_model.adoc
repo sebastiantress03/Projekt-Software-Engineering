@@ -9,6 +9,8 @@ include::../_includes/default-attributes.inc.adoc[]
 In diesem Dokument wird das Domänenmodell des Projekts {project-name} beschrieben. Das Domänenmodell beschreibt die Struktur und die Beziehungen der Entitäten, die in der Anwendung vorkommen. Es dient als Grundlage für die Implementierung der Anwendung.
 
 == UML-Diagramm: Turniermodell
+[.text-center]
+image::Domainmodell.png[width=300]
 
 [source,plantuml]
 @startuml
