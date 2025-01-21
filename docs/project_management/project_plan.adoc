@@ -60,18 +60,18 @@ Außerdem helfen Fields, wie beispielsweise Status (To Do, In Progress, In Revie
 
 Darüber hinaus gibt es noch die Möglichkeit, Labels zu verwenden, um die Issues zu kategorisieren. Beispielsweise können Labels wie "Bug", "Feature", "Enhancement" oder "Documentation" verwendet werden.
 
-image:Beispielsausschnitt GitHub Projects.png[]
 .Beispielausschnitt einer Iteration im GitHub Projects
+image::Beispielsausschnitt GitHub Projects.png[]
 
 Die Risikoanalyse wird ebenfalls im Project Board abgebildet. Hierfür gibt es folgende Views:
 - Risks: Hier werden alle Risiken angezeigt, die im Projekt auftreten können
 - Risk Board: Hier werden die Risiken mit ihrem Status (Neu, Analyse, Bewertung und Bewältigung) angezeigt
 
-image:Risikoliste Überblick.png[]
 .Überblick der Risikoliste
+image::Risikoliste Überblick.png[]
 
-image:Risiko Unproduktive Meetings detailliert.png[]
 .Detaillierte Ansicht eines Risikos
+image::Risiko Unproduktive Meetings detailliert.png[]
 
 === Fortschrittskontrollen
 
