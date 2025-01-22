@@ -78,7 +78,6 @@ include::{docs-requirements}/ux-concept.adoc[lines=1..1;4..-1,leveloffset=+1]
 // --- Entwurfsdokumentation ---
 = Entwurfsdokumentation
 * Architektur-Notizbuch
-* Test Cases
 
 // Architektur-Notizbuch
 :imagesdir: {docs-architecture}/images
