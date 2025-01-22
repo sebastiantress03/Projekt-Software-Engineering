@@ -120,7 +120,9 @@ Außerdem wird mithilfe der Retrospektiven gewährleistet, dass die Effizienz, Z
 
 == Deployment
 //Outline the strategy for deploying the software (and its updates) into the production environment.
+- Wir überlegen auf dem StuRa Server Docker zu verwenden um unsere Turniersoftware auszuführen. Dies würde durch die Erstellung eines Docker Containers funktionieren welcher unsere kompilierten Dateien enthält.
 
+- für updates müssten lediglich die kompilierten Dateien mit der neuen Version ausgetauscht werden
 
 
 == Erkenntnisse / Retrospektive (Lessons learned)
