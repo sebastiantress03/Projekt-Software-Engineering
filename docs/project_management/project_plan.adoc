@@ -94,27 +94,27 @@ Außerdem wird mithilfe der Retrospektiven gewährleistet, dass die Effizienz, Z
 | * Teammitglieder kennenlernen
     * Förderung der Zusammenarbeit durch eine Etablierung von klaren und zentralen Kommunikationswegen
 
-| 21/10/2024 - 10/11/2024
+| 21/10/2024 - 8/11/2024
 
 | I2
 | * Anforderungen des Kunden verstehen, desses Analyse anfangen
     * Ausarbeitung der Vision und der Personas
     * Erstes Konzept für die Wireframes ausarbeiten
-| 11/11/2024 - 01/12/2025
+| 10/11/2024 - 29/11/2025
 
 | I3
 | * Anforderungensanalyse vertiefen
     * Identifikation der wichtigsten User Stories und Verfeinerung dieser
     * User Story Map
     * Erste Idee für den Prototypen entwickeln
-| 02/12/2024 - 22/12/2024
+| 02/12/2024 - 20/12/2024
 
 | I4
 | * Idee des Prototypen umsetzen und diesen fertigstellen
     * Prototypen für die Vorstellung vorbereiten
     * Präsentation vorbereiten
     * Belegdokumente überarbeiten und fertigstellen
-| 06/01/2025 - 26/01/2025
+| 06/01/2025 - 24/01/2025
 |===
 
 
