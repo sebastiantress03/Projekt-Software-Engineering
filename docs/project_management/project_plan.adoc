@@ -110,11 +110,27 @@ Außerdem wird mithilfe der Retrospektiven gewährleistet, dass die Effizienz, Z
 | 02/12/2024 - 20/12/2024
 
 | I4
+|   * Weihnachtspause
+    * freiwillige Arbeit an der Software
+| 21/12/2024 - 05/01/2025
+
+| I5
 | * Idee des Prototypen umsetzen und diesen fertigstellen
     * Prototypen für die Vorstellung vorbereiten
     * Präsentation vorbereiten
     * Belegdokumente überarbeiten und fertigstellen
 | 06/01/2025 - 24/01/2025
+
+| I6
+|   * Belegdokumente überarbeiten und fertigstellen
+    * Turnierplanerstellung fortführen
+| 16/03/2025 - 05/04/2025
+
+| I7
+|   * Turnierplanerstellung testen
+    * Frontenderstellung beginnen 
+    * Datenbank und Backend verbinden, um die Turnierplanerstellung zu ermöglichen
+| 06/04/2025 - 26/04/2025
 |===
 
 
