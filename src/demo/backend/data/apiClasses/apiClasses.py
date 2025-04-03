@@ -5,7 +5,7 @@ class Score(BaseModel):
     teamID2: int
     spielergebnis1: int 
     spielergebnis2: int
-    hinRückspiel: str
+    hin_rückspiel: str
 
 class ScoreChange(BaseModel):
     spielergebnis1: int 

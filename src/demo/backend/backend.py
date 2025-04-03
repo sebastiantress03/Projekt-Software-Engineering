@@ -8,11 +8,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 class Server:
     def __init__(self):
-        self.initializingDatabase()
+        self.initializing_database()
         #self.query("INSERT INTO Ergebnisse (TeamID1,TeamID2,Spielergebnis1,Spielergebnis2,HinRückspiel) VALUES (?,?,?,?,?)",[1,2,15,21,"Hinspiel"])
         #self.query("INSERT INTO Ergebnisse (TeamID1,TeamID2,Spielergebnis1,Spielergebnis2,HinRückspiel) VALUES (?,?,?,?,?)",[1,2,15,18,"Rückspiel"])
 
-    def initializingDatabase(self):
+    def initializing_database(self):
         try:
             with sqlite3.connect(os.path.join("data","vtDatenbase.db")) as connection:
                 cursor = connection.cursor()
@@ -54,11 +54,11 @@ api.add_middleware(
     allow_headers=["*"],
 )
 
-def checkReceivedData():
+def check_received_data():
     pass
 
 @api.get("/")
-def getMainData():
+def get_main_data():
     data = server.query("SELECT * FROM Ergebnisse")
     if data != None and len(data) != 0:
         return {"data": data}
@@ -66,15 +66,15 @@ def getMainData():
         return fastapi.HTTPException(status_code=404,detail="ERROR while fetching data")
 
 @api.post("/scores/")
-def setScores(score:Score):
-    data = server.query("INSERT INTO Ergebnisse (TeamID1,TeamID2,Spielergebnis1,Spielergebnis2,HinRückspiel) VALUES (?,?,?,?,?)",[score.teamID1,score.teamID2,score.spielergebnis1,score.spielergebnis2,score.hinRückspiel])
+def set_scores(score:Score):
+    data = server.query("INSERT INTO Ergebnisse (TeamID1,TeamID2,Spielergebnis1,Spielergebnis2,HinRückspiel) VALUES (?,?,?,?,?)",[score.teamID1,score.teamID2,score.spielergebnis1,score.spielergebnis2,score.hin_rückspiel])
     if data != None:
         return fastapi.HTTPException(status_code=200,detail="SUCCESS")
     else:
         return fastapi.HTTPException(status_code=404,detail="ERROR while fetching data")
     
 @api.put("/scores/{scoresID}")
-def changeScores(scoresID: str, score:ScoreChange):
+def change_scores(scoresID: str, score:ScoreChange):
     data = server.query("UPDATE Ergebnisse SET Spielergebnis1 = ?, Spielergebnis2 = ? WHERE SpielID = ?",[score.spielergebnis1,score.spielergebnis2, int(scoresID) ])
     if data != None:
         return fastapi.HTTPException(status_code=200,detail="SUCCESS")
