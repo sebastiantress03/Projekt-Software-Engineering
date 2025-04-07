@@ -57,6 +57,7 @@ api.add_middleware(
 def check_received_data():
     pass
 
+# Aktuallisierung für neue Schnittstelle /tournaments/{matchplan}
 @api.get("/")
 def get_main_data():
     data = server.query("SELECT * FROM Ergebnisse")
@@ -65,6 +66,8 @@ def get_main_data():
     else:
         return fastapi.HTTPException(status_code=404,detail="ERROR while fetching data")
 
+
+# benötigen wir nicht mehr war nur für das eintragen Beispieldaten
 @api.post("/scores/")
 def set_scores(score:Score):
     data = server.query("INSERT INTO Ergebnisse (TeamID1,TeamID2,Spielergebnis1,Spielergebnis2,HinRückspiel) VALUES (?,?,?,?,?)",[score.teamID1,score.teamID2,score.spielergebnis1,score.spielergebnis2,score.hin_rückspiel])
@@ -80,3 +83,4 @@ def change_scores(scoresID: str, score:ScoreChange):
         return fastapi.HTTPException(status_code=200,detail="SUCCESS")
     else:
         return fastapi.HTTPException(status_code=404,detail="ERROR while fetching data")
+    

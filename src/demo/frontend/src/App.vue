@@ -5,6 +5,8 @@
 	
 	let ergebnisse = ref([]);
 
+
+	// Aktuallisierung für neue Schnittstelle /tournaments/{matchplan}
 	function getData(){
 		new Promise((resolve,reject) => {
 			axios.get("http://127.0.0.1:8000/").then(
