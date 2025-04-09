@@ -1,0 +1,623 @@
+= Meeting-Protokoll: {Turnierauswertungssoftware}
+Julius Schramm <julius.schramm@stud.htw-dresden.de>
+{localdatetime}
+include::../_includes/default-attributes.inc.adoc[]
+// Platzhalter für weitere Dokumenten-Attribute
+
+In diesem Dokument werden alle teaminterne -, Coach- und Auftraggeber-Meetings protokolliert.
+
+
+
+== Teaminterne Meetings
+
+=== Erste Iteration
+
+==== Erstes Meeting
+
+|===
+| Datum | Ort | Uhrzeit
+| 29.10.2024 | HTW Dresden - Bibliothek | 15:30 Uhr – 16:30 Uhr
+|===
+
+===== Teilnehmerliste
+
+[cols="3", options="header"]
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Ja | WInfo
+| Luke Reeder | Nein | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+===== Agenda
+
+1. Coach–Meeting
+2. Github–Repository
+3. Termin für die wöchentlichen Meetings
+4. Erste Ideen für die Teamrollenverteilung
+5. Software zur Aufgabenverteilung
+6. Teambuilding Event
+
+===== Zusammenfassungen der besprochenen Themen
+
+====== 1. Coach-Meeting
+Einstimmige Einigung auf Freitag, den 01.11.2024 um 11:30 Uhr.  
+Die Superhelden- und Superschurkenplakate sind bis dahin von jedem Teammitglied zu erstellen.
+
+====== 2. Github-Repository
+Niklas und Sebastian erstellen das Repository. Sie treffen sich am 30.10.2024 um 13:00 Uhr.  
+Dazu werden die GitHub-Accounts und E-Mail-Adressen aller Teammitglieder benötigt.
+
+====== 3. Termin für die wöchentlichen Meetings
+Die Teammitglieder haben sich auf Montag 13:15 Uhr geeinigt.  
+Gruppenräume in der Bibliothek für KW 46 und 47 sind bereits reserviert.
+
+====== 4. Erste Ideen für die Teamrollenverteilung
+Brainstorming zu Aufgaben und Rollen. Die finale Entscheidung erfolgt nach Rücksprache mit Coach und Auftraggeber.
+
+[cols="2", options="header"]
+|===
+| Rolle | Name
+| Projektleitung | Julius, Oli
+| Meetingnotizen | Julius
+| Dokumentation | 
+| Anforderungsanalyse & Entwurf | Oli, Louai
+| Designer der GUI | Tom
+| Development | Niklas, Sebastian, (Oli)
+|===
+
+Mögliche allgemeine Rollen:
+* Teamleiter
+* Projektmanagement / stellvertretender Teamleiter
+* Architekt
+* Programmierer
+* Analysten
+* Tester
+
+====== 5. Software zur Aufgabenverteilung
+Zur Aufgabenverteilung wird entweder das Github-Repository oder Mori in Betracht gezogen.  
+Mori bietet eine flexible Aufgabenverteilung.
+
+====== 6. Teambuilding Event
+Brainstorming zu Teambuilding-Events:
+1. Bowling
+2. Billard
+3. Discord Game Night (Skribbl, Gartic Phone)
+
+===== Beschlüsse und To-Dos
+
+[cols="4,1,1,1", options="header"]
+|===
+| Aufgabe/Beschluss | Verantwortlicher | Fälligkeitsdatum | Status
+| Github-Repository anfertigen | Niklas & Sebastian | 08.11.2024 | In Bearbeitung
+| GitHub-verknüpfte Emails in den Discord senden | Alle | 30.10.2024 bis 13:00 Uhr | In Bearbeitung
+| Software zur Aufgabenverteilung wählen | Alle | 04.11.2024 | In Bearbeitung
+| Superhelden- und Superschurkenplakat anfertigen | Alle | 01.11.2024 | In Bearbeitung
+| Ort für das nächste Meeting raussuchen | Alle | 03.11.2024 | In Bearbeitung
+|===
+
+===== Nächstes Meeting
+
+*Datum*: 04.11.2024 *Uhrzeit*: 11:50 Uhr *Ort*: HTW Dresden - Bibliothek
+
+==== Zweites Meeting
+
+|===
+| Datum | Ort | Uhrzeit
+| 04.11.2024 | HTW Dresden - Bibliothek | 11:50 Uhr – 12:30 Uhr
+|===
+
+===== Teilnehmerliste
+
+[cols="3", options="header"]
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Nein | Info
+| Louai Alrefai | Ja | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+===== Agenda
+1. Software zur Aufgabenverteilung
+2. Rollenverteilung im Team
+
+
+===== Zusammenfassungen der besprochenen Themen
+
+====== 1. Software zur Aufgabenverteilung
+Die Entscheidung fällt auf GitHub-Projects, um die Anzahl der Tools in Benutzung zu reduzieren.
+
+====== 2. Rollenverteilung im Team
+[cols="1,1", options="header"]
+|===
+| Rolle | Name
+
+| Teamleiter
+| Julius Schramm
+
+| Projektmanagement
+| Oliver Theumer
+
+| Architekt
+| Sebastian Treß, Niklas Große
+
+| Analyst
+| Oliver Theumer, Thomas Sweeney, Louia Alrefai
+
+| Programmierer
+| Sebastian Treß, Niklas Große
+
+| Tester
+| Luke Reeder
+|===
+Die Rollenverteilung ist vorläufig und kann sich noch ändern. Die Teammitglieder sind nicht auf eine Rolle festgeschrieben.
+Wie im Coach-Meeting schon betont: Es ist förderlich, dass pro Rolle ein Back-Up vorhanden ist.
+
+===== Beschlüsse und To-Dos:
+
+|===
+| Aufgabe/Beschluss | Verantwortlicher | Fälligkeitsdatum | Status
+| Vertraut machen mit dem GitHub-Rep | Alle | 08.11.2024 | In Bearbeitung
+| VisualStudioCode zu Hause wie im Praktikum anlegen | Alle | 08.11.2024 | In Bearbeitung
+| Vertraut machen mit Github-Projects | Alle | 08.11.2024 | In Bearbeitung
+|===
+
+===== Nächstes Meeting
+*Datum*: 11.11.2024
+*Uhrzeit*: 13:15 Uhr 
+*Ort*: HTW Dresden - Bibliothek
+
+=== Zweite Iteration
+
+==== Erstes Meeting
+
+|===
+| Datum | Ort | Uhrzeit
+| 15.11.2024 | Discord | 14:00 Uhr – 14:40 Uhr
+|===
+
+===== Teilnehmerliste
+
+[cols="3", options="header"]
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Ja | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+===== Agenda
+
+1. Aufgaben und Beschlüsse
+2. Teambuilding-Event
+3. Entscheidung über Coach- und Auftraggeber-Meetings
+
+===== Aufgaben und Beschlüsse
+[cols="4*", options="header"]
+|===
+| Aufgabe / Beschluss | Verantwortlicher | Fälligkeitsdatum | Status
+| Vision.adoc bearbeiten | Oliver Theumer, Julius Schramm, Luke Reeder | 22.11.2024 | In Bearbeitung
+| Erste User Stories erstellen | Oliver Theumer, Louai Alrefai, Thomas Sweeney | 22.11.2024 | In Bearbeitung
+| Erster Wireframe-Entwurf | Niklas Große, Sebastian Treß, Thomas Sweeney | 29.11.2024 | In Bearbeitung
+| Persona während des nächsten Meetings ausarbeiten | Alle | 22.11.2024 | Geplant
+| Risiken und Gegenmaßnahmen erarbeiten | Julius Schramm | 22.11.2024 | In Bearbeitung
+|===
+
+=====  Teambuilding-Event
+Das Team plant ein Billardspiel als Teambuilding-Event. Nähere Besprechungen folgen während des nächsten Meetings.
+
+=====  Entscheidung über Coach- und Auftraggeber-Meetings
+- **Coach-Meeting**: Geplant für Freitag, den 22.11.2024, um Probleme zu besprechen und Unterstützung bei Personas sowie User Stories einzuholen.
+- **Auftraggeber-Meeting (StuRa)**: Geplant für Freitag, den 29.11.2024. Ziel ist die Vorstellung der Wireframes und Klärung von Unklarheiten aus den User Stories.
+
+=====  Nächstes Meeting
+- **Datum:** 18.11.2024
+- **Uhrzeit:** 13:00 Uhr
+- **Ort:** Discord
+
+==== Zweites Meeting
+
+|===
+| Datum | Ort | Uhrzeit
+| 18.11.2024 | Discord | 14:00 Uhr – 14:40 Uhr
+|===
+
+===== Teilnehmerliste
+
+[cols="3", options="header"]
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Ja | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+===== Agenda
+1. Besprechung der Aufgaben
+2. Erstellung der Personas
+
+===== Zusammenfassung der besprochenen Themen
+
+====== 1. Besprechung der Aufgaben
+Die Aufgaben wurden besprochen und der aktuelle Stand der Bearbeitung wurde erfragt. Mit den User Stories und dem Wireframe-Entwurf wird bis zum nächsten Praktikum gewartet.
+
+====== 2. Erstellung der Personas
+Die Erstellung der Personas wurde besprochen und die Teammitglieder haben sich über die Vorgehensweise informiert. Es wurden 2 Personas erstellt.
+
+===== Nächstes Meeting
+- **Datum:** 25.11.2024
+- **Uhrzeit:** 14:00 Uhr
+- **Ort:** Discord
+
+==== Drittes Meeting
+
+|===
+| Datum | Ort | Uhrzeit
+| 25.11.2024 | Discord | 14:00 Uhr – 14:20 Uhr
+|===
+
+===== Teilnehmerliste
+
+[cols="3", options="header"]
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Ja | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+===== Agenda
+1. Besprechung der Aufgaben
+2. Projektfortschritt
+
+===== Zusammenfassung der besprochenen Themen
+
+====== 1. Besprechung der Aufgaben
+Die Aufgaben wurden besprochen und der aktuelle Stand der Bearbeitung wurde erfragt. Die User Stories und der Wireframe-Entwurf sind in Bearbeitung.
+
+====== 2. Projektfortschritt
+Der Projektfortschritt wurde besprochen und die Teammitglieder haben sich gegenseitig über den Stand der Aufgaben informiert. Der Review des Vision.adoc-Dokuments wurde eingeholt und die Verbesserungen wurden besprochen. Der Termin mit dem Auftraggeber wurde auf Freitag, den 29.11.2024, um 13:00 Uhr festgelegt.
+
+===== Beschlüsse und To-Dos
+Die User-Stories wurden angefangen und der Wireframe-Entwurf ist in Bearbeitung. Die Risikoliste soll bis zum Ende der Woche mindestens 10 Risiken enthalten. 
+
+===== Nächstes Meeting
+- **Datum:** 02.12.2024
+- **Uhrzeit:** 14:00 Uhr
+- **Ort:** Discord
+
+
+=== Dritte Iteration
+
+==== Erstes Meeting - Retrospektive
+
+|===
+| Datum | Ort | Uhrzeit
+| 02.12.2024 | HTW Dresden Audimax | 14:00 Uhr – 14:40 Uhr
+|===
+
+===== Teilnehmerliste
+|===
+| Name | Anwesenheit | Studiengang
+| Julius Schramm | Ja | WIng
+| Sebastian Treß | Ja | Info
+| Niklas Große | Ja | Info
+| Louai Alrefai | Nein | WInfo
+| Luke Reeder | Ja | WInfo
+| Thomas Sweeney | Ja | WInfo
+| Oliver Theumer | Ja | WInfo
+|===
+
+==== Agenda
+
+. Rückblick auf die letzte Iteration
+. Zusammenarbeit und Kommunikation
+. Verbesserungsmöglichkeiten
+. Termin und Treffpunkt des nächsten Meetings
+
+==== Zusammenfassung der besprochenen Themen
+
+===== 1. Rückblick auf die letzte Iteration
+
+**Positive Aspekte:**
+    Alle Abgaben waren erfolgreich und pünktlich.
+    Aufgabenverteilung funktionierte gut.
+    Projekte waren gut strukturiert.
+
+**Negative Aspekte:**
+    Kommunikation zeigte Schwächen.
+    Meetings wurden als unproduktiv wahrgenommen.
+    Niedrige Teilnahmequote bei Coach- und Auftraggeber-Meetings.
+    Unklarheit über die Teilnahme von Teammitgliedern
+
+**Diskussion:**
+    Anpassung der Termine für Meetings angeregt, um bessere Ergebnisse zu erzielen.
+
+===== 2. Zusammenarbeit und Kommunikation
+
+**Herausforderungen:**
+    Unklare Kommunikation, insbesondere bei den Wireframes, da sie nicht über zentrale Kanäle verteilt wurden.
+    Kurzfristige Absagen, was besonders in der Analysephase problematisch ist.
+
+
+===== 3. Verbesserungsmöglichkeiten
+
+**Vorschläge:**
+    Einführung von Review-Sessions zusätzlich zu den regulären Meetings, um Aufgaben und Fortschritte zu präsentieren.
+    Nutzung von Discord für Events und Meetings, um die Beteiligung zu fördern.
+    Klare Abmeldungen im Falle einer Abwesenheit.
+
+==== Termin und Treffpunkt des nächsten Meetings
+Datum: Mittwoch, den 04.12.2024
+Uhrzeit: 19:00 Uhr
+Treffpunkt: Discord
+
+
+== Coach-Meetings
+
+=== Erste Iteration
+
+|===
+| *Datum* | *Ort* | *Uhrzeit*
+| 04.11.2024 | HTW Dresden - Bibliothek | 11:50 Uhr – 12:30 Uhr
+|===
+
+
+==== Teilnehmerliste
+
+|===
+|Name |Anwesenheit |Studiengang
+|Julius Schramm |Ja |WIng
+|Sebastian Treß |Ja |Info
+|Niklas Große |Ja |Info
+|Louai Alrefai |Ja |WInfo
+|Luke Reeder |Ja |WInfo
+|Thomas Sweeney |Ja |WInfo
+|Oliver Theumer |Ja |WInfo
+|===
+
+==== Agenda
+
+1. Vorstellung der Superhelden- und Superschurkenplakate
+2. Erläuterung der vorgegebenen Rollen
+3. Vertiefende Einblicke in die Projektstruktur und Prüfungsbewertung
+4. Tipps
+
+==== Zusammenfassung der besprochenen Themen
+
+===== 1. Vorstellung der Superhelden- und Superschurkenplakate
+
+Die Plakate wurden von jedem Teammitglied vorgestellt, wodurch man eine selbstreflektierte Wahrnehmung jedes Einzelnen bekommen hat. Dies hatte den Sinn, das Verständnis füreinander untereinander zu stärken.
+
+===== 2. Erläuterung der vorgegebenen Rollen
+
+Der Coach klärte die Teammitglieder über die Rollen und deren Aufgaben im Projekt auf. Diese sind in der nachfolgenden Tabelle veranschaulicht.
+
+[cols="2,4", options="header"]
+|===
+| Rolle | Aufgaben
+| Teamleiter | Leitet und managed das Projekt. Ansprechperson der Gruppe. Kümmert sich um zukünftige Iterationspläne und die Risikoliste.
+| Architekt | Informiert sich im Vorhinein über mögliche Strukturen und Frameworks.
+| Analyst | Fertigt eine Anforderungsanalyse sowie User-Stories an.
+| Programmierer | Programmiert die Codes.
+| Tester | Testet nach Anfrage der Programmierer die Software. Überlegt sich entsprechende Testkonzepte (wie kann ich was testen).
+|===
+
+Es wurde betont, dass die Teammitglieder nicht auf eine Rolle festgeschrieben sind. Zum Beispiel sollte der Tester im ersten Semester den Analysten unterstützen. Pro Rolle ist zudem ein Back-Up Mitglied sinnvoll, um Projektstillstände zu vermeiden.
+
+===== 3. Vertiefende Einblicke in die Prüfungsbewertung
+
+Am Ende des Semesters wird die Abgabe eines Prototyps sowie einiger Dokumente erfolgen. Der Prototyp zählt zu 30%, die Dokumente zu 70% der Gesamtnote. Präsentation und Abgaben innerhalb der Iterationen fließen ebenfalls in die Bewertung ein.
+
+Der Coach empfahl, frühzeitig eine Person für die Präsentation auszuwählen und die Funktionsweise des Prototyps zu filmen, falls technische Probleme auftreten sollten. Die finale Abgabe erfolgt als APL und geht zu 100% in die Bewertung ein.
+
+===== 4. Tipps
+
+Der Coach riet, nach jeder Iteration eine Retrospektive durchzuführen, um Stärken und Schwächen der vergangenen Iteration zu reflektieren. Dies hilft, die Zeiteinteilung und die Aufgabengrößen besser einzuschätzen. Für die Sichtweisen aus dem StuRa-Meeting kann das „Vision.adoc“-Dokument von GitHub als Vorlage dienen. Coach- und Auftraggeber-Meetings sollten vorbereitet und eine Agenda vorab gesendet werden. Ein Protokoll beim Auftraggebermeeting hilft, die Denkweise fundiert nachzuvollziehen.
+
+==== Nächstes Coach-Meeting
+
+noch unbekannt
+
+=== Zweite Iteration
+
+|===
+| *Datum* | *Ort* | *Uhrzeit*
+| 22.11.2024 | HTW Dresden - Bibliothek | 14:00 Uhr – 15:30 Uhr
+|===
+
+==== Teilnehmerliste
+
+|===
+|Name |Anwesenheit |Studiengang
+|Julius Schramm |Nein ( entschuldigt ) |WIng
+|Sebastian Treß |Ja |Info
+|Niklas Große |Nein ( krankheitsbedingt )|Info
+|Louai Alrefai |Ja |WInfo
+|Luke Reeder |Nein |WInfo
+|Thomas Sweeney |Nein |WInfo
+|Oliver Theumer |Ja |WInfo
+|===
+
+==== Agenda
+
+1. Fragen an den Coach
+2. Vorführen der Teamdynamik
+3. Tipps 
+
+==== Zusammenfassung der besprochenen Themen
+
+===== 1. Fragen an den Coach
+Unser Team hat ihre vorbereiteten Fragen bezüglich der Personas und der User-Stories an den Coach gestellt. 
+
+===== 2. Vorführen der Teamdynamik
+
+Dem Coach ging es bei diesem Treffen darum einen Eindruck unserer Teamdynamik zu erhalten. Dies hatte den Sinn das der Coach unserem Team individuellere Ratschläge geben kann, damit wir unsere Teamdynamik verbessern und eventuelle Risken vermeiden können.
+
+===== 3. Tipps
+
+Der Coach riet uns festere Strukturen in unserem Team einzuführen. Einen Termin festzulegen, an dem jeder Zeithaben muss, auch wenn dies früh am Morgen oder spät am Abend ist. Klare Regeln für das Bearbeiten von Dokumenten und dem Schreiben von Code festlegen, um eine Einheitliche Struktur zu besitzen. 
+Bei den Risiken empfahl uns der Coach mindestens 10 Risiken festzulegen an denen wir als Team arbeiten können.
+
+
+==== Nächstes Coach-Meeting
+
+noch unbekannt
+
+== Auftraggeber-Meetings
+
+=== Erste Iteration
+
+|===
+| *Datum* | *Ort* | *Uhrzeit*
+| 01.11.2024 | HTW Dresden - A-Gebäude | 13:30 Uhr – 14:15 Uhr
+|===
+
+==== Teilnehmerliste
+
+|===
+|Name |Anwesenheit |Studiengang
+|Julius Schramm |Ja |WIng
+|Sebastian Treß |Ja |Info
+|Niklas Große |Ja |Info
+|Louai Alrefai |Ja |WInfo
+|Luke Reeder |Ja |WInfo
+|Thomas Sweeney |Ja |WInfo
+|Oliver Theumer |Ja |WInfo
+|===
+
+==== Agenda
+
+. Turnierstruktur
+. Spielstandserfassung und -anzeige
+. Technische Anforderungen
+. Spielplan des Vorjahres
+
+==== Zusammenfassung der besprochenen Themen
+
+===== 1. Turnierstruktur
+
+Das Turnier findet in einem Alle-gegen-Alle-Modus statt, wobei die Anzahl der Teams variabel und flexibel anpassbar ist. Es gibt zwei Leistungsgruppen:
+   * Fun-Gruppe
+   * Schwitzer-Gruppe
+
+Innerhalb jeder Gruppe gibt es einen Sieger. Ein drittes Team fungiert als Schiedsrichter. Die Teams spielen Hin- und Rückspiele direkt hintereinander, und diese Option muss in der Software wählbar sein. Die Anzahl der Felder in der Turnhalle ist variabel.
+
+   * **Spielende:** Bei 25 Punkten, mit einer Punktedifferenz von 2.
+   * **Satzmodus:** Jedes Hin- und Rückspiel wird in einem Satz entschieden.
+
+===== 2. Spielstandserfassung und -anzeige
+
+Die Spielergebnisse werden über eine Web-Anwendung eingetragen, die auch offline nutzbar ist, um spätere Synchronisation zu ermöglichen. Änderungen der Spielstände erfordern eine Bestätigung, um versehentliche Änderungen zu vermeiden. Die Endergebnisse werden vom Schiedsrichterteam eingetragen, ohne Authentifizierung. Nach Abschluss einer Spielreihe sind die Ergebnisse für alle Teilnehmer einsehbar.
+
+===== 3. Anforderungen
+
+====== 3.1 Technische Anforderungen
+   * Die Anwendung muss auf allen gängigen Betriebssystemen laufen.
+   * Offline-Erfassung der Daten mit späterer Synchronisierung.
+   * Export des Turnierplans und der Ergebnisse als PDF.
+
+====== 3.2 Benutzerfreundlichkeit und Zugänglichkeit
+   * QR-Code vor Ort als optionaler Zugang zur Anwendung.
+   * Minimierung der Spielpausen.
+
+====== 3.3 Spielplan-Anforderungen
+   * Angabe der Startzeiten und empfohlene Spieldauer von 20 Minuten pro Spiel.
+   * Zuweisung der Felder und Schiedsrichterrollen.
+   * Vor-Ort-Speicherung und Zuordnung der Teamnamen im System.
+
+===== 4. Spielplan des Vorjahres
+
+image::../images/turnierplan.png[Turnierplan des Vorjahres]
+
+=== Zweite Iteration
+
+|===
+| *Datum* | *Ort* | *Uhrzeit*
+| 29.11.2024 | HTW Dresden A-Gebäude | 13:00 Uhr – 13:35 Uhr
+|===
+
+==== Teilnehmerliste
+
+|===
+|Name |Anwesenheit |Studiengang
+|Julius Schramm |Ja |WIng
+|Sebastian Treß |Ja |Info
+|Niklas Große |Ja |Info
+|Louai Alrefai |Ja |WInfo
+|Luke Reeder |Nein |WInfo
+|Thomas Sweeney |Nein |WInfo
+|Oliver Theumer |Ja |WInfo
+|===
+
+==== Agenda
+
+. Vorstellung der Wireframes
+. Fragen und Diskussion
+
+==== Zusammenfassung der besprochenen Themen
+
+===== 1. Vorstellung der Wireframes
+
+*Leistungsgruppen:*
+Entscheidung über zwei Leistungsgruppen (abhängig von der Verfügbarkeit der Spielfelder).
+
+*Punktedifferenz:*
+Schwierigkeit der technischen Synchronisierung bei Punktedifferenzen festgestellt.
+
+*Spielmodus:*
+Hin- und Rückspiel werden nacheinander eingetragen. Möglichkeit eines einzelnen Spiels (Hin- oder Rückspiel) wurde diskutiert.
+
+*Exportmöglichkeiten:*
+Export als PDF wurde als "nice-to-have" eingestuft, jedoch nicht als essenziell.
+
+===== 2. Fragen und Diskussion
+
+*Eintragungen und Benutzerfreundlichkeit:*
+    Einfache und fehlerfreie Gestaltung der Eintragungsmöglichkeiten ist wichtig.
+    Spielergebnisse sollten direkt im Turnierplan eingetragen werden können.
+    Minimale Anzahl an Buttons zur Fehlerreduktion.
+
+**Offline-Synchronisierung:**
+    Diskussion über die Herausforderung der Offline-Synchronisierung.
+    Möglichkeit, Mobilgeräte lokal zu verbinden, wurde erörtert.
+    Zentraler Rechner als mögliche Lösung vorgeschlagen.
+
+**Zeiterfassung:**
+    Uhrzeiten der laufenden Spiele könnten hervorgehoben werden.
+    Hinzufügen von Pausen (z. B. Einspielen, Auswertung) im Zeitplan.
+
+**Technische Anforderungen:**
+    WebApp mit zentralem Gerät angestrebt.
+    Variable Turnhallen – keine feste Datenbank erforderlich.
+
+**Team-Anmeldung:**
+    Teams und Einzelspieler sollen vor Ort Namen eintragen können.
+    Eventuell Zugangsbeschränkung (z. B. nur für StuRa) für die Erstellung von Turnieren.
+
+**Serverbereitstellung:**
+    Offene Frage, ob ein Server zur Verfügung gestellt werden kann (Zirkelbach wird kontaktiert).
+
+**Sonstige Anforderungen:**
+    Einfache Benutzeroberfläche, um Fehlereingaben zu minimieren.
+    Unnötige Funktionen wie Filterung wurden als nicht sinnvoll bewertet.

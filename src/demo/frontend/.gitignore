@@ -1,0 +1,56 @@
+<<<<<<< HEAD
+# Syntax: https://git-scm.com/docs/gitignore
+
+# General
+.DS_Store
+*~
+.vscode
+*.pyc
+.venv
+
+=======
+>>>>>>> 922a240 (Initialer Commit – Turnier-App)
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+<<<<<<< HEAD
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+
+/cypress/videos/
+/cypress/screenshots/
+
+=======
+dist
+dist-ssr
+*.local
+
+>>>>>>> 922a240 (Initialer Commit – Turnier-App)
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+<<<<<<< HEAD
+=======
+.DS_Store
+>>>>>>> 922a240 (Initialer Commit – Turnier-App)
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+<<<<<<< HEAD
+
+*.tsbuildinfo
+=======
+>>>>>>> 922a240 (Initialer Commit – Turnier-App)

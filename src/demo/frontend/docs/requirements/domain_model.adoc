@@ -1,0 +1,47 @@
+= Domain Model: {project-name}
+Vorname Nachname <email@domain.org>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
+{localdatetime}
+include::../_includes/default-attributes.inc.adoc[]
+// Platzhalter für weitere Dokumenten-Attribute
+
+
+== Allgemeine Informationen
+In diesem Dokument wird das Domänenmodell des Projekts {project-name} beschrieben. Das Domänenmodell beschreibt die Struktur und die Beziehungen der Entitäten, die in der Anwendung vorkommen. Es dient als Grundlage für die Implementierung der Anwendung.
+
+== UML-Diagramm: Turniermodell
+.Domainmodell
+[.text-center]
+image::Domainmodell.png[width=370]
+
+[source,plantuml]
+@startuml
+class Teams {
+    + Name
+    + Leistungsgruppe 
+}
+class Veranstalter {
+    + Name
+    + Kontaktinformationen
+}
+class Turnier {
+    + Name
+    + Datum
+    + Spielmodus
+    + Anzahl Teams 
+    + Anzahl Felder 
+    + Anzahl Leistungsgruppen
+}
+class Spiel {
+    + Feld
+    + Teams
+    + Ergebnis
+    + Startzeit
+}
+Veranstalter "1" -- "0..*" Turnier : organisiert
+Turnier "1" -- "1..*" Spiel : besteht aus
+Turnier "1" -- "1..*" Teams : hat Teilnehmer
+Teams "1" -- "1..*" Spiel : Team 1 
+Teams "1" -- "1..*" Spiel : Team 2 
+Spiel "0..*" -- "1" Teams : Schiedsrichter
+@enduml
+---
