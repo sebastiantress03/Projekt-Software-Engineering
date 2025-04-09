@@ -2,7 +2,7 @@
   <div class="create">
     <h2>Turnier erstellen</h2>
 
-    <!-- Schritt 1: Turnierdaten -->
+    <!-- Schritt 1 -->
     <div v-if="step === 1">
       <h3>Schritt 1: Turnierdaten</h3>
 
@@ -42,14 +42,14 @@
       <button @click="step++">Weiter zu Gruppen</button>
     </div>
 
-    <!-- Schritt 2: Gruppen -->
+    <!-- Schritt 2 -->
     <div v-else-if="step === 2">
-      <h3>Schritt 2: Leistungsgruppen</h3>
+      <h3>Schritt 2: Gruppen</h3>
 
       <div v-for="(group, i) in form.groups" :key="i" class="group-block">
         <label>
-          Gruppe {{ i + 1 }} – Bezeichnung:
-          <input v-model="group.name" placeholder="Gruppenname" />
+          Gruppenname:
+          <input v-model="group.name" />
         </label>
 
         <label>
@@ -88,39 +88,40 @@ export default {
   },
   methods: {
     addGroup() {
-      this.form.groups.push({ name: '', teamCount: 1 })
+      this.form.groups.push({ name: '', teamCount: 1 });
     },
     submit() {
-  fetch('http://localhost:3000/api/tournaments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: this.form.name,
-      fields: this.form.fields,
-      breakLength: this.form.breakLength,
-      matchTime: this.form.matchTime,
-      startTime: this.form.startTime,
-      mode: this.form.mode
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log('Gespeichert ✅', data)
-    alert(`Turnier "${this.form.name}" wurde gespeichert ✅`)
-    this.$router.push('/')
-  })
-  .catch(err => {
-    console.error('Fehler beim Speichern ❌', err)
-    alert('Speichern fehlgeschlagen ❌\nDetails siehe Konsole')
-  })
-}
-
+      fetch('http://localhost:3000/api/tournaments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: this.form.name,
+          fields: this.form.fields,
+          breakLength: this.form.breakLength,
+          matchTime: this.form.matchTime,
+          startTime: this.form.startTime,
+          mode: this.form.mode
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log('Gespeichert ✅', data);
+        alert('Turnier wurde gespeichert ✅');
+        this.$router.push('/');
+      })
+      .catch(err => {
+        console.error('Fehler beim Speichern ❌', err);
+        alert('Fehler beim Speichern');
+      });
+    }
   }
 }
+</script>
+
 <style scoped>
 :root {
-  --background-color: #1f2d2b; /* Dunkelgrün / Petrol */
-  --surface-color: #263a38; /* etwas heller */
+  --background-color: #1f2d2b;
+  --surface-color: #263a38;
   --input-bg: #f4f4f4;
   --text-color: #f9f9f9;
   --primary-color: #2ecc71;
@@ -138,10 +139,6 @@ export default {
   border-radius: var(--border-radius);
   color: var(--text-color);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
-
-body {
-  background-color: var(--background-color);
 }
 
 h2, h3 {
@@ -177,6 +174,7 @@ button {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 20px;
 }
 
 button:hover {
