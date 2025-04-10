@@ -117,6 +117,7 @@ export default {
 
   }
 }
+</script>
 <style scoped>
 :root {
   --background-color: #1f2d2b; /* Dunkelgrün / Petrol */
