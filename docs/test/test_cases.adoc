@@ -1,14 +1,134 @@
 = Test Cases: {project-name}
-Vorname Nachname <email@domain.org>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
+Oliver Theumer <s86407@htw-dresden.de>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
 {localdatetime}
 include::../_includes/default-attributes.inc.adoc[]
 // Platzhalter für weitere Dokumenten-Attribute
 
 
 == Allgemeine Informationen
+In diesem Dokument werden die Testfälle für die Softwarelösung beschrieben. Es wird der Turnierplanungsalgorithmus getestet, der die Spiele für ein Turnier plant. Die Testfälle sind in verschiedene Kategorien unterteilt, um die verschiedenen Aspekte des Algorithmus zu überprüfen.
 
-== Test Cases
+Die Testfälle sind so gestaltet, dass sie manuell durchgeführt werden können. Die Eingabewerte sind so gewählt, dass sie verschiedene Szenarien abdecken und die Robustheit des Algorithmus testen.
 
-=== Test Case 01
+Die Testfälle sind in der Reihenfolge ihrer Durchführung angeordnet. Jeder Testfall enthält eine Beschreibung des Ziels, der Eingabewerte, der erwarteten Ergebnisse und des tatsächlichen Ergebnisses. Die Testfälle sind so gestaltet, dass sie leicht nachvollziehbar sind und die Ergebnisse klar dokumentiert werden können.
+
+== Test Cases zum Turnierplanungsalgorithmus manuell
+
+[cols="1,4,1", options="header"]
+|===
+| Nr. | Beschreibung | Status
+
+| TC-01 | Hin- und Rückspiel für jede Paarung in der Leistungsgruppe | erledigt/bestanden
+| TC-02 | Kein Team pfeift zweimal direkt hintereinander | noch offen
+| TC-03 | Keine Folge: pfeifen – aussetzen – pfeifen | noch offen
+| TC-04 | Kein Team setzt länger als ein Spiel aus | noch offen
+| TC-05 | - | –
+|===
+
+=== Test Case 01 
+
+*Ziel:* 
+Jedes Team spielt gegen jedes Team seiner Leistungsgruppe **ein** Hin- und Rückspiel.
+
+*Eingabewerte:*
+
+- Teams pro Gruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+
+- 2 Leistungsgruppen a 6 Teams
+- 3 Felder
+- 2 Spiele pro Team (Hin- und Rückspiel)
+- daraus ergeben sich: 15 Paarungen pro Gruppe * 2 = 30 Spiele pro Leistungsgruppe -> 60 Spiele insgesamt
+- keine dopplungen 
+- keine Mischungen zwischen Leistungsgruppen
+- keine Spiele gegen sich selbst
+
+*Tatsächliches Ergebnis:*
+
+- 2 Leistungsgruppen a 6 Teams
+- 3 Felder
+- 2 Spiele pro Team (Hin- und Rückspiel)
+- es gibt 60 Spiele
+- keine dopplungen gefunden 
+- keine Mischungen zwischen Leistungsgruppen aufgefallen 
+- keine Spiele gegen sich selbst gefunden
+- jede Mannschaft hat ihre erforderlichen Spiele zugewiesen bekommen 
+
+*Status:* erledigt/bestanden 
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den Eingabewerten von oben.
 
 === Test Case 02
+
+*Ziel:* 
+Kein Team pfeift mehr als einmal hintereinander. 
+
+*Eingabewerte:*
+
+- Teams pro Leistungsgruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+Ein Team pfeift maximal **ein** Hin und Rückspiel. Dannach kommt entweder Pause oder eigenes Spiel. 
+
+*Tatsächliches Ergebnis:*
+
+*Status:* noch offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den Eingabewerten von oben.
+
+
+=== Test Case 03
+
+*Ziel:* 
+Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben. 
+
+*Eingabewerte:*
+
+- Teams pro Leistungsgruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben.
+
+*Tatsächliches Ergebnis:*
+
+*Status:* noch offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den Eingabewerten von oben.
+
+
+=== Test Case 04
+
+*Ziel:* Ein Team soll nie länger als ein Spiel aussetzen (also nicht spielen oder pfeifen). 
+
+*Eingabewerte:*
+- Teams pro Leistungsgruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+
+erlaubte Abfolgen: 
+  - pfeifen - aussetzen - spielen
+  - spielen - aussetzen - pfeifen
+  - spielen - aussetzen - spielen
+  - spielen - spielen - pfeifen
+
+*Tatsächliches Ergebnis:*
+
+*Status:* noch offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den Eingabewerten von oben.
+
+=== Test Case 05
+
