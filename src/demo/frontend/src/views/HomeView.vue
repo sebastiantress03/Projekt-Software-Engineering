@@ -48,7 +48,7 @@ h1 {
 }
 
 button {
-  background-color: #2ecc71;
+  background-color: #387D75;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -62,7 +62,7 @@ button {
 }
 
 button:hover {
-  background-color: #27ae60;
+  background-color: #1B423E;
   transform: scale(1.03);
 }
 </style>

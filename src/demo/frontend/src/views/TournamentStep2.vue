@@ -83,7 +83,7 @@ export default {
   max-width: 700px;
   margin: 40px auto;
   padding: 30px;
-  background: #2e3d3b;
+  background: #1b423e;
   color: #f9f9f9;
   border-radius: 10px;
 }
@@ -103,14 +103,14 @@ button {
   margin-top: 20px;
   padding: 12px 24px;
   border: none;
-  background: #2ecc71;
+  background: #58aaa0;
   color: white;
   font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
 }
 button:hover {
-  background: #27ae60;
+  background: #387d75;
 }
 .buttons {
   display: flex;

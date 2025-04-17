@@ -83,13 +83,13 @@ export default {
   margin: 40px auto;
   padding: 30px;
   border-radius: 10px;
-  background-color: #2c3e3f;
+  background-color: #1b423e;
   color: white;
   font-family: 'Segoe UI', sans-serif;
 }
 
 h2 {
-  color: #2ecc71;
+  color: #cee9e6;
   margin-bottom: 25px;
   text-align: center;
 }
@@ -120,8 +120,8 @@ select {
 
 button {
   padding: 10px 20px;
-  background-color: #2ecc71;
-  color: white;
+  background-color: #58aaa0;
+  color: #cee9e6;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -129,6 +129,6 @@ button {
 }
 
 button:hover {
-  background-color: #27ae60;
+  background-color: #387d75;
 }
 </style>
