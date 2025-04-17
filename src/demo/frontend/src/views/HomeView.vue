@@ -2,9 +2,9 @@
   <div class="home">
     <h1>Turnierorganisationssoftware</h1>
 
-    <div class="button-row">
-      <button @click="goToCreate">Turnierplan erstellen</button>
-      <button @click="goToLoad">Turnierplan laden</button>
+    <div class="button-wrapper">
+      <button @click="goToCreate">➕ Turnier erstellen</button>
+      <button @click="goToLoad">📂 Turnier laden</button>
     </div>
   </div>
 </template>
@@ -14,10 +14,10 @@ export default {
   name: 'HomeView',
   methods: {
     goToCreate() {
-      this.$router.push('/create')
+      this.$router.push('/step1');
     },
     goToLoad() {
-      this.$router.push('/load')
+      this.$router.push('/load');
     }
   }
 }
@@ -25,28 +25,44 @@ export default {
 
 <style scoped>
 .home {
-  text-align: center;
-  padding: 50px;
-  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
 }
 
-.button-row {
+h1 {
+  font-size: 32px;
+  margin-bottom: 50px;
+  color: #222;
+}
+
+.button-wrapper {
   display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 40px;
+  flex-direction: column;
+  gap: 20px;
 }
 
 button {
-  padding: 20px 40px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 15px 30px;
   font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
-  background: #eee;
-  border: 1px solid #ccc;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  width: 220px;
+  text-align: center;
 }
 
 button:hover {
-  background: #ddd;
+  background-color: #27ae60;
+  transform: scale(1.03);
 }
 </style>

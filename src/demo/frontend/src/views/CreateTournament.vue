@@ -2,69 +2,67 @@
   <div class="create">
     <h2>Turnier erstellen</h2>
 
-    <!-- Schritt 1 -->
-    <div v-if="step === 1">
-      <h3>Schritt 1: Turnierdaten</h3>
+    <!-- BASISDATEN -->
+    <label>Turniername:
+      <input v-model="form.tournament_name" />
+    </label>
 
-      <label>
-        Turniername:
-        <input v-model="form.name" />
+    <label>Anzahl der Felder:
+      <input type="number" v-model.number="form.number_of_fields" min="1" />
+    </label>
+
+    <label>Hin- & Rückrunde:
+      <select v-model="form.return_match">
+        <option value="true">Ja</option>
+        <option value="false">Nein</option>
+      </select>
+    </label>
+
+    <label>Anzahl Gruppen:
+      <input type="number" v-model.number="form.number_of_stages" min="1" @change="updateStages" />
+    </label>
+
+    <label>Startzeit:
+      <input type="time" v-model="form.time_to_start" />
+    </label>
+
+    <label>Spielzeit (Minuten):
+      <input type="number" v-model.number="form.game_time" min="1" />
+    </label>
+
+    <label>Aufwärmzeit (Minuten):
+      <input type="number" v-model.number="form.warm_up_time" min="0" />
+    </label>
+
+    <label>Anzahl Pausen:
+      <input type="number" v-model.number="form.number_of_breaks" min="0" @change="updateBreaks" />
+    </label>
+
+    <!-- GRUPPEN -->
+    <h3>Gruppen</h3>
+    <div v-for="(name, index) in form.stage_name" :key="'group'+index">
+      <label>Gruppenname:
+        <input v-model="form.stage_name[index]" />
       </label>
 
-      <label>
-        Anzahl der Felder:
-        <input type="number" v-model.number="form.fields" min="1" />
+      <label>Teamanzahl:
+        <input type="number" v-model.number="form.number_of_teams[index]" min="1" />
       </label>
-
-      <label>
-        Pausenlänge (Minuten):
-        <input type="number" v-model.number="form.breakLength" min="0" />
-      </label>
-
-      <label>
-        Spielzeit (Minuten):
-        <input type="number" v-model.number="form.matchTime" min="1" />
-      </label>
-
-      <label>
-        Startzeit:
-        <input type="time" v-model="form.startTime" />
-      </label>
-
-      <label>
-        Spielplan-Typ:
-        <select v-model="form.mode">
-          <option value="hinrunde">Hinrunde</option>
-          <option value="hinrueck">Hin- und Rückrunde</option>
-        </select>
-      </label>
-
-      <button @click="step++">Weiter zu Gruppen</button>
     </div>
 
-    <!-- Schritt 2 -->
-    <div v-else-if="step === 2">
-      <h3>Schritt 2: Gruppen</h3>
+    <!-- PAUSEN -->
+    <h3>Pausenzeiten</h3>
+    <div v-for="(pause, index) in form.break_length" :key="'pause'+index">
+      <label>Dauer der Pause {{ index + 1 }} (Minuten):
+        <input type="number" v-model.number="form.break_length[index]" min="1" />
+      </label>
 
-      <div v-for="(group, i) in form.groups" :key="i" class="group-block">
-        <label>
-          Gruppenname:
-          <input v-model="group.name" />
-        </label>
-
-        <label>
-          Teamanzahl:
-          <input type="number" v-model.number="group.teamCount" min="1" />
-        </label>
-      </div>
-
-      <button @click="addGroup">+ Gruppe hinzufügen</button>
-
-      <div class="buttons">
-        <button @click="step--">Zurück</button>
-        <button @click="submit">Turnier erstellen</button>
-      </div>
+      <label>Beginn der Pause {{ index + 1 }}:
+        <input type="time" v-model="form.break_times[index]" />
+      </label>
     </div>
+
+    <button @click="submit">✅ Testweise übergeben</button>
   </div>
 </template>
 
@@ -72,129 +70,69 @@
 export default {
   data() {
     return {
-      step: 1,
       form: {
-        name: '',
-        fields: 1,
-        breakLength: 5,
-        matchTime: 10,
-        startTime: '09:00',
-        mode: 'hinrunde',
-        groups: [
-          { name: '', teamCount: 1 }
-        ]
+        tournament_name: '',
+        number_of_fields: 1,
+        return_match: 'true',
+        number_of_stages: 1,
+        time_to_start: '09:00',
+        game_time: 10,
+        warm_up_time: 5,
+        number_of_breaks: 1,
+        break_length: [5],
+        stage_name: ['Gruppe A'],
+        number_of_teams: [4],
+        break_times: ['10:00']
       }
     }
   },
   methods: {
-    addGroup() {
-      this.form.groups.push({ name: '', teamCount: 1 });
+    updateStages() {
+      this.form.stage_name = Array(this.form.number_of_stages).fill('').map((_, i) => `Gruppe ${String.fromCharCode(65 + i)}`)
+      this.form.number_of_teams = Array(this.form.number_of_stages).fill(4)
+    },
+    updateBreaks() {
+      this.form.break_length = Array(this.form.number_of_breaks).fill(5)
+      this.form.break_times = Array(this.form.number_of_breaks).fill('10:00')
     },
     submit() {
-      fetch('http://localhost:3000/api/tournaments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: this.form.name,
-          fields: this.form.fields,
-          breakLength: this.form.breakLength,
-          matchTime: this.form.matchTime,
-          startTime: this.form.startTime,
-          mode: this.form.mode
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log('Gespeichert ✅', data);
-        alert('Turnier wurde gespeichert ✅');
-        this.$router.push('/');
-      })
-      .catch(err => {
-        console.error('Fehler beim Speichern ❌', err);
-        alert('Fehler beim Speichern');
-      });
+      console.log('Daten zur Übergabe (Frontend):', this.form)
+      alert('✅ Daten wurden simuliert übergeben (Konsole prüfen)')
+      // Später hier POST an API möglich
     }
   }
 }
 </script>
 
 <style scoped>
-:root {
-  --background-color: #1f2d2b;
-  --surface-color: #263a38;
-  --input-bg: #f4f4f4;
-  --text-color: #f9f9f9;
-  --primary-color: #2ecc71;
-  --button-bg: #2ecc71;
-  --button-text: white;
-  --border-radius: 10px;
-}
-
 .create {
   max-width: 700px;
   margin: 40px auto;
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--surface-color);
+  background: #f8f8f8;
   padding: 30px;
-  border-radius: var(--border-radius);
-  color: var(--text-color);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
-
-h2, h3 {
-  color: var(--primary-color);
+  border-radius: 10px;
+  font-family: sans-serif;
 }
 
 label {
   display: block;
   margin-bottom: 15px;
-  font-weight: 500;
 }
 
-input,
-select {
+input, select {
   width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: var(--border-radius);
-  background-color: var(--input-bg);
-  font-size: 15px;
+  padding: 8px;
   margin-top: 5px;
-  box-sizing: border-box;
-  color: #222;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
-
 button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: green;
+  color: white;
   border: none;
-  border-radius: var(--border-radius);
-  padding: 12px 24px;
-  font-size: 15px;
-  font-weight: bold;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 20px;
-}
-
-button:hover {
-  background-color: #27ae60;
-  transform: scale(1.03);
-}
-
-.group-block {
-  background: #ffffff;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  margin-bottom: 15px;
-  color: #222;
-}
-
-.buttons {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-  justify-content: flex-end;
 }
 </style>

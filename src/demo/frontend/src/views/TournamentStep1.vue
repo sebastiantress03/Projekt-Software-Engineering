@@ -1,69 +1,54 @@
 <template>
-  <div class="create">
+  <div class="form-wrapper">
     <h2>Turnier erstellen</h2>
 
-    <!-- Schritt 1 -->
-    <div v-if="step === 1">
-      <h3>Schritt 1: Turnierdaten</h3>
-
+    <div class="form-section">
       <label>
         Turniername:
-        <input v-model="form.name" />
+        <input v-model="form.tournament_name" type="text" />
       </label>
 
       <label>
         Anzahl der Felder:
-        <input type="number" v-model.number="form.fields" min="1" />
+        <input v-model.number="form.number_of_fields" type="number" min="1" />
       </label>
 
       <label>
-        Pausenlänge (Minuten):
-        <input type="number" v-model.number="form.breakLength" min="0" />
+        Hin- & Rückrunde:
+        <select v-model="form.return_match">
+          <option value="Ja">Ja</option>
+          <option value="Nein">Nein</option>
+        </select>
       </label>
 
       <label>
-        Spielzeit (Minuten):
-        <input type="number" v-model.number="form.matchTime" min="1" />
+        Anzahl Gruppen:
+        <input v-model.number="form.number_of_stages" type="number" min="1" />
       </label>
 
       <label>
         Startzeit:
-        <input type="time" v-model="form.startTime" />
+        <input v-model="form.time_to_start" type="time" />
       </label>
 
       <label>
-        Spielplan-Typ:
-        <select v-model="form.mode">
-          <option value="hinrunde">Hinrunde</option>
-          <option value="hinrueck">Hin- und Rückrunde</option>
-        </select>
+        Spielzeit (Minuten):
+        <input v-model.number="form.game_time" type="number" min="1" />
       </label>
 
-      <button @click="step++">Weiter zu Gruppen</button>
+      <label>
+        Aufwärmzeit (Minuten):
+        <input v-model.number="form.warm_up_time" type="number" min="0" />
+      </label>
+
+      <label>
+        Anzahl Pausen:
+        <input v-model.number="form.number_of_breaks" type="number" min="0" />
+      </label>
     </div>
 
-    <!-- Schritt 2 -->
-    <div v-else-if="step === 2">
-      <h3>Schritt 2: Gruppen</h3>
-
-      <div v-for="(group, i) in form.groups" :key="i" class="group-block">
-        <label>
-          Gruppenname:
-          <input v-model="group.name" />
-        </label>
-
-        <label>
-          Teamanzahl:
-          <input type="number" v-model.number="group.teamCount" min="1" />
-        </label>
-      </div>
-
-      <button @click="addGroup">+ Gruppe hinzufügen</button>
-
-      <div class="buttons">
-        <button @click="step--">Zurück</button>
-        <button @click="submit">Turnier erstellen</button>
-      </div>
+    <div class="buttons">
+      <button @click="goToNext">Weiter zu Gruppen</button>
     </div>
   </div>
 </template>
@@ -72,77 +57,41 @@
 export default {
   data() {
     return {
-      step: 1,
       form: {
-        name: '',
-        fields: 1,
-        breakLength: 5,
-        matchTime: 10,
-        startTime: '09:00',
-        mode: 'hinrunde',
-        groups: [
-          { name: '', teamCount: 1 }
-        ]
+        tournament_name: '',
+        number_of_fields: 1,
+        return_match: 'Ja',
+        number_of_stages: 1,
+        time_to_start: '09:00',
+        game_time: 10,
+        warm_up_time: 5,
+        number_of_breaks: 1
       }
     }
   },
   methods: {
-    addGroup() {
-      this.form.groups.push({ name: '', teamCount: 1 });
-    },
-    submit() {
-      fetch('http://localhost:3000/api/tournaments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: this.form.name,
-          fields: this.form.fields,
-          breakLength: this.form.breakLength,
-          matchTime: this.form.matchTime,
-          startTime: this.form.startTime,
-          mode: this.form.mode
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log('Gespeichert ✅', data);
-        alert('Turnier wurde gespeichert ✅');
-        this.$router.push('/');
-      })
-      .catch(err => {
-        console.error('Fehler beim Speichern ❌', err);
-        alert('Fehler beim Speichern');
-      });
+    goToNext() {
+      this.$router.push({ name: 'TournamentStep2', query: this.form })
     }
   }
 }
 </script>
 
 <style scoped>
-:root {
-  --background-color: #1f2d2b;
-  --surface-color: #263a38;
-  --input-bg: #f4f4f4;
-  --text-color: #f9f9f9;
-  --primary-color: #2ecc71;
-  --button-bg: #2ecc71;
-  --button-text: white;
-  --border-radius: 10px;
-}
-
-.create {
-  max-width: 700px;
+.form-wrapper {
+  max-width: 600px;
   margin: 40px auto;
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--surface-color);
   padding: 30px;
-  border-radius: var(--border-radius);
-  color: var(--text-color);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #2c3e3f;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-h2, h3 {
-  color: var(--primary-color);
+h2 {
+  color: #2ecc71;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 label {
@@ -155,46 +104,31 @@ input,
 select {
   width: 100%;
   padding: 10px;
+  border-radius: 8px;
   border: none;
-  border-radius: var(--border-radius);
-  background-color: var(--input-bg);
-  font-size: 15px;
+  font-size: 14px;
   margin-top: 5px;
+  color: #222;
   box-sizing: border-box;
-  color: #222;
-}
-
-button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: var(--border-radius);
-  padding: 12px 24px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 20px;
-}
-
-button:hover {
-  background-color: #27ae60;
-  transform: scale(1.03);
-}
-
-.group-block {
-  background: #ffffff;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  margin-bottom: 15px;
-  color: #222;
 }
 
 .buttons {
   display: flex;
-  gap: 15px;
-  margin-top: 20px;
   justify-content: flex-end;
+  margin-top: 30px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #27ae60;
 }
 </style>
