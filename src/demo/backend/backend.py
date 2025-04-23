@@ -4,82 +4,8 @@ import sqlite3
 import os
 from data.apiClasses.apiClasses import *
 from fastapi.middleware.cors import CORSMiddleware
+from server import *
 
-
-
-class Server:
-    def __init__(self):
-        self.initializing_database()
-
-    # Erstellen der Datenbankstruktur 
-    def initializing_database(self):
-        try:
-            with sqlite3.connect(os.path.join("data","vtDatenbase.db")) as connection:
-                cursor = connection.cursor()
-                cursor.execute("""CREATE TABLE IF NOT EXISTS Turnier(
-                                TurnierID               INTEGER PRIMARY KEY AUTOINCREMENT,
-                                TurnierBez              varchar,
-                                Spieldauer              INTEGER,
-                                TeamAnz                 INTEGER
-                               )""")
-                
-                cursor.execute("""CREATE TABLE IF NOT EXISTS Leistungsgruppen(
-                                LeistungsgruppenID      INTEGER PRIMARY KEY AUTOINCREMENT,
-                                Leistungsgruppenname    varchar,
-                                AnzTeamsLeist           INTEGER
-                               )""")
-
-                cursor.execute("""CREATE TABLE IF NOT EXISTS Team (
-                                TeamID                  INTEGER PRIMARY KEY AUTOINCREMENT,
-                                TurnierID               INTEGER,
-                                LeistungsgruppenID      INTEGER,
-                                Teamgröße               INTEGER,
-                                Teamname                varchar,
-                                FOREIGN KEY (TurnierID) REFERENCES Turnier(TurnierID) ON DELETE CASCADE,
-                                FOREIGN KEY (LeistungsgruppenID) REFERENCES Leistungsgruppen(LeistungsgruppenID) ON DELETE CASCADE
-                               )""")
-
-                cursor.execute("""CREATE TABLE IF NOT EXISTS Ergebnisse (
-                                SpielID             INTEGER PRIMARY KEY AUTOINCREMENT,
-                                TeamID1             INTEGER,
-                                TeamID2             INTEGER,
-                                SchiedsrichterID    INTEGER, 
-                                Spielergebnis1      INTEGER,
-                                Spielergebnis2      INTEGER,
-                                SpielfeldNr         INTEGER,
-                                Uhrzeit             TIME,
-                                FOREIGN KEY (TeamID1) REFERENCES Team(TeamID) ON DELETE CASCADE,
-                                FOREIGN KEY (TeamID2) REFERENCES Team(TeamID) ON DELETE CASCADE,
-                                FOREIGN KEY (SchiedsrichterID) REFERENCES Team(TeamID) ON DELETE CASCADE
-                               )""")
-
-        except Exception as exception:
-            print(f"Error initializing database: {exception}")
-
-    def query(self,query="",attributes=[]):
-        try:
-            with sqlite3.connect(os.path.join("data","vtDatenbase.db")) as connection:
-                connection.execute("PRAGMA foreign_keys = ON")
-                cursor = connection.cursor()
-                cursor.execute(query,attributes)
-                data = cursor.fetchall()
-                return data
-
-        except Exception as exception:
-            print(f"Error executing query: {exception}")
-            return False
-
-    def execute(self, query="", attributes=[]):
-        try:
-            with sqlite3.connect(os.path.join("data","vtDatenbase.db")) as connection:
-                connection.execute("PRAGMA foreign_keys = ON")
-                cursor = connection.cursor()
-                cursor.execute(query, attributes)
-                connection.commit()
-                return True
-        except Exception as exception:
-            print(f"Error executing query: {exception}")
-            return False
 
 server = Server()
 api = fastapi.FastAPI()
@@ -172,8 +98,6 @@ def get_tournaments():
     else:
         return fastapi.HTTPException(status_code=404,detail="ERROR while fetching data")
 
-
-#TODO: Frage: welche werte wollt ihr haben, alle oder reichen die spielstände
 
 # API Schnittstelle für das aktualisieren des Matches
 @api.get("/tournaments/matchplan/{matchID}")
