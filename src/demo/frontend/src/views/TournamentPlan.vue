@@ -14,6 +14,10 @@
         <p>👥 Gruppe: {{ match.group }}</p>
       </div>
     </div>
+
+    <div class="buttons">
+      <button @click="goToNext">Weiter zur Auswertung</button>
+    </div>
   </div>
 </template>
 
@@ -29,6 +33,11 @@ export default {
   computed: {
     tournamentId() {
       return this.id
+    }
+  },
+  methods: {
+    goToNext() {
+      this.$router.push({ name: 'Evaluation' })
     }
   },
   mounted() {
@@ -58,5 +67,24 @@ export default {
   border-radius: 10px;
   background: #f9f9f9;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #58aaa0;
+  color: #cee9e6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #387d75;
 }
 </style>

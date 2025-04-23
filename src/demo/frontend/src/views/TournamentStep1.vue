@@ -71,6 +71,10 @@ export default {
   },
   methods: {
     goToNext() {
+      //nochmal Validierung, in CreateTournament.vue ectl überflüssig
+      if (!this.form.tournament_name.trim()) {
+      alert('Bitte geben Sie einen Turniernamen ein!')
+      return}
       this.$router.push({ name: 'TournamentStep2', query: this.form })
     }
   }

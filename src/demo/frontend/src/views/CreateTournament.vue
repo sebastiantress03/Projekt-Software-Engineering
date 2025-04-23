@@ -4,7 +4,7 @@
 
     <!-- BASISDATEN -->
     <label>Turniername:
-      <input v-model="form.tournament_name" />
+      <input v-model="form.tournament_name" required/>
     </label>
 
     <label>Anzahl der Felder:
@@ -96,9 +96,16 @@ export default {
       this.form.break_times = Array(this.form.number_of_breaks).fill('10:00')
     },
     submit() {
-      console.log('Daten zur Übergabe (Frontend):', this.form)
-      alert('✅ Daten wurden simuliert übergeben (Konsole prüfen)')
-      // Später hier POST an API möglich
+        // Kleine Validierung für Name und Anz Felder
+        if (!this.form.tournament_name) {
+            alert('Turniername ist erforderlich!')
+            return}
+        if (this.form.number_of_fields < 1) {
+            alert('Anzahl der Felder muss mindestens 1 sein!')
+            return}
+        console.log('Daten zur Übergabe (Frontend):', this.form)
+        alert('✅ Daten wurden simuliert übergeben (Konsole prüfen)')
+        // Später hier POST an API möglich
     }
   }
 }
