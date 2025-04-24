@@ -27,7 +27,6 @@ class Server:
                                 TeamID                  INTEGER PRIMARY KEY AUTOINCREMENT,
                                 TurnierID               INTEGER,
                                 LeistungsgruppenID      INTEGER,
-                                Teamgröße               INTEGER,
                                 Teamname                VARCHAR,
                                 FOREIGN KEY (TurnierID) REFERENCES Turnier(TurnierID) ON DELETE CASCADE,
                                 FOREIGN KEY (LeistungsgruppenID) REFERENCES Leistungsgruppen(LeistungsgruppenID) ON DELETE CASCADE

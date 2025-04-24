@@ -22,7 +22,7 @@ api.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET,POST"],
-    allow_headers=["*"], #TODO spezifische Header benennen die zugelassen sin sollen
+    allow_headers=["*"], #TODO spezifische Header benennen die zugelassen sein sollen
 )
 
 def check_received_data():
@@ -39,22 +39,55 @@ def generate_tournament(tournament: GenerateTournament):
     for i in range(tournament.number_of_stages):
         sum_teams = sum_teams + tournament.number_of_teams[i]
 
-    dataTu = server.execute("INSERT INTO Turnier (TurnierBez, Spieldauer, TeamAnz) VALUES (?,?,?)",[tournament.tournament_name, tournament.game_time, sum_teams])
+    dataTu = server.execute("""INSERT INTO Turnier (TurnierBez, Spieldauer, TeamAnz)
+                                VALUES (?,?,?)""",[tournament.tournament_name, tournament.game_time, sum_teams])
 
     data_stages_succesful = True
     for stage in range(tournament.number_of_stages):
-        success = server.execute("INSERT INTO Leistungsgruppen (Leistungsgruppenname,AnzTeamsLeist) VALUES (?,?)",[tournament.stage_name[stage],tournament.number_of_teams[stage]])
+        success = server.execute("""INSERT INTO Leistungsgruppen (Leistungsgruppenname,AnzTeamsLeist) 
+                                    VALUES (?,?)""",[tournament.stage_name[stage],tournament.number_of_teams[stage]])
         
         if not success:
             data_stages_succesful = False
             break
     
-    # TODO Hier müssen die Werte an den Algorithmus für die Erstellung des Turnierplans übergeben werden und danch in die Tabelle gespeichert werden 
+    tournamentID = server.query("SELECT TurnierID FROM Turnier WHERE TurnierBez IS LIKE ? ",[tournament.tournament_name])
+
+    # TODO Hier müssen die Werte an den Algorithmus für die Erstellung des Turnierplans übergeben werden
+    
+    turnament_data = [[1, 1, "Team 1", "Team 2", "Team 3", "Anfänger", 0, 0, time(12,30)],[2, 1, "Team 2", "Team 1", "Team 3" "Anfänger", 0, 0, time(12,50)]]
+
+  
+    for game in turnament_data:
+        # game Aufbau [Spielnummer, Feldnummer, Teamname 1 Team, Teamname 2 Team, Teamname Schiri, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
+
+        team1_is_inserted = server.query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournamentID, game[2]])
+        team2_is_inserted = server.query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournamentID, game[3]])
+        referee_is_inserted = server.query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournamentID, game[4]])
+        
+        stageID = server.query("SELECT LeistungsgruppenID FROM Leistungsgruppe WHERE Leistungsgruppenname LIKE ? ",[game[5]])
+
+        if team1_is_inserted is None:
+            server.execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?,?)",[tournamentID, stageID, game[2]]) 
+        
+        if team2_is_inserted is None:
+            server.execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?,?)",[tournamentID, stageID, game[3]]) 
+
+        if referee_is_inserted is None:
+            server.execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?,?)",[tournamentID, stageID, game[4]]) 
+
+        team1 = server.query("SELECT TeamID FROM Team WHERE Teamname Like ?",[game[2]])
+        team2 = server.query("SELECT TeamID FROM Team WHERE Teamname Like ?",[game[3]])
+        referee = server.query("SELECT TeamID FROM Team WHERE Teamname Like ?",[game[4]])
+
+        server.execute("""INSERT INTO Ergebnisse (TeamID1, TeamID2, SchiedsrichterID, Spielergebnis1 ,Spielergebnis2, SpielfeldNr, Uhrzeit)
+                            VALUES (?,?,?,?,?,?,?)""",[team1, team2, referee, 0, 0, game[2], game[8]])
+
 
     if dataTu != None and data_stages_succesful:
         return fastapi.HTTPException(status_code=200,detail="SUCCESS")
     else:
-        return fastapi.HTTPException(status_code=404,detail="ERROR while inserting data") # TODO extra fehlerabfrage nach übermittlung der daten ans Frontend
+        return fastapi.HTTPException(status_code=404,detail="ERROR while inserting data")
 
 
 # API Schnittstelle für die Übermittlung des Turnierplans
@@ -113,7 +146,7 @@ def get_match(matchID: str):
 @api.post("/tournaments/matchplan/{matchID}")
 def change_match_result(matchID: str, match_result: Match):
     data = server.execute("""UPDATE Ergebnisse SET Spielergebnis1 = ?, Spielergebnis2 = ? 
-                        WHERE SpielID = ?""",[match_result.spielergebnis1,match_result.spielergebnis2, int(matchID)])
+                        WHERE SpielID = ?""",[match_result.score_team1,match_result.score_team2, int(matchID)])
     
     if data != None:
         return fastapi.HTTPException(status_code=200,detail="SUCCESS")

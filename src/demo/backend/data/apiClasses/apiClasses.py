@@ -40,10 +40,10 @@ class Match(BaseModel):
 class TurnamentPlan(BaseModel):
     game_number: int
     field_number: int
-    team1: str              # TODO Frage: Benötigen Team namen Platzhalter nur Nummern oder Team + Nummer 
-    team2: str              # TODO Frage: Teamgröße ist unbekannt weglassen oder PLatzhalter hinzufügen?
+    team1: str              # Leistungsgruppe(ersten 2 Buchstaben) + Team + Nummer 
+    team2: str           
     referee: str 
     stage_name: str
     score_team1: int
     score_team2: int
-    time_of_game: time     #TODO FRAGE: wird dies benötigt? wenn ja muss noch in ERM Model ergänzt werden sowie in Datenbank und anderen anfragen
+    time_of_game: time
