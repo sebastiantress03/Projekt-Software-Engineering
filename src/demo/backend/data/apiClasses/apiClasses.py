@@ -34,6 +34,16 @@ class GenerateTournament(BaseModel):
     break_times: Optional[List[time]] = None        
 
 class Match(BaseModel):
-    spielergebnis1: int 
-    spielergebnis2: int
+    score_team1: int 
+    score_team2: int
 
+class TurnamentPlan(BaseModel):
+    game_number: int
+    field_number: int
+    team1: str              # TODO Frage: Benötigen Team namen Platzhalter nur Nummern oder Team + Nummer 
+    team2: str              # TODO Frage: Teamgröße ist unbekannt weglassen oder PLatzhalter hinzufügen?
+    referee: str 
+    stage_name: str
+    score_team1: int
+    score_team2: int
+    time_of_game: time     #TODO FRAGE: wird dies benötigt? wenn ja muss noch in ERM Model ergänzt werden sowie in Datenbank und anderen anfragen
