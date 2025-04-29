@@ -14,18 +14,20 @@ Die Testfälle sind in der Reihenfolge ihrer Durchführung angeordnet. Jeder Tes
 
 == Test Cases zum Turnierplanungsalgorithmus manuell
 
+=== Test Cases Übersicht für 6 Mannschaften, 2 Leistungengruppen und 3 Felder
+
 [cols="1,4,1,1", options="header"]
 |===
 | Nr. | Beschreibung | Status | Datum
 
-| TC-01 | Hin- und Rückspiel für jede Paarung in der Leistungsgruppe | erledigt/bestanden | 15.04.2025
-| TC-02 | Kein Team pfeift zweimal direkt hintereinander | erledigt/bestanden | 15.04.2025
-| TC-03 | Keine Folge: pfeifen – aussetzen – pfeifen | erledigt/bestanden | 15.04.2025
-| TC-04 | Kein Team setzt länger als ein Spiel aus | erledigt/nicht bestanden | 15.04.2025
-| TC-05 | Gleichverteilung der Schiedsrichterrolle | erledigt/nicht bestanden | 15.04.2025
+| TC-01 | Hin- und Rückspiel für jede Paarung in der Leistungsgruppe | erledigt/bestanden | 23.04.2025
+| TC-02 | Kein Team pfeift zweimal direkt hintereinander | erledigt/bestanden | 23.04.2025
+| TC-03 | Keine Folge: pfeifen – aussetzen – pfeifen | erledigt/bestanden | 23.04.2025
+| TC-04 | Kein Team setzt länger als ein Spiel aus | erledigt/bestanden | 23.04.2025
+| TC-05 | Gleichverteilung der Schiedsrichterrolle | erledigt/bestanden | 23.04.2025
 |===
 
-=== Test Case 01 
+==== Test Case 01 
 
 *Ziel:* 
 Jedes Team spielt gegen jedes Team seiner Leistungsgruppe **ein** Hin- und Rückspiel.
@@ -60,9 +62,9 @@ Jedes Team spielt gegen jedes Team seiner Leistungsgruppe **ein** Hin- und Rück
 
 *Status:* erledigt/bestanden 
 
-*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den angegebenen Eingabewerten.
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
 
-=== Test Case 02
+==== Test Case 02
 
 *Ziel:* 
 Kein Team pfeift mehr als einmal hintereinander. 
@@ -78,14 +80,14 @@ Kein Team pfeift mehr als einmal hintereinander.
 Ein Team pfeift maximal **ein** Hin und Rückspiel. Dannach kommt entweder Pause oder eigenes Spiel. 
 
 *Tatsächliches Ergebnis:*
-- keine Abweichung der Regel gefunden. 
+- Keine Abweichung der Regel gefunden. 
 
 *Status:* erledigt/bestanden
 
-*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den angegebenen Eingabewerten.
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
 
 
-=== Test Case 03
+==== Test Case 03
 
 *Ziel:* 
 Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben. 
@@ -101,14 +103,14 @@ Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben.
 Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben.
 
 *Tatsächliches Ergebnis:*
-- keine Abweichung der Regel gefunden.
+- Keine Abweichung der Regel gefunden.
 
 *Status:* erledigt/bestanden
 
 *Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den angegebenen Eingabewerten.
 
 
-=== Test Case 04
+==== Test Case 04
 
 *Ziel:* Ein Team soll nie länger als ein Spiel aussetzen (also nicht spielen oder pfeifen). 
 
@@ -121,25 +123,27 @@ Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben.
 *Erwartetes Ergebnis:*
 
 erlaubte Abfolgen: 
+
   - pfeifen - aussetzen - spielen
   - spielen - aussetzen - pfeifen
   - spielen - aussetzen - spielen
   - spielen - spielen - pfeifen
 
 unerlaubte Abfolgen:
+
   - pfeifen - aussetzen - aussetzen
   - spielen - aussetzen - aussetzen
   - aussetzen - aussetzen - spielen
   - aussetzen - aussetzen - pfeifen
 
 *Tatsächliches Ergebnis:*
-- doppelte Pause gefunden bei FTeam 6 
+- Keine doppelten Pausen gefunden.
 
-*Status:* erledigt/nicht bestanden
+*Status:* erledigt/bestanden
 
-*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den angegebenen Eingabewerten.
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
 
-=== Test Case 05
+==== Test Case 05
 
 *Ziel:* Überprüfung der Gleichverteilung der Schiedsrichter. 
 
@@ -153,20 +157,181 @@ unerlaubte Abfolgen:
 - Jedes Team hat annähernd gleich oft den Posten des Schiedsrichters.
 
 *Tatsächliches Ergebnis:*
+
 - FTeam 1: 3
 - FTeam 2: 3
-- FTeam 3: 3
-- FTeam 4: 3
+- FTeam 3: 2
+- FTeam 4: 2
 - FTeam 5: 2
-- FTeam 6: 1
+- FTeam 6: 3
 
-- STeam 1: 3
-- STeam 2: 2
+- STeam 1: 2
+- STeam 2: 3
 - STeam 3: 2
 - STeam 4: 2
 - STeam 5: 3
 - STeam 6: 3
 
-*Status:* erledigt/nicht bestanden 
+*Status:* erledigt/bestanden 
 
-*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den angegebenen Eingabewerten. Bei Leistungsgruppe 2 (STeam) sieht die Aufteilung gut aus, bei Leistungsgruppe 1 (FTeam) ist eine leicht ungerechte Verteilung zu erkennen.
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+
+=== Test Cases Übersicht für 8 Mannschaften, 2 Leistungengruppen und 4 Felder
+
+[cols="1,4,1,1", options="header"]
+|===
+| Nr. | Beschreibung | Status | Datum
+
+| TC-01 | Hin- und Rückspiel für jede Paarung in der Leistungsgruppe | - | -
+| TC-02 | Kein Team pfeift zweimal direkt hintereinander | - | -
+| TC-03 | Keine Folge: pfeifen – aussetzen – pfeifen | - | -
+| TC-04 | Kein Team setzt länger als ein Spiel aus | - | -
+| TC-05 | Gleichverteilung der Schiedsrichterrolle | - | -
+|===
+
+==== Test Case 01 
+
+*Ziel:* 
+Jedes Team spielt gegen jedes Team seiner Leistungsgruppe **ein** Hin- und Rückspiel.
+
+*Eingabewerte:*
+
+- Teams pro Gruppe: 8
+- Gruppen: 2
+- Felder: 4
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+
+- 2 Leistungsgruppen a 8 Teams
+- 4 Felder wobei jeweils 2 für eine Leistungsgruppe und 2 für die andere Leistungsgruppe belegt sind
+- 2 Spiele pro Team (Hin- und Rückspiel)
+- daraus ergeben sich: 28 Paarungen pro Gruppe * 2 = 56 Spiele pro Leistungsgruppe -> 112 Spiele insgesamt
+- keine dopplungen 
+- keine Mischungen zwischen Leistungsgruppen
+- keine Spiele gegen sich selbst
+
+*Tatsächliches Ergebnis:*
+
+
+*Status:* offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+==== Test Case 02
+
+*Ziel:* 
+Kein Team pfeift mehr als einmal hintereinander. 
+
+*Eingabewerte:*
+
+- Teams pro Leistungsgruppe: 8
+- Gruppen: 2
+- Felder: 4
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+Ein Team pfeift maximal **ein** Hin und Rückspiel. Dannach kommt entweder Pause oder eigenes Spiel. 
+
+*Tatsächliches Ergebnis:*
+ 
+
+*Status:* offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+
+==== Test Case 03
+
+*Ziel:* 
+Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben. 
+
+*Eingabewerte:*
+
+- Teams pro Leistungsgruppe: 8
+- Gruppen: 2
+- Felder: 4
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben.
+
+*Tatsächliches Ergebnis:*
+
+
+*Status:* offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+
+==== Test Case 04
+
+*Ziel:* Ein Team soll nie länger als ein Spiel aussetzen (also nicht spielen oder pfeifen). 
+
+*Eingabewerte:*
+- Teams pro Leistungsgruppe: 8
+- Gruppen: 2
+- Felder: 4
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+
+*erlaubte Abfolgen:* 
+
+  - pfeifen - aussetzen - spielen 
+  - spielen - aussetzen - pfeifen
+  - spielen - aussetzen - spielen
+  - spielen - spielen - pfeifen
+
+*unerlaubte Abfolgen:*
+
+  - pfeifen - aussetzen - aussetzen
+  - spielen - aussetzen - aussetzen
+  - aussetzen - aussetzen - spielen
+  - aussetzen - aussetzen - pfeifen
+
+*Tatsächliches Ergebnis:*
+
+
+*Status:* offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+==== Test Case 05
+
+*Ziel:* Überprüfung der Gleichverteilung der Schiedsrichter. 
+
+*Eingabewerte:*
+- Teams pro Leistungsgruppe: 8
+- Gruppen: 2
+- Felder: 4
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+- Jedes Team hat annähernd gleich oft den Posten des Schiedsrichters.
+
+*Tatsächliches Ergebnis:*
+
+- FTeam 1: 
+- FTeam 2: 
+- FTeam 3: 
+- FTeam 4: 
+- FTeam 5: 
+- FTeam 6: 
+- FTeam 7:
+- FTeam 8:
+
+- STeam 1: 
+- STeam 2: 
+- STeam 3: 
+- STeam 4: 
+- STeam 5: 
+- STeam 6: 
+- STeam 7:
+- STeam 8:
+
+*Status:* offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
