@@ -36,6 +36,7 @@ class GenerateTournament(BaseModel):
 class Match(BaseModel):
     score_team1: int 
     score_team2: int
+    time_change: time
 
 class TurnamentPlan(BaseModel):
     game_number: int

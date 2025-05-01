@@ -45,6 +45,15 @@ class Server:
                                 FOREIGN KEY (TeamID2) REFERENCES Team(TeamID) ON DELETE CASCADE,
                                 FOREIGN KEY (SchiedsrichterID) REFERENCES Team(TeamID) ON DELETE CASCADE
                                )""")
+                
+                cursor.execute("""CREATE TABLE IF NOT EXISTS Aenderungen(
+                                AenderungsID            INTEGER PRIMARY KEY AUTOINCREMENT,
+                                SpielID                 INTEGER,
+                                alteSpielergebnis1      INTEGER,
+                                alteSpielergebnis2      INTEGER,
+                                Uhrzeitaenderung        TiME,
+                                ForeignKey (SpielID) REFERENCES Ergebnisse(SpielID) ON DELETE CASCADE,
+                               )""")
 
         except Exception as exception:
             print(f"Error initializing database: {exception}")

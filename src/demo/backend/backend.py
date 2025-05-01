@@ -21,7 +21,7 @@ api.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET,POST"],
+    allow_methods=["GET,POST,PUT"],
     allow_headers=["*"], #TODO spezifische Header benennen die zugelassen sein sollen
 )
 
@@ -42,24 +42,24 @@ def generate_tournament(tournament: GenerateTournament):
     dataTu = server.execute("""INSERT INTO Turnier (TurnierBez, Spieldauer, TeamAnz)
                                 VALUES (?,?,?)""",[tournament.tournament_name, tournament.game_time, sum_teams])
 
-    data_stages_succesful = True
+    data_stages_successful = True
     for stage in range(tournament.number_of_stages):
         success = server.execute("""INSERT INTO Leistungsgruppen (Leistungsgruppenname,AnzTeamsLeist) 
                                     VALUES (?,?)""",[tournament.stage_name[stage],tournament.number_of_teams[stage]])
         
         if not success:
-            data_stages_succesful = False
+            data_stages_successful = False
             break
     
     tournamentID = server.query("SELECT TurnierID FROM Turnier WHERE TurnierBez IS LIKE ? ",[tournament.tournament_name])
 
     # TODO Hier müssen die Werte an den Algorithmus für die Erstellung des Turnierplans übergeben werden
     
-    turnament_data = [[1, 1, "Team 1", "Team 2", "Team 3", "Anfänger", 0, 0, time(12,30)],[2, 1, "Team 2", "Team 1", "Team 3" "Anfänger", 0, 0, time(12,50)]]
+    tournament_data = [[1, 1, "Team 1", "Team 2", "Team 3", "Anfänger", 0, 0, time(12,30)],[2, 1, "Team 2", "Team 1", "Team 3" "Anfänger", 0, 0, time(12,50)]]
 
   
-    for game in turnament_data:
-        # game Aufbau [Spielnummer, Feldnummer, Teamname 1 Team, Teamname 2 Team, Teamname Schiri, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
+    for game in tournament_data:
+        # game Aufbau [Spielnummer, Feldnummer, Teamname 1 Team, Teamname 2 Team, Teamname, Schiri, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
 
         team1_is_inserted = server.query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournamentID, game[2]])
         team2_is_inserted = server.query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournamentID, game[3]])
@@ -84,7 +84,7 @@ def generate_tournament(tournament: GenerateTournament):
                             VALUES (?,?,?,?,?,?,?)""",[team1, team2, referee, 0, 0, game[2], game[8]])
 
 
-    if dataTu != None and data_stages_succesful:
+    if dataTu != None and data_stages_successful:
         return fastapi.HTTPException(status_code=200,detail="SUCCESS")
     else:
         return fastapi.HTTPException(status_code=404,detail="ERROR while inserting data")
@@ -143,12 +143,20 @@ def get_match(matchID: str):
         return fastapi.HTTPException(status_code=404,detail="ERROR while fetching data")
     
 # API Änderung Spieldaten
-@api.post("/tournaments/matchplan/{matchID}")
+@api.put("/tournaments/matchplan/{matchID}")
 def change_match_result(matchID: str, match_result: Match):
+
+    old_score_team1 = server.query("SELECT Spielergebnis1 FROM Ergebnisse WHERE SpielID = ?",[int(matchID)])
+    old_score_team2 = server.query("SELECT Spielergebnis2 FROM Ergebnisse WHERE SpielID = ?",[int(matchID)])
+
+
     data = server.execute("""UPDATE Ergebnisse SET Spielergebnis1 = ?, Spielergebnis2 = ? 
-                        WHERE SpielID = ?""",[match_result.score_team1,match_result.score_team2, int(matchID)])
+                                WHERE SpielID = ?""",[match_result.score_team1,match_result.score_team2, int(matchID)])
     
-    if data != None:
+    dataAe = server.execute("""INSERT INTO Aenderungen (SpielID, alteSpielergebnis1, alteSpielergebnis2, Uhrzeitaenderung) 
+                                VALUES (?,?,?,?)""",[int(matchID),old_score_team1, old_score_team2 ,match_result.time_change])
+    
+    if data != None and dataAe != None:
         return fastapi.HTTPException(status_code=200,detail="SUCCESS")
     else:
         return fastapi.HTTPException(status_code=404,detail="ERROR while update data")
