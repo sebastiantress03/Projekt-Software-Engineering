@@ -83,56 +83,75 @@ export default {
 
 <style scoped>
 .form-wrapper {
-  max-width: 600px;
+  max-width: 800px;
   margin: 40px auto;
-  padding: 30px;
-  border-radius: 10px;
-  background-color: #1b423e;
-  color: white;
-  font-family: 'Segoe UI', sans-serif;
+  padding: 40px 50px;
+  border: 2px solid #004d40;
+  border-radius: 8px;
+  background-color: #f9fdfc;
+  font-family: Arial, sans-serif;
+  color: #004d40;
 }
 
 h2 {
-  color: #cee9e6;
-  margin-bottom: 25px;
-  text-align: center;
+  font-size: 26px;
+  margin-bottom: 30px;
+  color: #004d40;
+  border-bottom: 2px solid #004d40;
+  padding-bottom: 10px;
+  text-align: left;
 }
 
 label {
-  display: block;
-  margin-bottom: 15px;
-  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #004d40;
 }
 
-input,
+label input,
+label select {
+  flex: 1;
+  margin-left: 20px;
+  padding: 10px 12px;
+  font-size: 15px;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  background-color: #ffffff;
+  color: #003333;
+  box-sizing: border-box;
+}
+
+input[type="time"],
+input[type="number"],
+input[type="text"],
 select {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
-  margin-top: 5px;
-  color: #222;
-  box-sizing: border-box;
 }
 
 .buttons {
   display: flex;
   justify-content: flex-end;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 button {
-  padding: 10px 20px;
-  background-color: #58aaa0;
-  color: #cee9e6;
+  padding: 12px 24px;
+  background-color: #00796b;
+  color: white;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  border-radius: 4px;
   font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #387d75;
+  background-color: #004d40;
 }
 </style>
+

@@ -12,6 +12,14 @@
         <p>🕒 {{ match.startTime }}</p>
         <p>🏟️ Feld: {{ match.field }}</p>
         <p>👥 Gruppe: {{ match.group }}</p>
+
+        <!-- ✅ Spielstand-Eingabe -->
+        <div class="score-entry">
+          <label>Spielstand:</label>
+          <input type="number" v-model.number="match.scoreA" min="0" />
+          <span>:</span>
+          <input type="number" v-model.number="match.scoreB" min="0" />
+        </div>
       </div>
     </div>
 
@@ -41,12 +49,12 @@ export default {
     }
   },
   mounted() {
-    // 🔧 später ersetzen mit: fetch(`/api/tournaments/${this.id}/plan`)
+    // 🔧 Dummy-Spiele mit Spielständen
     this.matches = [
-      { match: 'Team A vs Team B', group: 'Gruppe 1', field: 1, startTime: '10:00' },
-      { match: 'Team C vs Team D', group: 'Gruppe 1', field: 2, startTime: '10:00' },
-      { match: 'Team A vs Team C', group: 'Gruppe 1', field: 1, startTime: '10:30' },
-      { match: 'Team B vs Team D', group: 'Gruppe 1', field: 2, startTime: '10:30' }
+      { match: 'Team A vs Team B', group: 'Gruppe 1', field: 1, startTime: '10:00', scoreA: null, scoreB: null },
+      { match: 'Team C vs Team D', group: 'Gruppe 1', field: 2, startTime: '10:00', scoreA: null, scoreB: null },
+      { match: 'Team A vs Team C', group: 'Gruppe 1', field: 1, startTime: '10:30', scoreA: null, scoreB: null },
+      { match: 'Team B vs Team D', group: 'Gruppe 1', field: 2, startTime: '10:30', scoreA: null, scoreB: null }
     ]
   }
 }
@@ -68,6 +76,22 @@ export default {
   background: #f9f9f9;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
+.score-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.score-entry input {
+  width: 50px;
+  padding: 6px;
+  text-align: center;
+  font-size: 16px;
+}
+
 .buttons {
   display: flex;
   justify-content: flex-end;
