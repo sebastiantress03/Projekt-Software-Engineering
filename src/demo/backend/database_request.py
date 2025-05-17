@@ -31,7 +31,7 @@ class DatabaseRequests:
         return tournament_id
     
 
-    def insert_tournament_data(tournament_id: int, team1: int, team2: int, referee: int, field: int, stage_name: str, play_time: time):
+    def insert_tournament_data(tournament_id: int, team1: str, team2: str, referee: str, field: int, stage_name: str, play_time: time):
         try:
             team1_is_inserted = server.query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournament_id, team1])
             team2_is_inserted = server.query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournament_id, team2])
