@@ -58,7 +58,7 @@ def generate_tournament(tournament: GenerateTournament):
 
     # Funktion hinzufügen der Teams in Team Tabelle und auch die Spiele
     for game in tournament_data:
-        data_request.insert_tournament_data
+        data_request.insert_tournament_data(tournament_id, game[2],game[3],game[4],game[1],game[5],game[8])
 
 
     return HTTPException(status_code=200,detail="SUCCESS")
