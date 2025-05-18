@@ -56,7 +56,7 @@ class DatabaseRequests:
 
         if referee_is_inserted is None:
             try:
-                server.execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?,?)",[tournament_id, stage_id, team3]) 
+                server.execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?,?)",[tournament_id, stage_id, referee]) 
             except Exception as e:
                 raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
         try:
