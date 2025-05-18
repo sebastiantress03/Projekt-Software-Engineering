@@ -172,3 +172,19 @@ class TurnamentPlan(BaseModel):
         if v < 0:   
             raise ValueError(f"{field.name} darf nicht negativ sein! ")
         return v
+    
+class TeamUpdate(BaseModel):
+    team_id: int
+    new_name: str
+
+    @validator('new_name')
+    def check_new_name(cls,v):
+        if not isinstance(v,str):
+            raise ValueError("Bei dem Teamnamen muss es sich um ein String handeln")
+        return v
+    
+    @validator('team_id')
+    def check_team_id(cls,v):
+        if not isinstance(v,int):
+            raise ValueError("Bei dem Teamnamen muss es sich um ein String handeln")
+        return v
