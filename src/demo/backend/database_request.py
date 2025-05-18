@@ -14,20 +14,20 @@ class DatabaseRequests:
             server.execute("""INSERT INTO Turnier (TurnierBez, Spieldauer, TeamAnz)
                                     VALUES (?,?,?)""",[name, period, anz_teams])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Hinzufügen von Daten: {str(e)}")
 
     def insert_stages(name: str, team_size: int):
         try: 
             server.execute("""INSERT INTO Leistungsgruppen (Leistungsgruppenname,AnzTeamsLeist) 
                                         VALUES (?,?)""",[name,team_size])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Hinzufügen von Daten: {str(e)}")
 
     def get_tournament_id(name: str):
         try:
             tournament_id = server.query("SELECT TurnierID FROM Turnier WHERE TurnierBez IS LIKE ? ",[name])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Daten: {str(e)}")
         return tournament_id
     
 
@@ -39,32 +39,32 @@ class DatabaseRequests:
 
             stage_id = server.query("SELECT LeistungsgruppenID FROM Leistungsgruppe WHERE Leistungsgruppenname LIKE ? ",[stage_name])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Daten: {str(e)}")
     
 
         if team1_is_inserted is None:
             try:
                 server.execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?,?)",[tournament_id, stage_id, team1])
             except Exception as e:
-                raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+                raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Hinzufügen von Daten: {str(e)}")
         
         if team2_is_inserted is None:
             try:
                 server.execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?,?)",[tournament_id, stage_id, team2]) 
             except Exception as e:
-                raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")                
+                raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Hinzufügen von Daten: {str(e)}")                
 
         if referee_is_inserted is None:
             try:
                 server.execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?,?)",[tournament_id, stage_id, referee]) 
             except Exception as e:
-                raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+                raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Hinzufügen von Daten: {str(e)}")
         try:
             team1 = server.query("SELECT TeamID FROM Team WHERE Teamname Like ?",[team1])
             team2 = server.query("SELECT TeamID FROM Team WHERE Teamname Like ?",[team1])
             referee = server.query("SELECT TeamID FROM Team WHERE Teamname Like ?",[team1])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Daten: {str(e)}")
         
         if team1 is not None and team2 is not None and referee is not None:
             try:
@@ -72,7 +72,7 @@ class DatabaseRequests:
                 server.execute("""INSERT INTO Ergebnisse (TeamID1, TeamID2, SchiedsrichterID, Spielergebnis1 ,Spielergebnis2, SpielfeldNr, Uhrzeit)
                                     VALUES (?,?,?,?,?,?,?)""",[team1, team2, referee, 0, 0, field, play_time])
             except Exception as e:
-                raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+                raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Hinzufügen von Daten: {str(e)}")
 
     def get_tournament_plan(tournament_id: int):
         return_date = []
@@ -82,7 +82,7 @@ class DatabaseRequests:
                                     JOIN Team t2 ON t2.TeamID = e.TeamID2 
                                     WHERE t1.TurnierID = ?""",[tournament_id])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Turnierplan abfragen: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Daten: {str(e)}")
         
         for game in data:
             return_date.append({"gameID":data[0],"teamID":[data[1], data[2],data[3]],"scores":[data[4], data[5]],"field":data[6],"play_time":data[7]})
@@ -94,7 +94,7 @@ class DatabaseRequests:
         try:
             match_data = server.query("SELECT Spielergebnis1, Spielergebnis2 FROM Ergebnisse WHERE SpielID = ?",[match_id])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Daten: {str(e)}")
         return_data.append({"scores":[match_data[0], match_data[1]]})
 
         return return_data
@@ -104,7 +104,7 @@ class DatabaseRequests:
         try:
             get_tournament_data = server.query("SELECT TurnierID, TurnierBez FROM Turnier")
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Datenvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv: {str(e)}")
         for tournament in get_tournament_data:
             return_data.append({"tournament_name": tournament[1]})
         
@@ -119,25 +119,25 @@ class DatabaseRequests:
             raise HTTPException(status_code=404,detail="Spiel Existiert nicht")
 
         try:
-            update_result = server.execute("""UPDATE Ergebnisse SET Spielergebnis1 = ?, Spielergebnis2 = ? 
+            server.execute("""UPDATE Ergebnisse SET Spielergebnis1 = ?, Spielergebnis2 = ? 
                                         WHERE SpielID = ?""",[score1, score2, match_id])
             
-            insert_result = server.execute("""INSERT INTO Aenderungen (SpielID, alteSpielergebnis1, alteSpielergebnis2, Uhrzeitaenderung) 
+            server.execute("""INSERT INTO Aenderungen (SpielID, alteSpielergebnis1, alteSpielergebnis2, Uhrzeitaenderung) 
                                         VALUES (?,?,?,?)""",[match_id,old_score_team1, old_score_team2 ,time_change])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f" Datenbankfehler beim ändern von Daten: {str(e)}")
         
     def change_teamname(tournament_id: int, team_id: int,new_name: str):
         try:
             team_name_exist = server.query("SELECT Count(*) FROM Team WHERE TurnierID = ? AND Teamname LIKE ?",[tournament_id,new_name])
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Daten: {str(e)}")
         
         if team_name_exist[0] == 0:
             try:
                 server.execute("UPDATE Team SET Teamname = ? WHERE TeamID = ?",[new_name,team_id])
             except Exception as e:
-                raise HTTPException(status_code=400, detail=f"Datenbankfehler bei Änderung: {str(e)}")
+                raise HTTPException(status_code=400, detail=f"Datenbankfehler beim ändern von Daten: {str(e)}")
         else:
             raise HTTPException(status_code=409, detail="Teamname existiert bereits")
 
@@ -150,5 +150,5 @@ class DatabaseRequests:
                                     WHERE LeistungsgruppenID NOT IN (
                                     SELECT DISTINCT LeistungsgruppenID FROM Team)""")
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Löschen von Daten: {str(e)}")
 
