@@ -78,7 +78,8 @@ def generate_tournament(tournament_name: str):
     tournament = data_request.get_tournament_plan(tournament_id)
 
     return {"tournament": tournament}
-    
+
+# TODO ist überflüssig macht das gleiche wie ("/tournament/{tournament_name})
 # API Schnittstelle für das Laden des Turnierplans
 @api.get("/tournaments/{tournamentID}")
 def get_matchplan(tournamentID: str):
@@ -108,18 +109,13 @@ def get_match(matchID: str):
     except ValueError:
         return HTTPException(status_code=400, detail="Ungültige MatchID")
 
-    try:
-        match_data = server.query("SELECT Spielergebnis1, Spielergebnis2 FROM Ergebnisse WHERE SpielID = ?",[match_id])
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Datenbankfehler: {str(e)}")
-
     matches = data_request.get_matches(match_id)
 
     return {"matches": matches}
 
    
 # API Änderung Spieldaten
-@api.put("/tournaments/matchplan/{matchID}")
+@api.put("/tournaments/matchplan/match/{matchID}")
 def change_match_result(matchID: str, match_result: Match):
 
     try:
@@ -127,15 +123,28 @@ def change_match_result(matchID: str, match_result: Match):
     except ValueError:
         raise HTTPException(status_code=400, detail="Ungültige MatchID")
 
-    # Funktion ändeurng turnierdaten und speicherung der Ändereung
+    # Funktion Änderung turnierdaten und Speicherung der Änderung
     data_request.change_results(match_id,match_result.score_team1,match_result.score_team2, match_result.time_change)
 
     return HTTPException(status_code=200,detail="SUCCESS")
+
+
+# API Ändern Teamnamen
+@api.put("/tournaments/matchplan/team/{tournamentID}")
+def change_team_name(tournamentID: str, new_teamname: TeamUpdate ):
+    try:
+        tournament_id = int(tournamentID)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Ungültige TeamID")
+    
+    data_request.change_teamname(tournament_id, new_teamname.team_id, new_teamname.new_name)
+
+    return HTTPException(status_code=200,detail="SUCCESS")
+    
     
 # API Löschen der Spieldaten 
 @api.post("/tournaments/deleat_plan/{tournamentID}")
 def delete_tournament(tournamentID: str):
-
     try:
         tournament_id = int(tournamentID)
     except ValueError:
