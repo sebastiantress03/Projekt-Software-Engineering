@@ -10,9 +10,6 @@ api = fastapi.FastAPI()
 data_request = DatabaseRequests()
 
 
-#hier werden die Ansteuerungen vom Fronten zugelassen
-# TODO muss noch optimiert werden um die Ansteuerung der API sicherer zu machen
-
 origins = [
     "*"
 ]
@@ -21,7 +18,7 @@ api.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET,POST,PUT"],
-    allow_headers=["*"], #TODO spezifische Header benennen die zugelassen sein sollen
+    allow_headers=["*"], 
 )
 
 def check_received_data():
@@ -43,7 +40,7 @@ def generate_tournament(tournament: GenerateTournament):
 
     
     # Funktion hinzufügen stages
-    for stage in range(tournament.anz_stages):
+    for stage in len(tournament.stage_name):
         data_request.insert_stages(tournament.stage_name[stage], tournament.number_of_teams[stage]) 
 
     # Funktion um Turnier ID zu erhalten
@@ -60,7 +57,6 @@ def generate_tournament(tournament: GenerateTournament):
     for game in tournament_data:
         data_request.insert_tournament_data(tournament_id, game[2],game[3],game[4],game[1],game[5],game[8])
 
-
     return HTTPException(status_code=200,detail="SUCCESS")
 
 # API Schnittstelle für die Übermittlung des Turnierplans
@@ -69,11 +65,13 @@ def generate_tournament(tournament_name: str):
     try:
         tournament_bez = str(tournament_name)
     except ValueError:
-        return HTTPException(status_code=400,detail="ERROR while fetching data")
+        return HTTPException(status_code=400,detail="Ungültigen Turniernamen")
 
     # Funktion erhalten der Turnier ID
     tournament_id = data_request.get_tournament_id(tournament_bez)
 
+    if tournament_id is None or not isinstance(tournament_id,int):
+        return HTTPException(status_code=500,detail="Datenbankfehler beim Abfrage von Daten! ")
     # Funktion erhalten des Turnierplans aus Datenbank in 
     tournament = data_request.get_tournament_plan(tournament_id)
 
@@ -86,7 +84,7 @@ def get_match_plan(tournamentID: str):
     try:
         tournament_id = int(tournamentID)
     except ValueError:
-        return HTTPException(status_code=400,detail="ERROR while fetching data")
+        return HTTPException(status_code=400,detail="Ungültige TurnierID")
 
     # Funktion get Turnierplan
     tournament_plan = data_request.get_tournament_plan(tournament_id)
@@ -99,7 +97,7 @@ def get_tournaments():
     # Funktion erhalten der existierenden Turniere
     tournaments = data_request.get_existing_tournaments()
 
-    return {"tournaments": tournaments}
+    return {"tournament_name": tournaments}
 
 # API Schnittstelle für das aktualisieren des Matches
 @api.get("/tournaments/match_plan/{matchID}")
@@ -111,13 +109,15 @@ def get_match(matchID: str):
 
     matches = data_request.get_matches(match_id)
 
-    return {"matches": matches}
+    if len(matches) == 0:
+        return HTTPException(status_code=500, detail="Datenbankfehler beim Abfrage von Daten! ")
+
+    return {"scores": matches}
 
    
 # API Änderung Spieldaten
 @api.put("/tournaments/match_plan/match/{matchID}")
-def change_match_result(match_ID: str, match_result: Match):
-
+def change_match_result(match_ID: str, match_result: Match): 
     try:
         match_id = int(match_ID)
     except ValueError:
