@@ -10,8 +10,8 @@ api = fastapi.FastAPI()
 data_request = DatabaseRequests()
 
 
-#hier werden die Ansteuerungen vom Fronten zugelasse
-# TODO muss noch optimiert werden um die ansteuerung der API sicherer zu machen
+#hier werden die Ansteuerungen vom Fronten zugelassen
+# TODO muss noch optimiert werden um die Ansteuerung der API sicherer zu machen
 
 origins = [
     "*"
@@ -38,7 +38,7 @@ def generate_tournament(tournament: GenerateTournament):
     for i in range(tournament.number_of_stages):
         sum_teams = sum_teams + tournament.number_of_teams[i]
 
-    # Funktion Tournier erstellen in Datenbank
+    # Funktion Turnier erstellen in Datenbank
     data_request.insert_tournament(tournament.tournament_name,tournament.time_to_start, sum_teams)
 
     
@@ -46,7 +46,7 @@ def generate_tournament(tournament: GenerateTournament):
     for stage in range(tournament.anz_stages):
         data_request.insert_stages(tournament.stage_name[stage], tournament.number_of_teams[stage]) 
 
-    # Funktion um tournierid zu erhalten
+    # Funktion um Turnier ID zu erhalten
     tournament_id = data_request.get_tournament_id(tournament.tournament_name)
 
 
@@ -54,7 +54,7 @@ def generate_tournament(tournament: GenerateTournament):
     
     tournament_data = [[1, 1, "Team 1", "Team 2", "Team 3", "Anfänger", 0, 0, time(12,30)],[2, 1, "Team 2", "Team 1", "Team 3" "Anfänger", 0, 0, time(12,50)]]
 
-    # game Aufbau [Spielnummer, Feldnummer, Teamname 1 Team, Teamname 2 Team, Teamname Schiri, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
+    # game Aufbau [Spielnummer, Feldnummer, Team Name 1 Team, Team Name 2 Team, Team Name Schiedsrichter, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
 
     # Funktion hinzufügen der Teams in Team Tabelle und auch die Spiele
     for game in tournament_data:
@@ -71,7 +71,7 @@ def generate_tournament(tournament_name: str):
     except ValueError:
         return HTTPException(status_code=400,detail="ERROR while fetching data")
 
-    # Funktion erhalten der tournierid
+    # Funktion erhalten der Turnier ID
     tournament_id = data_request.get_tournament_id(tournament_bez)
 
     # Funktion erhalten des Turnierplans aus Datenbank in 
@@ -82,7 +82,7 @@ def generate_tournament(tournament_name: str):
 # TODO ist überflüssig macht das gleiche wie ("/tournament/{tournament_name})
 # API Schnittstelle für das Laden des Turnierplans
 @api.get("/tournaments/{tournamentID}")
-def get_matchplan(tournamentID: str):
+def get_match_plan(tournamentID: str):
     try:
         tournament_id = int(tournamentID)
     except ValueError:
@@ -102,7 +102,7 @@ def get_tournaments():
     return {"tournaments": tournaments}
 
 # API Schnittstelle für das aktualisieren des Matches
-@api.get("/tournaments/matchplan/{matchID}")
+@api.get("/tournaments/match_plan/{matchID}")
 def get_match(matchID: str):
     try:
         match_id = int(matchID)
@@ -115,11 +115,11 @@ def get_match(matchID: str):
 
    
 # API Änderung Spieldaten
-@api.put("/tournaments/matchplan/match/{matchID}")
-def change_match_result(matchID: str, match_result: Match):
+@api.put("/tournaments/match_plan/match/{matchID}")
+def change_match_result(match_ID: str, match_result: Match):
 
     try:
-        match_id = int(match_id)
+        match_id = int(match_ID)
     except ValueError:
         raise HTTPException(status_code=400, detail="Ungültige MatchID")
 
@@ -129,28 +129,28 @@ def change_match_result(matchID: str, match_result: Match):
     return HTTPException(status_code=200,detail="SUCCESS")
 
 
-# API Ändern Teamnamen
-@api.put("/tournaments/matchplan/team/{tournamentID}")
-def change_team_name(tournamentID: str, new_teamname: TeamUpdate ):
+# API Ändern Team Namen
+@api.put("/tournaments/match_plan/team/{tournamentID}")
+def change_team_name(tournamentID: str, new_team_name: TeamUpdate ):
     try:
         tournament_id = int(tournamentID)
     except ValueError:
         raise HTTPException(status_code=400, detail="Ungültige TeamID")
     
-    data_request.change_teamname(tournament_id, new_teamname.team_id, new_teamname.new_name)
+    data_request.change_team_name(tournament_id, new_team_name.team_id, new_team_name.new_name)
 
     return HTTPException(status_code=200,detail="SUCCESS")
     
     
 # API Löschen der Spieldaten 
-@api.post("/tournaments/deleat_plan/{tournamentID}")
+@api.post("/tournaments/delete_plan/{tournamentID}")
 def delete_tournament(tournamentID: str):
     try:
         tournament_id = int(tournamentID)
     except ValueError:
         raise HTTPException(status_code=400, detail="Ungültige TournamentID")
 
-    # Funktion Löschen eines Tourniers
-    data_request.delet_tournament(tournament_id)
+    # Funktion Löschen eines Tourniere
+    data_request.delete_tournament(tournament_id)
 
     return HTTPException(status_code=200,detail="SUCCESS")
