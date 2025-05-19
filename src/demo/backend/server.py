@@ -8,20 +8,29 @@ class Server:
     # Erstellen der Datenbankstruktur 
     def initializing_database(self):
         try:
-            with sqlite3.connect(os.path.join("data","vtDatenbase.db")) as connection:
+
+            if not os.path.exists(os.path.join("data","vtDatabase.db")):
+                try:
+                    with open(os.path.join("data","vtDatabase.db"),"w+") as file:
+                        file.close()
+                except Exception as e:
+                    print(f"Database could not be opened: {e}")
+                
+
+            with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
                 cursor = connection.cursor()
                 cursor.execute("""CREATE TABLE IF NOT EXISTS Turnier(
                                 TurnierID               INTEGER PRIMARY KEY AUTOINCREMENT,
                                 TurnierBez              VARCHAR,
                                 Spieldauer              INTEGER,
                                 TeamAnz                 INTEGER
-                               )""")
+                                )""")
                 
                 cursor.execute("""CREATE TABLE IF NOT EXISTS Leistungsgruppen(
                                 LeistungsgruppenID      INTEGER PRIMARY KEY AUTOINCREMENT,
                                 Leistungsgruppenname    VARCHAR,
                                 AnzTeamsLeist           INTEGER
-                               )""")
+                                )""")
 
                 cursor.execute("""CREATE TABLE IF NOT EXISTS Team (
                                 TeamID                  INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,7 +39,7 @@ class Server:
                                 Teamname                VARCHAR,
                                 FOREIGN KEY (TurnierID) REFERENCES Turnier(TurnierID) ON DELETE CASCADE,
                                 FOREIGN KEY (LeistungsgruppenID) REFERENCES Leistungsgruppen(LeistungsgruppenID) ON DELETE CASCADE
-                               )""")
+                                )""")
 
                 cursor.execute("""CREATE TABLE IF NOT EXISTS Ergebnisse (
                                 SpielID             INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,23 +53,23 @@ class Server:
                                 FOREIGN KEY (TeamID1) REFERENCES Team(TeamID) ON DELETE CASCADE,
                                 FOREIGN KEY (TeamID2) REFERENCES Team(TeamID) ON DELETE CASCADE,
                                 FOREIGN KEY (SchiedsrichterID) REFERENCES Team(TeamID) ON DELETE CASCADE
-                               )""")
+                                )""")
                 
-                cursor.execute("""CREATE TABLE IF NOT EXISTS Aenderungen(
+                cursor.execute("""CREATE TABLE IF NOT EXISTS Aenderungen (
                                 AenderungsID            INTEGER PRIMARY KEY AUTOINCREMENT,
                                 SpielID                 INTEGER,
                                 alteSpielergebnis1      INTEGER,
                                 alteSpielergebnis2      INTEGER,
-                                Uhrzeitaenderung        TiME,
-                                ForeignKey (SpielID) REFERENCES Ergebnisse(SpielID) ON DELETE CASCADE,
-                               )""")
+                                Uhrzeitaenderung        TIME,
+                                FOREIGN KEY (SpielID) REFERENCES Ergebnisse(SpielID) ON DELETE CASCADE
+                                )""")
 
         except Exception as exception:
-            print(f"Error initializing database: {exception}")
+            print(f"\033[91m Error initializing database: {exception} \033[0m")
 
     def query(self,query="",attributes=[]):
         try:
-            with sqlite3.connect(os.path.join("data","vtDatenbase.db")) as connection:
+            with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
                 connection.execute("PRAGMA foreign_keys = ON")
                 cursor = connection.cursor()
                 cursor.execute(query,attributes)
@@ -71,10 +80,9 @@ class Server:
             print(f"Error executing query: {exception}")
             return False
     
-    # TODO Eventuell nicht nötig, überprüfen
     def execute(self, query="", attributes=[]):
         try:
-            with sqlite3.connect(os.path.join("data","vtDatenbase.db")) as connection:
+            with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
                 connection.execute("PRAGMA foreign_keys = ON")
                 cursor = connection.cursor()
                 cursor.execute(query, attributes)
