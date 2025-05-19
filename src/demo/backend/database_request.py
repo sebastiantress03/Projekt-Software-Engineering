@@ -104,7 +104,7 @@ class DatabaseRequests:
         try:
             get_tournament_data = server.query("SELECT TurnierID, TurnierBez FROM Turnier")
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Datenvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Datenbankfehler beim Abfrage von Daten: {str(e)}")
         for tournament in get_tournament_data:
             return_data.append({"tournament_name": tournament[1]})
         
@@ -127,7 +127,7 @@ class DatabaseRequests:
         except Exception as e:
             raise HTTPException(status_code=400, detail=f" Datenbankfehler beim ändern von Daten: {str(e)}")
         
-    def change_teamname(tournament_id: int, team_id: int,new_name: str):
+    def change_team_name(tournament_id: int, team_id: int,new_name: str):
         try:
             team_name_exist = server.query("SELECT Count(*) FROM Team WHERE TurnierID = ? AND Teamname LIKE ?",[tournament_id,new_name])
         except Exception as e:
@@ -142,11 +142,11 @@ class DatabaseRequests:
             raise HTTPException(status_code=409, detail="Teamname existiert bereits")
 
         
-    def delet_tournament(tournament_id: int):
+    def delete_tournament(tournament_id: int):
         try:
-            delete_tournament = server.execute("DELETE FROM Turnier WHERE TurnierID = ?", [tournament_id])
+            server.execute("DELETE FROM Turnier WHERE TurnierID = ?", [tournament_id])
 
-            delete_scores = server.execute("""DELETE FROM Leistungsgruppen
+            server.execute("""DELETE FROM Leistungsgruppen
                                     WHERE LeistungsgruppenID NOT IN (
                                     SELECT DISTINCT LeistungsgruppenID FROM Team)""")
         except Exception as e:
