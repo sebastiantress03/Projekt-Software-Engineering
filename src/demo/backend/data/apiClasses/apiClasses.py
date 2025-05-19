@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel,validator,root_validator
+from pydantic import BaseModel,field_validator,model_validator
 from datetime import time
 from typing import List, Optional
 
@@ -21,10 +21,10 @@ class ReturnMatchOption(str, Enum):
 
 class GenerateTournament(BaseModel):
     tournament_name: str
-    number_of_fields: int                           # mindestes 1 Feld maximal 4 ist noch zu klären 
-    return_match: ReturnMatchOption                 # das returnmaches exists 
+    number_of_fields: int                           # mindestens 1 Feld maximal 4 ist noch zu klären 
+    return_match: ReturnMatchOption                 # das return matches exists 
     number_of_stages: int
-    time_to_start: time                             # Uhrzeit # wert wird schon von Pydantic überprüft ob es sich um eine Time objekt handelt 
+    time_to_start: time                             # Uhrzeit # wert wird schon von Pydantic überprüft ob es sich um eine Time Objekt handelt 
     game_time: int                                  # in min
     warm_up_time: int                               # in min
     number_of_breaks: int
@@ -33,55 +33,65 @@ class GenerateTournament(BaseModel):
     number_of_teams: List[int]
     break_times: Optional[List[time]] = None
 
-    @validator('number_of_fields')
+    @field_validator('number_of_fields')
     def right_number_of_fields(cls, v):
         if v < 0:
-            raise ValueError("Felder anzahl kann nicht negativ sein! ")
+            raise ValueError("Felder Anzahl kann nicht negativ sein! ")
         elif v > 5:
-            raise ValueError("Felder anzahl ist zu groß! ")
+            raise ValueError("Felder Anzahl ist zu groß! ")
         return v
         
-    @validator('number_of_stages')
+    @field_validator('number_of_stages')
     def anz_stages(cls, v):
-        if v < 0:
-            raise ValueError("Negative Anzahl an Leistungsgruppen ist nicht möglich! ")
+        if v < 1:
+            raise ValueError("Mindestens eine Leistungsgruppe! ")
         elif v > 2:
-            raise ValueError("Maximal 2 Leistungsgruppen! ")
+            raise ValueError("Maximal zwei Leistungsgruppen! ")
         return v
         
-    @validator('game_time','warm_up_time')
-    def time_of_game(cls, v, field):
+    @field_validator('game_time','warm_up_time')
+    def time_of_game(cls, v, info):
         if not isinstance(v,int):
-            raise ValueError(f"{field.name} ist nicht valide! ")
+            raise ValueError(f"{info.field_name} ist nicht valide! ")
+        elif v < 0:
+            raise ValueError(f"{info.field_name} kann nicht negativ sein! ")
         elif v > 60:
-            raise ValueError(f"{field.name} ist zu groß! ")
+            raise ValueError(f"{info.field_name} ist zu groß! ")
         return v
     
-    @validator('number_of_breaks')
+    @field_validator('number_of_breaks')
     def valid_anz_breaks(cls,v):
         if v < 0:
             raise ValueError("Die Anzahl der Pausen kann nicht negativ sein! ")
         return v
     
-    @validator('break_length', each_item=True)
+    @field_validator('break_length')
     def validate_break_length(cls, v):
-        if v < 1 or v > 60:
-            raise ValueError("Pausenlänge muss zwischen 1 und 60 Minuten liegen.")
+        if v is not None:
+            for time_value in v:
+                if isinstance(time_value,int):
+                    if time_value < 1 or time_value > 60:
+                        raise ValueError("Pausenlänge muss zwischen 1 und 60 Minuten liegen.")
+                else:
+                    raise ValueError(f"Ungültige Pausenzeit: {time_value}. Die Pausenlänge besteht nur aus Integer.")
         return v
     
-    @validator('stage_name', each_item=True)
+    @field_validator('stage_name')
     def stage_name_exist(cls, v):
-        if isinstance(v, str):
-            raise ValueError("Leistungsgruppennamen müssen Strings sein")
+        for name in v:
+            if not isinstance(name, str):
+                raise ValueError(f"Ungültiger Leistungsgruppennamen {name}. Namen müssen Strings sein")
         return v
     
-    @validator('break_times', each_item=True)
+    @field_validator('break_times')
     def validate_break_time_format(cls, v):
-        if not isinstance(v, time):
-            raise ValueError(f"Ungültige Zeit: {v}. Die Zeit muss im Format HH:MM sein.")
+        if v is not None:
+            for time_value in v:
+                if not isinstance(time_value, time):
+                    raise ValueError(f"Ungültige Zeit: {time_value}. Die Zeit muss im Format HH:MM sein.")
         return v
 
-    @root_validator
+    @model_validator(model='after', skip_on_failure=True)
     def check_breaks_and_lengths(cls, v):
         breaks = v.get('number_of_breaks')
         lengths = v.get('break_length')
@@ -95,13 +105,13 @@ class GenerateTournament(BaseModel):
                 raise ValueError(f"{breaks} Pausen erwartet, aber {len(lengths)} Pausenlängen und {len(time_breaks)} Pausezeiten angegeben.")
         return v
     
-    @root_validator(skip_on_failure=True)
+    @model_validator(model='after', skip_on_failure=True)
     def check_stage_names_and_anz_stages(cls, v):
         anz_stages = v.get('number_of_stages')
-        stage_names = v.get('')
+        stage_names = v.get('stage_name')
         if anz_stages is not None and stage_names is not None:
             if len(stage_names) != anz_stages:
-                raise ValueError(f"{anz_stages} Namen von Leistungsgruppen erwarted und {len(stage_names)} erhalten")
+                raise ValueError(f"{anz_stages} Namen von Leistungsgruppen erwartet und {len(stage_names)} erhalten")
         return v
 
 
@@ -111,13 +121,13 @@ class Match(BaseModel):
     score_team2: int
     time_change: time
 
-    @validator('score_team1', 'score_team2')
-    def scores_must_be_positive(cls, v, field):
+    @field_validator('score_team1', 'score_team2')
+    def scores_must_be_positive(cls, v, info):
         if v < 0:   
-            raise ValueError(f"{field.name} darf nicht negativ sein! ")
+            raise ValueError(f"{info.field_name} darf nicht negativ sein! ")
         return v
 
-    @validator('time_change')
+    @field_validator('time_change')
     def valid_time(cls,v):
 
         if isinstance(v,float):
@@ -130,7 +140,7 @@ class Match(BaseModel):
         return v
 
 
-class TurnamentPlan(BaseModel):
+class TournamentPlan(BaseModel):
     game_number: int
     field_number: int
     team1: str              # Leistungsgruppe(ersten 2 Buchstaben) + Team + Nummer 
@@ -141,13 +151,13 @@ class TurnamentPlan(BaseModel):
     score_team2: int
     time_of_game: time
 
-    @validator('game_number')
+    @field_validator('game_number')
     def check_game_number(cls, v):
         if v < 1:
             raise ValueError("Spielnummer kann nicht kleiner 1 sein! ")
         return v
 
-    @validator('field_number')
+    @field_validator('field_number')
     def check_field_number(cls,v):
         if v < 1:
             raise ValueError(f"Es muss mindestend ein Feld existieren! ")
@@ -155,36 +165,36 @@ class TurnamentPlan(BaseModel):
             raise ValueError(f"Es sind maximal 5 Felder zulässig! ")
         return v
     
-    @validator('team1','team2','referee')
-    def check_teams(cls, v, field):
+    @field_validator('team1','team2','referee')
+    def check_teams(cls, v, info):
         if not isinstance(v, str):
-            raise ValueError(f"{field.name} muss ein String sein")
+            raise ValueError(f"{info.field_name} muss ein String sein")
         return v
 
-    @validator('stage_name')
+    @field_validator('stage_name')
     def check_stage_names(cls,v ):
         if not isinstance(v, str):
             raise ValueError("Leistungsgruppe muss ein String sein")
         return v
     
-    @validator('score_team1', 'score_team2')
-    def scores_must_be_positive(cls, v, field):
+    @field_validator('score_team1', 'score_team2')
+    def scores_must_be_positive(cls, v, info):
         if v < 0:   
-            raise ValueError(f"{field.name} darf nicht negativ sein! ")
+            raise ValueError(f"{info.field_name} darf nicht negativ sein! ")
         return v
     
 class TeamUpdate(BaseModel):
     team_id: int
     new_name: str
 
-    @validator('new_name')
+    @field_validator('new_name')
     def check_new_name(cls,v):
         if not isinstance(v,str):
-            raise ValueError("Bei dem Teamnamen muss es sich um ein String handeln")
+            raise ValueError("Bei dem Team Namen muss es sich um ein String handeln")
         return v
     
-    @validator('team_id')
+    @field_validator('team_id')
     def check_team_id(cls,v):
         if not isinstance(v,int):
-            raise ValueError("Bei dem Teamnamen muss es sich um ein String handeln")
+            raise ValueError("Bei der TeamID muss es sich um ein Integer handeln")
         return v
