@@ -23,15 +23,15 @@ class GenerateTournament(BaseModel):
     tournament_name: str
     number_of_fields: int                           # mindestens 1 Feld maximal 4 ist noch zu klären 
     return_match: ReturnMatchOption                 # das return matches exists 
-    number_of_stages: int
     time_to_start: time                             # Uhrzeit # wert wird schon von Pydantic überprüft ob es sich um eine Time Objekt handelt 
     game_time: int                                  # in min
     warm_up_time: int                               # in min
     number_of_breaks: int
-    break_length: Optional[List[int]] = None 
+    break_length: Optional[List[int]] = None
+    break_times: Optional[List[time]] = None 
     stage_name: List[str]          
     number_of_teams: List[int]
-    break_times: Optional[List[time]] = None
+
 
     @field_validator('number_of_fields')
     def right_number_of_fields(cls, v):
@@ -80,7 +80,7 @@ class GenerateTournament(BaseModel):
     def stage_name_exist(cls, v):
         for name in v:
             if not isinstance(name, str):
-                raise ValueError(f"Ungültiger Leistungsgruppennamen {name}. Namen müssen Strings sein")
+                raise ValueError(f"Ungültiger Name {name} für Leistungsgruppen! ")
         return v
     
     @field_validator('break_times')
@@ -91,7 +91,7 @@ class GenerateTournament(BaseModel):
                     raise ValueError(f"Ungültige Zeit: {time_value}. Die Zeit muss im Format HH:MM sein.")
         return v
 
-    @model_validator(model='after', skip_on_failure=True)
+    @model_validator(mode='after')
     def check_breaks_and_lengths(cls, v):
         breaks = v.get('number_of_breaks')
         lengths = v.get('break_length')
@@ -104,16 +104,6 @@ class GenerateTournament(BaseModel):
             if len(lengths) != breaks or len(time_breaks) != breaks:
                 raise ValueError(f"{breaks} Pausen erwartet, aber {len(lengths)} Pausenlängen und {len(time_breaks)} Pausezeiten angegeben.")
         return v
-    
-    @model_validator(model='after', skip_on_failure=True)
-    def check_stage_names_and_anz_stages(cls, v):
-        anz_stages = v.get('number_of_stages')
-        stage_names = v.get('stage_name')
-        if anz_stages is not None and stage_names is not None:
-            if len(stage_names) != anz_stages:
-                raise ValueError(f"{anz_stages} Namen von Leistungsgruppen erwartet und {len(stage_names)} erhalten")
-        return v
-
 
 
 class Match(BaseModel):
@@ -147,8 +137,8 @@ class TournamentPlan(BaseModel):
     team2: str           
     referee: str 
     stage_name: str
-    score_team1: int
-    score_team2: int
+    score_team1: str
+    score_team2: str
     time_of_game: time
 
     @field_validator('game_number')
@@ -165,16 +155,10 @@ class TournamentPlan(BaseModel):
             raise ValueError(f"Es sind maximal 5 Felder zulässig! ")
         return v
     
-    @field_validator('team1','team2','referee')
+    @field_validator('team1','team2','referee','stage_name')
     def check_teams(cls, v, info):
         if not isinstance(v, str):
             raise ValueError(f"{info.field_name} muss ein String sein")
-        return v
-
-    @field_validator('stage_name')
-    def check_stage_names(cls,v ):
-        if not isinstance(v, str):
-            raise ValueError("Leistungsgruppe muss ein String sein")
         return v
     
     @field_validator('score_team1', 'score_team2')
