@@ -7,8 +7,26 @@ class Server:
 
     # Erstellen der Datenbankstruktur 
     def initializing_database(self):
+        """
+        Erstellt die Datenbankstruktur für das Turnierverwaltungssystem.
+
+        Falls die Datenbankdatei noch nicht existiert, wird sie neu erstellt.
+        Anschließend werden die erforderlichen Tabellen angelegt, falls sie noch nicht existieren:
+
+            - Turnier
+            - Leistungsgruppen
+            - Team
+            - Ergebnisse
+            - Aenderungen
+
+        Fehlerbehandlung:
+            Gibt eine Fehlermeldung aus, falls die Datenbank nicht geöffnet oder erstellt werden kann.
+
+        Hinweise:
+            - Die Datenbankdatei wird unter "data/vtDatabase.db" gespeichert.
+            - Bei Fehlern wird keine Exception geworfen, sondern eine Fehlermeldung ausgegeben.
+        """
         try:
-            
             # Überprüft ob die Datenbank bereits existiert
             if not os.path.exists(os.path.join("data","vtDatabase.db")):
                 try:
@@ -66,10 +84,31 @@ class Server:
                                 )""")
 
         except Exception as exception:
-            print(f"\033[91m Error initializing database: {exception} \033[0m")
+            print("Error initializing database! ")
 
     # Erhalt der Datenbankabfrage als Liste
     def query(self,query="",attributes=[]):
+        """
+        Führt eine SELECT-Abfrage auf der SQLite-Datenbank aus und gibt die Ergebnisse zurück.
+
+        Parameter:
+            query (str): Die SQL-Abfrage, die ausgeführt werden soll.
+            attributes (list): Eine Liste von Attributen/Parametern, die in der Abfrage eingesetzt werden.
+
+        Beispiel:
+            query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournament_id, team1])
+
+        Rückgabewert:
+            list: Eine Liste der Datensätze, die der Abfrage entsprechen (z.B. als Liste von Tupeln).
+            bool: False, falls bei der Abfrage ein Fehler auftritt.
+
+        Fehlerbehandlung:   
+            - Fehler werden über die Konsole ausgegeben.
+
+        Hinweise:
+            - Es werden nur Leseoperationen unterstützt (z.B. SELECT).
+            - Fremdschlüsselbeschränkungen werden aktiviert (PRAGMA foreign_keys = ON).    
+        """
         try:
             with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
                 connection.execute("PRAGMA foreign_keys = ON")
@@ -79,11 +118,32 @@ class Server:
                 return data
 
         except Exception as exception:
-            print(f"Error executing query! ")
+            print("Error executing query! ")
             return False
     
     # Verändern der Datenbank (Inserts und Updates)
     def execute(self, query="", attributes=[]):
+        """
+        Führt eine Änderungsoperation (z.B. INSERT, UPDATE, DELETE) auf der SQLite-Datenbank aus.
+
+        Parameter:
+            query (str): Die SQL-Anweisung, die ausgeführt werden soll.
+            attributes (list): Eine Liste von Werten, die in der SQL-Anweisung eingesetzt werden.
+
+        Beispiel:
+            execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?)",[tournament_id, stage_id, team1])
+
+        Rückgabewert:
+            bool: True, wenn die Operation erfolgreich war.
+                  False, wenn ein Fehler auftritt.
+        
+        Fehlerbehandlung:   
+            - Fehler werden über die Konsole ausgegeben.
+
+        Hinweise:
+            - Die Änderungen werden direkt nach der Ausführung gespeichert (commit).
+            - Fremdschlüsselbeschränkungen werden aktiviert (PRAGMA foreign_keys = ON).
+        """
         try:
             with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
                 connection.execute("PRAGMA foreign_keys = ON")
