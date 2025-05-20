@@ -117,8 +117,9 @@ class DatabaseRequests:
         except Exception as e:
             raise HTTPException(status_code=500, detail="Datenbankfehler beim Abfrage von Daten! ")
         
+        # TODO für Turnierauswahl nur Namen oder auch ID 
         for tournament in get_tournament_data:
-            if isinstance(tournament,str):
+            if isinstance(tournament[1],str):
                 return_data.append(tournament[1])
         
         return return_data
