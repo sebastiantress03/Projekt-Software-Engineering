@@ -1,5 +1,15 @@
 # API-Documentation
 
+1. [Erstellen des Turniers](#erstellen-des-turniers)
+2. [Erhalt des Turnierplans über Namen](#erhalt-des-turnierplans-über-namen)
+3. [Erhalt des Turnierplans über ID](#erhalt-des-turnierplans-über-id)
+4. [Laden existierender Turniere](#laden-existierender-turniere)
+5. [Laden des aktuellen Spielstandes](#laden-des-aktuellen-spielstandes)
+6. [Aktualisieren von Spielständen](#aktualisieren-von-spielständen)
+7. [Ändern von Teamname](#ändern-von-teamname)
+8. [Löschen eines Turniers](#löschen-eines-turniers)
+---
+
 ## Erstellen des Turniers
 
     POST /tournament/
@@ -52,7 +62,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
 | 500 | Datenbankfehler beim Abfragen von Daten! |
 
 
-## Erhalt des Turnierplans
+## Erhalt des Turnierplans über Namen
 
     GET /tournament/{tournament_name}
 
@@ -124,7 +134,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
 | 500 | Datenbankfehler beim Abfragen von Daten! |
 
 
-## Erhalt des Turnierplans
+## Erhalt des Turnierplans über ID
 
     GET /tournament/{tournamentID}
 
