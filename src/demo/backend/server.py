@@ -20,7 +20,7 @@ class Server:
             - Aenderungen
 
         Fehlerbehandlung:
-            Gibt eine Fehlermeldung aus, falls die Datenbank nicht geöffnet oder erstellt werden kann.
+            - Gibt eine Fehlermeldung aus, falls die Datenbank nicht geöffnet oder erstellt werden kann.
 
         Hinweise:
             - Die Datenbankdatei wird unter "data/vtDatabase.db" gespeichert.
@@ -92,15 +92,15 @@ class Server:
         Führt eine SELECT-Abfrage auf der SQLite-Datenbank aus und gibt die Ergebnisse zurück.
 
         Parameter:
-            query (str): Die SQL-Abfrage, die ausgeführt werden soll.
-            attributes (list): Eine Liste von Attributen/Parametern, die in der Abfrage eingesetzt werden.
+            - query (str): Die SQL-Abfrage, die ausgeführt werden soll.
+            - attributes (list): Eine Liste von Attributen/Parametern, die in der Abfrage eingesetzt werden.
 
         Beispiel:
-            query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournament_id, team1])
+            - query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournament_id, team1])
 
         Rückgabewert:
-            list: Eine Liste der Datensätze, die der Abfrage entsprechen (z.B. als Liste von Tupeln).
-            bool: False, falls bei der Abfrage ein Fehler auftritt.
+            - list: Eine Liste der Datensätze, die der Abfrage entsprechen (z.B. als Liste von Tupeln).
+            - bool: False, falls bei der Abfrage ein Fehler auftritt.
 
         Fehlerbehandlung:   
             - Fehler werden über die Konsole ausgegeben.
@@ -127,21 +127,22 @@ class Server:
         Führt eine Änderungsoperation (z.B. INSERT, UPDATE, DELETE) auf der SQLite-Datenbank aus.
 
         Parameter:
-            query (str): Die SQL-Anweisung, die ausgeführt werden soll.
-            attributes (list): Eine Liste von Werten, die in der SQL-Anweisung eingesetzt werden.
+            - query (str): Die SQL-Anweisung, die ausgeführt werden soll.
+            - attributes (list): Eine Liste von Werten, die in der SQL-Anweisung eingesetzt werden.
 
         Beispiel:
-            execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?)",[tournament_id, stage_id, team1])
+            - execute("INSERT INTO Team (TurnierID, LeistungsgruppenID, Teamname) VALUES (?,?,?)",[tournament_id, stage_id, team1])
 
         Rückgabewert:
-            bool: True, wenn die Operation erfolgreich war.
-                  False, wenn ein Fehler auftritt.
+            - bool:
+                - True, wenn die Operation erfolgreich war.
+                - False, wenn ein Fehler auftritt.
         
         Fehlerbehandlung:   
             - Fehler werden über die Konsole ausgegeben.
 
         Hinweise:
-            - Die Änderungen werden direkt nach der Ausführung gespeichert (commit).
+            - Die Änderungen werden direkt nach der Ausführung in die Datenbank aufgenommen (commit).
             - Fremdschlüsselbeschränkungen werden aktiviert (PRAGMA foreign_keys = ON).
         """
         try:
