@@ -8,7 +8,8 @@ class Server:
     # Erstellen der Datenbankstruktur 
     def initializing_database(self):
         try:
-
+            
+            # Überprüft ob die Datenbank bereits existiert
             if not os.path.exists(os.path.join("data","vtDatabase.db")):
                 try:
                     with open(os.path.join("data","vtDatabase.db"),"w+") as file:
@@ -16,7 +17,7 @@ class Server:
                 except Exception as e:
                     print(f"Database could not be opened: {e}")
                 
-
+            # Datenbankstruktur
             with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
                 cursor = connection.cursor()
                 cursor.execute("""CREATE TABLE IF NOT EXISTS Turnier(
@@ -67,6 +68,7 @@ class Server:
         except Exception as exception:
             print(f"\033[91m Error initializing database: {exception} \033[0m")
 
+    # Erhalt der Datenbankabfrage als Liste
     def query(self,query="",attributes=[]):
         try:
             with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
@@ -77,9 +79,10 @@ class Server:
                 return data
 
         except Exception as exception:
-            print(f"Error executing query: {exception}")
+            print(f"Error executing query! ")
             return False
     
+    # Verändern der Datenbank (Inserts und Updates)
     def execute(self, query="", attributes=[]):
         try:
             with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
@@ -90,5 +93,5 @@ class Server:
                 return True
             
         except Exception as exception:
-            print(f"Error executing query: {exception}")
+            print(f"Error executing execute! ")
             return False
