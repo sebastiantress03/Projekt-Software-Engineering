@@ -29,11 +29,11 @@ export default {
          * Die Farbklasse des Buttons, z. B. "primary" oder "secondary"
          */
         color: { type: String, default: "primary" }, // z.B. 'primary', 'secondary'
-         /**
+        /**
          * Die Größenklasse des Buttons, z. B. "normal" oder "large"
          */
         size: { type: String, default: "normal" }, // z.B. 'normal', 'large'
-         /**
+        /**
          * Ob der Button deaktiviert ist
          */
         disabled: { type: Boolean, default: false },
