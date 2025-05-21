@@ -10,12 +10,32 @@
 </template>
 
 <script>
+/**
+ * HomeButton
+ * 
+ * Ein wiederverwendbarer Button mit konfigurierbarem Typ, Stil (Farbe, Größe) und deaktivierbarem Zustand.
+ * 
+ * Emits:
+ * - click: Wird ausgelöst, wenn der Button geklickt wird
+ */
 export default {
     name: "HomeButton",
     props: {
+        /**
+         * Der Typ des Buttons (z. B. "button", "submit", "reset")
+         */
         type: { type: String, default: "button" },
+        /**
+         * Die Farbklasse des Buttons, z. B. "primary" oder "secondary"
+         */
         color: { type: String, default: "primary" }, // z.B. 'primary', 'secondary'
+         /**
+         * Die Größenklasse des Buttons, z. B. "normal" oder "large"
+         */
         size: { type: String, default: "normal" }, // z.B. 'normal', 'large'
+         /**
+         * Ob der Button deaktiviert ist
+         */
         disabled: { type: Boolean, default: false },
     },
 };
