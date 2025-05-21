@@ -6,9 +6,18 @@
 </template>
 
 <script>
+/**
+ * FormField
+ * 
+ * Eine Layout-Komponente zur Darstellung eines Formularfeldes mit Label und Inhalt (über Slot).
+ */
 export default {
     name: "FormField",
     props: {
+
+        /**
+         * Das Textlabel, das links neben dem Eingabefeld angezeigt wird.
+         */
         label: { type: String, required: true },
     },
 };
