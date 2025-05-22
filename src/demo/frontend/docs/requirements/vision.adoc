@@ -1,0 +1,219 @@
+= Vision: {project-name}
+Julius Schramm <julius.schramm@stud.htw-dresden.de>; Oliver Theumer <oliver.theumer@stud.htw-dresden.de>; Luke Reeder <luke.reeder@stud.htw-dresden.de>
+{localdatetime}
+include::../_includes/default-attributes.inc.adoc[]
+// Platzhalter für weitere Dokumenten-Attribute
+
+
+== Einführung
+Der Zweck dieses Dokuments ist es, die wesentlichen Bedarfe und Funktionalitäten des Systems {project-system-name} zu sammeln, zu analysieren und zu definieren. Der Fokus liegt auf den Fähigkeiten, die von Stakeholdern und adressierten Nutzern benötigt werden, und der Begründung dieser Bedarfe. Die  Details, wie das System {project-system-name} diese Bedarfe erfüllt, werden in der Use-Case und Supplementary Specification beschrieben.
+
+=== Zweck
+Der Zweck dieses Dokuments ist es, die wesentlichen Anforderungen an das System aus Sicht und mit den Begriffen der künftigen Anwender zu beschreiben.
+
+=== Gültigkeitsbereich (Scope)
+Dieses Visions-Dokument bezieht sich auf das System {project-name}, das von <<#project_plan, Team B>> entwickelt wird. Das System wird es dem StuRa erlauben, eine Software zu nutzen, welche den Prozess der Spielplangenerierung, der Erfassung der Spielstände und der Auswertung der Ergebnisse effizienter und einfacher gestaltet. Die Erfassung der Spielstände erfolgt eigenständig über die teilnehmenden Teams. Die Software sollte außerdem auch ohne Internetverbindung funktional bleiben und auf mobilen Endgeräten nutzbar sein.
+Dies dient dem Ziel die Organisation und Auswertung zukünftiger Turniere nicht mehr mittels Excel-Tabellen durchführen zu müssen.
+
+=== Definitionen, Akronyme und Abkürzungen
+//Verweis passend zum Belegabgabe-Template se1_belegabgabe_t00.adoc
+Siehe <<#glossary, Glossar>>.
+
+//=== Referenzen
+//(hier externe Verweise zu anderen Dokumenten, Quellen, Standards etc. einfügen, sofern notwendig)
+
+
+== Positionierung
+
+=== Fachliche Motivation
+//Erläutern Sie kurz den Hintergrund, in dem das Projekt angesiedelt ist. Welches Problem soll gelöst werden, wie ist es entstanden? Welche Verbesserung wird angestrebt. Achten Sie darauf, eine fachliche (organisatorische, betriebswirtschaftliche) Perspektive einzunehmen.
+
+Die Turnierauswertungssoftware soll vorerst die organisatorischen Herausforderungen des Nikolaus-Volleyball-Turniers der HTW Dresden lösen. Aktuell erfordert die manuelle Erfassung von Spielständen und die Auswertung der Ergebnisse viel Aufwand und führt zu Fehlern und Verzögerungen. Die Software wird die Erstellung des Spielplans automatisieren, eine einfache Eingabe der Ergebnisse ermöglichen und die Auswertung der Sieger vereinfachen. Ziel ist es, den organisatorischen Aufwand zu reduzieren, Fehlerquellen zu minimieren und die Effizienz sowie Benutzerfreundlichkeit zu steigern.
+
+=== Problem Statement
+//Stellen Sie zusammenfassend das Problem dar, das mit diesem Projekt gelöst werden soll. Das folgende Format kann dazu verwendet werden:
+
+[cols="1,3"]
+|===
+| Das Problem | zeitaufwändige, unorganisierte Turnierplanung, -dokumentation und -auswertung
+| betrifft | Turnierorganisatoren, Spieler, Zuschauer
+| die Auswirkung davon ist | unübersichtliche, fehleranfällige Turnierdurchführung
+| eine erfolgreiche Lösung wäre | eine Turnierverwaltungssoftware, die einen vereinfachten Turnierablauf ermöglicht
+|===
+
+////
+Beispiel:
+[cols="1,3"]
+|===
+|Das Problem | aktuelle Informationen zum Stundenplan und Noten einfach zu erhalten
+|betrifft | Studierende der HTW Dresden
+|die Auswirkung davon ist | umständliche und aufwändige Suche nach Noten, Zeiten und Räumen
+|eine erfolgreiche Lösung wäre | die Zusammenführung und benutzer-individuelle Darstellung auf einem mobilen Endgerät
+|===
+////
+
+=== Positionierung des Produkts
+//Ein Positionierung des Produkts beschreibt das Einsatzziel der Anwendung und die Bedeutung das Projekts an alle beteiligten Mitarbeiter.
+
+//Geben Sie in knapper Form übersichtsartig die Positionierung der angestrebten Lösung im Vergleich zu verfügbaren Alternativen dar. Das folgende Format kann dazu verwendet werden:
+
+[cols="1,3"]
+|===
+| Für | StuRa
+| die | einmal jährlich ein Volleyball-Turnier organisieren und daran teilnehmen
+| Das Produkt / die Lösung ist ein | Software-Tool / Web-App
+| Die / Das | Organisieren und Durchführen von Turnieren vereinfacht
+| Im Gegensatz zu | manuellen Planung und Dokumentation über Excel, Stift und Papier
+| Unser Produkt | verhilft zu einer effizienten und fehlerfreien Turnierdurchführung
+|===
+
+////
+Beispiel Produkt:
+|===
+| Für | Studierende der HTW
+| die | die ihren Studienalltag effizienter organisieren möchten
+| Das Produkt ist eine | mobile App für Smartphones
+| Die | für den Nutzer Informationen zum Stundenplan und Noten darstellt
+| Im Gegensatz zu | Stundenplänen der Website und HIS-Noteneinsicht
+| Unser Produkt | zeigt nur die für den Nutzer relevanten Informationen komfortabel auf dem Smartphone an.
+|===
+////
+
+
+== Stakeholder Beschreibungen
+
+=== Zusammenfassung der Stakeholder
+
+[%header, cols="1,3,3"]
+|===
+| Name | Beschreibung | Verantwortlichkeiten
+
+| Lotte Richter (Auftraggeber)
+| Eine Studentin, die den Auftrag innitiert hat, um die Organisation der Turnierplanung weniger komplex zu machen
+| Festlegung der Anforderungen und Ziele des Projekts; Nutzt die App; Expoertierung der Ergebnisse und des Turnierplans
+
+| Turnierteilnehmer
+| Höchstwahrscheinlich Studierende der HTW Dresden, die Volleyball spielen wollen
+| Nutzung der App zur Teilnahme an Turnieren; Eintragen der Ergebnisse in die App
+
+| Entwicklungsteam
+| Studenten der HTW Dresden, die die App entwickeln
+| Zuständig für die Umsetzung der Anforderungen; Entwicklung der App; Testen der App; Dokumentation der App; Erfahrungen im Bereich SE sammeln
+
+| HTW Dresden
+| Hochschule für Technik und Wirtschaft Dresden. Sie ist ein indirekter Stakeholder, da das Projekt für Veranstaltungen der Hochschule entwickelt wird
+| Bereitstellung von Ressourcen (Lektüren, Vorlesungen, usw.); Unterstützung des Projekts (Dozent, Coach); Könnte die App in Zukunft auch für andere Veranstaltungen nutzen
+
+| Zukündtige Nutzer
+| Potenziell interessierte Nutzer, wenn die Software für andere Tunriere oder Sportarten angepasst wird
+| Nutzung der App; Feedback geben
+
+
+|===
+
+=== Benutzerumgebung
+//Beschreiben Sie die Arbeitsumgebung des Nutzers. Hier sind einige Anregungen:
+
+//Zutreffendes angeben, nicht zutreffendes streichen oder auskommentieren
+//Derzeitige Nutzerumgebung!!
+
+==== Turnierorganisator
+
+_Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind. Ändert sich das?_
+
+Die Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind, beträgt in der Regel 1-2 Personen. In Ausnahmefällen können es auch mehr Personen sein, die an der Erfüllung der Aufgabe beteiligt sind.
+
+_Wie lange dauert die Bearbeitung der Aufgabe? Wie viel Zeit wird für jeden Arbeitsschritt benötigt? Ändert sich das?_
+
+Die Zusammenstellung des Turnierbaums kann mehrere Stunden bis Tage dauern, je nachdem wie viele Teams teilnehmen. Gleiches gilt für die Auswertung der Ergebnisse.
+
+//_Gibt es besondere Umgebungsbedingungen, z.B. mobil, offline, Außeneinsatz, Touchbedienung, Nutzung durch seh- oder hörbeeinträchtigte Personen?_
+_Welche Systemplattformen werden heute eingesetzt? Welche sind es ggf. zukünftig?_
+
+Zur Zeit wird die Software auf einem Windows-PC genutzt. Zukünftig soll die Software auch auf mobilen Endgeräten (Smartphones, Tablets) genutzt werden können, über eine Webanwendung.
+
+// Windows oder Mac zur Zeit???
+
+_Welche anderen Anwendungen sind im Einsatz? Muss ihre Anwendung mit diesen integriert werden?_
+
+Die Anwendungssoftware Excel ist im Moment im Einsatz. Die neue Software soll die händische Erstellung des Turnierbaums und der Auswertung via Excel ersetzen 
+
+//Hier können zudem bei Bedarf Teile des Unternehmensmodells (Prozesse, Organigramme, IT-Landschaft, ...) eingefügt werden, um die beteiligten Aufgaben und Rollen zu skizzieren.
+
+==== Turnierteilnehmer
+
+_Anzahl der Personen, die an der Erfüllung der Aufgabe beteiligt sind. Ändert sich das?_
+
+Die Anzahl der Personen innerhalb eines Teams beträgt in der Regel 6-8 Personen. Die Anzahl der Teams innerhalb eines Turniers kann variieren.
+
+_Wie lange dauert die Bearbeitung der Aufgabe? Wie viel Zeit wird für jeden Arbeitsschritt benötigt? Ändert sich das?_
+
+Die Eingabe der Ergebnisse dauert in der Regel wenige Minuten. Die Dauer eines Spiels beträgt ca. 20 Minuten.
+
+_Gibt es besondere Umgebungsbedingungen, z.B. mobil, offline, Außeneinsatz, Touchbedienung, Nutzung durch seh- oder hörbeeinträchtigte Personen?_
+
+Die Eingabe der Ergebnisse sollte zukünftig offline und mobil möglich sein, da die Turniere in der Regel in der Sporthalle stattfinden. Die Bedienung sollte einfach und intuitiv sein, da die Nutzer keine Vorkenntnisse haben. Eine Nutzung durch hörbeeinträchtigte Personen stellt kein Problem im Hinblick der Bedienung dar. Sehbeeinträchtigte Personen, sollten die Eingabe der Ergebnisse und die Auswertung der Ergebnisse nicht übernehmen.
+
+_Welche Systemplattformen werden heute eingesetzt? Welche sind es ggf. zukünftig?_
+
+Zur Zeit werden keine Systemplattformen verwendet. Annahme: Die Schiedsrichterteams tragen nach jedem Spiel die Ergebnisse händisch auf ein Blatt Papier ein Die Spielstände sind auf Papier festgehalten. Zukünftig soll die Software auf mobilen Endgeräten (Smartphones, Tablets) genutzt werden können, über eine Webanwendung.
+
+//_Welche anderen Anwendungen sind im Einsatz? Muss ihre Anwendung mit diesen integriert werden?_
+
+//Keine
+
+
+
+
+== Produkt-/Lösungsüberblick
+
+=== Bedarfe und Hauptfunktionen
+//Vermeiden Sie Angaben zum Entwurf. Nennen wesentliche Features (Produktmerkmale) auf allgemeiner Ebene. Fokussieren Sie sich auf die benötigten Fähigkeiten des Systems und warum (nicht wie!) diese realisiert werden sollen. Geben Sie die von den Stakeholdern vorgegebenen Prioritäten und das geplante Release für die Veröffentlichung der Features an.
+
+[%header, cols="4,1,4,1", align="center"]
+|===
+| Bedarf | Priorität | Features | Geplantes Release
+
+| Automatisierte Erstellung eines Spielplans zur optimalen Nutzung der Felder und Teams | Hoch | - Generierung eines Turnierplans basierend auf Parameter wie Anzahl Felder, Teams, und Leistungsgruppen  
+- Berücksichtigung von gerechter Verteilung von Spiel-, Pfeif- und Pausenzeiten | Version 1.0
+
+| Selbstständige Erfassung der Spielergebnisse durch Teams | Hoch | - Eingabemöglichkeit der Spielergebnisse während des Turniers| Version 1.0
+
+| Automatisierte Auswertung des Turniers | Hoch | - Berechnung der Sieger basierend auf Anzahl der Siege und erzielten Punkte 
+- Generierung einer Liste mit Teams, Siegen, und Punktdifferenzen | Version 1.0
+
+| nachträgliche Speicherung und Wiederverwendbarkeit der Turnierdaten | Niedrig | - Speicherung von Spielplänen und Ergebnissen für spätere Einsicht und Nutzung | Version 2.0
+|===
+
+
+== Zusätzliche Produktanforderungen
+//Zutreffendes angeben, nicht zutreffendes streichen oder auskommentieren
+//Hinweise:
+
+//. Führen Sie die wesentlichen anzuwendenden Standards, Hardware oder andere Plattformanforderungen, Leistungsanforderungen und Umgebungsanforderungen auf
+//. Definieren Sie grob die Qualitätsanforderungen für Leistung, Robustheit, Ausfalltoleranz, Benutzbarkeit und ähnliche Merkmale, die nicht von den genannten Features erfasst werden.
+//. Notieren Sie alle Entwurfseinschränkungen, externe Einschränkungen, Annahmen oder andere Abhängigkeiten, die wenn Sie geändert werden, das Visions-Dokument beeinflussen. Ein Beispiel wäre die Annahme, dass ein bestimmtes Betriebssystem für die vom System erforderliche Hardware verfügbar ist. Ist das Betriebssystem nicht verfügbar, muss das Visions-Dokument angepasst werden.
+//. Definieren Sie alle Dokumentationsanforderugen, inkl. Benutzerhandbücher, Onlinehilfe, Installations-, Kennzeichnungs- und Auslieferungsanforderungen-
+//. Definieren Sie die Priorität für diese zusätzlichen Produktanforderungen. Ergänzen Sie, falls sinnvoll, Angaben zu Stabilität, Nutzen, Aufwand und Risiko für diese Anforderungen.
+
+[%header, cols="4,1,1"]
+|===
+| Anforderung | Priorität | Geplantes Release
+
+| Offline-Verfügbarkeit für Turnierverwaltung | Hoch | Version 1.0
+
+| Vollkommene Plattformunabhängigkeit durch Webtechnologie (Mobil und Web)| Hoch | Version 1.0
+
+| Robustheit gegen Fehleingaben und Abstürze z.B. Fehlererkennung bei Ergebniseingabe; Rücknahme des Ergebnisses => Bestätigungsmeldung | Mittel | Version 2.0
+
+| Flexibilität und einfache Bedienung | Mittel | Version 1.0
+
+| Optimierung für schnelle Datenverarbeitung ( Eingabe von Spielständen oder die Berechnung der Ergebnisse schnell sichtbar) | Niedrig | Version 2.0
+
+| Unterstützung mehrsprachiger Benutzeroberflächen (für Auslandsstudenten) | Niedrig | Version 2.0
+
+| Möglichkeit für einen einfachen Zugang zu den Turnierdaten für die Teilnehmer | Niedrig | Version 2.0
+
+|===
+
+// öffentliche Sicht für alle und für Turnierorga selektiv??

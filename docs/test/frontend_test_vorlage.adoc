@@ -1,0 +1,54 @@
+= UI-Funktionstestprotokoll – Turnierorganisationssoftware
+Tester:: Dein Name
+Datum:: TT.MM.JJJJ
+Getestetes Feature:: z. B. Spielstand-Eingabe, Turnierplan-Download
+
+== 1. Testumgebung
+* Gerät(e):: Smartphone / Tablet / Laptop
+* Betriebssystem:: z. B. Android, iOS, Windows
+* Browser:: Firefox / Chrome / Safari / PWA
+* Netzwerkbedingungen:: Online / Offline / langsames WLAN
+* Build-Info:: Commit-ID, Branch, Versionstag
+
+== 2. Testziel
+Was soll getestet werden?
+
+[example]
+====
+Beispiel: Spielende können ein Match-Ergebnis offline eingeben, speichern und es wird bei Reconnect synchronisiert.
+====
+
+== 3. Funktionale Testfälle (inkl. Offline-Verhalten & Buttons)
+
+[cols="1,3,2,1,2", options="header"]
+|===
+| Nr. | Testfallbeschreibung | Erwartetes Ergebnis | Ergebnis (✔/✘) | Bemerkung
+
+| 1
+| Punktestand eingeben und auf „Speichern“ klicken
+| Eingabe wird gespeichert, Erfolgsmeldung erscheint
+| 
+| 
+
+
+|===
+
+== 4. Fehlerbehandlung & Robustheit
+* Was passiert bei Fehleingaben?
+* Reagieren Buttons sinnvoll?
+
+== 5. Beobachtungen zum Offline-Modus
+- Speichern im Offline-Modus klappt stabil  
+- Rückmeldung nach „Sync“ fehlt – unklar, ob erfolgreich  
+- Daten persistieren bei App-Neustart
+
+
+== 6. Verbesserungsvorschläge
+- Feedback „Erfolgreich gespeichert“ besser sichtbar und länger anzeigen  
+- Offline-Modus durch Icon oder Banner kenntlich machen  
+- „PDF herunterladen“-Button auch im mobilen Layout fixieren
+
+
+== 7. Gesamtfazit
+Funktionalität gegeben, Sync-Feedback noch unklar. Offline-Verhalten solide, Button-Verhalten konsistent.
+
