@@ -68,25 +68,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
 
 ### Erklärung
 
-<<<<<<< HEAD
-Übermittelt existierenden Turnierplan aus der Datenbank über Namen des Turniers
-
-### Übergabe 
-
-| Felder | Typ | Beschreibung |
-| :---: | :---: | :--- |
-| tournament_name | str | Name des Turniers |
-
-### Übergabe Beispiel
-
-```JSON
-{
-    "tournament_name": "Nikolaus Turnier 2025",
-}
-```
-=======
 Übermittelt existierenden Turnierplan aus der Datenbank, indem der Namen des Turniers das geladen werden soll mit übergeben wird.
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 
 ### Rückmeldungsfelder
 
@@ -144,25 +126,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
 
 ### Erklärung
 
-<<<<<<< HEAD
-Übermittelt existierenden Turnierplan aus der Datenbank über die TurnierID
-
-### Übergabe 
-
-| Felder | Typ | Beschreibung |
-| :---: | :---: | :--- |
-| tournamentID | str | ID des Turniers als String |
-
-### Übergabe Beispiel
-
-```JSON
-{
-    "tournamentID": "4",
-}
-```
-=======
 Übermittelt existierenden Turnierplan aus der Datenbank, indem die TurnierID, als String, des Turniers das geladen werden soll mit übergeben wird.
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 
 ### Rückmeldungsfelder
 
@@ -252,25 +216,7 @@ Lade existierende Turniernamen aus der Datenbank.
 
 ### Erklärung
 
-<<<<<<< HEAD
-Holt aktuelle Spielstand aus der Datenbank 
-
-### Übergabe 
-
-| Felder | Typ | Beschreibung |
-| :---: | :---: | :--- |
-| matchID | str | ID des Spiel als String |
-
-### Übergabe Beispiel
-
-```JSON
-{
-    "matchID": "4",
-}
-```
-=======
 Holt aktuelle Spielstand aus der Datenbank mittles der übergabe der SpielID als String.
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 
 ### Rückmeldungsfelder 
 
@@ -303,38 +249,24 @@ Holt aktuelle Spielstand aus der Datenbank mittles der übergabe der SpielID als
 
 ### Erklärung
 
-<<<<<<< HEAD
-Ändern von einzelnen Spielständen in der Datenbank.
-=======
 Ändern von einzelnen Spielständen in der Datenbank. Die Adressierung des Spiels erfolgt über die SpielID als String welche mitgegeben wir.
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 
 ### Übergabe Parameter
 
 | Felder | Typ | Beschreibung |
 | :---: | :---: | :--- |
-<<<<<<< HEAD
-| matchID | str |  ID des Spiel als String |
-=======
 | score_team1 | int | Die Punkte von Team 1 |
 | score_team2 | int | Die Punkte von Team 2 |
 | time_change | time | Die Uhrzeit an der Die Änderung vorgenommen wurde |
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 
 ### Übergabe Beispiel
 
 ```JSON
 {
-<<<<<<< HEAD
-    "matchID": "4",
-}
-    wie noch andere Informationen
-=======
     "score_team1": 15,
     "score_team2": 25,
     "time_change": "11:15:00"
 }
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 ```
 
 ### Mögliche Fehlermeldungen
@@ -351,36 +283,22 @@ Holt aktuelle Spielstand aus der Datenbank mittles der übergabe der SpielID als
 
 ### Erklärung
 
-<<<<<<< HEAD
-Ändern der Namen von einzelnen Teams in der Datenbank.
-=======
 Ändern der Namen von einzelnen Teams in der Datenbank. Die Adressierung des Team erfolgt über die TurnierID als String, welche mitgegeben wir damit zunächst überprüft werden kann ob in dem Turnier bereits ein Team mit dem Namen bereits existiert.
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 
 ### Übergabe Parameter
 
 | Felder | Typ | Beschreibung |
 | :---: | :---: | :--- |
-<<<<<<< HEAD
-| tournamentID | str |  ID des Turniers als String |
-=======
 | team_id | str |  ID des Teams welches den neuen Namen erhalten soll als String |
 | new_name | str | Der neue Name für das Team |
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 
 ### Übergabe Beispiel
 
 ```JSON
 {
-<<<<<<< HEAD
-    "tournamentID": "4",
-}
-    wie noch andere Informationen
-=======
     "team_id": "25",
     "new_name": "Die Informatiker"
 }
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 ```
 
 ### Mögliche Fehlermeldungen
@@ -397,25 +315,7 @@ Holt aktuelle Spielstand aus der Datenbank mittles der übergabe der SpielID als
 
 ### Erklärung
 
-<<<<<<< HEAD
-Das Turnier wird aus der Datenbank gelöscht mir den Dazugehörigen Spielständen und Leistungsgruppen.
-
-### Übergabe Parameter
-
-| Felder | Typ | Beschreibung |
-| :---: | :---: | :--- |
-| tournamentID | str |  ID des Turniers als String |
-
-### Übergabe Beispiel
-
-```JSON
-{
-    "tournamentID": "4",
-}
-```
-=======
 Das Turnier wird aus der Datenbank gelöscht mir den Dazugehörigen Spielständen und Leistungsgruppen. Dafür wird die TurnierID mit übergeben.
->>>>>>> 87f2fc8b0afa4b98ea5511458ed9c02e47539079
 
 ### Mögliche Fehlermeldungen
 
