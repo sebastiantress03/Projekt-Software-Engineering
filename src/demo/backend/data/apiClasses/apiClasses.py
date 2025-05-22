@@ -26,7 +26,7 @@ class GenerateTournament(BaseModel):
     start: time                             # Uhrzeit # wert wird schon von Pydantic überprüft ob es sich um eine Time Objekt handelt 
     period: int                                  # in min
     warm_up: int                               # in min
-    num_break: int
+    num_breaks: int
     break_length: Optional[List[int]] = None
     break_times: Optional[List[time]] = None 
     stage_name: List[str]          
@@ -41,7 +41,7 @@ class GenerateTournament(BaseModel):
             raise ValueError("Felder Anzahl ist zu groß! ")
         return v
         
-    @field_validator('start','warm_up')
+    @field_validator('period','warm_up')
     def time_of_game(cls, v, info):
         if not isinstance(v,int):
             raise ValueError(f"{info.field_name} ist nicht valide! ")
@@ -51,7 +51,7 @@ class GenerateTournament(BaseModel):
             raise ValueError(f"{info.field_name} ist zu groß! ")
         return v
     
-    @field_validator('num_break')
+    @field_validator('num_breaks')
     def valid_anz_breaks(cls,v):
         if v < 0:
             raise ValueError("Die Anzahl der Pausen kann nicht negativ sein! ")
@@ -85,7 +85,7 @@ class GenerateTournament(BaseModel):
 
     @model_validator(mode='after')
     def check_breaks_and_lengths(cls, v):
-        breaks = v.get('num_break')
+        breaks = v.get('num_breaks')
         lengths = v.get('break_length')
         time_breaks = v.get('break_times') 
 
