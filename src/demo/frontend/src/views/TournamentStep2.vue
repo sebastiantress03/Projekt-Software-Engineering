@@ -71,7 +71,7 @@ export default {
                 stage_name: this.stages.map((g) => g.name),
                 num_teams: this.stages.map((g) => g.teams),
             };
-
+            console.log("Payload an Backend:", JSON.stringify(payload, null, 2));
             axios
                 .post("http://localhost:8000/tournament/", payload)
                 .then((response) => {

@@ -82,6 +82,13 @@ class GenerateTournament(BaseModel):
                 if not isinstance(time_value, time):
                     raise ValueError(f"Ungültige Zeit: {time_value}. Die Zeit muss im Format HH:MM sein.")
         return v
+    
+    @field_validator('num_teams')
+    def check_num_teams(cls, v):
+        for value in v:
+            if not isinstance(value,int):
+                raise ValueError("Anzahl Teams müssen Integer sein! ")
+        return v
 
     @model_validator(mode='after')
     def check_breaks_and_lengths(cls, v):
