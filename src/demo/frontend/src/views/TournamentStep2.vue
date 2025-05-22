@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     data() {
         return {
@@ -61,9 +63,7 @@ export default {
             this.$router.push("/step1");
         },
         submit() {
-            // Create a shallow copy and remove number_of_stages
             const { number_of_stages, ...restStep1Data } = this.step1Data;
-
             const payload = {
                 ...restStep1Data,
                 break_length: this.break_length,
@@ -72,9 +72,7 @@ export default {
                 num_teams: this.stages.map((g) => g.teams),
             };
 
-            console.log("✅ Gesammelt & bereit für API:", payload);
-
-            this.http
+            axios
                 .post("/tournament/", payload)
                 .then((response) => {
                     console.log("✅ API Antwort:", response.data);
@@ -85,8 +83,6 @@ export default {
                     alert("Fehler beim Speichern des Turniers.");
                     this.$router.push("/");
                 });
-
-            this.$router.push("/");
         },
     },
 };
