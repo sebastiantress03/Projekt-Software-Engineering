@@ -1,5 +1,7 @@
-import random
 from datetime import datetime, timedelta
+from collections import defaultdict
+import random
+import copy
 
 
 def calculate_waiting_time(current_time, team_last_played_time):
@@ -278,209 +280,319 @@ def create_tournament_plan(
             if team_id not in playing_teams:
                 team_status[team_id]["consecutive_plays"] = 0
 
-    return schedule, teams
-def optimize_referees(schedule, teams, match_duration):
-    from datetime import datetime, timedelta
-    from collections import defaultdict, Counter
-    import random
+    return schedule, teams, field_assignment
+
+
+from datetime import datetime, timedelta
+from collections import defaultdict
+import random
+import copy
+
+
+
+def optimize_schedule(schedule, teams, match_duration, fields, field_assignment):
+    time_format = "%H:%M"
+    rng = random.Random(42)
 
     def time_obj(t):
-        return datetime.strptime(t, "%H:%M")
+        return datetime.strptime(t, time_format)
 
-    team_play_times = defaultdict(list)
-    time_slots = sorted(set(time_obj(m["Uhrzeit"]) for m in schedule if "Match Type" in m))
-
-    for match in schedule:
-        if "Match Type" not in match:
-            continue
-        t = time_obj(match["Uhrzeit"])
-        for team_id, team in teams.items():
-            if team["name"] in [match["Team 1"], match["Team 2"]]:
-                team_play_times[team_id].append(t)
-
-    match_pairs = []
-    used = set()
-    for i, m1 in enumerate(schedule):
-        if i in used or "Match Type" not in m1 or m1["Match Type"] != "Hinspiel":
-            continue
-        for j, m2 in enumerate(schedule):
-            if j in used or i == j:
+    def build_match_pairs(matches):
+        pairs, used = [], set()
+        for i, m1 in enumerate(matches):
+            if i in used or m1.get("Match Type") != "Hinspiel":
                 continue
-            if (m2.get("Match Type") == "Rückspiel"
-                and m2["Team 1"] == m1["Team 2"]
-                and m2["Team 2"] == m1["Team 1"]
-                and m2["Gruppe"] == m1["Gruppe"]):
-                match_pairs.append((m1, m2))
-                used.add(i)
-                used.add(j)
-                break
-        else:
-            match_pairs.append((m1, None))
-            used.add(i)
+            for j, m2 in enumerate(matches):
+                if j in used or j == i:
+                    continue
+                if (m2.get("Match Type") == "Rückspiel"
+                    and m1["Team 1"] == m2["Team 2"]
+                    and m1["Team 2"] == m2["Team 1"]
+                    and m1["Gruppe"] == m2["Gruppe"]):
+                    pairs.append((m1, m2))
+                    used.update([i, j])
+                    break
+        return pairs
 
+    def cost(schedule):
+        field_usage = defaultdict(int)
+        time_field = defaultdict(set)
+        referee_timeline = defaultdict(list)
+        penalty = 0
 
-    referee_assignment = [None for _ in match_pairs]
+        time_slots = sorted(set(datetime.strptime(m["Uhrzeit"], time_format) for m in schedule if "Match Type" in m))
+        time_strs = [t.strftime(time_format) for t in time_slots]
+        team_timelines = {t["name"]: ['-'] * len(time_slots) for t in teams.values()}
 
-
-    def build_referee_map(assignments):
-        ref_map = defaultdict(set)  
-        for (m1, m2), ref_id in zip(match_pairs, assignments):
-            if not ref_id:
+        for m in schedule:
+            if "Match Type" not in m:
                 continue
-            t1 = time_obj(m1["Uhrzeit"])
-            t2 = time_obj(m2["Uhrzeit"]) if m2 else t1 + timedelta(minutes=match_duration)
-            name = teams[ref_id]["name"]
-            ref_map[t1].add(name)
-            ref_map[t2].add(name)
-        return ref_map
+            t = m["Uhrzeit"]
+            f = m["Feld"]
+            time_field[t].add(f)
+            field_idx = int(f.split()[-1]) - 1
+            field_usage[field_idx] += 1
 
-    def get_valid_candidates(index, current_assignment):
-        m1, m2 = match_pairs[index]
-        group = m1["Gruppe"]
-        t1 = time_obj(m1["Uhrzeit"])
-        t2 = time_obj(m2["Uhrzeit"]) if m2 else t1 + timedelta(minutes=match_duration)
-        ref_map = build_referee_map(current_assignment)
+            for team in [m["Team 1"], m["Team 2"]]:
+                if team in team_timelines:
+                    idx = time_strs.index(t)
+                    team_timelines[team][idx] = 'P'
 
-        valid = []
-        for tid, team in teams.items():
-            if team["group"] != group:
-                continue
-            if team["name"] in [m1["Team 1"], m1["Team 2"]]:
-                continue
-            if any(abs((t - pt).total_seconds()) < match_duration * 60
-                   for t in [t1, t2]
-                   for pt in team_play_times[tid]):
-                continue
-     
-            if team["name"] in ref_map[t1] or team["name"] in ref_map[t2]:
-                continue
-            valid.append(tid)
-        return valid
+            ref = m.get("Schiedsrichter")
+            if ref:
+                referee_timeline[ref].append(t)
+                if ref in team_timelines:
+                    idx = time_strs.index(t)
+                    if team_timelines[ref][idx] == '-':
+                        team_timelines[ref][idx] = 'R'
 
+            if ref == "KEIN SCHIRI":
+                penalty += 500
 
-    referee_counts = Counter()
-    for i in range(len(match_pairs)):
-        candidates = get_valid_candidates(i, referee_assignment)
-        if candidates:
-            chosen = random.choice(candidates)
-            referee_assignment[i] = chosen
-            referee_counts[teams[chosen]["name"]] += 1
+        empty_fields = sum(fields - len(time_field[t]) for t in time_field)
 
+        for ref, times in referee_timeline.items():
+            times_sorted = sorted(datetime.strptime(t, time_format) for t in times)
+            for i in range(len(times_sorted) - 1):
+                delta = (times_sorted[i+1] - times_sorted[i]).total_seconds() / 60
+                if delta == match_duration:
+                    penalty += 10000  # R-R
+                elif delta == match_duration * 2:
+                    penalty += 500  # R--R
 
-    def build_timelines(assignments):
-        timelines = {tid: [] for tid in teams}
-        for t in time_slots:
-            for tid in teams:
-                name = teams[tid]["name"]
+        variance_penalty = 0
+        if field_usage:
+            avg = sum(field_usage.values()) / fields
+            variance_penalty = sum(abs(field_usage[i] - avg) for i in field_usage)
 
-                is_playing = t in team_play_times[tid]
+        INACTIVITY_WEIGHT = 1000  # Anpassbarer Faktor
 
-                is_ref = False
-                for (m1, m2), ref_id in zip(match_pairs, assignments):
-                    if ref_id == tid:
-                        t1 = time_obj(m1["Uhrzeit"])
-                        t2 = time_obj(m2["Uhrzeit"]) if m2 else t1 + timedelta(minutes=match_duration)
-                        if t in [t1, t2]:
-                            is_ref = True
-                            break
-                if is_playing:
-                    timelines[tid].append("P")
-                elif is_ref:
-                    timelines[tid].append("R")
+        inactivity_penalty = 0
+        for timeline in team_timelines.values():
+            gap_length = 0
+            for status in timeline:
+                if status == '-':
+                    gap_length += 1
                 else:
-
-                    if any(m["Team 1"] == "Pause" and m["Uhrzeit"] == t.strftime("%H:%M") for m in schedule):
-                        timelines[tid].append("P")
-                    else:
-                        timelines[tid].append("-")
-
-        return timelines
+                    if gap_length > 0:
+                        inactivity_penalty += (gap_length ** 2) * INACTIVITY_WEIGHT
+                        gap_length = 0
+            if gap_length > 0:
+                inactivity_penalty += (gap_length ** 2) * INACTIVITY_WEIGHT
 
 
-    def cost(assignments):
-        counts = Counter()
-        for rid in assignments:
-            if rid:
-                counts[teams[rid]["name"]] += 1
-        avg = sum(counts.values()) / len(teams)
-        fairness_cost = sum((v - avg) ** 2 for v in counts.values())
 
-        timelines = build_timelines(assignments)
-        idle_cost = 0
-        double_ref_cost = 0
-        isolated_ref_cost = 0
+        return (
+            empty_fields * 200
+            + penalty
+            + variance_penalty * 5
+            + inactivity_penalty * 25
+        )
 
-        for line in timelines.values():
-            for i in range(len(line) - 1):
-                if line[i] == '-' and line[i + 1] == '-':
-                    idle_cost += 1
-                if line[i] == 'R' and line[i + 1] == 'R':
-                    double_ref_cost += 1
+    def assign_referees_strict(schedule, teams, match_duration):
+        from collections import defaultdict
+        from datetime import datetime, timedelta
+
+        time_format = "%H:%M"
+        referee_timeline = defaultdict(list)
+        time_team_map = defaultdict(set)
+        time_ref_map = defaultdict(set)
+        team_use_count = {t['name']: {'P': 0, 'R': 0} for t in teams.values()}
+
+        # Nur Spiele mit Match Type für Mapping
+        schedule_by_time_field = {
+            (m['Uhrzeit'], m['Feld']): m for m in schedule if m.get('Match Type') in ["Hinspiel", "Rückspiel"]
+        }
+
+        # Welche Teams spielen zu welcher Uhrzeit
+        for m in schedule:
+            if "Match Type" not in m:
+                continue
+            time_team_map[m["Uhrzeit"]].update([m["Team 1"], m["Team 2"]])
+
+        for m in schedule:
+            if m.get("Match Type") != "Hinspiel":
+                continue
+
+            t1 = datetime.strptime(m["Uhrzeit"], time_format)
+            t2_dt = t1 + timedelta(minutes=match_duration)
+            t2_str = t2_dt.strftime(time_format)
+            field = m["Feld"]
+
+            # Rückspiel suchen
+            m2 = schedule_by_time_field.get((t2_str, field))
+            if not m2 or m2.get("Match Type") != "Rückspiel":
+                continue
+            if not (m2["Team 1"] == m["Team 2"] and m2["Team 2"] == m["Team 1"]):
+                continue
+
+            group = m["Gruppe"]
+            all_teams = {m["Team 1"], m["Team 2"], m2["Team 1"], m2["Team 2"]}
+            t1_str = m["Uhrzeit"]
+
+            # Alle blockierten Teams (Spieleinsatz, bereits Schiri, Beteiligte)
+            forbidden = time_team_map[t1_str] | time_team_map[t2_str] | time_ref_map[t1_str] | time_ref_map[t2_str] | all_teams
+
+            # Strafe für enge Schiri-Abstände
+            def recent_ref_penalty(candidate_name):
+                times = referee_timeline[candidate_name]
+                penalty = 0
+                for past_str in times:
+                    past_dt = datetime.strptime(past_str, time_format)
+                    diff = abs((t1 - past_dt).total_seconds()) / 60
+                    if diff == match_duration:
+                        penalty += 10000
+                    elif diff == 2 * match_duration:
+                        penalty += 500
+                return penalty
+
+            # Kandidaten finden
+            candidates = [
+                t for t in teams.values()
+                if t["group"] == group and t["name"] not in forbidden
+            ]
+
+            # Beste auswählen (nach Strafe, R-Verwendung, P-Verwendung)
+            candidates.sort(
+                key=lambda c: (
+                    recent_ref_penalty(c["name"]),
+                    team_use_count[c["name"]]["R"],
+                    team_use_count[c["name"]]["P"]
+                )
+            )
+
+            if candidates:
+                ref = candidates[0]["name"]
+                m["Schiedsrichter"] = ref
+                m2["Schiedsrichter"] = ref
+                referee_timeline[ref].extend([t1_str, t2_str])
+                time_ref_map[t1_str].add(ref)
+                time_ref_map[t2_str].add(ref)
+                team_use_count[ref]["R"] += 2
+                for team in all_teams:
+                    team_use_count[team]["P"] += 1
+            else:
+                m["Schiedsrichter"] = "KEIN SCHIRI"
+                m2["Schiedsrichter"] = "KEIN SCHIRI"
 
 
-            for i in range(len(line) - 2):
-                if line[i] == 'R' and line[i+2] == 'R' and line[i+1] in ['-', 'P']:
-                    isolated_ref_cost += 1
 
-
-        return fairness_cost + idle_cost * 3 + double_ref_cost * 2 + isolated_ref_cost * 4
-
-
+    matches = [m for m in schedule if "Match Type" in m]
+    best_schedule = copy.deepcopy(matches)
+    assign_referees_strict(best_schedule, teams, match_duration)
+    best_cost = cost(best_schedule)
 
     for _ in range(100):
-        i = random.randint(0, len(match_pairs) - 1)
-        current = referee_assignment[i]
-        candidates = get_valid_candidates(i, referee_assignment)
-        if not candidates:
-            continue
+        pairs = build_match_pairs(matches)
+        rng.shuffle(pairs)
 
-        best_ref = current
-        best_cost = cost(referee_assignment)
+        for m1, m2 in pairs:
+            old_t = time_obj(m1["Uhrzeit"])
+            old_f = int(m1["Feld"].split()[-1]) - 1
 
-        for cand in candidates:
-            if cand == current:
-                continue
-            referee_assignment[i] = cand
-            new_cost = cost(referee_assignment)
-            if new_cost < best_cost:
-                best_cost = new_cost
-                best_ref = cand
-            referee_assignment[i] = current  
+            candidate_slots = sorted(set(time_obj(m["Uhrzeit"]) for m in matches))
+            rng.shuffle(candidate_slots)
 
-        referee_assignment[i] = best_ref
+            for t in candidate_slots:
+                t2 = t + timedelta(minutes=match_duration)
+                group = m1["Gruppe"]
+                allowed_fields = [f for f in field_assignment[group]]
+                rng.shuffle(allowed_fields)
+                for f in allowed_fields:
+                    f_str = f"Field {f}"
+                    occupied = any(
+                        (m["Uhrzeit"] == t.strftime(time_format) or m["Uhrzeit"] == t2.strftime(time_format))
+                        and m["Feld"] == f_str for m in matches)
+                    if not occupied:
+                        m1["Uhrzeit"], m1["Feld"] = t.strftime(time_format), f_str
+                        m2["Uhrzeit"], m2["Feld"] = t2.strftime(time_format), f_str
+
+                        assign_referees_strict(schedule, teams, match_duration)
+
+                        new_cost = cost(matches)
+                        if new_cost < best_cost:
+                            best_cost = new_cost
+                            best_schedule = copy.deepcopy(matches)
+                        else:
+                            m1["Uhrzeit"], m1["Feld"] = old_t.strftime(time_format), f"Field {old_f+1}"
+                            m2["Uhrzeit"], m2["Feld"] = (old_t + timedelta(minutes=match_duration)).strftime(time_format), f"Field {old_f+1}"
+                        break
+                else:
+                    continue
+                break
+
+    return sorted(best_schedule, key=lambda m: (time_obj(m["Uhrzeit"]), m["Feld"]))
 
 
-    for (m1, m2), ref_id in zip(match_pairs, referee_assignment):
-        if ref_id:
-            name = teams[ref_id]["name"]
-            m1["Schiedsrichter"] = name
-            if m2:
-                m2["Schiedsrichter"] = name
+def insert_pauses(schedule, start_time, play_in_time, pause_interval, pause_length, pause_count):
+    from datetime import datetime, timedelta
 
-    return schedule
+    time_format = "%H:%M"
+    start_dt = datetime.strptime(start_time, time_format) + timedelta(minutes=play_in_time)
+    pause_times = [start_dt + timedelta(hours=pause_interval * i) for i in range(1, pause_count + 1)]
+
+    # Konvertiere Pausezeiten zu Strings
+    pause_times_str = [pt.strftime(time_format) for pt in pause_times]
+
+    # Pausen einfügen
+    updated_schedule = []
+    pause_inserted = set()
+    for match in schedule:
+        # Vor dem Match eine Pause einfügen, falls sie ansteht
+        while pause_times_str and match["Uhrzeit"] >= pause_times_str[0] and pause_times_str[0] not in pause_inserted:
+            updated_schedule.append({
+                "Spiel": len(updated_schedule) + 1,
+                "Feld": "All Fields",
+                "Uhrzeit": pause_times_str[0],
+                "Team 1": "Pause",
+                "Team 2": "Pause",
+                "Schiedsrichter": "Not required",
+                "Gruppe": "N/A",
+                "Ergebnis Team 1": None,
+                "Ergebnis Team 2": None,
+            })
+            pause_inserted.add(pause_times_str[0])
+            pause_times_str.pop(0)
+        updated_schedule.append(match)
+
+    # Falls Pausezeiten am Ende liegen und noch nicht eingefügt wurden
+    for remaining_pause in pause_times_str:
+        updated_schedule.append({
+            "Spiel": len(updated_schedule) + 1,
+            "Feld": "All Fields",
+            "Uhrzeit": remaining_pause,
+            "Team 1": "Pause",
+            "Team 2": "Pause",
+            "Schiedsrichter": "Not required",
+            "Gruppe": "N/A",
+            "Ergebnis Team 1": None,
+            "Ergebnis Team 2": None,
+        })
+
+    return updated_schedule
 
 
 
 
-def main():
-    fields = 3
+if __name__ == '__main__':
+    fields = 4
     performance_groups = 2
-    teams_per_group = 6
+    teams_per_group = 8
     start_time = "12:00"
     match_duration = 15
-    round_trip = False
+    round_trip = True
     play_in_time = 30
     pause_length = 30
-    pause_count = 1
-    pause_interval = 2
+    pause_count = 2
+    pause_interval = 4
     group_names = ["Schwitzer", "Fun"]
     team_names = [
-        "STeam 1", "STeam 2", "STeam 3", "STeam 4", "STeam 5", "STeam 6",
-        "FTeam1", "FTeam2", "FTeam 3", "FTeam 4", "FTeam 5", "FTeam 6"
+        "STeam 1", "STeam 2", "STeam 3", "STeam 4", "STeam 5", "STeam 6", "STeam 7", "STeam8",
+        "FTeam1", "FTeam2", "FTeam 3", "FTeam 4", "FTeam 5", "FTeam 6", "FTeam 7", "FTeam8"
         
     ]
 
-    schedule, teams = create_tournament_plan(
+    schedule, teams, field_assignment = create_tournament_plan(
         fields=fields,
         teams_per_group=teams_per_group,
         performance_groups=performance_groups,
@@ -494,7 +606,22 @@ def main():
         group_names=group_names,
         team_names=team_names
     )
-    schedule = optimize_referees(schedule, teams, match_duration)
+    schedule = optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
+    schedule = insert_pauses(
+        schedule=schedule,
+        start_time=start_time,
+        play_in_time=play_in_time,
+        pause_interval=pause_interval,
+        pause_length=pause_length,
+        pause_count=pause_count
+    )
+
+
+
+
+
+
+
     if not schedule:
 
 
@@ -515,11 +642,7 @@ def main():
             else:
                 print(f"  Ergebnis: Noch offen")
             print("-" * 50)
-    
-    html_output = create_html(schedule, fields)
-    with open("turnierplan.html", "w", encoding="utf-8") as file:
-        file.write(html_output)
-    print("HTML-Datei 'turnierplan.html' wurde geschrieben.")
+
 
 def create_html(schedule, fields):
     html = """
@@ -607,5 +730,7 @@ def create_html(schedule, fields):
     return html
 
 
-if __name__ == "__main__":
-    main()
+html_output = create_html(schedule, fields)
+
+with open("turnierplan.html", "w", encoding="utf-8") as file:
+    file.write(html_output)
