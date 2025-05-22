@@ -3,18 +3,6 @@ from pydantic import BaseModel,field_validator,model_validator
 from datetime import time
 from typing import List, Optional
 
-'''schedule.append({
-        "Spiel": 0,
-        "Feld": "All Fields",
-        "Uhrzeit": current_time.strftime("%H:%M"),
-        "Team 1": "Warm-up",
-        "Team 2": "Warm-up",
-        "Schiedsrichter": "Not required",
-        "Gruppe": "N/A",
-        "Ergebnis Team 1": None,
-        "Ergebnis Team 2": None,
-    })'''
-
 class ReturnMatchOption(str, Enum):
     TRUE = "true"
     FALSE = "false"
