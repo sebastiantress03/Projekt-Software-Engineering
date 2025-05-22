@@ -28,7 +28,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
 | start | time | Uhrzeit wann das Turnier startet |
 | period | int | Dauer eines Spiels in Minuten |
 | warm_up | int | Dauer der Aufwärmzeit in Minuten |
-| num_break | int | Anzahl der Pausen |
+| num_breaks | int | Anzahl der Pausen |
 | break_length | array[] | Array welches die Länge der Einzelnen Pausen beinhaltet | 
 | break_length[] | int | Länge der Einzelnen Pause in Minuten | 
 | break_times | array[] | Array welches die start Uhrzeiten der Pausen beinhaltet |
@@ -48,7 +48,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
     "start": "10:00:00",
     "period": 20,
     "warm_up": 30,
-    "num_break": 2,
+    "num_breaks": 2,
     "break_length":[30,60],
     "break_times":["12:00:00","15:00:00"],
     "stage_name": ["Profi","Anfänger"],
