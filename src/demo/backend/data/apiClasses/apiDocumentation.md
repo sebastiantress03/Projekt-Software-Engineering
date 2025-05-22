@@ -23,34 +23,36 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
 | Felder | Typ | Beschreibung |
 | :---: | :---: | :--- |
 | name | str | Name für das Turnier |
-| anz_field | int | Anzahl der Spielfelder die dem Turnier zur Verfügung stehen (max 4) |
+| num_fields | int | Anzahl der Spielfelder die dem Turnier zur Verfügung stehen (max 4) |
 | return_match | str | Ob es Rückspiele geben soll (Beinhaltet "true" oder "false") |
 | start | time | Uhrzeit wann das Turnier startet |
 | period | int | Dauer eines Spiels in Minuten |
 | warm_up | int | Dauer der Aufwärmzeit in Minuten |
-| anz_breaks | int | Anzahl der Pausen |
+| num_break | int | Anzahl der Pausen |
 | break_length | array[] | Array welches die Länge der Einzelnen Pausen beinhaltet | 
 | break_length[] | int | Länge der Einzelnen Pause in Minuten | 
 | break_times | array[] | Array welches die start Uhrzeiten der Pausen beinhaltet |
 | break_times[] | time | start Uhrzeiten der Pause |
-| anz_stages | array[] | Beinhaltet die Namen der  Leistungsgruppen (max 2) |
-| anz_stages[] | str | Name der Leistungsgruppe |
-| anz_teams | array[] | Beinhaltet die Anzahl an Teams in den Einzelnen |
-| anz_teams[] | int | Anzahl an Teams der Leistungsgruppe |
+| stage_name | array[] | Beinhaltet die Namen der  Leistungsgruppen (max 2) |
+| stage_name[] | str | Name der Leistungsgruppe |
+| num_teams | array[] | Beinhaltet die Anzahl an Teams in den Einzelnen |
+| num_teams[] | int | Anzahl an Teams der Leistungsgruppe |
 
 ### Übergabe Beispiel
 
 ```JSON
 {
     "name": "Nikolaus Turnier 2025",
+    "num_fields": "3",
+    "return_match": "true",
     "start": "10:00:00",
     "period": 20,
     "warm_up": 30,
-    "anz_breaks": 2,
+    "num_break": 2,
     "break_length":[30,60],
     "break_times":["12:00:00","15:00:00"],
-    "anz_stages": ["Profi","Anfänger"],
-    "anz_teams": [6,10]
+    "stage_name": ["Profi","Anfänger"],
+    "num_teams": [6,10]
 }
 ```
 
@@ -75,7 +77,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
 | Felder | Typ | Beschreibung |
 | :---: | :---: | :--- |
 | tournament | array[]  | Beinhaltet ein Array welches die Einzelnen Spiele beinhaltet |
-| gameID | int | Beinhaltet die ID des Spiels |
+| game_id | int | Beinhaltet die ID des Spiels |
 | team_name | array[3] | Beinhaltet die Namen der Teilnehmenden Teams |
 | team_name[0] | str | Name von Team 1 |
 | team_name[1] | str | Name von Team 2 |
@@ -93,7 +95,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
 {
     "tournament":[
         {
-            "gameID": 1,
+            "game_id": 1,
             "team_name": ["Team 1", "Team 2","Team 4"],   
             "scores": [15,20],
             "stage_name":"Profi",
@@ -101,7 +103,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
             "play_time": "10:15:00"
         },
         {
-            "gameID": 2,
+            "game_id": 2,
             "team_name": ["Team 2", "Team 1","Team 4"],   
             "scores": [0,0],
             "stage_name":"Profi",

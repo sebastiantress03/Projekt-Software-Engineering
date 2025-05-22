@@ -92,7 +92,7 @@ class DatabaseRequests:
         
         for game in data:
             t_data = TournamentPlan(game[0],game[7],game[1],game[2],game[3],game[4],game[5],game[6],game[8])
-            return_date.append({"gameID":t_data.game_number,"team_name":[t_data.team1, t_data.team2,t_data.referee],"scores":[t_data.score_team1, t_data.score_team2 ] ,"stage_name":t_data.stage_name,"field":t_data.field_number,"play_time":t_data.time_of_game})
+            return_date.append({"game_id":t_data.game_number,"team_name":[t_data.team1, t_data.team2,t_data.referee],"scores":[t_data.score_team1, t_data.score_team2 ] ,"stage_name":t_data.stage_name,"field":t_data.field_number,"play_time":t_data.time_of_game})
 
         return return_date
     

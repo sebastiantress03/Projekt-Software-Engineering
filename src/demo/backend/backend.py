@@ -32,19 +32,19 @@ def check_received_data():
 def generate_tournament(tournament: GenerateTournament):
     
     sum_teams = 0
-    for i in range(tournament.number_of_stages):
-        sum_teams = sum_teams + tournament.number_of_teams[i]
+    for i in len(tournament.stage_name):
+        sum_teams = sum_teams + tournament.num_teams[i]
 
     # Funktion Turnier erstellen in Datenbank
-    data_request.insert_tournament(tournament.tournament_name,tournament.time_to_start, sum_teams)
+    data_request.insert_tournament(tournament.name,tournament.start, sum_teams)
 
     
     # Funktion hinzufügen stages
     for stage in len(tournament.stage_name):
-        data_request.insert_stages(tournament.stage_name[stage], tournament.number_of_teams[stage]) 
+        data_request.insert_stages(tournament.stage_name[stage], tournament.num_teams[stage]) 
 
     # Funktion um Turnier ID zu erhalten
-    tournament_id = data_request.get_tournament_id(tournament.tournament_name)
+    tournament_id = data_request.get_tournament_id(tournament.name)
 
 
     # TODO Hier müssen die Werte an den Algorithmus für die Erstellung des Turnierplans übergeben werden
@@ -63,12 +63,12 @@ def generate_tournament(tournament: GenerateTournament):
 @api.get("/tournament/{tournament_name}")
 def generate_tournament(tournament_name: str):
     try:
-        tournament_bez = str(tournament_name)
+        tournament_name = str(tournament_name)
     except ValueError:
         return HTTPException(status_code=400,detail="Ungültigen Turniernamen")
 
     # Funktion erhalten der Turnier ID
-    tournament_id = data_request.get_tournament_id(tournament_bez)
+    tournament_id = data_request.get_tournament_id(tournament_name)
 
     if tournament_id is None or not isinstance(tournament_id,int):
         return HTTPException(status_code=500,detail="Datenbankfehler beim Abfrage von Daten! ")

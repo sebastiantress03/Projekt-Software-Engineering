@@ -20,20 +20,20 @@ class ReturnMatchOption(str, Enum):
     FALSE = "false"
 
 class GenerateTournament(BaseModel):
-    tournament_name: str
-    number_of_fields: int                           # mindestens 1 Feld maximal 4 ist noch zu klären 
+    name: str
+    num_fields: int                           # mindestens 1 Feld maximal 4 ist noch zu klären 
     return_match: ReturnMatchOption                 # das return matches exists 
-    time_to_start: time                             # Uhrzeit # wert wird schon von Pydantic überprüft ob es sich um eine Time Objekt handelt 
-    game_time: int                                  # in min
-    warm_up_time: int                               # in min
-    number_of_breaks: int
+    start: time                             # Uhrzeit # wert wird schon von Pydantic überprüft ob es sich um eine Time Objekt handelt 
+    period: int                                  # in min
+    warm_up: int                               # in min
+    num_break: int
     break_length: Optional[List[int]] = None
     break_times: Optional[List[time]] = None 
     stage_name: List[str]          
-    number_of_teams: List[int]
+    num_teams: List[int]
 
 
-    @field_validator('number_of_fields')
+    @field_validator('num_fields')
     def right_number_of_fields(cls, v):
         if v < 0:
             raise ValueError("Felder Anzahl kann nicht negativ sein! ")
@@ -41,15 +41,7 @@ class GenerateTournament(BaseModel):
             raise ValueError("Felder Anzahl ist zu groß! ")
         return v
         
-    @field_validator('number_of_stages')
-    def anz_stages(cls, v):
-        if v < 1:
-            raise ValueError("Mindestens eine Leistungsgruppe! ")
-        elif v > 2:
-            raise ValueError("Maximal zwei Leistungsgruppen! ")
-        return v
-        
-    @field_validator('game_time','warm_up_time')
+    @field_validator('start','warm_up')
     def time_of_game(cls, v, info):
         if not isinstance(v,int):
             raise ValueError(f"{info.field_name} ist nicht valide! ")
@@ -59,7 +51,7 @@ class GenerateTournament(BaseModel):
             raise ValueError(f"{info.field_name} ist zu groß! ")
         return v
     
-    @field_validator('number_of_breaks')
+    @field_validator('num_break')
     def valid_anz_breaks(cls,v):
         if v < 0:
             raise ValueError("Die Anzahl der Pausen kann nicht negativ sein! ")
@@ -93,7 +85,7 @@ class GenerateTournament(BaseModel):
 
     @model_validator(mode='after')
     def check_breaks_and_lengths(cls, v):
-        breaks = v.get('number_of_breaks')
+        breaks = v.get('num_break')
         lengths = v.get('break_length')
         time_breaks = v.get('break_times') 
 
@@ -131,7 +123,7 @@ class Match(BaseModel):
 
 
 class TournamentPlan(BaseModel):
-    game_number: int
+    game_id: int
     field_number: int
     team1: str              # Leistungsgruppe(ersten 2 Buchstaben) + Team + Nummer 
     team2: str           
@@ -141,7 +133,7 @@ class TournamentPlan(BaseModel):
     score_team2: str
     time_of_game: time
 
-    @field_validator('game_number')
+    @field_validator('game_id')
     def check_game_number(cls, v):
         if v < 1:
             raise ValueError("Spielnummer kann nicht kleiner 1 sein! ")
