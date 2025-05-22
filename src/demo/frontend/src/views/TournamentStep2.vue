@@ -66,14 +66,14 @@ export default {
             const { number_of_stages, ...restStep1Data } = this.step1Data;
             const payload = {
                 ...restStep1Data,
-                break_length: this.break_length,
-                break_times: this.break_times,
+                break_length: [...this.break_length],
+                break_times: [...this.break_times],
                 stage_name: this.stages.map((g) => g.name),
                 num_teams: this.stages.map((g) => g.teams),
             };
 
             axios
-                .post("/tournament/", payload)
+                .post("http://localhost:8000/tournament/", payload)
                 .then((response) => {
                     console.log("✅ API Antwort:", response.data);
                     this.$router.push("/");
