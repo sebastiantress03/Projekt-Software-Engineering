@@ -4,21 +4,17 @@
 
         <div class="form-section">
             <FormField label="Turniername:">
-                <input v-model="form.tournament_name" type="text" />
+                <input v-model="form.name" type="text" />
             </FormField>
 
             <FormField label="Anzahl der Felder:">
-                <input
-                    v-model.number="form.number_of_fields"
-                    type="number"
-                    min="1"
-                />
+                <input v-model.number="form.num_fields" type="number" min="1" />
             </FormField>
 
             <FormField label="Hin- & Rückrunde:">
                 <select v-model="form.return_match">
-                    <option value="Ja">Ja</option>
-                    <option value="Nein">Nein</option>
+                    <option value="true">Ja</option>
+                    <option value="false">Nein</option>
                 </select>
             </FormField>
 
@@ -31,12 +27,12 @@
             </FormField>
 
             <FormField label="Startzeit:">
-                <input v-model="form.time_to_start" type="time" step="1800" />
+                <input v-model="form.start" type="time" step="1800" />
             </FormField>
 
             <FormField label="Spielzeit (Min):">
                 <input
-                    v-model.number="form.game_time"
+                    v-model.number="form.period"
                     type="number"
                     min="1"
                     step="5"
@@ -45,7 +41,7 @@
 
             <FormField label="Aufwärmzeit (Min):">
                 <input
-                    v-model.number="form.warm_up_time"
+                    v-model.number="form.warm_up"
                     type="number"
                     min="0"
                     step="5"
@@ -53,11 +49,7 @@
             </FormField>
 
             <FormField label="Anzahl Pausen:">
-                <input
-                    v-model.number="form.number_of_breaks"
-                    type="number"
-                    min="0"
-                />
+                <input v-model.number="form.num_breaks" type="number" min="0" />
             </FormField>
         </div>
 
@@ -65,7 +57,7 @@
             <HomeButton
                 color="secondary"
                 size="large"
-                :disabled="form.tournament_name === ''"
+                :disabled="form.name === ''"
                 @click="goToNext"
             >
                 Weiter zu Gruppen
@@ -84,21 +76,20 @@ export default {
     data() {
         return {
             form: {
-                tournament_name: "",
-                number_of_fields: 1,
-                return_match: "Ja",
+                name: "",
+                num_fields: 1,
+                return_match: "true",
                 number_of_stages: 1,
-                time_to_start: "09:00",
-                game_time: 10,
-                warm_up_time: 5,
-                number_of_breaks: 1,
+                start: "09:00",
+                period: 10,
+                warm_up: 5,
+                num_breaks: 1,
             },
         };
     },
     methods: {
         goToNext() {
-            //nochmal Validierung, in CreateTournament.vue ectl überflüssig
-            if (!this.form.tournament_name.trim()) {
+            if (!this.form.name.trim()) {
                 alert("Bitte geben Sie einen Turniernamen ein!");
                 return;
             }
