@@ -80,9 +80,9 @@ class GenerateTournament(BaseModel):
 
     @model_validator(mode='after')
     def check_breaks_and_lengths(cls, v):
-        breaks = v.get('num_breaks')
-        lengths = v.get('break_length')
-        time_breaks = v.get('break_times') 
+        breaks = v.num_breaks
+        lengths = v.break_length
+        time_breaks = v.break_times 
 
         if breaks == 0:
             if lengths not in (None, [], ()) or time_breaks not in (None, [], ()):
