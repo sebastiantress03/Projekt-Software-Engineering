@@ -32,15 +32,15 @@ def check_received_data():
 def generate_tournament(tournament: GenerateTournament):
     
     sum_teams = 0
-    for i in len(tournament.stage_name):
+    for i in range(len(tournament.stage_name)):
         sum_teams = sum_teams + tournament.num_teams[i]
 
     # Funktion Turnier erstellen in Datenbank
-    data_request.insert_tournament(tournament.name,tournament.start, sum_teams)
+    data_request.insert_tournament(tournament.name, tournament.period, sum_teams)
 
     
     # Funktion hinzufügen stages
-    for stage in len(tournament.stage_name):
+    for stage in range(len(tournament.stage_name)):
         data_request.insert_stages(tournament.stage_name[stage], tournament.num_teams[stage]) 
 
     # Funktion um Turnier ID zu erhalten
@@ -49,19 +49,23 @@ def generate_tournament(tournament: GenerateTournament):
 
     # TODO Hier müssen die Werte an den Algorithmus für die Erstellung des Turnierplans übergeben werden
     
-    tournament_data = [[1, 1, "Team 1", "Team 2", "Team 3", "Anfänger", 0, 0, time(12,30)],[2, 1, "Team 2", "Team 1", "Team 3" "Anfänger", 0, 0, time(12,50)]]
+    tournament_data = [[1, 1, "Team 1", "Team 2", "Team 3", "Anfänger", 0, 0, time(12,30)],[2, 1, "Team 2", "Team 1", "Team 3", "Anfänger", 0, 0, time(12,50)]]
 
     # game Aufbau [Spielnummer, Feldnummer, Team Name 1 Team, Team Name 2 Team, Team Name Schiedsrichter, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
 
     # Funktion hinzufügen der Teams in Team Tabelle und auch die Spiele
-    for game in tournament_data:
-        data_request.insert_tournament_data(tournament_id, game[2],game[3],game[4],game[1],game[5],game[8])
+    if tournament_id is not None:
+        for game in tournament_data:
+            data_request.insert_tournament_data(tournament_id, game[2],game[3],game[4],game[1],game[5],game[8])
+        return HTTPException(status_code=200,detail="SUCCESS")
+    else:
+        return HTTPException(status_code=500,detail="FAILED")
 
-    return HTTPException(status_code=200,detail="SUCCESS")
+
 
 # API Schnittstelle für die Übermittlung des Turnierplans
 @api.get("/tournament/{tournament_name}")
-def generate_tournament(tournament_name: str):
+def get_tournament(tournament_name: str):
     try:
         tournament_name = str(tournament_name)
     except ValueError:
