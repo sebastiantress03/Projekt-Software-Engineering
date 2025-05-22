@@ -283,13 +283,6 @@ def create_tournament_plan(
     return schedule, teams, field_assignment
 
 
-from datetime import datetime, timedelta
-from collections import defaultdict
-import random
-import copy
-
-
-
 def optimize_schedule(schedule, teams, match_duration, fields, field_assignment):
     time_format = "%H:%M"
     rng = random.Random(42)
@@ -356,16 +349,16 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
             for i in range(len(times_sorted) - 1):
                 delta = (times_sorted[i+1] - times_sorted[i]).total_seconds() / 60
                 if delta == match_duration:
-                    penalty += 10000  # R-R
+                    penalty += 10000 
                 elif delta == match_duration * 2:
-                    penalty += 500  # R--R
+                    penalty += 500  
 
         variance_penalty = 0
         if field_usage:
             avg = sum(field_usage.values()) / fields
             variance_penalty = sum(abs(field_usage[i] - avg) for i in field_usage)
 
-        INACTIVITY_WEIGHT = 1000  # Anpassbarer Faktor
+        INACTIVITY_WEIGHT = 1000
 
         inactivity_penalty = 0
         for timeline in team_timelines.values():
@@ -399,12 +392,12 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
         time_ref_map = defaultdict(set)
         team_use_count = {t['name']: {'P': 0, 'R': 0} for t in teams.values()}
 
-        # Nur Spiele mit Match Type für Mapping
+
         schedule_by_time_field = {
             (m['Uhrzeit'], m['Feld']): m for m in schedule if m.get('Match Type') in ["Hinspiel", "Rückspiel"]
         }
 
-        # Welche Teams spielen zu welcher Uhrzeit
+
         for m in schedule:
             if "Match Type" not in m:
                 continue
@@ -430,10 +423,10 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
             all_teams = {m["Team 1"], m["Team 2"], m2["Team 1"], m2["Team 2"]}
             t1_str = m["Uhrzeit"]
 
-            # Alle blockierten Teams (Spieleinsatz, bereits Schiri, Beteiligte)
+
             forbidden = time_team_map[t1_str] | time_team_map[t2_str] | time_ref_map[t1_str] | time_ref_map[t2_str] | all_teams
 
-            # Strafe für enge Schiri-Abstände
+  
             def recent_ref_penalty(candidate_name):
                 times = referee_timeline[candidate_name]
                 penalty = 0
@@ -446,13 +439,13 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
                         penalty += 500
                 return penalty
 
-            # Kandidaten finden
+
             candidates = [
                 t for t in teams.values()
                 if t["group"] == group and t["name"] not in forbidden
             ]
 
-            # Beste auswählen (nach Strafe, R-Verwendung, P-Verwendung)
+
             candidates.sort(
                 key=lambda c: (
                     recent_ref_penalty(c["name"]),
@@ -482,7 +475,7 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
     assign_referees_strict(best_schedule, teams, match_duration)
     best_cost = cost(best_schedule)
 
-    for _ in range(100):
+    for _ in range(40):
         pairs = build_match_pairs(matches)
         rng.shuffle(pairs)
 
@@ -531,14 +524,13 @@ def insert_pauses(schedule, start_time, play_in_time, pause_interval, pause_leng
     start_dt = datetime.strptime(start_time, time_format) + timedelta(minutes=play_in_time)
     pause_times = [start_dt + timedelta(hours=pause_interval * i) for i in range(1, pause_count + 1)]
 
-    # Konvertiere Pausezeiten zu Strings
     pause_times_str = [pt.strftime(time_format) for pt in pause_times]
 
-    # Pausen einfügen
+
     updated_schedule = []
     pause_inserted = set()
     for match in schedule:
-        # Vor dem Match eine Pause einfügen, falls sie ansteht
+ 
         while pause_times_str and match["Uhrzeit"] >= pause_times_str[0] and pause_times_str[0] not in pause_inserted:
             updated_schedule.append({
                 "Spiel": len(updated_schedule) + 1,
