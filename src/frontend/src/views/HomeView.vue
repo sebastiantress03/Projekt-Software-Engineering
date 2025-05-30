@@ -6,7 +6,7 @@
     </div>
 
     <div class="button-wrapper">
-      <HomeButton @click="goToCreate">✏️ Turnier erstellen</HomeButton>
+      <HomeButton @click="goToCreate" class="desktop-only">✏️ Turnier erstellen</HomeButton>
       <HomeButton @click="goToLoad">📁 Turnier laden</HomeButton>
     </div>
   </div>
@@ -39,13 +39,15 @@ export default {
   background-color: #f9f9f9;
   font-family: "Segoe UI", sans-serif;
   padding: 20px;
+  text-align: center;
 }
 
 .header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
   margin-bottom: 40px;
+  gap: 20px;
 }
 
 .logo {
@@ -53,7 +55,7 @@ export default {
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 24px;
   color: #222;
 }
 
@@ -61,5 +63,25 @@ h1 {
   display: flex;
   flex-direction: row;
   gap: 30px;
+}
+
+/* In mobiler Ansicht: nur „Turnier laden“ sichtbar */
+@media screen and (max-width: 768px) {
+  .button-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .logo {
+    width: 70px;
+  }
 }
 </style>
