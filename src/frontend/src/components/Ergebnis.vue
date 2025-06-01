@@ -1,10 +1,28 @@
 <script setup>
 import {ref} from 'vue'
 /**
- * Komponente zur Anzeige und Bearbeitung von Spielergebnissen
- * @component
- * @description Ermöglicht die Eingabe von Ergebnissen für zwei Teams und speichert diese im LocalStorage.
+ * @component Ergebnis
+ * @description Komponente zur Anzeige und Bearbeitung von Spielergebnissen.
+ *
+ * @props
+ * @prop {Number} spielID - Eindeutige ID des Spiels.
+ * @prop {Number} teamID1 - ID des ersten Teams.
+ * @prop {Number} teamID2 - ID des zweiten Teams.
+ * @prop {Number} spielergebnis1 - Aktuelles Ergebnis von Team 1.
+ * @prop {Number} spielergebnis2 - Aktuelles Ergebnis von Team 2.
+ * @prop {String} hinrückspiel - Kennzeichnung, ob Hin- oder Rückrunde (z. B. "Hinrunde").
+ *
+ * @events
+ * (none)
+ *
+ * @slots
+ * (none)
+ *
+ * @example
+ * <Ergebnis :spielID="1" :teamID1="100" :teamID2="200" :spielergebnis1="3" :spielergebnis2="2" hinrückspiel="Hinrunde" />
  */
+
+
     const props = defineProps({
 
      /**

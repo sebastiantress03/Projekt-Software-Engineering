@@ -7,9 +7,19 @@
 
 <script>
 /**
- * FormField
- * 
- * Eine Layout-Komponente zur Darstellung eines Formularfeldes mit Label und Inhalt (über Slot).
+ * @component FormField
+ * @description Eine Layout-Komponente zur Darstellung eines Formularfeldes mit Label und Inhalt über einen Slot.
+ *
+ * @props
+ * @prop {String} label – Der Text, der als Label links vom Inhalt angezeigt wird.
+ *
+ * @slots
+ * default – Der Inhalt (z. B. ein Eingabefeld), der rechts vom Label angezeigt wird.
+ *
+ * @example
+ * <FormField label="Name">
+ *   <input type="text" v-model="name" />
+ * </FormField>
  */
 export default {
     name: "FormField",

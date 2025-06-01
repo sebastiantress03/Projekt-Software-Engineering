@@ -5,6 +5,19 @@ import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
+/**
+ * @component WelcomePage
+ * @description Diese Komponente stellt eine Willkommensübersicht mit Ressourcen, Links und Icons für Vue.js bereit.
+ * 
+ * @props
+ * (Keine Props, nur statische Inhalte)
+ * 
+ * @methods
+ * - openReadmeInEditor: Öffnet die README.md im Editor (über fetch)
+ *
+ * @example
+ * <WelcomePage />
+ */
 
 const openReadmeInEditor = () => fetch('/__open-in-editor?file=README.md')
 </script>

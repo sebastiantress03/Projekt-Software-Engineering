@@ -1,6 +1,6 @@
 # HomeButton
 
-HomeButton Ein wiederverwendbarer Button mit konfigurierbarem Typ, Stil (Farbe, Größe) und deaktivierbarem Zustand. Emits: - click: Wird ausgelöst, wenn der Button geklickt wird
+Ein wiederverwendbarer Button mit konfigurierbarem Typ, Stil (Farbe, Größe) und deaktivierbarem Zustand. <HomeButton color="secondary" size="large" @click="handleClick">Klick mich</HomeButton>
 
 ## Props
 
@@ -9,8 +9,8 @@ HomeButton Ein wiederverwendbarer Button mit konfigurierbarem Typ, Stil (Farbe, 
 |---|---|---|---|---|
 |type|Der Typ des Buttons (z. B. "button", "submit", "reset")|`String`|`false`|button|
 |color|Die Farbklasse des Buttons, z. B. "primary" oder "secondary"|`String`|`false`|primary|
-|size|z.B. 'primary', 'secondary' Die Größenklasse des Buttons, z. B. "normal" oder "large"|`String`|`false`|normal|
-|disabled|z.B. 'normal', 'large' Ob der Button deaktiviert ist|`Boolean`|`false`|false|
+|size|Die Größenklasse des Buttons, z. B. "normal" oder "large"|`String`|`false`|normal|
+|disabled|Ob der Button deaktiviert ist|`Boolean`|`false`|false|
 
 <!-- @vuese:HomeButton:props:end -->
 

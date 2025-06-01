@@ -1,6 +1,6 @@
 # FormField
 
-FormField Eine Layout-Komponente zur Darstellung eines Formularfeldes mit Label und Inhalt (über Slot).
+default – Der Inhalt (z. B. ein Eingabefeld), der rechts vom Label angezeigt wird. <FormField label="Name"> <input type="text" v-model="name" /> </FormField>
 
 ## Props
 

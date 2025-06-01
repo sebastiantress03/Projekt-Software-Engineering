@@ -1,6 +1,18 @@
 <script setup>
 import { ref } from 'vue'
 
+/**
+ * @component HelloWorld
+ * @description Beispiel-Komponente zur Demonstration von Reaktivität und Hot Module Replacement (HMR) mit Vite.
+ *
+ * @props
+ * @prop {String} msg – Eine Nachricht, die als Titel angezeigt wird.
+ *
+ * @example
+ * <HelloWorld msg="Willkommen in Vue 3!" />
+ */
+
+
 defineProps({
   msg: String,
 })

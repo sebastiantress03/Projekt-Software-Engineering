@@ -11,12 +11,20 @@
 
 <script>
 /**
- * HomeButton
- * 
+ * @component HomeButton
+ * @description
  * Ein wiederverwendbarer Button mit konfigurierbarem Typ, Stil (Farbe, Größe) und deaktivierbarem Zustand.
- * 
- * Emits:
- * - click: Wird ausgelöst, wenn der Button geklickt wird
+ *
+ * @props
+ * @prop {String} type - Der Typ des Buttons (z. B. "button", "submit", "reset").
+ * @prop {String} color - Die Farbklasse des Buttons (z. B. "primary", "secondary").
+ * @prop {String} size - Die Größenklasse des Buttons (z. B. "normal", "large").
+ * @prop {Boolean} disabled - Gibt an, ob der Button deaktiviert ist.
+ *
+ * @emits click - Wird ausgelöst, wenn der Button geklickt wird.
+ *
+ * @example
+ * <HomeButton color="secondary" size="large" @click="handleClick">Klick mich</HomeButton>
  */
 export default {
   name: "HomeButton",
@@ -42,6 +50,7 @@ export default {
 </script>
 
 <style scoped>
+/* Basis-Styling für den Button */
 .home-btn {
   background-color: #387d75;
   color: white;
@@ -55,16 +64,19 @@ export default {
   width: 220px;
   text-align: center;
 }
+/* Farbvarianten */
 .home-btn.primary {
   background-color: #387d75;
 }
 .home-btn.secondary {
   background-color: #00796b;
 }
+/* Deaktiviert */
 .home-btn:disabled {
   background-color: #bbb;
   cursor: not-allowed;
 }
+/* Größenvarianten */
 .home-btn.large {
   font-size: 20px;
   padding: 20px 40px;
