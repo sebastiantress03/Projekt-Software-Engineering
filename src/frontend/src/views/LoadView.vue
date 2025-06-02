@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <div class="logo-header">
-      <img src="@/assets/logo.svg" alt="HTW Stura Logo" class="logo" />
+      <img src="@/assets/STURA_HTWD_Logo.webp" alt="HTWD Stura Logo" class="logo" />
+
       <h2>Vorherige Turniere</h2>
     </div>
 
