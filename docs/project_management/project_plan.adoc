@@ -131,6 +131,30 @@ Außerdem wird mithilfe der Retrospektiven gewährleistet, dass die Effizienz, Z
     * Frontenderstellung beginnen 
     * Datenbank und Backend verbinden, um die Turnierplanerstellung zu ermöglichen
 | 06/04/2025 - 26/04/2025
+
+| I8 
+|   * Schnittstellen bauen im Backend wie im Frontend, um eine Kommunikation zur ermöglichen
+    * Benutzeroberfläche verbesser in der Desktop Version 
+    * Richtlinien festlegen für die Code-Doku
+| 27/04/2025 – 17/05/2025
+
+| I9 
+|   * Feedback von Kunden einholen 
+    * Mobilversion fertigstellen 
+    * Codedoku gemäß der Richtlinien umsetzen 
+    * Schnittstellen zwischen Frontend und Backend anschließen 
+| 18/05/2025 – 07/06/2025
+
+| I10
+| * Vorbereitung der Präsentation und Live-Demo am 30.06.2025  
+  * Letzte Optimierungen an GUI
+  * Einbindung der Anwenderdoku im Frontend 
+  * Fertigstellung aller Dokumentationen:  
+    - Anforderungsspezifikation  
+    - Entwickler-, Test-, Anwender- und Betriebsdokumentation  
+  * Erstellung und Abgabe der Projektreflexion (Team)
+  * Erstellung eines Release-Builds
+| 08/06/2025 – 04/07/2025
 |===
 
 

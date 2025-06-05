@@ -1,0 +1,28 @@
+= Unittests: {project-name}
+Oliver Theumer <s86407@htw-dresden.de>; Vorname2 Nachname2 <email2@domain.org>; Vorname3 Nachname3 <email3@domain.org>
+{localdatetime}
+include::../_includes/default-attributes.inc.adoc[]
+// Platzhalter für weitere Dokumenten-Attribute
+
+== Allgemeine Informationen
+
+Dieses Dokument beschreibt die automatisierten **Unittests** für die *Turnierauswertungssoftware*.  
+Die Tests wurden mit dem `unittest`-Modul in Python umgesetzt und zielen darauf ab, die korrekte Umsetzung der Spielplanregeln maschinell zu überprüfen.  
+
+Die Unittests laufen nicht unabhängig, sondern greifen auf zentrale Funktionen wie `main()`, `baue_status_lists()` und `get_statusverlaeufe()` in der Turnierueberarbeitungsklasse zu.  
+Diese erzeugen auf Basis definierter Eingabekonfigurationen Spielpläne und Statusverläufe, welche dann automatisiert validiert werden.
+
+== Ziel der Unittests
+
+Die Tests prüfen unter anderem:
+
+- Kein Team spielt gegen sich selbst
+- Kein Team pfeift zweimal direkt hintereinander
+- Kein Team hat die Folge „pfeifen – aussetzen – pfeifen“
+- Kein Team setzt länger als ein Spiel aus
+- Gleichverteilung der Schiedsrichterrolle über alle Teams
+- Korrekte Anzahl der Spiele bei Hin- und Rückspiel-Konfiguration
+
+== Projektstruktur & Speicherort
+
+Die Tests befinden sich im Pfad: src/backend/Data/unittest
