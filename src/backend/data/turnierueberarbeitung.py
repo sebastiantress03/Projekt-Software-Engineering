@@ -6,16 +6,28 @@ from turnierplangenerator_4 import (
     create_html
 )
 
-# @pytest.fixture(autouse=True)
-def fixed_random_seed():
-    random.seed(42)
-
 
 def extrahiere_zeiten(schedule):
     """
-    Ermittelt alle eindeutigen Spielzeiten (als datetime-Objekte) aus dem Zeitplan.
-    Nur Spiele mit Schlüssel 'Match Type' werden berücksichtigt.
+    Ermittelt alle eindeutigen Spielzeiten aus dem Spielplan.
+
+    Parameter:
+        - schedule (list): Liste der Matches, die Dictionaries mit 'Uhrzeit' und 'Match Type' enthalten.
+
+    Beispiel:
+        - extrahiere_zeiten(schedule)
+
+    Rückgabewert:
+        - list[datetime.time]: Sortierte Liste der Zeitpunkte (nur von Matches mit Match Type)
+
+    Fehlerbehandlung:
+        - Keine
+
+    Hinweise:
+        - Zeiten werden als `datetime.time`-Objekte zurückgegeben.
+        - „Pausen“ werden übersprungen.
     """
+
     zeiten = {
         datetime.strptime(m["Uhrzeit"], "%H:%M").time()
         for m in schedule
@@ -25,26 +37,73 @@ def extrahiere_zeiten(schedule):
 
 def initialisiere_status_lists(teams, zeiten):
     """
-    Erstellt ein Dict team_id → Liste von 'F'-Einträgen für alle Zeitslots.
+    Initialisiert für jedes Team eine Statusliste aus 'F' (frei) über alle Zeitslots.
+
+    Parameter:
+        - teams (dict): Team-ID → Teamdaten (Name, Gruppe, …)
+        - zeiten (list): Liste aller Spielzeitpunkte
+
+    Beispiel:
+        - initialisiere_status_lists(teams, zeiten)
+
+    Rückgabewert:
+        - dict: team_id → Liste mit 'F' (ein Eintrag pro Zeitslot)
+
+    Fehlerbehandlung:
+        - Keine
+
+    Hinweise:
+        - Grundlage für die spätere Markierung von Spielen ('S') und Pfeifen ('P')
     """
+
     return {tid: ['F'] * len(zeiten) for tid in teams}
 
 def slot_index(uhrzeit_str, zeiten):
     """
-    Gibt den Index eines Uhrzeit-Strings (z. B. "13:00") in der Zeitslot-Liste zurück.
+    Liefert den Index einer Uhrzeit innerhalb der Zeitslot-Liste.
+
+    Parameter:
+        - uhrzeit_str (str): Zeit im Format "HH:MM"
+        - zeiten (list[time]): Liste gültiger Spielzeiten
+
+    Beispiel:
+        - idx = slot_index("13:00", zeiten)
+
+    Rückgabewert:
+        - int: Indexposition der Uhrzeit in der Liste
+
+    Fehlerbehandlung:
+        - ValueError, wenn Uhrzeit nicht in Liste vorhanden ist
     """
+
     t = datetime.strptime(uhrzeit_str, "%H:%M").time()
     return zeiten.index(t)
 
 
 def baue_status_lists(schedule, teams):
     """
-    Erzeugt für jede Mannschaft eine Liste von Zuständen über alle Zeit-Slots:
-      - 'S' = spielt selbst
-      - 'P' = pfeift als Schiedsrichter
-      - 'F' = frei
-    Gibt ein dict team_id → Liste der Zustände sowie die Liste der Zeit-Slots zurück.
+    Erstellt Statuslisten für alle Teams über den gesamten Zeitverlauf.
+
+    Parameter:
+        - schedule (list): Liste der Spiel-Dictionaries
+        - teams (dict): team_id → Teamdaten
+
+    Beispiel:
+        - status_lists, zeiten = baue_status_lists(schedule, teams)
+
+    Rückgabewert:
+        - tuple:
+            - dict: team_id → Liste von Statusbuchstaben ('S', 'P', 'F')
+            - list: Liste der verwendeten Zeitpunkte
+
+    Fehlerbehandlung:
+        - Keine
+
+    Hinweise:
+        - Spiel = 'S', Pfeifen = 'P', sonst 'F' = Frei
+        - Schiedsrichter werden über Teamnamen gematcht
     """
+
     zeiten = extrahiere_zeiten(schedule)
     status_lists = initialisiere_status_lists(teams, zeiten)
 
@@ -77,9 +136,24 @@ def baue_status_lists(schedule, teams):
 
 def sortiere_schedule(schedule):
     """
-    Sortiert die schedule-Liste nach dem Zeit-String 'Uhrzeit' aufsteigend
-    und gibt die neue, sortierte Liste zurück.
+    Sortiert den Spielplan chronologisch nach Spielbeginn ('Uhrzeit').
+
+    Parameter:
+        - schedule (list): Liste der Matches als Dictionaries mit 'Uhrzeit'
+
+    Beispiel:
+        - sortierte_liste = sortiere_schedule(schedule)
+
+    Rückgabewert:
+        - list: sortierter Spielplan
+
+    Fehlerbehandlung:
+        - ValueError bei ungültigem Zeitformat
+
+    Hinweise:
+        - Verändert die Originalreihenfolge nicht (liefert neue Liste)
     """
+
     return sorted(
         schedule,
         key=lambda s: datetime.strptime(s["Uhrzeit"], "%H:%M")
@@ -88,14 +162,55 @@ def sortiere_schedule(schedule):
 
 def drucke_schedule(schedule):
     """
-    Druckt den Spielplan formatiert in die Konsole.
+    Gibt den Spielplan formatiert in die Konsole aus.
+
+    Parameter:
+        - schedule (list): Liste der Spiele als Dictionaries
+
+    Beispiel:
+        - drucke_schedule(schedule)
+
+    Rückgabewert:
+        - None
+
+    Fehlerbehandlung:
+        - Keine
+
+    Hinweise:
+        - Zeigt Spielzeit, Spielnummer, Teams und Schiedsrichter an.
     """
+
     for m in schedule:
         print(f"{m['Uhrzeit']} – Spiel {m['Spiel']}: "
               f"{m['Team 1']} vs. {m['Team 2']} (Schiri: {m['Schiedsrichter']})")
+        
 
+# TODO Anpassung der Funktion an die Anforderungen der Schnittstelle
 def aufruf_tournament(team_namen, felder, anzahl_teams, gruppen_namen, anzahl_gruppen, playstyle): 
-    # Parameterdefinition
+    """
+    Startet die Turniergenerierung mit gegebenen Parametern.
+
+    Parameter:
+        - team_namen (list[str]): Teamnamen
+        - felder (int): Anzahl der Felder
+        - anzahl_teams (int): Teams pro Gruppe
+        - gruppen_namen (list[str]): Gruppenbezeichnungen
+        - anzahl_gruppen (int): Anzahl Gruppen
+        - playstyle (bool): True = Hin- und Rückspiel, False = nur Hinspiel
+
+    Beispiel:
+        - schedule, teams = aufruf_tournament(...)
+
+    Rückgabewert:
+        - tuple: (schedule, teams)
+
+    Fehlerbehandlung:
+        - Keine
+
+    Hinweise:
+        - Ruft intern `create_tournament_plan()` und `optimize_referees()` auf
+    """
+
     fields = felder
     performance_groups = anzahl_gruppen
     teams_per_group = anzahl_teams
@@ -111,18 +226,18 @@ def aufruf_tournament(team_namen, felder, anzahl_teams, gruppen_namen, anzahl_gr
 
     # Spielplan erzeugen
     schedule, teams = create_tournament_plan(
-        fields=fields,
-        teams_per_group=teams_per_group,
-        performance_groups=performance_groups,
-        start_time=start_time,
-        match_duration=match_duration,
-        round_trip=round_trip,
-        play_in_time=play_in_time,
-        pause_length=pause_length,
-        pause_count=pause_count,
-        pause_interval=pause_interval,
-        group_names=group_names,
-        team_names=team_names
+        fields,
+        teams_per_group,
+        performance_groups,
+        start_time,
+        match_duration,
+        round_trip,
+        play_in_time,
+        pause_length,
+        pause_count,
+        pause_interval,
+        group_names,
+        team_names
     )
 
     # Schiedsrichter optimieren
@@ -132,8 +247,22 @@ def aufruf_tournament(team_namen, felder, anzahl_teams, gruppen_namen, anzahl_gr
 
 def get_statusverlaeufe(status_lists, teams):
     """
-    Gibt ein Dict zurück: Teamname → Statusverlauf als String, z. B. {"STeam 1": "SFPFS"}
+    Wandelt Statuslisten in lesbare Teamverläufe um.
+
+    Parameter:
+        - status_lists (dict): team_id → Statusliste
+        - teams (dict): team_id → Teamdaten
+
+    Beispiel:
+        - verlaeufe = get_statusverlaeufe(status_lists, teams)
+
+    Rückgabewert:
+        - dict: teamname → Statusverlauf als String (z. B. "SPF")
+
+    Fehlerbehandlung:
+        - Keine
     """
+
     verlaeufe = {}
     for tid, statuses in status_lists.items():
         name = teams[tid]["name"]
@@ -142,10 +271,26 @@ def get_statusverlaeufe(status_lists, teams):
 
 def analysiere_verlauf(name, verlauf, playstyle):
     """
-    Prüft den Spielverlauf eines Teams auf Regelverstöße.
+    Analysiert Statusverlauf eines Teams und prüft auf Regelverstöße.
 
-    Gibt eine Liste von Fehlern (Strings) zurück.
+    Parameter:
+        - name (str): Teamname
+        - verlauf (str): Statusfolge des Teams
+        - playstyle (bool): True = Hin- und Rückspiel, False = nur Hinspiel
+
+    Beispiel:
+        - fehler = analysiere_verlauf("STeam 1", "SFPFP", True)
+
+    Rückgabewert:
+        - list[str]: Liste erkannter Fehlertexte
+
+    Fehlerbehandlung:
+        - Keine
+
+    Hinweise:
+        - Regeln hängen vom Modus ab (z. B. keine doppelten Pausen)
     """
+
     fehler = []
 
     if playstyle == True:
@@ -169,7 +314,32 @@ def analysiere_verlauf(name, verlauf, playstyle):
 
     return fehler
 
+# TODO Anpassung an die Anforderungen der Schnittstelle
 def main(team_namen, felder, anzahl_teams, gruppen_namen, anzahl_gruppen, playstyle): 
+    """
+    Hauptfunktion zur Generierung eines möglichst fehlerfreien Spielplans.
+
+    Parameter:
+        - team_namen (list[str])
+        - felder (int)
+        - anzahl_teams (int)
+        - gruppen_namen (list[str])
+        - anzahl_gruppen (int)
+        - playstyle (bool)
+
+    Beispiel:
+        - schedule, teams, fehler = main(...)
+
+    Rückgabewert:
+        - tuple: (schedule, teams, anzahl_fehler)
+
+    Fehlerbehandlung:
+        - Wiederholt Generierung maximal 30×, bis fehlerarmer Plan gefunden wurde.
+
+    Hinweise:
+        - Gibt den besten bisher gefundenen Plan zurück.
+    """
+
     fehler_temp = 1000
     fehler = 100 
     maxtime = 30
@@ -207,8 +377,26 @@ def main(team_namen, felder, anzahl_teams, gruppen_namen, anzahl_gruppen, playst
 
 def show_bestplan(schedule_temp, teams, fehler): 
     """
-    Gibt den besten Spielplan und die Teams aus.
+    Zeigt den finalen Spielplan in der Konsole an.
+
+    Parameter:
+        - schedule_temp (list): Spielplan
+        - teams (dict): Teaminformationen
+        - fehler (int): Anzahl der Fehler im Plan
+
+    Beispiel:
+        - show_bestplan(schedule, teams, fehler)
+
+    Rückgabewert:
+        - None
+
+    Fehlerbehandlung:
+        - Keine
+
+    Hinweise:
+        - Ausgabe in menschenlesbarer Form zur Prüfung und Debugging.
     """
+
     print("\nErstellter Spielplan:")
     print("=" * 50)
     for match in schedule_temp:

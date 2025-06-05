@@ -10,7 +10,25 @@ class Testmygenerator(unittest.TestCase):
         random.seed(42)  # Setze den Zufallszahlengenerator auf einen festen Wert für reproduzierbare Ergebnisse
     
     def pfeifeniemalsgegendichselbst(self, schedule): 
-        # Pfeife dich niemals selsbt
+        """
+        Testet, ob in einem gegebenen Spielplan (schedule) kein Team als Schiedsrichter bei seinem eigenen Spiel eingesetzt wird.
+
+        Parameter:
+            - schedule (list): Eine Liste von Dictionaries, die Spielinformationen enthalten (z.B. 'Team 1', 'Team 2', 'Schiedsrichter').
+
+        Beispiel:
+            - self.pfeifeniemalsgegendichselbst(generierter_spielplan)
+
+        Rückgabewert:
+            - None (wird im Rahmen eines UnitTests verwendet)
+
+        Fehlerbehandlung:
+            - Löst einen AssertionError aus, falls ein Team in seinem eigenen Spiel als Schiedsrichter eingetragen ist.
+
+        Hinweise:
+            - Funktioniert nur, wenn das Feld "Match Type" vorhanden und gesetzt ist (z. B. zum Filtern von echten Spielen).
+        """
+
         for match in schedule: 
             if match.get("Match Type"): 
                 team1 = match.get("Team 1")
@@ -21,7 +39,25 @@ class Testmygenerator(unittest.TestCase):
 
 
     def spieleniemalsgegendichselbst(self, schedule): 
-        #Spiele nie gegen sich selbst 
+        """
+        Testet, ob ein Team niemals gegen sich selbst spielt.
+
+        Parameter:
+            - schedule (list): Eine Liste von Dictionaries mit Spielinformationen ('Team 1', 'Team 2').
+
+        Beispiel:
+            - self.spieleniemalsgegendichselbst(generierter_spielplan)
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - Löst AssertionError, wenn Team 1 und Team 2 gleich sind.
+
+        Hinweise:
+            - Prüft nur Einträge mit gesetztem "Match Type".
+        """
+
         for match in schedule:
             if match.get("Match Type"): 
                 team1 = match.get("Team 1")
@@ -29,17 +65,75 @@ class Testmygenerator(unittest.TestCase):
                 self.assertNotEqual(team1, team2)
 
     def checkstatusverlaeufe(self, verlaeufe):
+        """
+        Validiert die Statusverläufe aller Teams hinsichtlich unzulässiger Kombinationen.
+
+        Parameter:
+            - verlaeufe (dict): Ein Dictionary mit Teamnamen als Keys und Status-Strings als Values (z.B. "SSFPF").
+
+        Beispiel:
+            - self.checkstatusverlaeufe(get_statusverlaeufe(spielplan))
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - Löst AssertionError bei:
+                - Vier aufeinanderfolgenden Pausen ("FFFF")
+                - Pfeifen-frei-pfeifen-Kombination ("PPFFPP")
+                - Viermaligem Pfeifen ("PPPP")
+
+        Hinweise:
+            - Nutzt `subTest`, um genaue Fehlermeldungen je Teamname auszugeben.
+        """
         for name, status in verlaeufe.items():
             with self.subTest(team=name):
                 self.assertNotIn("FFFF", status, f"{name} hat doppelte Pause")
                 self.assertNotIn("PPFFPP", status, f"{name} hat ungültige Kombination pfeifen-frei-pfeifen")
                 self.assertNotIn("PPPP", status, f"{name} hat mehrfaches Pfeifen")
 
-    def checkfails(self, fehler): 
+    def checkfails(self, fehler):
+        """
+        Prüft, ob ein generierter Spielplan fehlerfrei ist.
+
+        Parameter:
+            - fehler (int): Anzahl an Fehlerfällen (z. B. nicht erfüllte Bedingungen bei der Planerstellung).
+
+        Beispiel:
+            - self.checkfails(anzahl_fehler)
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - AssertionError, wenn Fehleranzahl ungleich Null ist.
+        """
+
         self.assertEqual(fehler, 0, "Keinen passenden Spielplan generiert!")
 
     def checknumberofgames(self, anz_teams, anz_gruppen, schedule, playstyle): 
-        # Überprüfen, ob der Spielplan korrekt ist
+        """
+        Überprüft, ob die erwartete Anzahl an Spielen im Spielplan enthalten ist.
+
+        Parameter:
+            - anz_teams (int): Anzahl der Teams pro Gruppe.
+            - anz_gruppen (int): Anzahl der Gruppen.
+            - schedule (list): Der generierte Spielplan (Liste von Matches).
+            - playstyle (bool): Gibt an, ob Hin- und Rückspiel aktiviert sind.
+
+        Beispiel:
+            - self.checknumberofgames(6, 2, spielplan, True)
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - AssertionError, wenn Spielanzahl nicht mit der Erwartung übereinstimmt.
+
+        Hinweise:
+            - Es werden immer +2 Spiele für Pause und Einspielzeit angenommen.
+        """
+
         if playstyle == True: 
             number_games = (anz_teams*(anz_teams-1)) * anz_gruppen + 2 # die plus zwei stehen hier für 1 Pause und eine Einspielzeit
             self.assertEqual(len(schedule), number_games)
@@ -48,7 +142,26 @@ class Testmygenerator(unittest.TestCase):
             self.assertEqual(len(schedule), number_games)
 
     def checkgleichverteilung(self, anz_teams, verlauf, strartdesnamens): 
-        #Gleichverteilung ermitteln
+        """
+        Stellt sicher, dass die Anzahl der 'P'-Status (z. B. Pfeifen) gleichmäßig über die Teams verteilt ist.
+
+        Parameter:
+            - anz_teams (int): Anzahl der Teams pro Gruppe.
+            - verlauf (dict): Teamname → Status-String (z. B. "SSPFP").
+            - strartdesnamens (str): Präfix der Teamnamen ("Team", "FTeam", etc.)
+
+        Beispiel:
+            - self.checkgleichverteilung(6, status_dict, "Team")
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - AssertionError, wenn ein Team mehr als ±2 Abweichung vom Durchschnitt hat.
+
+        Hinweise:
+            - Berücksichtigt nur 'P'-Status.
+        """
         x = anz_teams + 1 
         zaehlungen = {f"{strartdesnamens} {i}": 0 for i in range(1, x)}
 
@@ -70,6 +183,22 @@ class Testmygenerator(unittest.TestCase):
         # print("Durchschnitt:", durchschnitt)
 
     def getnames(self, anzahl_teams, anzahl_gruppen):
+        """
+        Erzeugt die Teamnamen basierend auf der Anzahl der Gruppen und Teams.
+
+        Parameter:
+            - anzahl_teams (int): Anzahl der Teams pro Gruppe.
+            - anzahl_gruppen (int): Anzahl der Gruppen (1 oder 2).
+
+        Beispiel:
+            - teamnamen = self.getnames(6, 2)
+
+        Rückgabewert:
+            - list[str]: Liste der Teamnamen, z. B. ["Team 1", "Team 2", ..., "FTeam 1", ...]
+
+        Hinweise:
+            - Bei zwei Gruppen werden "STeam" und "FTeam" verwendet.
+        """
         team_namen = []
         if anzahl_gruppen == 2: 
             for i in range(1, anzahl_teams +1): 
@@ -82,6 +211,26 @@ class Testmygenerator(unittest.TestCase):
         return team_namen
     
     def checkifrefereeexists(self, schedule, team_namen):
+        """
+        Stellt sicher, dass jedes Spiel einen gültigen Schiedsrichter aus der Teamliste zugewiesen hat.
+
+        Parameter:
+            - schedule (list): Liste von Spielen als Dictionaries.
+            - team_namen (list): Liste gültiger Teamnamen.
+
+        Beispiel:
+            - self.checkifrefereeexists(spielplan, team_namen)
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - AssertionError bei fehlendem oder ungültigem Schiedsrichtereintrag.
+
+        Hinweise:
+            - 'Schiedsrichter' darf nicht None oder "Not required" sein.
+            - Prüfung erfolgt nur für echte Matches mit gesetztem "Match Type".
+        """
         for match in schedule:
             if match.get("Match Type"):  # Nur echte Spiele prüfen
                 schiri = match.get("Schiedsrichter")

@@ -87,10 +87,44 @@ class TestDeineKomponente(unittest.TestCase):
         pass
 
     def test_extrahiereZeiten(self):
+        """
+        Testet die Funktion `extrahiere_zeiten`, die alle Uhrzeiten aus einem Spielplan extrahiert.
+
+        Beispiel:
+            - test_extrahiereZeiten ruft extrahiere_zeiten(self.schedule) auf.
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - Test schlägt fehl, wenn nicht genau 3 Zeit-Slots erkannt werden (eine Pause wird ignoriert).
+
+        Hinweise:
+            - Erwartete Zeitpunkte im Beispiel: 12:30, 12:45, 13:15
+            - „Pause“-Eintrag wird ignoriert.
+            - Es handelt sich um Beispieldaten die generiert wurden
+        """
+
         zeiten = extrahiere_zeiten(self.schedule)
         self.assertEqual(len(zeiten), 3)  # Es gibt 3 verschiedene Zeit-Slots
 
     def test_initialisiere_status_lists(self):
+        """
+        Testet die Funktion `initialisiere_status_lists`, welche eine leere Statusliste je Team erstellt.
+
+        Beispiel:
+            - test_initialisiere_status_lists ruft initialisiere_status_lists(self.teams, self.schedule) auf.
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - Test schlägt fehl, wenn nicht für jedes Team eine Liste mit vier 'F' erzeugt wird.
+
+        Hinweise:
+            - Die Liste enthält für jeden Zeitslot eine Initialisierung mit 'F' (für „Frei“).
+            - Dies stellt die korrekte Vorbereitung für spätere Statusauswertung sicher.
+        """
         verlauf = initialisiere_status_lists(self.teams, self.schedule)
         self.assertEqual(len(verlauf), 4)
         self.assertEqual(verlauf["team1"], ['F', 'F', 'F', 'F'])
@@ -99,7 +133,29 @@ class TestDeineKomponente(unittest.TestCase):
         self.assertEqual(verlauf["team4"], ['F', 'F', 'F', 'F'])
 
     def test_funktion_standardfall(self):
-        #immer mit den Namen der Schlüssel arbeiten
+        """
+        Testet die Funktion `get_statusverlaeufe` im Standardfall anhand eines vorbereiteten Spielplans.
+
+        Beispiel:
+            - test_funktion_standardfall ruft get_statusverlaeufe(self.lists, self.teams) auf.
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - Test schlägt fehl, wenn die berechneten Statusverläufe nicht mit den erwarteten Werten übereinstimmen.
+
+        Hinweise:
+            - Statusverläufe beinhalten:
+                - S = Spiel
+                - P = Pfeifen
+                - F = Frei
+            - Erwartete Ergebnisse in diesem Setup:
+                - "STeam 1": 'SPS'
+                - "STeam 2": 'SFS'
+                - "STeam 3": 'PSF'
+                - "STeam 4": 'FSP'
+        """
         verlauf = get_statusverlaeufe(self.lists, self.teams)
         self.assertEqual(verlauf.get("STeam 1"), 'SPS') 
         self.assertEqual(verlauf.get("STeam 2"), 'SFS')

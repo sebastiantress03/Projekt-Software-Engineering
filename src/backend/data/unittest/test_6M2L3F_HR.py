@@ -3,6 +3,18 @@ from basetest import Testmygenerator
 from turnierueberarbeitung import main, baue_status_lists, get_statusverlaeufe
 
 class Test6M2L3F_HR(Testmygenerator):
+    """
+    Testklasse für den konkreten Turnierfall: 6 Teams, 3 Felder, 2 Gruppen, Hin- und Rückspiel aktiviert.
+
+    Es wird überprüft, ob der generierte Spielplan valide, fair verteilt und korrekt ausgewertet ist.
+
+    SetUp:
+        - Es werden automatisch ein Spielplan (schedule), die Teams, Statuslisten und Statusverläufe generiert.
+        - Die Daten basieren auf dem Aufruf der main()-Funktion aus der turnierueberarbeitung-Klasse mit den angegebenen Parametern.
+
+    Hinweise:
+        - Diese Klasse erbt von Testmygenerator und nutzt deren Testhilfsmethoden für Validierungen.
+    """
 
     @classmethod
     def setUpClass(cls):
