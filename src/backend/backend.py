@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from server import *
 from database_request import *
 
+from data.turnierplangenerator_4 import return_plan
+
 server = Server()
 api = fastapi.FastAPI()
 data_request = DatabaseRequests()
@@ -51,7 +53,14 @@ def generate_tournament(tournament: GenerateTournament):
     
     tournament_data = [[1, 1, "Team 1", "Team 2", "Team 3", "Anfänger", 0, 0, "12:30"],[2, 1, "Team 2", "Team 1", "Team 3", "Anfänger", 0, 0, "12:50"]]
 
+
+
+
+    tournament_data_1 = return_plan(tournament.num_fields, tournament.num_teams, tournament.start, tournament.period, tournament.return_match, tournament.warm_up, [] if tournament.break_length is None else tournament.break_length, tournament.num_breaks, [] if tournament.break_times is None else tournament.break_times, tournament.stage_name)
+
     # game Aufbau [Spielnummer, Feldnummer, Team Name 1 Team, Team Name 2 Team, Team Name Schiedsrichter, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
+
+
 
     # Funktion hinzufügen der Teams in Team Tabelle und auch die Spiele
     if tournament_id is not None:
