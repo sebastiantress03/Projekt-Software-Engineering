@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from collections import defaultdict
+from data.apiClasses.apiClasses import *
 import random
 import copy
 
@@ -599,6 +600,7 @@ if __name__ == '__main__':
         team_names=team_names
     )
     schedule = optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
+
     schedule = insert_pauses(
         schedule=schedule,
         start_time=start_time,
@@ -634,6 +636,39 @@ if __name__ == '__main__':
             else:
                 print(f"  Ergebnis: Noch offen")
             print("-" * 50)
+
+
+def return_plan(fields: int, teams_per_group: List[int], start_time:str, match_duration:int, round_trip:str, play_in_time:int, pause_length:List[int], pause_count:int, break_times:List[str], group_names:List):
+
+    pause_interval = 2
+    team_names = []
+    for i in range(len(teams_per_group)):
+        for j in range(teams_per_group[i]):
+            if i == 0:
+                team_names.append(f"FTeam_{j}")
+            else:
+                team_names.append(f"STeam_{j}")
+
+
+    schedule, teams, field_assignment = create_tournament_plan(fields, teams_per_group, len(group_names), start_time, match_duration, round_trip, play_in_time, pause_length, pause_count, pause_interval, group_names, team_names)
+
+    schedule = optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
+
+    #schedule = insert_pauses(
+    #    schedule=schedule,
+    #    start_time=start_time,
+    #    play_in_time=play_in_time,
+    #    pause_interval=pause_interval,
+    #    pause_length=pause_length,
+    #    pause_count=pause_count
+    #)
+
+
+    #TODO benötigter Aufbau für return [Spielnummer, Feldnummer, Team Name 1 Team, Team Name 2 Team, Team Name Schiedsrichter, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
+
+    print(schedule)
+    return schedule
+
 
 
 def create_html(schedule, fields):
