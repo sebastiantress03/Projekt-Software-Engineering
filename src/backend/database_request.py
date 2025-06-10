@@ -11,7 +11,21 @@ class DatabaseRequests:
 
     def insert_tournament(self, name: str, period: int , anz_teams: int ):
         """
-        TODO Dokumentation
+        Führt ein INSERT INTO auf die SQL-Tabelle "Turnier" aus und fügt dadurch ein neues Turnier hinzu.
+
+        Parameter:
+            - name (str): Die Bezeichnung des Turniers, die in die Tabelle eingetragen werden soll.
+            - period (int): Die Spielzeit (in Minuten), die pro Spiel eingeplant werden soll.
+            - anz_teams (int): Die Gesamtanzahl der Teams, die am Turnier teilnehme.
+
+        Beispiel:
+            - insert_tournament("Nikolaus Turnier" ,20,16)
+
+        Fehlermeldung:
+            - Falls beim Hinzufügen der Daten in die Datenbank ein Fehler auftritt, wird eine HTTPException mit dem Statuscode 500 ausgelöst.
+        
+        Hinweise:
+            Es wird nicht das gesamte Turnier erfasst, sondern lediglich der Name, die Spieldauer und die Anzahl der teilnehmenden Teams.
         """
         try:
             server.execute("""INSERT INTO Turnier (TurnierBez, Spieldauer, TeamAnz)
@@ -21,7 +35,20 @@ class DatabaseRequests:
 
     def insert_stages(self, name: str, team_size: int):
         """
-        TODO Dokumentation
+        Führt ein INSERT INTO auf die SQL-Tabelle "Leistungsgruppen" aus und fügt eine neue Leistungsgruppe hinzu.
+
+        Parameter:
+            - name (str): Der Name der Leistungsgruppe, die in die Tabelle eingetragen werden soll.
+            - team_size (int): Die Anzahl der Teams die Teil der Leistungsgruppe sind.
+
+        Beispiel:
+            - insert_stages("Anfänger" , 8)
+
+        Fehlermeldung:
+           - Falls beim Hinzufügen der Daten in die Datenbank ein Fehler auftritt, wird eine HTTPException mit dem Statuscode 500 ausgelöst.
+
+        Hinweis:
+            - Doppelte Namen für Leistungsgruppen können existieren.
         """
         try: 
             server.execute("""INSERT INTO Leistungsgruppen (Leistungsgruppenname,AnzTeamsLeist) 
@@ -31,9 +58,20 @@ class DatabaseRequests:
 
     def get_tournament_id(self):
         """
-        TODO Die ID des zuletzt erstellten Turniers wird geholt.
+        Führt eine SELECT-Abfrage auf das "Turnier" aus, um die neuste TurnierID zu erhalten.
+
+        Rückgabewert:
+            - int: Die ID des neuesten Turniers.
+            - None: Falls bei der SQL-Abfrage ein Fehler aufgetreten ist.
+
+        Fehlermeldung:
+           - Falls beim Abfragen der Daten aus der Datenbank ein Fehler auftritt, wird eine HTTPException mit dem Statuscode 500 ausgelöst.
+
+        Hinweis:
+            - Die Abfrage erfolgt mithilfe von MAX ausgeführt.
+            - Es wird davon ausgegangen, dass Turniere mit fortlaufend steigenden IDs erstellt werden, sodass das Turnier mit der höchsten ID dem neuesten entspricht.
         """
-        try:
+        try: 
             tournament_id = server.query("SELECT MAX(TurnierID) FROM Turnier ")
             tournament_id = tournament_id[0][0]
         except Exception as e:
@@ -47,7 +85,28 @@ class DatabaseRequests:
 
     def insert_tournament_data(self, tournament_id: int, team1: str, team2: str, referee: str, field: int, stage_name: str, play_time: str):
         """
-        TODO Dokumentation
+        Fügt ein neues Spiel in die Tabelle "Ergebnisse" ein. Falls die beteiligten Teams oder der Schiedsrichter noch nicht existieren, 
+        werden sie automatisch in die Tabelle "Team" aufgenommen.
+        
+        Parameter:
+            - tournament_id (int): Die ID des Turniers, zu dem das Spiel gehört.
+            - team1 (str): Der Name ersten Teams.
+            - team2 (str): Der Name zweiten Teams.
+            - referee (str): Der Name des Schiedsrichterteams.
+            - field (int): Die Nummer des Spielfelds, auf dem das Spiel stattfindet.
+            - stage_name (str): Der Name der Leistungsgruppe, zu der die Teams gehören.
+            - play_time (str): Die Uhrzeit, zu der das Spiel geplant ist (Format: "HH:MM").
+        
+        Beispiel:
+            - insert_tournament_data(1 ,"Team1" ,"Team2" ,"Team3" ,1 ,"Anfänger" , "10:00")
+        
+        Fehlermeldung:
+            - Falls beim Abrufen oder Einfügen von Daten in die Datenbank ein Fehler auftritt, wird eine HTTPException mit dem Statuscode 500 ausgelöst.
+
+        Hinweis:
+            - Teams und Schiedsrichter werden nur dann neu eingetragen, wenn sie noch nicht in der Datenbank vorhanden sind.
+            - Die Zuordnung der Teams zur Leistungsgruppe erfolgt anhand des Namens.
+            - Spielstände werden beim Einfügen initial auf 0 gesetzt.
         """
         # Überprüft ob die Teams bereits in der Datenbank eingetragen worden sind 
         try:
@@ -56,7 +115,10 @@ class DatabaseRequests:
             referee_is_inserted = server.query("SELECT * FROM Team WHERE TurnierID = ? AND Teamname Like ? ",[tournament_id, referee])
 
             stage_id = server.query("SELECT MAX(LeistungsgruppenID) FROM Leistungsgruppen WHERE Leistungsgruppenname LIKE ? ",[stage_name])
+            print(f"stageid vor [0][0] {stage_id}")
             stage_id = stage_id[0][0]
+            print(f"stageid nach [0][0] {stage_id}")
+
         except Exception as e:
             raise HTTPException(status_code=500, detail="Datenbankfehler beim Abfrage von Daten! ")
     
@@ -97,7 +159,15 @@ class DatabaseRequests:
             
     def get_existing_tournaments(self):
         """
-        TODO Dokumentation
+        Ruft alle bestehenden Turniere mit deren IDs und Bezeichnungen aus der Datenbank ab.
+
+        Rückgabewert:
+            - list[dict]: Eine Liste von Dictionaries mit den Schlüsseln:
+                - "id" (int): Die ID des Turniers.
+                - "name" (str): Die Bezeichnung des Turniers.
+
+        Fehlermeldung:
+            - Falls beim Abrufen der Daten ein Datenbankfehler auftritt, wird eine HTTPException mit Statuscode 500 ausgelöst.
         """
         return_data = []
         try:
@@ -105,7 +175,7 @@ class DatabaseRequests:
         except Exception as e:
             raise HTTPException(status_code=500, detail="Datenbankfehler beim Abfrage von Daten! ")
         
-        # TODO für Turnierauswahl nur Namen oder auch ID 
+        # Rückgabewerte für die Turnierauswahl mit Namen und ID 
         for tournament in get_tournament_data:
             if type(tournament[0]) == int and type(tournament[1]) == str:
                 return_data.append({"id":tournament[0],"name":tournament[1]})
@@ -114,7 +184,26 @@ class DatabaseRequests:
 
     def get_tournament_plan(self, tournament_id: int):
         """
-        TODO Dokumentation
+        Ruft den Spielplan (Ergebnisse) für ein bestimmtes Turnier ab und gibt alle relevanten Spieldaten zurück.
+
+        Parameter:
+            - tournament_id (int): Die ID des Turniers, dessen Spielplan abgerufen werden soll.
+
+        Rückgabewert:
+            - list[dict]: Eine Liste von Dictionaries mit folgenden Schlüsseln und Datentypen:
+                - "game_id" (int): Die eindeutige ID des Spiels.
+                - "team_ids" (list[int]): Liste der IDs der beteiligten Teams und des Schiedsrichters [Team1, Team2, Schiedsrichter].
+                - "team_names" (list[str]): Liste der Namen der beteiligten Teams und des Schiedsrichters [Team1, Team2, Schiedsrichter].
+                - "scores" (list[int]): Liste der Spielergebnisse [Punkte Team1, Punkte Team2].
+                - "stage_name" (str): Name der Leistungsgruppe.
+                - "field" (int): Nummer des Spielfelds.
+                - "play_time" (str): Uhrzeit des Spiels (z. B. "10:00").
+
+        Fehlermeldung:
+            - Falls beim Abrufen der Daten ein Datenbankfehler auftritt, wird eine HTTPException mit Statuscode 500 ausgelöst.
+
+        Hinweis:
+            - Die Daten werden aus mehreren Tabellen verknüpft, um alle notwendigen Informationen zu sammeln.
         """
         return_date = []
         try:
@@ -150,7 +239,16 @@ class DatabaseRequests:
     
     def get_matches(self, match_id: int):
         """
-        TODO Dokumentation
+        Ruft die Spielergebnisse (Punkte) eines bestimmten Spiels anhand der Spiel-ID ab.
+
+        Parameter:
+            - match_id (int): Die ID des Spiels.
+
+        Rückgabewert:
+            - list[int]: Eine Liste mit zwei Elementen [Spielergebnis1, Spielergebnis2]. Ist kein Ergebnis vorhanden, wird eine leere Liste zurückgegeben.
+
+        Fehlermeldung:
+            - Falls beim Abrufen der Daten ein Datenbankfehler auftritt, wird eine HTTPException mit Statuscode 500 ausgelöst.
         """
         return_data = []
         try:
@@ -167,7 +265,20 @@ class DatabaseRequests:
   
     def change_results(self, match_id: int, score1: int, score2: int, time_change: str):
         """
-        TODO Dokumentation
+        Ändert die Spielergebnisse eines Spiels und protokolliert die Änderung mit Zeitstempel.
+
+        Parameter:
+            - match_id (int): Die ID des Spiels, dessen Ergebnisse geändert werden sollen.
+            - score1 (int): Neues Ergebnis für Team 1.
+            - score2 (int): Neues Ergebnis für Team 2.
+            - time_change (str): Zeitpunkt der Änderung (z.B. "15:00").
+
+        Rückgabewert:
+            - bool: True, wenn die Änderung erfolgreich durchgeführt wurde.
+
+        Fehlermeldung:
+            - Falls das Spiel nicht existiert, wird eine HTTPException mit Statuscode 400 ausgelöst.
+            - Falls ein Datenbankfehler beim Abrufen oder Ändern der Daten auftritt, wird eine HTTPException mit Statuscode 500 ausgelöst.
         """
         try:
             old_score_team1 = server.query("SELECT Spielergebnis1 FROM Ergebnisse WHERE SpielID = ?",[match_id])
@@ -189,7 +300,16 @@ class DatabaseRequests:
         
     def change_team_name(self, tournament_id: int, team_id: int,new_name: str):
         """
-        TODO Dokumentation
+        Ändert den Namen eines Teams in einem bestimmten Turnier, sofern der neue Name noch nicht vergeben ist.
+
+        Parameter:
+            - tournament_id (int): Die ID des Turniers.
+            - team_id (int): Die ID des Teams, dessen Name geändert werden soll.
+            - new_name (str): Der neue Teamname.
+
+        Fehlermeldung:
+            - Falls der neue Teamname bereits existiert, wird eine HTTPException mit Statuscode 409 ausgelöst.
+            - Falls ein Datenbankfehler beim Abfragen oder Ändern der Daten auftritt, wird eine HTTPException mit Statuscode 500 ausgelöst.
         """
         try:
             team_name_exist = server.query("SELECT Count(*) FROM Team WHERE TurnierID = ? AND Teamname LIKE ?",[tournament_id,new_name])
@@ -207,7 +327,17 @@ class DatabaseRequests:
         
     def delete_tournament(self, tournament_id: int):
         """
-        TODO Dokumentation
+        Löscht ein Turnier anhand der TurnierID aus der Datenbank. 
+        Zusätzlich werden Leistungsgruppen entfernt, die danach nicht mehr von Teams genutzt werden.
+
+        Parameter:
+            - tournament_id (int): Die ID des zu löschenden Turniers.
+
+        Fehlermeldung:
+            - Falls beim Löschen aus der Datenbank ein Fehler auftritt, wird eine HTTPException mit Statuscode 500 ausgelöst.
+
+        Hinweis:
+            - Leistungsgruppen werden nur dann gelöscht, wenn sie keiner Mannschaft mehr zugeordnet sind.
         """
         try:
             server.execute("DELETE FROM Turnier WHERE TurnierID = ?", [tournament_id])
@@ -217,4 +347,5 @@ class DatabaseRequests:
                                     SELECT DISTINCT LeistungsgruppenID FROM Team)""")
         except Exception as e:
             raise HTTPException(status_code=500, detail="Datenbankfehler beim Löschen von Daten! ")
-
+    
+    
