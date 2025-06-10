@@ -32,7 +32,25 @@ def check_received_data():
 # API Schnittstelle für die Übermittlung der Eingabeparameter aus dem Frontend um den Turnierplan zu erstellen
 @api.post("/tournament/")
 def generate_tournament(tournament: GenerateTournament):
-    
+    """
+    Erstellt ein neues Turnier und speichert es in der Datenbank.
+
+    Eingabe:
+        - name (str): Name des Turniers
+        - num_fields (int): Anzahl der Spielfelder (max. 4)
+        - return_match (str): "true" oder "false", ob Rückspiele stattfinden
+        - start (time): Startzeit des Turniers
+        - period (int): Spieldauer in Minuten
+        - warm_up (int): Aufwärmzeit in Minuten
+        - num_breaks (int): Anzahl der Pausen
+        - break_length (List[int]): Längen der Pausen in Minuten
+        - break_times (List[time]): Startzeiten der Pausen
+        - stage_name (List[str]): Namen der Leistungsgruppen (max. 2)
+        - num_teams (List[int]): Anzahl der Teams je Leistungsgruppe
+
+    Fehler:
+        - HTTP 500: Datenbankfehler beim Hinzufügen oder Abfragen von Daten.
+    """
     sum_teams = 0
     for i in range(len(tournament.stage_name)):
         sum_teams = sum_teams + tournament.num_teams[i]
@@ -74,6 +92,18 @@ def generate_tournament(tournament: GenerateTournament):
 # API Schnittstelle für das Laden der Existierenden Turniere
 @api.get("/tournaments/")
 def get_tournaments():
+    """
+    Gibt alle existierenden Turniere aus der Datenbank zurück.
+
+    Rückgabewert:
+        - JSON-Objekt mit dem Schlüssel "tournaments":
+            - Eine Liste von Turnieren mit je:
+                - "id" (int): Turnier-ID
+                - "name" (str): Name des Turniers
+
+    Fehler:
+        - HTTP 500: Datenbankfehler beim Abfragen von Daten.
+    """
     # Funktion erhalten der existierenden Turniere
     tournaments = data_request.get_existing_tournaments()
 
@@ -82,6 +112,26 @@ def get_tournaments():
 # API Schnittstelle für das Laden des Turnierplans
 @api.get("/tournaments/{tournamentID}")
 def get_match_plan(tournamentID: str):
+    """
+    Gibt den vollständigen Turnierplan für ein bestimmtes Turnier zurück.
+
+    Pfadparameter:
+        - tournamentID (str): ID des Turniers
+
+    Rückgabe:
+        - Liste von Spielen mit:
+            - gameID (int)
+            - team_ids (List[int])
+            - team_names (List[str])
+            - scores (List[int])
+            - stage_name (str)
+            - field (int)
+            - play_time (str)
+
+    Fehler:
+        - HTTP 400: Ungültige TurnierID
+        - HTTP 500: Fehler beim Datenbankzugriff
+    """
     try:
         tournament_id = int(tournamentID)
     except ValueError:
@@ -95,6 +145,19 @@ def get_match_plan(tournamentID: str):
 # API Schnittstelle für das aktualisieren der Spielstandes im Frontend
 @api.get("/tournaments/match_plan/{matchID}")
 def get_match(matchID: str):
+    """
+    Gibt den aktuellen Spielstand für ein bestimmtes Spiel zurück.
+
+    Pfadparameter:
+        - matchID (str): Spiel-ID
+
+    Rückgabe:
+        - scores (List[int]): [Punkte Team 1, Punkte Team 2]
+
+    Fehler:
+        - HTTP 400: Ungültige MatchID
+        - HTTP 500: Fehler beim Datenbankzugriff
+    """
     try:
         match_id = int(matchID)
     except ValueError:
@@ -111,6 +174,20 @@ def get_match(matchID: str):
 # API Änderung Spieldaten
 @api.put("/tournaments/match_plan/match/{matchID}")
 def change_match_result(matchID: str, match_result: Match): 
+    """
+    Aktualisiert den Spielstand eines bestimmten Spiels.
+
+    Pfadparameter:
+        - matchID (str): Spiel-ID
+
+    Eingabe:
+        - score_team1 (int): Punkte von Team 1
+        - score_team2 (int): Punkte von Team 2
+        - time_change (time): Zeitpunkt der Änderung
+
+    Fehler:
+        - HTTP 500: Fehler beim Ändern oder Abrufen der Daten
+    """
     try:
         match_id = int(matchID)
     except ValueError:
@@ -125,6 +202,20 @@ def change_match_result(matchID: str, match_result: Match):
 # API Ändern Team Namen
 @api.put("/tournaments/match_plan/team/{tournamentID}")
 def change_team_name(tournamentID: str, new_team_name: TeamUpdate ):
+    """
+    Ändert den Namen eines Teams im Turnier.
+
+    Pfadparameter:
+        - tournamentID (str): ID des Turniers
+
+    Eingabe:
+        - team_id (str): ID des Teams
+        - new_name (str): Neuer Name für das Team
+
+    Fehler:
+        - HTTP 400: Ungültige TurnierID
+        - HTTP 500: Fehler beim Datenbankzugriff
+    """
     try:
         tournament_id = int(tournamentID)
     except ValueError:
@@ -138,6 +229,16 @@ def change_team_name(tournamentID: str, new_team_name: TeamUpdate ):
 # API Löschen der Spieldaten 
 @api.post("/tournaments/delete_plan/{tournamentID}")
 def delete_tournament(tournamentID: str):
+    """
+    Löscht ein Turnier inklusive Spielstände und Leistungsgruppen.
+
+    Pfadparameter:
+        - tournamentID (int): ID des zu löschenden Turniers
+
+    Fehler:
+        - HTTP 400: Ungültige TurnierID
+        - HTTP 500: Fehler beim Löschen aus der Datenbank
+    """
     try:
         tournament_id = int(tournamentID)
     except ValueError:
