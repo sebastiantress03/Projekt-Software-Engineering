@@ -642,31 +642,29 @@ def return_plan(fields: int, teams_per_group: List[int], start_time:str, match_d
 
     pause_interval = 2
     team_names = []
-    for i in range(len(teams_per_group)):
-        for j in range(teams_per_group[i]):
+    
+    for i, num_teams in enumerate(teams_per_group):
+        for j in range(num_teams):
             if i == 0:
                 team_names.append(f"FTeam_{j}")
             else:
                 team_names.append(f"STeam_{j}")
 
 
-    schedule, teams, field_assignment = create_tournament_plan(fields, teams_per_group, len(group_names), start_time, match_duration, round_trip, play_in_time, pause_length, pause_count, pause_interval, group_names, team_names)
+    if(len(group_names) == 2): 
+        numberOfTeams = len(team_names)/2
+    else: 
+        numberOfTeams = len(team_names)
+
+    schedule, teams, field_assignment = create_tournament_plan(fields, numberOfTeams, len(group_names), start_time, match_duration, round_trip, play_in_time, pause_length, pause_count, pause_interval, group_names, team_names)
 
     schedule = optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
 
-    #schedule = insert_pauses(
-    #    schedule=schedule,
-    #    start_time=start_time,
-    #    play_in_time=play_in_time,
-    #    pause_interval=pause_interval,
-    #    pause_length=pause_length,
-    #    pause_count=pause_count
-    #)
 
 
     #TODO benötigter Aufbau für return [Spielnummer, Feldnummer, Team Name 1 Team, Team Name 2 Team, Team Name Schiedsrichter, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
 
-    print(schedule)
+    #print(schedule)
     return schedule
 
 
@@ -757,7 +755,7 @@ def create_html(schedule, fields):
     return html
 
 
-html_output = create_html(schedule, fields)
+#html_output = create_html(schedule, fields)
 
-with open("turnierplan.html", "w", encoding="utf-8") as file:
-    file.write(html_output)
+#with open("turnierplan.html", "w", encoding="utf-8") as file:
+#    file.write(html_output)
