@@ -69,21 +69,20 @@ def generate_tournament(tournament: GenerateTournament):
 
     # TODO Hier müssen die Werte an den Algorithmus für die Erstellung des Turnierplans übergeben werden
     
-    tournament_data = [[1, 1, "Team 1", "Team 2", "Team 3", "Anfänger", 0, 0, "12:30"],[2, 1, "Team 2", "Team 1", "Team 3", "Anfänger", 0, 0, "12:50"]]
+    # Feste werte funktionieren nur mit einer Leistungsgruppe
+    # tournament_data = [[1, 1, "Team 1", "Team 2", "Team 3", tournament.stage_name[0], 0, 0, "12:30"],[2, 1, "Team 2", "Team 1", "Team 3", tournament.stage_name[0], 0, 0, "12:50"]]
 
-
-
-
-    tournament_data_1 = return_plan(tournament.num_fields, tournament.num_teams, tournament.start, tournament.period, tournament.return_match, tournament.warm_up, [] if tournament.break_length is None else tournament.break_length, tournament.num_breaks, [] if tournament.break_times is None else tournament.break_times, tournament.stage_name)
+    tournament_data = return_plan(tournament.num_fields, tournament.num_teams, tournament.start, tournament.period, tournament.return_match, tournament.warm_up, [] if tournament.break_length is None else tournament.break_length, tournament.num_breaks, [] if tournament.break_times is None else tournament.break_times, tournament.stage_name)
 
     # game Aufbau [Spielnummer, Feldnummer, Team Name 1 Team, Team Name 2 Team, Team Name Schiedsrichter, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
-
+    # tournament_data [{'Spiel': 2, 'Feld': 'Field 1', 'Uhrzeit': '12:30', 'Team 1': 'STeam 1', 'Team 2': 'STeam 2', 'Schiedsrichter': 'STeam 3', 'Gruppe': 'Fun', 'Ergebnis Team 1': None, 'Ergebnis Team 2': None, 'Match Type': 'Hinspiel'},... ]
+    print(f"Backend api: {tournament_data}")
 
 
     # Funktion hinzufügen der Teams in Team Tabelle und auch die Spiele
     if tournament_id is not None:
         for game in tournament_data:
-            data_request.insert_tournament_data(tournament_id, game[2],game[3],game[4],game[1],game[5],game[8])
+            data_request.insert_tournament_data(tournament_id, game["Team 1"],game["Team 2"],game["Schiedsrichter"],game["Feld"],game["Gruppe"],game["Uhrzeit"])
         return HTTPException(status_code=200,detail="SUCCESS")
     else:
         return HTTPException(status_code=500,detail="FAILED")
