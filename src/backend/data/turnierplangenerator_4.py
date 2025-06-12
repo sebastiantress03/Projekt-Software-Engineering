@@ -659,7 +659,7 @@ def return_plan(fields: int, teams_per_group: List[int], start_time:str, match_d
     # Debug
     print(f"fields: {fields}, numberOfTeams: {numberOfTeams}, len(group_names): {len(group_names)}, start_time: {start_time}, match_duration: {match_duration},  round_trip: {round_trip}, play_in_time: {play_in_time}, pause_length: {pause_length}, pause_count: {pause_count},  pause_interval: {pause_interval}, group_names: {group_names}, team_names:{team_names}")
     # pause_length ist eine Liste und muss eigentlich auch als liste entgegen genommen werden
-    schedule, teams, field_assignment = create_tournament_plan(fields, numberOfTeams, len(group_names), start_time, match_duration, round_trip, play_in_time, pause_length[0], pause_count, pause_interval, group_names, team_names)
+    schedule, teams, field_assignment = create_tournament_plan(fields, numberOfTeams, len(group_names), start_time, match_duration, round_trip, play_in_time, 0 if len(pause_length) == 0 else pause_length[0], pause_count, pause_interval, group_names, team_names)
 
     schedule = optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
 
