@@ -2,7 +2,7 @@ import random
 from datetime import datetime, timedelta
 from turnierplangenerator_4 import (
     create_tournament_plan,
-    optimize_referees,
+    return_plan,
     create_html
 )
 
@@ -241,7 +241,7 @@ def aufruf_tournament(team_namen, felder, anzahl_teams, gruppen_namen, anzahl_gr
     )
 
     # Schiedsrichter optimieren
-    schedule = optimize_referees(schedule, teams, match_duration)
+    #  schedule = optimize_referees(schedule, teams, match_duration)
 
     return schedule, teams
 
@@ -414,8 +414,42 @@ def show_bestplan(schedule_temp, teams, fehler):
         print("-" * 50)
     print(f"der Plan hier hatte {fehler} Fehler")
 
+def rekonstruiere_teams(teams_per_group, group_names):
+    """
+    Rekonstruiert das `teams`-Dictionary basierend auf der gleichen Logik wie in `return_plan`.
+
+    Parameter:
+        - teams_per_group (list[int]): Anzahl Teams pro Gruppe
+        - group_names (list[str]): Namen der Gruppen
+
+    Rückgabe:
+        - dict: team_id → Teamdaten mit 'name' und 'gruppe'
+    """
+    teams = {}
+    team_names = []
+    tid_counter = 0
+
+    for i, num_teams in enumerate(teams_per_group):
+        gruppe = group_names[i] if i < len(group_names) else f"Gruppe_{i}"
+        for j in range(num_teams):
+            if i == 0:
+                name = f"FTeam_{j}"
+            else:
+                name = f"STeam_{j}"
+            team_id = f"T{tid_counter}"
+            teams[team_id] = {
+                "name": name,
+                "gruppe": gruppe
+            }
+            team_names.append(name)
+            tid_counter += 1
+
+    return teams
+
+
 if __name__ == "__main__":
     # Beispielaufruf
+    """
     anzahl_teams = 6
     felder = 4
     anzahl_gruppen = 2 
@@ -452,4 +486,31 @@ if __name__ == "__main__":
 
    # print("\n\n\n")
     #print(teams)
+"""
+
+fields = 1
+performance_groups = 1
+teams_per_group = [4]
+start_time = "12:00"
+match_duration = 15
+round_trip = True
+play_in_time = 30
+pause_length = [30]
+pause_count = 2
+pause_interval = 4
+group_names = ["Fun"]
+team_names = [
+    "STeam 1", "STeam 2", "STeam 3", "STeam 4"]
+break_times = []
+
+teams = rekonstruiere_teams(teams_per_group, group_names)
+
+schedule = return_plan(fields, teams_per_group, start_time, match_duration, round_trip, play_in_time, pause_length, pause_count, break_times, group_names)
+
+status_list, zeiten = baue_status_lists(schedule, teams)
+
+verlauf = get_statusverlaeufe(status_list, teams)
+
+
+print(verlauf)
 

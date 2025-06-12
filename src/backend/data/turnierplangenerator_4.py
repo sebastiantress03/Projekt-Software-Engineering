@@ -652,7 +652,7 @@ def return_plan(fields: int, teams_per_group: List[int], start_time:str, match_d
 
 
     if(len(group_names) == 2): 
-        numberOfTeams = len(team_names)/2
+        numberOfTeams = len(team_names)//2
     else: 
         numberOfTeams = len(team_names)
 

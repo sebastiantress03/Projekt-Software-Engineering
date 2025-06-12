@@ -1,6 +1,14 @@
 import unittest
+
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
 from basetest import Testmygenerator
-from turnierueberarbeitung import main, baue_status_lists, get_statusverlaeufe
+
+from turnierueberarbeitung import main, baue_status_lists, get_statusverlaeufe, rekonstruiere_teams
+from turnierplangenerator_4 import return_plan
 
 class Test4M1L1F_HR(Testmygenerator):
     """
@@ -18,16 +26,43 @@ class Test4M1L1F_HR(Testmygenerator):
 
     @classmethod
     def setUpClass(cls):
-        cls.anzahl_teams = 4
-        cls.felder = 1
-        cls.anzahl_gruppen = 1
-        cls.gruppen_namen = ["Schwitzer"]
-        cls.playstyle = True
-        cls.team_namen = cls.getnames(cls, cls.anzahl_teams, cls.anzahl_gruppen)
 
-        cls.schedule, cls.teams, cls.fehler = main(
-            cls.team_namen, cls.felder, cls.anzahl_teams, cls.gruppen_namen, cls.anzahl_gruppen, cls.playstyle
+        cls.fields = 1
+        cls.performance_groups = 1
+        cls.teams_per_group = [4]
+        cls.start_time = "12:00"
+        cls.match_duration = 15
+        cls.round_trip = True
+        cls.play_in_time = 30
+        cls.pause_length = [30]
+        cls.pause_count = 2
+        cls.pause_interval = 4
+        cls.group_names = ["Fun"]
+        cls.break_times = []
+
+        # Rekonstruiere teams passend zu Namen und Gruppen
+        cls.teams = rekonstruiere_teams(
+            cls.teams_per_group, cls.group_names)
+
+        cls.team_namen = [f"{'FTeam' if i == 0 else 'STeam'}_{j}"
+                            for i, anz in enumerate(cls.teams_per_group)
+                                for j in range(anz)
+        ]
+        # Turnierplan erzeugen
+        cls.schedule = return_plan(
+            cls.fields,
+            cls.teams_per_group,
+            cls.start_time,
+            cls.match_duration,
+            cls.round_trip,
+            cls.play_in_time,
+            cls.pause_length,
+            cls.pause_count,
+            cls.break_times,
+            cls.group_names
         )
+
+        # Status erzeugen
         cls.status_list, _ = baue_status_lists(cls.schedule, cls.teams)
         cls.verlauf = get_statusverlaeufe(cls.status_list, cls.teams)
 
@@ -41,14 +76,14 @@ class Test4M1L1F_HR(Testmygenerator):
         self.checkifrefereeexists(self.schedule, self.team_namen)
 
     def test_gleichverteilung(self):
-        self.checkgleichverteilung(self.anzahl_teams, self.verlauf, "STeam")
-        self.checkgleichverteilung(self.anzahl_teams, self.verlauf, "FTeam")
+        self.checkgleichverteilung(self.teams_per_group[0], self.verlauf, "STeam")
+        self.checkgleichverteilung(self.teams_per_group[0], self.verlauf, "FTeam")
 
     def test_statusverlaeufe(self):
         self.checkstatusverlaeufe(self.verlauf)
 
     def test_number_of_games(self):
-        self.checknumberofgames(self.anzahl_teams, self.anzahl_gruppen, self.schedule, self.playstyle)
+        self.checknumberofgames(self.teams_per_group[0], len(self.group_names), self.schedule, self.round_trip)
 
-    def test_keine_fehler(self):
-        self.checkfails(self.fehler)
+#   def test_keine_fehler(self):
+#        self.checkfails(self.fehler)

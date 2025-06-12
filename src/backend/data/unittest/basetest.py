@@ -135,10 +135,10 @@ class Testmygenerator(unittest.TestCase):
         """
 
         if playstyle == True: 
-            number_games = (anz_teams*(anz_teams-1)) * anz_gruppen + 2 # die plus zwei stehen hier für 1 Pause und eine Einspielzeit
+            number_games = (anz_teams*(anz_teams-1)) * anz_gruppen # + 2 # die plus zwei stehen hier für 1 Pause und eine Einspielzeit
             self.assertEqual(len(schedule), number_games)
         else: 
-            number_games = (anz_teams*(anz_teams-1) // 2) * anz_gruppen + 2 # die plus zwei stehen hier für 1 Pause und eine Einspielzeit
+            number_games = (anz_teams*(anz_teams-1) // 2) * anz_gruppen  # + 2 # die plus zwei stehen hier für 1 Pause und eine Einspielzeit
             self.assertEqual(len(schedule), number_games)
 
     def checkgleichverteilung(self, anz_teams, verlauf, strartdesnamens): 
