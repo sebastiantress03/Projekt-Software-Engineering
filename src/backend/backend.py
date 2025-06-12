@@ -82,7 +82,9 @@ def generate_tournament(tournament: GenerateTournament):
     # Funktion hinzufügen der Teams in Team Tabelle und auch die Spiele
     if tournament_id is not None:
         for game in tournament_data:
-            data_request.insert_tournament_data(tournament_id, game["Team 1"],game["Team 2"],game["Schiedsrichter"],game["Feld"],game["Gruppe"],game["Uhrzeit"])
+            field_nummer = int(game["Feld"].split(" ")[-1])
+            
+            data_request.insert_tournament_data(tournament_id, game["Team 1"],game["Team 2"],game["Schiedsrichter"],field_nummer,game["Gruppe"],game["Uhrzeit"])
         return HTTPException(status_code=200,detail="SUCCESS")
     else:
         return HTTPException(status_code=500,detail="FAILED")
