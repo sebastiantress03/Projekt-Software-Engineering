@@ -105,7 +105,7 @@ export default {
                 JSON.stringify(payload, null, 2)
             );
             axios
-                .post("http://localhost:8000/tournament/", payload)
+                .post(`${import.meta.env.VITE_API_URL}/tournament/`, payload)
                 .then((response) => {
                     console.log("✅ API Antwort:", response.data);
                     this.$router.push("/");

@@ -98,7 +98,7 @@ export default {
         saveScore() {
             // Optional: Hier könntest du einen PUT-Request an die API machen, um das Ergebnis zu speichern
             // Beispiel:
-            // axios.put(`http://localhost:8000/tournaments/match_plan/match/${this.currentMatch.gameID}`, {
+            // axios.put(`${import.meta.env.VITE_API_URL}/tournaments/match_plan/match/${this.currentMatch.gameID}`, {
             //     score_team1: this.currentMatch.scoreA,
             //     score_team2: this.currentMatch.scoreB,
             //     time_change: new Date().toLocaleTimeString('de-DE', { hour12: false })
@@ -136,7 +136,7 @@ export default {
     async mounted() {
         try {
             const response = await axios.get(
-                `http://localhost:8000/tournaments/${this.id}`
+                `${import.meta.env.VITE_API_URL}/tournaments/${this.id}`
             );
             const apiMatches = response.data.tournament || [];
             this.matches = this.mapApiMatches(apiMatches);

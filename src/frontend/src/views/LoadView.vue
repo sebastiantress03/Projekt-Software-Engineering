@@ -37,7 +37,7 @@ export default {
     },
     created() {
         axios
-            .get("http://localhost:8000/tournaments/")
+            .get(`${import.meta.env.VITE_API_URL}/tournaments/`)
             .then((response) => {
                 // Die API liefert { tournaments: [...] }
                 this.tournaments = response.data.tournaments || [];
