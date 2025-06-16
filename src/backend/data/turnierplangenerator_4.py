@@ -6,10 +6,46 @@ import copy
 
 
 def calculate_waiting_time(current_time, team_last_played_time):
+    """
+    Berechnet die Wartezeit eines Teams seit seinem letzten Spiel in Sekunden.
+
+    Parameter:
+        - current_time (datetime): Der aktuelle Zeitpunkt.
+        - team_last_played_time (datetime): Der Zeitpunkt, an dem das Team zuletzt gespielt hat.
+
+    Rückgabewert:
+        - float: Anzahl der Sekunden seit dem letzten Spiel.
+
+    Fehlerbehandlung:
+        - Keine spezielle Fehlerbehandlung implementiert.
+
+    Hinweise:
+        - Beide Parameter müssen datetime-Objekte sein.
+    """
     return (current_time - team_last_played_time).total_seconds()
 
 
 def assign_fields_to_groups(fields, group_names):
+    """
+    Weist Spielfelder den angegebenen Gruppen möglichst gleichmäßig zu.
+
+    Parameter:
+        - fields (int): Die Gesamtanzahl an Spielfeldern.
+        - group_names (list): Eine Liste mit den Namen der Gruppen (str), z.B. ["Gruppe A", "Gruppe B"].
+
+    Rückgabewert:
+        - dict: Ein Dictionary, das jeder Gruppe eine Liste ihrer zugewiesenen Felder zuordnet.
+
+    Beispiel:
+        - assign_fields_to_groups(4, ["A", "B"]) ergibt z.B. {"A": [1, 3, 4], "B": [2, 3, 4]}
+
+    Fehlerbehandlung:
+        - Keine direkte Fehlerbehandlung implementiert.
+
+    Hinweise:
+        - Zusätzliche (nicht exakt aufteilbare) Felder werden mit allen Gruppen geteilt.
+    """
+
     field_assignment = {group: [] for group in group_names}
     total_groups = len(group_names)
 
@@ -31,12 +67,44 @@ def assign_fields_to_groups(fields, group_names):
 
 
 
+consecutive_invalid_rounds = 0
+MAX_INVALID_ATTEMPTS = 10
 
 def create_tournament_plan(
     fields, teams_per_group, performance_groups, start_time, match_duration,
     round_trip, play_in_time, pause_length, pause_interval, pause_count,
     group_names=None, team_names=None
 ):
+    """
+    Erstellt einen Turnierplan mit Spielfeldern, Gruppen, Teams und Spielpaarungen inkl. Einspielzeit.
+
+    Parameter:
+        - fields (int): Anzahl der verfügbaren Spielfelder.
+        - teams_per_group (int): Anzahl der Teams pro Leistungsgruppe.
+        - performance_groups (int): Anzahl der Leistungsgruppen.
+        - start_time (str): Startzeit des Turniers im Format "%H:%M".
+        - match_duration (int): Spieldauer in Minuten.
+        - round_trip (bool): Ob Hin- und Rückspiele geplant werden sollen.
+        - play_in_time (int): Dauer der Einspielzeit vor dem ersten Spiel in Minuten.
+        - pause_length (int): Dauer einer Pause in Minuten.
+        - pause_interval (int): Intervall zwischen Pausen in Stunden.
+        - pause_count (int): Anzahl der geplanten Pausen.
+        - group_names (list, optional): Namen der Leistungsgruppen.
+        - team_names (list, optional): Namen der Teams.
+
+    Rückgabewert:
+        - tuple:
+            - schedule (list): Liste der geplanten Spiele mit Uhrzeit, Feld, Teams, etc.
+            - teams (dict): Dictionary der Teams mit Namen und Gruppenzugehörigkeit.
+            - field_assignment (dict): Zuordnung der Felder zu den Gruppen.
+
+    Fehlerbehandlung:
+        - ValueError, wenn die Anzahl der angegebenen Team- oder Gruppennamen nicht zu den berechneten Werten passt.
+
+    Hinweise:
+        - Die erste Aktion im Zeitplan ist eine Einspielphase für alle Teams.
+        - Matches werden gruppenintern als Hin- und ggf. Rückspiel angelegt.
+    """
     total_teams = teams_per_group * performance_groups
     if not team_names:
         team_names = [f"Team {i + 1}" for i in range(total_teams)]
@@ -62,7 +130,15 @@ def create_tournament_plan(
             }
 
 
-    team_status = {team_id: {"plays": 0, "ref_count": 0} for team_id in teams}
+    team_status = {
+        team_id: {
+            "plays": 0,
+            "ref_count": 0,
+            "inactivity_streak": 0,
+            "last_active": True  # spielt oder pfeift
+        } for team_id in teams
+    }
+
 
 
     matches = []
@@ -99,6 +175,23 @@ def create_tournament_plan(
 
     def filter_least_played_matches(remaining_matches, team_status):
 
+        """
+        Filtert die verbleibenden Spiele und gibt die mit der geringsten Anzahl an bisherigen Spieleinsätzen der beteiligten Teams zurück.
+
+        Parameter:
+            - remaining_matches (list): Liste von Tuple-Spielen (team1, team2, group, match_type).
+            - team_status (dict): Dictionary mit Infos über Anzahl der bisherigen Spiele pro Team.
+
+        Rückgabewert:
+            - list: Liste der Spiele mit den wenigsten bisherigen Einsätzen der beteiligten Teams.
+
+        Fehlerbehandlung:
+            - Gibt eine leere Liste zurück, wenn keine Matches vorhanden sind.
+
+        Hinweise:
+            - Dient der gleichmäßigen Verteilung der Spiele auf die Teams.
+        """
+
         match_play_counts = []
         for match in remaining_matches:
             team1, team2, group, match_type = match
@@ -129,6 +222,18 @@ def create_tournament_plan(
             exclusive_fields[field] = owners[0]
 
     while remaining_matches:
+        """
+        Der zentrale Block innerhalb `create_tournament_plan`, der die Matches auf Spielfelder und Zeitfenster verteilt.
+
+        Fehlerbehandlung:
+            - Bricht die Schleife ab, wenn keine gültigen Spiele mehr geplant werden können.
+            - Pausen werden automatisch eingeplant, wenn die Zeit erreicht ist.
+
+        Hinweise:
+            - Bevorzugt Spielfelder, die einer Gruppe exklusiv zugewiesen sind.
+            - Ein Rückspiel wird direkt nach dem Hinspiel eingeplant, wenn `round_trip` aktiv ist.
+            - Plant „Einspielzeit“ und „Pause“-Blöcke separat ein.
+        """
         round_matches = []
         playing_teams = set()
         assigned_referees = set()
@@ -168,6 +273,12 @@ def create_tournament_plan(
                     if team1 in playing_teams or team2 in playing_teams:
                         continue
 
+                    ref_candidates = [
+                        tid for tid in teams
+                        if tid not in playing_teams and tid not in [team1, team2] and teams[tid]["group"] == group_name
+                    ]
+                    ref_id = ref_candidates[0] if ref_candidates else None
+                    ref_name = teams[ref_id]["name"] if ref_id else "KEIN SCHIRI"
 
                     round_matches.append({
                         "Spiel": len(schedule) + len(round_matches) + 1,
@@ -175,7 +286,7 @@ def create_tournament_plan(
                         "Uhrzeit": current_time.strftime("%H:%M"),
                         "Team 1": teams[team1]["name"],
                         "Team 2": teams[team2]["name"],
-                        "Schiedsrichter": None,
+                        "Schiedsrichter": ref_name,
                         "Gruppe": group_name,
                         "Ergebnis Team 1": None,
                         "Ergebnis Team 2": None,
@@ -186,6 +297,9 @@ def create_tournament_plan(
                     team_status[team2]["plays"] += 1
                     available_fields.remove(field)
                     remaining_matches.remove(match)
+                    if ref_id:
+                        playing_teams.add(ref_id)
+                        team_status[ref_id]["ref_count"] += 1
 
 
                     if match_type == "Hinspiel" and round_trip:
@@ -197,7 +311,7 @@ def create_tournament_plan(
                                 "Uhrzeit": (current_time + timedelta(minutes=match_duration)).strftime("%H:%M"),
                                 "Team 1": teams[team2]["name"],
                                 "Team 2": teams[team1]["name"],
-                                "Schiedsrichter": None,
+                                "Schiedsrichter": ref_name,
                                 "Gruppe": group_name,
                                 "Ergebnis Team 1": None,
                                 "Ergebnis Team 2": None,
@@ -207,6 +321,9 @@ def create_tournament_plan(
                             team_status[team2]["plays"] += 1
                             team_status[team1]["plays"] += 1
                             remaining_matches.remove(reverse_match)
+                            if ref_id:
+                                playing_teams.add(ref_id)
+                                team_status[ref_id]["ref_count"] += 1
                     break  
 
 
@@ -220,13 +337,21 @@ def create_tournament_plan(
                 team1, team2, group_name, match_type = match
                 if team1 in playing_teams or team2 in playing_teams:
                     continue
+                
+                ref_candidates = [
+                    tid for tid in teams
+                    if tid not in playing_teams and tid not in [team1, team2] and teams[tid]["group"] == group_name
+                ]
+                ref_id = ref_candidates[0] if ref_candidates else None
+                ref_name = teams[ref_id]["name"] if ref_id else "KEIN SCHIRI"
+
                 round_matches.append({
                     "Spiel": len(schedule) + len(round_matches) + 1,
                     "Feld": f"Field {field}",
                     "Uhrzeit": current_time.strftime("%H:%M"),
                     "Team 1": teams[team1]["name"],
                     "Team 2": teams[team2]["name"],
-                    "Schiedsrichter": None,
+                    "Schiedsrichter": ref_name,
                     "Gruppe": group_name,
                     "Ergebnis Team 1": None,
                     "Ergebnis Team 2": None,
@@ -235,6 +360,9 @@ def create_tournament_plan(
                 playing_teams.update([team1, team2])
                 team_status[team1]["plays"] += 1
                 team_status[team2]["plays"] += 1
+                if ref_id:
+                    playing_teams.add(ref_id)
+                    team_status[ref_id]["ref_count"] += 1
                 remaining_matches.remove(match)
                 available_fields.remove(field)
                 if match_type == "Hinspiel" and round_trip:
@@ -246,7 +374,7 @@ def create_tournament_plan(
                             "Uhrzeit": (current_time + timedelta(minutes=match_duration)).strftime("%H:%M"),
                             "Team 1": teams[team2]["name"],
                             "Team 2": teams[team1]["name"],
-                            "Schiedsrichter": None,
+                            "Schiedsrichter": ref_name,
                             "Gruppe": group_name,
                             "Ergebnis Team 1": None,
                             "Ergebnis Team 2": None,
@@ -256,24 +384,61 @@ def create_tournament_plan(
                         team_status[team2]["plays"] += 1
                         team_status[team1]["plays"] += 1
                         remaining_matches.remove(reverse_match)
+                        if ref_id:
+                            playing_teams.add(ref_id)
+                            team_status[ref_id]["ref_count"] += 1
                 break
 
 
         if round_matches:
             schedule.extend(round_matches)
-            last_referees = {
-                team_id for match in round_matches
-                for team_id, team_data in teams.items()
-                if match["Schiedsrichter"] == team_data["name"]
-            }
 
             if round_trip:
                 current_time += timedelta(minutes=match_duration * 2)
             else:
-                current_time += timedelta(minutes=match_duration)    
+                current_time += timedelta(minutes=match_duration)
             round_number += 1
+
+            round_invalid = False
+            for team_id in teams:
+                if team_id in playing_teams:
+                    team_status[team_id]["inactivity_streak"] = 0
+                    team_status[team_id]["last_active"] = True
+                else:
+                    team_status[team_id]["inactivity_streak"] += 1
+                    team_status[team_id]["last_active"] = False
+
+                    if team_status[team_id]["inactivity_streak"] >= 2:
+                        round_invalid = True
+                        break
+
+            if round_invalid:
+                consecutive_invalid_rounds += 1
+                if consecutive_invalid_rounds < MAX_INVALID_ATTEMPTS:
+                    for m in round_matches:
+                        schedule.remove(m)
+
+                        team1_id = next(k for k, v in teams.items() if v["name"] == m["Team 1"])
+                        team2_id = next(k for k, v in teams.items() if v["name"] == m["Team 2"])
+                        match_type = m["Match Type"]
+                        group = m["Gruppe"]
+
+                        remaining_matches.append((team1_id, team2_id, group, match_type))
+
+                        team_status[team1_id]["plays"] -= 1
+                        team_status[team2_id]["plays"] -= 1
+
+                        if m["Schiedsrichter"] != "KEIN SCHIRI":
+                            ref_id = next(k for k, v in teams.items() if v["name"] == m["Schiedsrichter"])
+                            team_status[ref_id]["ref_count"] -= 1
+
+                    continue  
+                else:
+                    consecutive_invalid_rounds = 0  
+            else:
+                consecutive_invalid_rounds = 0  
+
         else:
-            print("No valid matches available. Exiting.")
             break
 
 
@@ -285,13 +450,59 @@ def create_tournament_plan(
 
 
 def optimize_schedule(schedule, teams, match_duration, fields, field_assignment):
+    """
+    Optimiert den Spielplan hinsichtlich Fairness, Gleichverteilung und Vermeidung von Schiedsrichterkonflikten.
+
+    Parameter:
+        - schedule (list): Der bestehende Spielplan.
+        - teams (dict): Dictionary mit Teamdaten (Name, Gruppe).
+        - match_duration (int): Dauer eines Spiels in Minuten.
+        - fields (int): Anzahl der verfügbaren Spielfelder.
+        - field_assignment (dict): Feld-Zuweisung pro Gruppe.
+
+    Rückgabewert:
+        - list: Optimierter Spielplan, sortiert nach Zeit und Feld.
+
+    Fehlerbehandlung:
+        - Keine direkte Exception-Behandlung, aber Fallback auf besten bekannten Spielplan bei schlechter Optimierung.
+
+    Hinweise:
+        - Bewertet Pläne mit einer Kostenfunktion (`cost()`), u.a. für Leerlaufzeiten, Schiri-Konflikte, ungenutzte Felder.
+        - Optimierung durch Tauschen von Spielpaaren (Hin-/Rückspiel).
+    """   
+
     time_format = "%H:%M"
     rng = random.Random(42)
 
     def time_obj(t):
+        """
+        Konvertiert einen Zeit-String in ein datetime-Objekt.
+
+        Parameter:
+            - t (str): Zeitangabe im Format "%H:%M".
+
+        Rückgabewert:
+            - datetime: Zeit als datetime-Objekt.
+
+        Fehlerbehandlung:
+            - Kein spezielles Handling – Fehler bei falschem Format.
+        """        
         return datetime.strptime(t, time_format)
 
     def build_match_pairs(matches):
+        """
+        Sucht passende Hin- und Rückspiel-Paare im Spielplan.
+
+        Parameter:
+            - matches (list): Liste der Spiel-Dictionaries.
+
+        Rückgabewert:
+            - list: Liste von Tupeln mit je einem Hin- und Rückspiel.
+
+        Hinweise:
+            - Nur Matches mit "Hinspiel" werden betrachtet.
+            - Paarung erfolgt nach Teamnamen und Gruppenabgleich.
+        """
         pairs, used = [], set()
         for i, m1 in enumerate(matches):
             if i in used or m1.get("Match Type") != "Hinspiel":
@@ -309,6 +520,25 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
         return pairs
 
     def cost(schedule):
+        """
+        Bewertet den Spielplan nach Fairness, Feldnutzung und Schiri-Verteilung.
+
+        Parameter:
+            - schedule (list): Liste der Spiel-Dictionaries.
+
+        Rückgabewert:
+            - int: Kostenwert – je niedriger, desto besser.
+
+        Bewertungsfaktoren:
+            - Ungenutzte Felder (Leerlaufzeiten)
+            - Enge Schiedsrichter-Zeitabstände
+            - Ungleichmäßige Feldauslastung
+            - Inaktivitätsphasen für Teams
+
+        Hinweise:
+            - Berücksichtigt auch den Fall "KEIN SCHIRI" mit Strafkosten.
+        """
+    
         field_usage = defaultdict(int)
         time_field = defaultdict(set)
         referee_timeline = defaultdict(list)
@@ -359,10 +589,15 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
             avg = sum(field_usage.values()) / fields
             variance_penalty = sum(abs(field_usage[i] - avg) for i in field_usage)
 
-        INACTIVITY_WEIGHT = 1000
+        INACTIVITY_WEIGHT = 10000
 
         inactivity_penalty = 0
-        for timeline in team_timelines.values():
+        for team, timeline in team_timelines.items():
+            for i in range(1, len(timeline)):
+                if timeline[i - 1] == '-' and timeline[i] == '-':
+                    inactivity_penalty += 1_000_000  
+
+
             gap_length = 0
             for status in timeline:
                 if status == '-':
@@ -376,6 +611,7 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
 
 
 
+
         return (
             empty_fields * 200
             + penalty
@@ -384,6 +620,19 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
         )
 
     def assign_referees_strict(schedule, teams, match_duration):
+        """
+        Weist Schiedsrichter so zu, dass Gruppenlogik eingehalten und Belastung verteilt wird.
+
+        Parameter:
+            - schedule (list): Spielplan mit Hin- und Rückspielen.
+            - teams (dict): Dictionary mit Teamdaten (inkl. Gruppenzugehörigkeit).
+            - match_duration (int): Dauer eines Spiels in Minuten.
+
+        Hinweise:
+            - Schiedsrichter dürfen nicht direkt davor oder danach gespielt haben.
+            - Schiedsrichter kommen aus derselben Gruppe wie das Match.
+            - Falls kein Schiedsrichter verfügbar, wird "KEIN SCHIRI" eingetragen.
+        """
         from collections import defaultdict
         from datetime import datetime, timedelta
 
@@ -519,6 +768,26 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
 
 
 def insert_pauses(schedule, start_time, play_in_time, pause_interval, pause_length, pause_count):
+    """
+    Fügt feste Pausen zu definierten Zeiten in den Spielplan ein.
+
+    Parameter:
+        - schedule (list): Der Spielplan, in den Pausen eingefügt werden.
+        - start_time (str): Startzeit des Turniers (Format "%H:%M").
+        - play_in_time (int): Dauer der Einspielzeit in Minuten.
+        - pause_interval (int): Stunden bis zur nächsten Pause.
+        - pause_length (int): Dauer einer Pause in Minuten.
+        - pause_count (int): Anzahl der Pausen.
+
+    Rückgabewert:
+        - list: Neuer Spielplan mit eingefügten Pausen.
+
+    Fehlerbehandlung:
+        - Überspringt doppelte Pausenzeiten.
+
+    Hinweise:
+        - Pausen werden vor dem ersten Spiel nach Erreichen der definierten Zeit eingefügt.
+    """
     from datetime import datetime, timedelta
 
     time_format = "%H:%M"
