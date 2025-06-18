@@ -2,7 +2,7 @@ import unittest
 
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(".."))
 
 
 from basetest import Testmygenerator
@@ -10,9 +10,9 @@ from basetest import Testmygenerator
 from turnierueberarbeitung import main, baue_status_lists, get_statusverlaeufe, rekonstruiere_teams
 from turnierplangenerator_4 import return_plan
 
-class Test4M1L1F_HR(Testmygenerator):
+class Test6M2L3F_HR(Testmygenerator):
     """
-    Testklasse für den konkreten Turnierfall: 4 Teams, 1 Feld, 1 Gruppe, Hin- und Rückspiel aktiviert.
+    Testklasse für den konkreten Turnierfall: 6 Teams, 3 Felder, 2 Gruppen, Hin- und Rückspiel aktiviert.
 
     Es wird überprüft, ob der generierte Spielplan valide, fair verteilt und korrekt ausgewertet ist.
 
@@ -27,9 +27,9 @@ class Test4M1L1F_HR(Testmygenerator):
     @classmethod
     def setUpClass(cls):
 
-        cls.fields = 1
-        cls.performance_groups = 1
-        cls.teams_per_group = [4]
+        cls.fields = 3
+        cls.performance_groups = 2
+        cls.teams_per_group = [6, 8]
         cls.start_time = "12:00"
         cls.match_duration = 15
         cls.round_trip = True
@@ -37,7 +37,7 @@ class Test4M1L1F_HR(Testmygenerator):
         cls.pause_length = [30]
         cls.pause_count = 2
         cls.pause_interval = 4
-        cls.group_names = ["Fun"]
+        cls.group_names = ["Fun", "Schwitzer"]
         cls.break_times = []
 
         # Rekonstruiere teams passend zu Namen und Gruppen
@@ -84,11 +84,9 @@ class Test4M1L1F_HR(Testmygenerator):
 
     def test_number_of_games(self):
         self.checknumberofgames(self.teams_per_group[0], len(self.group_names), self.schedule, self.round_trip)
-    
+
     def test_teamsGehörenZurSelbenGruppe(self):
         self.teams_gehören_zur_selben_gruppe(self.schedule)
         
-
 #   def test_keine_fehler(self):
 #        self.checkfails(self.fehler)
-

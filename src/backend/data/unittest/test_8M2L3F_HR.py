@@ -85,6 +85,9 @@ class Test8M2L3F_HR(Testmygenerator):
     def test_number_of_games(self):
         self.checknumberofgames(self.teams_per_group[0], len(self.group_names), self.schedule, self.round_trip)
 
+    def test_teamsGehörenZurSelbenGruppe(self):
+        self.teams_gehören_zur_selben_gruppe(self.schedule)
+
 #   def test_keine_fehler(self):
 #        self.checkfails(self.fehler)
 

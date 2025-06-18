@@ -14,7 +14,7 @@ Diese erzeugen auf Basis definierter Eingabekonfigurationen Spielpläne und Stat
 
 == Ziel der Unittests
 
-Die Tests prüfen unter anderem:
+Die Tests prüfen:
 
 - Kein Team spielt gegen sich selbst
 - Kein Team pfeift zweimal direkt hintereinander
@@ -22,6 +22,7 @@ Die Tests prüfen unter anderem:
 - Kein Team setzt länger als ein Spiel aus
 - Gleichverteilung der Schiedsrichterrolle über alle Teams
 - Korrekte Anzahl der Spiele bei Hin- und Rückspiel-Konfiguration
+- Ein Spiel beinhaltet nur Teams einer Leistungsgruppe
 
 == Projektstruktur & Speicherort
 

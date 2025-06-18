@@ -181,34 +181,6 @@ class Testmygenerator(unittest.TestCase):
         # debugging
         # print("Zählungen:", zaehlungen)
         # print("Durchschnitt:", durchschnitt)
-
-    def getnames(self, anzahl_teams, anzahl_gruppen):
-        """
-        Erzeugt die Teamnamen basierend auf der Anzahl der Gruppen und Teams.
-
-        Parameter:
-            - anzahl_teams (int): Anzahl der Teams pro Gruppe.
-            - anzahl_gruppen (int): Anzahl der Gruppen (1 oder 2).
-
-        Beispiel:
-            - teamnamen = self.getnames(6, 2)
-
-        Rückgabewert:
-            - list[str]: Liste der Teamnamen, z. B. ["Team 1", "Team 2", ..., "FTeam 1", ...]
-
-        Hinweise:
-            - Bei zwei Gruppen werden "STeam" und "FTeam" verwendet.
-        """
-        team_namen = []
-        if anzahl_gruppen == 2: 
-            for i in range(1, anzahl_teams +1): 
-                team_namen.append(f"STeam {i}")
-            for i in range(1, anzahl_teams +1): 
-                team_namen.append(f"FTeam {i}")
-        if anzahl_gruppen == 1: 
-            for i in range(1, anzahl_teams +1): 
-                team_namen.append(f"Team {i}")
-        return team_namen
     
     def checkifrefereeexists(self, schedule, team_namen):
         """
@@ -239,3 +211,42 @@ class Testmygenerator(unittest.TestCase):
                     self.assertIsNotNone(schiri, "Schiedsrichter ist None!")
                     self.assertNotEqual(schiri, "Not required", "Schiedsrichter darf nicht 'Not required' sein!")
                     self.assertIn(schiri, team_namen, f"Schiedsrichter '{schiri}' nicht in der Teamliste!")
+
+
+    def teams_gehören_zur_selben_gruppe(self, schedule):
+        """
+        Prüft, ob in jedem Spiel Team 1, Team 2 und der Schiedsrichter denselben Team-Präfix haben,
+        also alle aus derselben Gruppe stammen ('FTeam' oder 'STeam').
+
+        Parameter:
+            - schedule (list): Liste von Spiel-Dictionaries mit Team- und Schiedsrichterangaben.
+
+        Beispiel:
+            - self.teams_gehören_zur_selben_gruppe(spielplan)
+
+        Rückgabewert:
+            - None
+
+        Fehlerbehandlung:
+            - AssertionError, wenn mindestens ein Spiel gemischte Gruppen enthält.
+        """
+        def get_prefix(teamname):
+            return teamname.split('_')[0] if teamname else None
+
+        for match in schedule:
+            if match.get("Match Type"):  # Nur echte Spiele prüfen
+                team1 = match.get("Team 1")
+                team2 = match.get("Team 2")
+                schiri = match.get("Schiedsrichter")
+
+                p1 = get_prefix(team1)
+                p2 = get_prefix(team2)
+                p3 = get_prefix(schiri)
+
+                with self.subTest(spiel=match.get("Spiel", "?")):
+                    self.assertEqual(
+                        {p1, p2, p3},
+                        {p1},  # Menge mit nur einem Eintrag
+                        f"Spiel {match.get('Spiel')} enthält Teams aus unterschiedlichen Gruppen: {team1}, {team2}, {schiri}"
+                    )
+
