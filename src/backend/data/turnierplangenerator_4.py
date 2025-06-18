@@ -391,12 +391,8 @@ def create_tournament_plan(
 
 
         if round_matches:
+            time_increment = timedelta(minutes=match_duration * 2 if round_trip else match_duration)
             schedule.extend(round_matches)
-
-            if round_trip:
-                current_time += timedelta(minutes=match_duration * 2)
-            else:
-                current_time += timedelta(minutes=match_duration)
             round_number += 1
 
             round_invalid = False
@@ -434,8 +430,10 @@ def create_tournament_plan(
 
                     continue  
                 else:
+                    current_time += time_increment
                     consecutive_invalid_rounds = 0  
             else:
+                current_time += time_increment
                 consecutive_invalid_rounds = 0  
 
         else:
@@ -837,9 +835,9 @@ def insert_pauses(schedule, start_time, play_in_time, pause_interval, pause_leng
 
 
 if __name__ == '__main__':
-    fields = 4
+    fields = 2
     performance_groups = 2
-    teams_per_group = 8
+    teams_per_group = 6
     start_time = "12:00"
     match_duration = 15
     round_trip = True
@@ -849,8 +847,8 @@ if __name__ == '__main__':
     pause_interval = 4
     group_names = ["Schwitzer", "Fun"]
     team_names = [
-        "STeam 1", "STeam 2", "STeam 3", "STeam 4", "STeam 5", "STeam 6", "STeam 7", "STeam8",
-        "FTeam1", "FTeam2", "FTeam 3", "FTeam 4", "FTeam 5", "FTeam 6", "FTeam 7", "FTeam8"
+        "STeam 1", "STeam 2", "STeam 3", "STeam 4", "STeam 5", "STeam 6",
+        "FTeam1", "FTeam2", "FTeam 3", "FTeam 4", "FTeam 5", "FTeam 6"
         
     ]
 
@@ -1020,6 +1018,7 @@ def create_html(schedule, fields):
     </html>
     """
     return html
+
 
 
 #html_output = create_html(schedule, fields)
