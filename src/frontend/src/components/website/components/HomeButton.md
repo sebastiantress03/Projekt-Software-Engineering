@@ -1,37 +1,234 @@
-# HomeButton
+# Tournament Management System - Comprehensive Documentation
 
-Ein wiederverwendbarer Button mit konfigurierbarem Typ, Stil (Farbe, Größe) und deaktivierbarem Zustand. <HomeButton color="secondary" size="large" @click="handleClick">Klick mich</HomeButton>
-
-## Props
-
-<!-- @vuese:HomeButton:props:start -->
-|Name|Description|Type|Required|Default|
-|---|---|---|---|---|
-|type|Der Typ des Buttons (z. B. "button", "submit", "reset")|`String`|`false`|button|
-|color|Die Farbklasse des Buttons, z. B. "primary" oder "secondary"|`String`|`false`|primary|
-|size|Die Größenklasse des Buttons, z. B. "normal" oder "large"|`String`|`false`|normal|
-|disabled|Ob der Button deaktiviert ist|`Boolean`|`false`|false|
-
-<!-- @vuese:HomeButton:props:end -->
+## Inhaltsverzeichnis
+1. [Systemübersicht](#system-uebersicht)
+2. [Komponentendokumentation](#komponentendokumentation)
+   - [TurnierErstellen](#turnier-erstellen)
+   - [TurnierAuswertung](#turnier-auswertung)
+   - [TurnierPlan](#turnier-plan)
+   - [VorherigeTurniere](#vorherige-turniere)
+   - [TurnierErstellungsschritte](#turnier-erstellungsschritte)
+3. [API-Dokumentation](#api-dokumentation)
+4. [Styleguide](#styleguide)
+5. [Entwicklungsanleitung](#entwicklungsanleitung)
 
 
-## Events
+## Systemübersicht <a name="system-uebersicht"></a>
+Eine umfassende Vue.js-Anwendung zur Verwaltung von Sportturnieren mit Funktionen für:
+- Turniererstellung und -konfiguration
+- Spielplanung
+- Ergebnisverfolgung und -auswertung
+- Teammanagement
 
-<!-- @vuese:HomeButton:events:start -->
-|Event Name|Description|Parameters|
-|---|---|---|
-|click|-|-|
+## Komponentendokumentation <a name="komponentendokumentation"></a>
 
-<!-- @vuese:HomeButton:events:end -->
+### TurnierErstellen <a name="turnier-erstellen"></a>
+**Datei:** `/views/CreateTournament.vue`  
+**Zweck:** Komplette Oberfläche zur Turniererstellung
+
+#### Datenstruktur
+```javascript
+{
+  tournament_name: "",       // Pflichtfeld
+  number_of_fields: 1,       // Minimum: 1
+  return_match: "true",      // "true" oder "false"
+  time_to_start: "09:00",    // Format: HH:mm
+  game_time: 10,             // Minuten
+  warm_up_time: 5,           // Minuten
+  number_of_breaks: 1,       // Anzahl Pausen
+  break_length: [5],         // Minuten pro Pause
+  break_times: [""],         // Startzeiten (HH:mm)
+  stage_name: ["Gruppe A"],  // Gruppennamen
+  number_of_teams: [4]       // Teams pro Gruppe
+}
+```
+### Methoden
+
+| Methode | Parameter | Beschreibung |
+|---------|-----------|--------------|
+| `updateStages` | Keine | Aktualisiert die Gruppenliste bei Änderung der Gruppenanzahl |
+| `updateBreaks` | Keine | Aktualisiert die Pausenliste bei Änderung der Pausenanzahl |
+| `submit` | Keine | Validiert das Formular und gibt die Daten in der Konsole aus ||
 
 
-## Slots
+### TurnierAuswertung <a name="turnier-auswertung"></a>
+**Datei:** `/views/Evaluation.vue`  
+**Zweck:** Zeigt Turnierergebnisse und Gewinner an
 
-<!-- @vuese:HomeButton:slots:start -->
-|Name|Description|Default Slot Content|
-|---|---|---|
-|default|-|-|
+#### Dynamische Eigenschaften
+| Eigenschaft | Typ | Beschreibung |
+|-------------|-----|--------------|
+| `selectedGroup` | String | Aktuell ausgewählte Gruppe |
+| `winners` | Computed<String[]> | Liste der Gewinner für die ausgewählte Gruppe |
+| `results` | Computed<Object[]> | Spielergebnisse für die ausgewählte Gruppe |
 
-<!-- @vuese:HomeButton:slots:end -->
+#### Testdatenstruktur
+```javascript
+{
+  [gruppenName]: {
+    winners: ["Team Alpha", "Team Beta"],
+    results: [
+      {
+        platz: 1,           // Position
+        team: "Team Alpha", // Teamname
+        s: 10,              // Siege
+        n: 1,               // Niederlagen
+        p: 130,             // Punkte
+        g: 90,              // Gegentore
+        diff: 40            // Tordifferenz
+      }
+    ]
+  }
+}
+```
+
+## TurnierPlan <a name="turnierplan"></a>
+**Datei:** `/views/TournamentPlan.vue`  
+**Zweck:** Anzeige des Spielplans und Ergebnis-Eingabe
+
+### Hauptfunktionen
+- Interaktive Spielkarten mit Teaminformationen
+- Ergebnis-Eingabe über Modal-Popup
+- Teamauswahl-Dropdown
+- Visuelle Gruppierung nach Spielfeldern
+
+### API-Integration
+```javascript
+// Turnierdaten laden
+GET /tournaments/:id
+
+// Spielergebnis aktualisieren
+PUT /tournaments/match_plan/match/:gameID
+```
+
+
+## VorherigeTurniere <a name="vorherige-turniere"></a>
+**Datei:** `/views/PreviousTournaments.vue`  
+**Zweck:** Anzeige gespeicherter Turniere
+
+### Datenfluss
+| Schritt | Aktion |
+|---------|--------|
+| 1 | Lädt Turnierliste von der API |
+| 2 | Zeigt sie als interaktive Buttons an |
+| 3 | Bei Auswahl Navigation zur TurnierPlan-Ansicht |
+
+
+
+
+## TurnierErstellungsschritte <a name="turnier-erstellungsschritte"></a>
+
+### Schritt 1 (`/views/TournamentStep1.vue`)
+| Funktion | Validierungsregeln |
+|----------|--------------------|
+| Grundlegende Turnierkonfiguration | - Turniername erforderlich<br>- Positive numerische Werte<br>- Gültige Zeitformate |
+
+### Schritt 2 (`/views/TournamentStep2.vue`)
+| Funktion | Validierungsregeln |
+|----------|--------------------|
+| Detaillierte Gruppen- und Pausenkonfiguration | - Gruppennamen erforderlich<br>- Mind. 2 Teams/Gruppe<br>- Gültige Pausendauern |
+
+## API-Dokumentation <a name="api-dokumentation"></a>
+
+### Endpunkte
+
+| Endpunkt               | Methode | Beschreibung                   | Parameter         |
+|------------------------|---------|--------------------------------|-------------------|
+| `/tournaments/`        | GET     | Liste aller Turniere           | Keine            |
+| `/tournaments/:id`     | GET     | Turnierdetails abrufen         | `id`             |
+| `/tournament/`         | POST    | Neues Turnier erstellen        | Turnier-Objekt   |
+| `/match/:gameID`       | PUT     | Spielergebnis aktualisieren    | Ergebnis-Objekt  |
+
+### Anfrage-/Antwort-Beispiele
+
+**Turnier erstellen (POST /tournament/)**
+
+```javascript
+// Anfrage
+{
+  "name": "Winterturnier",
+  "num_fields": 2,
+  "return_match": true,
+  "number_of_stages": 2,
+  "start": "09:00",
+  "period": 15,
+  "warm_up": 5,
+  "num_breaks": 1,
+  "break_length": [10],
+  "break_times": ["12:00"],
+  "stage_name": ["Gruppe A", "Gruppe B"],
+  "num_teams": [4, 4]
+}
+
+// Antwort
+{
+  "status": "erfolg",
+  "tournament_id": 123
+}
+```
+
+## Styleguide <a name="styleguide"></a>
+
+### Design-System
+
+#### Farbpalette
+- **Primär:** `#004d40` (Dunkles Petrol)
+- **Sekundär:** `#00796b` (Mittleres Petrol)
+- **Akzent:** `#26a69a` (Helles Petrol)
+
+#### Typografie
+- **Hauptschrift:** Segoe UI
+- **Fallback:** Arial, sans-serif
+- **Grundgröße:** 16px
+#
+### Wiederverwendbare Komponenten
+
+#### HomeButton
+**Eigenschaften:**
+| Name      | Typ     | Werte | Beschreibung|
+|-----------|---------|----------------------------|-------------|
+| `color`   | String  | `primary`, `secondary`     | Bestimmt die Button-Farbe  |
+| `size`    | String  | `small`, `medium`, `large` | Bestimmt die Button-Größe  |
+| `disabled`| Boolean | `true`, `false`            | Deaktiviert den Button     |
+#
+**Ereignisse:**
+| Name     | Beschreibung                          |
+|----------|---------------------------------------|
+| `click`  | Wird bei Button-Klick ausgelöst       |
+#
+#### FormField
+**Eigenschaften:**
+| Name         | Typ     | Beschreibung                          |
+|--------------|---------|---------------------------------------|
+| `label`      | String  | Beschriftung des Eingabefelds         |
+| `type`       | String  | `text`, `number`, `time` (Eingabetyp) |
+| `modelValue` | Variabel| Gebundener Wert des Eingabefelds      |
+#
+
+## Entwicklungsanleitung <a name="entwicklungsanleitung"></a>
+
+### Setup
+```bash
+# Abhängigkeiten installieren
+npm install
+
+# Entwicklungsserver starten
+npm run dev
+```
+```
+# Produktions-Build erstellen
+npm run build
+
+# Code-Linting und automatische Fehlerbehebung
+npm run lint
+```
+
+```
+# Unit-Tests ausführen
+npm run test:unit
+
+# End-to-End-Tests ausführen
+npm run test:e2e
+```
 
 
