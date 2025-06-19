@@ -17,13 +17,20 @@
             </select>
         </div>
 
-        <div class="fields-scroll">
-            <MatchCard
-                v-for="(match, index) in matches"
-                :key="match.gameID"
-                :match="match"
-                @open-popup="openPopup"
-            />
+        <div class="fields-grid">
+            <div
+                class="field-column"
+                v-for="(matches, field) in groupMatchesByField(filteredMatches)"
+                :key="field"
+            >
+                <div class="field-title">Feld {{ field }}</div>
+                <MatchCard
+                    v-for="match in matches"
+                    :key="match.gameID"
+                    :match="match"
+                    @open-popup="openPopup"
+                />
+            </div>
         </div>
 
         <div class="buttons">
@@ -84,25 +91,60 @@ export default {
             matches: [],
         };
     },
+    computed: {
+        filteredMatches() {
+            if (!this.selectedTeam) return this.matches;
+            return this.matches.filter(
+                (m) =>
+                    m.teamA === this.selectedTeam ||
+                    m.teamB === this.selectedTeam ||
+                    m.ref === this.selectedTeam
+            );
+        },
+    },
     methods: {
         goToNext() {
             this.$router.push({ name: "Evaluation" });
         },
         openPopup(match) {
-            this.currentMatch = match;
+            this.currentMatch = { ...match };
             this.showPopup = true;
         },
         closePopup() {
             this.showPopup = false;
         },
-        saveScore() {
-            // Optional: Hier könntest du einen PUT-Request an die API machen, um das Ergebnis zu speichern
-            // Beispiel:
-            // axios.put(`${import.meta.env.VITE_API_URL}/tournaments/match_plan/match/${this.currentMatch.gameID}`, {
-            //     score_team1: this.currentMatch.scoreA,
-            //     score_team2: this.currentMatch.scoreB,
-            //     time_change: new Date().toLocaleTimeString('de-DE', { hour12: false })
-            // });
+        async saveScore() {
+            // Finde das Match im matches-Array und aktualisiere die Werte
+            const idx = this.matches.findIndex(
+                (m) => m.gameID === this.currentMatch.gameID
+            );
+            if (idx !== -1) {
+                // Kopiere die Werte aus currentMatch zurück ins Array
+                this.matches[idx].scoreA = this.currentMatch.scoreA;
+                this.matches[idx].scoreB = this.currentMatch.scoreB;
+            }
+            // Speichere die aktualisierten Matches im localStorage
+            localStorage.setItem("matches", JSON.stringify(this.matches));
+
+            // Sende das Ergebnis ans Backend
+            try {
+                console.log("currentMatch:", this.currentMatch);
+                await axios.put(
+                    `${
+                        import.meta.env.VITE_API_URL
+                    }/tournaments/match_plan/match/${this.currentMatch.gameID}`,
+                    {
+                        score_team1: this.currentMatch.scoreA,
+                        score_team2: this.currentMatch.scoreB,
+                        time_change: new Date()
+                            .toLocaleTimeString("de-DE", { hour12: false })
+                            .slice(0, 5), // z.B. "14:23"
+                    }
+                );
+            } catch (e) {
+                alert("Fehler beim Speichern im Backend!");
+            }
+
             this.showPopup = false;
         },
         extractTeamsFromMatches(matches) {
@@ -117,7 +159,6 @@ export default {
             return Array.from(teamSet);
         },
         mapApiMatches(apiMatches) {
-            // Mappe die API-Matches auf das Format für MatchCard
             return apiMatches.map((m) => ({
                 match: `${m.team_names[0]} vs ${m.team_names[1]}`,
                 teamA: m.team_names[0],
@@ -129,8 +170,16 @@ export default {
                 ref: m.team_names[2] || "",
                 scoreA: m.scores?.[0] ?? null,
                 scoreB: m.scores?.[1] ?? null,
-                gameID: m.gameID,
+                gameID: m.game_id, // <-- Korrekt!
             }));
+        },
+        groupMatchesByField(matches) {
+            const grouped = {};
+            matches.forEach((m) => {
+                if (!grouped[m.field]) grouped[m.field] = [];
+                grouped[m.field].push(m);
+            });
+            return grouped;
         },
     },
     async mounted() {
@@ -141,6 +190,9 @@ export default {
             const apiMatches = response.data.tournament || [];
             this.matches = this.mapApiMatches(apiMatches);
             this.allTeams = this.extractTeamsFromMatches(apiMatches);
+
+            // Speichere die Matches im localStorage
+            localStorage.setItem("matches", JSON.stringify(this.matches));
         } catch (e) {
             this.matches = [];
             this.allTeams = [];
@@ -299,5 +351,29 @@ button:hover {
 .popup-buttons button:last-child {
     background-color: #387d75;
     color: white;
+}
+.fields-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 30px;
+    overflow-x: auto;
+}
+.field-column {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 260px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.field-title {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #387d75;
+    font-size: 18px;
 }
 </style>

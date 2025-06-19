@@ -12,10 +12,9 @@
             <label for="groupSelect">Leistungsgruppe: </label>
             <select id="groupSelect" v-model="selectedGroup">
                 <option value="">-- Hier wählen --</option>
-                <option value="gruppe1">Leistungsgruppe 1</option>
-                <option value="gruppe2">Leistungsgruppe 2</option>
-                <option value="gruppe3">Leistungsgruppe 3</option>
-                <option value="gruppe4">Leistungsgruppe 4</option>
+                <option v-for="group in groups" :key="group" :value="group">
+                    {{ group }}
+                </option>
             </select>
         </div>
 
@@ -62,61 +61,92 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import sturaLogo from "../assets/STURA_HTWD_Logo.webp";
 
-const selectedGroup = ref("");
-const dummyData = {
-    gruppe1: {
-        winners: ["Team Alpha", "Team Beta"],
-        results: [
-            {
-                platz: 1,
-                team: "Team Alpha",
-                s: 10,
-                n: 1,
-                p: 130,
-                g: 90,
-                diff: 40,
-            },
-            {
-                platz: 2,
-                team: "Team Beta",
-                s: 8,
-                n: 3,
-                p: 110,
-                g: 95,
-                diff: 15,
-            },
-        ],
-    },
-    gruppe2: {
-        winners: ["Team Delta"],
-        results: [
-            {
-                platz: 1,
-                team: "Team Delta",
-                s: 9,
-                n: 2,
-                p: 120,
-                g: 80,
-                diff: 40,
-            },
-            {
-                platz: 2,
-                team: "Team Omega",
-                s: 7,
-                n: 4,
-                p: 100,
-                g: 88,
-                diff: 12,
-            },
-        ],
-    },
-};
+// Beispiel: Matches aus LocalStorage oder API laden
+const matches = ref([]);
 
-const winners = computed(() => dummyData[selectedGroup.value]?.winners || []);
-const results = computed(() => dummyData[selectedGroup.value]?.results || []);
+// Beispiel: Teams pro Gruppe (kannst du auch dynamisch aus matches ableiten)
+const groups = computed(() => {
+    const groupSet = new Set(matches.value.map((m) => m.group));
+    return Array.from(groupSet);
+});
+
+const selectedGroup = ref("");
+
+// Hilfsfunktion: Tabelle für eine Gruppe berechnen
+function calculateGroupTable(groupName) {
+    // Teams der Gruppe extrahieren
+    const teams = new Set();
+    matches.value.forEach((m) => {
+        if (m.group === groupName) {
+            teams.add(m.teamA);
+            teams.add(m.teamB);
+        }
+    });
+
+    // Initialisiere Statistik für jedes Team
+    const stats = {};
+    teams.forEach((team) => {
+        stats[team] = { team, s: 0, n: 0, p: 0, g: 0, diff: 0 };
+    });
+
+    // Spiele durchgehen und Statistik berechnen
+    matches.value.forEach((m) => {
+        if (m.group !== groupName) return;
+        if (m.scoreA == null || m.scoreB == null) return; // Nur gewertete Spiele
+
+        stats[m.teamA].g += m.scoreA;
+        stats[m.teamB].g += m.scoreB;
+        stats[m.teamA].diff += m.scoreA - m.scoreB;
+        stats[m.teamB].diff += m.scoreB - m.scoreA;
+
+        if (m.scoreA > m.scoreB) {
+            stats[m.teamA].s += 1;
+            stats[m.teamB].n += 1;
+            stats[m.teamA].p += 3; // z.B. 3 Punkte für Sieg
+        } else if (m.scoreA < m.scoreB) {
+            stats[m.teamB].s += 1;
+            stats[m.teamA].n += 1;
+            stats[m.teamB].p += 3;
+        } else {
+            // Unentschieden (optional)
+            stats[m.teamA].p += 1;
+            stats[m.teamB].p += 1;
+        }
+    });
+
+    // Sortiere nach Punkten, dann Differenz, dann erzielten Punkten
+    const table = Object.values(stats).sort(
+        (a, b) => b.p - a.p || b.diff - a.diff || b.g - a.g
+    );
+
+    // Platzierung vergeben
+    table.forEach((row, i) => (row.platz = i + 1));
+
+    // Gewinner bestimmen (alle mit Platz 1)
+    const maxP = table[0]?.p ?? 0;
+    const winners = table.filter((r) => r.p === maxP).map((r) => r.team);
+
+    return { winners, results: table };
+}
+
+// Computed für aktuelle Auswahl
+const winners = computed(() =>
+    selectedGroup.value ? calculateGroupTable(selectedGroup.value).winners : []
+);
+const results = computed(() =>
+    selectedGroup.value ? calculateGroupTable(selectedGroup.value).results : []
+);
+
+// Beispiel: Matches laden (hier aus LocalStorage, sonst aus API)
+onMounted(() => {
+    // Ersetze das durch deinen echten Datenbezug!
+    const stored = localStorage.getItem("matches");
+    if (stored) matches.value = JSON.parse(stored);
+    // Oder: matches.value = await axios.get("/api/matches")
+});
 </script>
 
 <style scoped>
