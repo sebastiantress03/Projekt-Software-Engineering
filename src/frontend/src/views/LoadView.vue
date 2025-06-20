@@ -20,6 +20,9 @@
             </button>
             <div v-if="tournaments.length === 0">
                 <em>Keine Turniere gefunden.</em>
+                <div class="back-button-fixed">
+                <ZuruckButton />
+            </div>
             </div>
         </div>
     </div>
@@ -27,9 +30,15 @@
 
 <script>
 import axios from "axios";
+import ZuruckButton from "@/components/ZuruckButton.vue";
+
+
 
 export default {
     name: "PreviousTournaments",
+    components: {
+        ZuruckButton,
+    },
     data() {
         return {
             tournaments: [],
@@ -61,6 +70,7 @@ export default {
     padding: 20px;
     font-family: "Segoe UI", sans-serif;
     text-align: center;
+    z-index: 1000;
 }
 
 .logo-header {
@@ -94,4 +104,14 @@ export default {
 .tournament-btn:hover {
     background-color: #d5d5d5;
 }
+
+.ZuruckButton{
+
+    position: bottom,left;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    
+}
+
 </style>

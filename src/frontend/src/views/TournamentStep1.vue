@@ -54,6 +54,17 @@
         </div>
 
         <div class="buttons">
+            
+            <ZuruckButton
+            color="secondary"
+                size="large"
+                @click="goBack"
+                position
+                
+            >
+            Zurück
+            </ZuruckButton>
+
             <HomeButton
                 color="secondary"
                 size="large"
@@ -62,6 +73,8 @@
             >
                 Weiter zu Gruppen
             </HomeButton>
+
+
         </div>
     </div>
 </template>
@@ -69,10 +82,11 @@
 <script>
 import HomeButton from "../components/HomeButton.vue";
 import FormField from "../components/FormField.vue";
+import ZuruckButton from "@/components/ZuruckButton.vue";
 
 export default {
     name: "TournamentStep1",
-    components: { HomeButton, FormField },
+    components: { HomeButton, FormField, ZuruckButton},
     data() {
         return {
             form: {
@@ -101,6 +115,7 @@ export default {
 
 <style scoped>
 .form-wrapper {
+    position: relative;
     max-width: 800px;
     margin: 40px auto;
     padding: 40px 50px;
@@ -151,10 +166,21 @@ select {
 }
 
 .buttons {
+
+    display: flex;
+    justify-content: space-between; /* statt flex-end */
+    margin-top: 40px;
+
+
+}
+
+.button-container {
     display: flex;
     justify-content: flex-end;
+    gap: 20px;
     margin-top: 40px;
 }
+
 
 button {
     padding: 12px 24px;
@@ -171,4 +197,16 @@ button {
 button:hover {
     background-color: #004d40;
 }
+
+.action-button {
+    flex: 1;
+    text-align: center;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 </style>
