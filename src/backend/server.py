@@ -23,20 +23,20 @@ class Server:
             - Gibt eine Fehlermeldung aus, falls die Datenbank nicht geöffnet oder erstellt werden kann.
 
         Hinweise:
-            - Die Datenbankdatei wird unter "data/vtDatabase.db" gespeichert.
+            - Die Datenbankdatei wird unter "data/db/vtDatabase.db" gespeichert.
             - Bei Fehlern wird keine Exception geworfen, sondern eine Fehlermeldung ausgegeben.
         """
         try:
             # Überprüft ob die Datenbank bereits existiert
-            if not os.path.exists(os.path.join("data","vtDatabase.db")):
+            if not os.path.exists(os.path.join("data/db","vtDatabase.db")):
                 try:
-                    with open(os.path.join("data","vtDatabase.db"),"w+") as file:
+                    with open(os.path.join("data/db","vtDatabase.db"),"w+") as file:
                         file.close()
                 except Exception as e:
                     print(f"Database could not be opened: {e}")
                 
             # Datenbankstruktur
-            with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
+            with sqlite3.connect(os.path.join("data/db","vtDatabase.db")) as connection:
                 cursor = connection.cursor()
                 cursor.execute("""CREATE TABLE IF NOT EXISTS Turnier(
                                 TurnierID               INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -110,7 +110,7 @@ class Server:
             - Fremdschlüsselbeschränkungen werden aktiviert (PRAGMA foreign_keys = ON).    
         """
         try:
-            with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
+            with sqlite3.connect(os.path.join("data/db","vtDatabase.db")) as connection:
                 connection.execute("PRAGMA foreign_keys = ON")
                 cursor = connection.cursor()
                 cursor.execute(query,attributes)
@@ -147,7 +147,7 @@ class Server:
             - Fremdschlüsselbeschränkungen werden aktiviert (PRAGMA foreign_keys = ON).
         """
         try:
-            with sqlite3.connect(os.path.join("data","vtDatabase.db")) as connection:
+            with sqlite3.connect(os.path.join("data/db","vtDatabase.db")) as connection:
                 connection.execute("PRAGMA foreign_keys = ON")
                 cursor = connection.cursor()
                 cursor.execute(query, attributes)

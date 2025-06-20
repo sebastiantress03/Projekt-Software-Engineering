@@ -15,4 +15,5 @@ COPY . .
 EXPOSE 8000
 
 # Command to run the application
+LABEL org.opencontainers.image.source=https://github.com/sebastiantress03/Projekt-Software-Engineering
 CMD ["fastapi", "run", "backend.py", "--host", "0.0.0.0", "--port", "8000"]

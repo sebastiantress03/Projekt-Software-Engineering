@@ -4,6 +4,7 @@ services:
       context: ./frontend
       args:
         VITE_API_URL: /api/
+    image: ghcr.io/sebastiantress03/turnierplan-frontend:latest
     ports:
       - "80:80"
     container_name: frontend
@@ -14,7 +15,11 @@ services:
   backend:
     build:
       context: ./backend
+    image: ghcr.io/sebastiantress03/turnierplan-backend:latest
     ports:
       - "8000:8000"
     container_name: backend
     restart: unless-stopped
+    volumes:
+      - ./data/db:/app/data/db
+
