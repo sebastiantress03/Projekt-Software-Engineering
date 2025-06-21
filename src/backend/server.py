@@ -83,7 +83,7 @@ class Server:
                                 FOREIGN KEY (SpielID) REFERENCES Ergebnisse(SpielID) ON DELETE CASCADE
                                 )""")
 
-        except Exception as exception:
+        except Exception:
             print("Error initializing database! ")
 
     # Erhalt der Datenbankabfrage als Liste
@@ -117,7 +117,7 @@ class Server:
                 data = cursor.fetchall()
                 return data
 
-        except Exception as exception:
+        except Exception:
             print("Error executing query! ")
             # return False
             raise Exception
@@ -154,6 +154,6 @@ class Server:
                 connection.commit()
                 return True
             
-        except Exception as exception:
+        except Exception:
             print(f"Error executing execute! ")
             return False

@@ -5,8 +5,9 @@
 3. [Laden existierender Turniere](#laden-existierender-turniere)
 4. [Laden des aktuellen Spielstandes](#laden-des-aktuellen-spielstandes)
 5. [Aktualisieren von Spielständen](#aktualisieren-von-spielständen)
-6. [Ändern von Teamname](#ändern-von-teamname)
-7. [Löschen eines Turniers](#löschen-eines-turniers)
+6. [Erhalt der Änderungen von Spielständen](#erhalt-der-änderungen-von-spielständen)
+7. [Ändern von Teamname](#ändern-von-teamname)
+8. [Löschen eines Turniers](#löschen-eines-turniers)
 ---
 
 ## Erstellen des Turniers
@@ -44,7 +45,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
     "name": "Nikolaus Turnier 2025",
     "num_fields": "3",
     "return_match": "true",
-    "start": "10:00:00",
+    "start": "10:00",
     "period": 20,
     "warm_up": 30,
     "num_breaks": 2,
@@ -53,8 +54,8 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
         60
     ],
     "break_times":[
-        "12:00:00",
-        "15:00:00"
+        "12:00",
+        "15:00"
     ],
     "stage_name": [
         "Profi",
@@ -169,7 +170,7 @@ Lade existierende Turniernamen aus der Datenbank.
             ],
             "stage_name": "Profi",
             "field": 3,
-            "play_time": "10:15:00"
+            "play_time": "10:15"
         },
         {
             "gameID": 2,
@@ -189,7 +190,7 @@ Lade existierende Turniernamen aus der Datenbank.
             ],
             "stage_name": "Profi",
             "field": 3,
-            "play_time": "10:30:00"
+            "play_time": "10:30"
         }
     ]
 }
@@ -224,7 +225,7 @@ Holt aktuelle Spielstand aus der Datenbank mittels der übergabe der SpielID als
 
 ```JSON
 {
-    "scores":[
+    "scores": [
         22,
         15
     ]
@@ -262,7 +263,7 @@ Holt aktuelle Spielstand aus der Datenbank mittels der übergabe der SpielID als
 {
     "score_team1": 15,
     "score_team2": 25,
-    "time_change": "11:15:00"
+    "time_change": "11:15"
 }
 ```
 
@@ -273,6 +274,49 @@ Holt aktuelle Spielstand aus der Datenbank mittels der übergabe der SpielID als
 | 500 | Datenbankfehler beim ändern von Daten!  |
 | 500 | Datenbankfehler beim Abfragen von Daten! |
 | 500 | Ein Fehler ist beim Ändern der Daten Aufgetreten! |
+
+
+## Erhalt der Änderungen von Spielständen
+
+    GET /tournaments/match_plan/match_changes/{matchID}
+
+### Erklärung
+
+Holt alle Änderungen, die an einem Spiel vorgenommen wurden, anhand der übergebenen Spiel-ID als String. 
+
+### Rückmeldungsfelder 
+
+| Felder | Typ | Beschreibung |
+| :---: | :---: | :--- |
+| old_scores1 | int | Alter Spielstand von Team 2 |
+| old_scores2 | int | Alter Spielstand von Team 2 |
+| time | str | Uhrzeit dieser Änderung |
+
+### Rückmeldung Beispiel
+
+```JSON
+{
+    "changes": [
+        {
+            "old_scores_1": 5,
+            "old_scores_2": 2,
+            "time": "10:10"
+        },
+        {
+            "old_scores_1": 0,
+            "old_scores_2": 0,
+            "time": "10:00"
+        }
+    ]
+}
+```
+
+### Mögliche Fehlermeldungen
+
+| HTTP Code | Beschreibung |
+| :---: | :--- |
+| 400 | Ungültige MatchID |
+| 500 | Datenbankfehler beim Abfragen von Daten! |
 
 
 ## Ändern von Teamname

@@ -199,6 +199,34 @@ def change_match_result(matchID: str, match_result: Match):
         return HTTPException(status_code=200,detail="SUCCESS")
     return HTTPException(status_code=500, detail="Ein Fehler ist beim Ändern der Daten Aufgetreten! ")
 
+# API holen aller Änderungen für ein Spiel
+@api.get("/tournaments/match_plan/match_changes/{matchID}")
+def get_match_result_changes(matchID: str):
+    """
+    Gibt alle Änderungen am Spielergebnis eines Spiels zurück.
+
+    Pfadparameter:
+        - matchID (str): Spiel-ID
+
+    Rückgabe:
+        - changes (List[dict]): Liste von Änderungen mit:
+            - old_score_1 (int): Alter Spielstand Team 1
+            - old_score_2 (int): Alter Spielstand Team 2
+            - time (str): Zeitpunkt der Änderung
+
+    Fehler:
+        - HTTP 400: Ungültige MatchID
+        - HTTP 500: Fehler beim Datenbankzugriff
+    """
+    try: 
+        match_id = int(matchID)
+    except:
+        raise HTTPException(status_code=400, detail="Ungültige MatchID")
+    
+    changes = data_request.get_match_changes(match_id)
+
+    return {"changes": changes}
+    
 
 # API Ändern Team Namen
 @api.put("/tournaments/match_plan/team/{tournamentID}")
