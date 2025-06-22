@@ -258,13 +258,13 @@ export default {
     transition: background-color 0.2s ease;
 }
 
-.ZuruckButton{
-
-    position: bottom,left;
-    bottom: 20px;
+.back-button-fixed {
+    position: fixed;
     left: 20px;
+    bottom: 20px;
+    transform: none;
     z-index: 1000;
-    
+
 }
 
 </style>
