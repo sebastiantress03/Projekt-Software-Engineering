@@ -9,6 +9,7 @@
       <h2>Turnierplan</h2>
     </div>
 
+    
     <div class="team-select" v-if="allTeams.length">
       <label for="team">Wähle dein Team aus:</label>
       <select id="team" v-model="selectedTeam">
@@ -62,6 +63,9 @@
         </div>
       </div>
     </div>
+    <div class="back-button-container">
+      <ZuruckButton color="primary" @click="goBack">Zurück</ZuruckButton>
+    </div>
   </div>
 </template>
 
@@ -69,10 +73,11 @@
 import MatchCard from "../components/MatchCard.vue";
 import HomeButton from "../components/HomeButton.vue";
 import axios from "axios";
+import ZuruckButton from "@/components/ZuruckButton.vue";
 
 export default {
   name: "TournamentPlan",
-  components: { MatchCard, HomeButton },
+  components: { MatchCard, HomeButton, ZuruckButton },
   props: ["id"],
   data() {
     return {
@@ -110,6 +115,9 @@ export default {
     saveScore() {
       this.showPopup = false;
     },
+     goBack() {
+    this.$router.go(-1); // Oder spezifische Route wie '/tournaments'
+  },
     extractTeamsFromMatches(matches) {
       const teamSet = new Set();
       matches.forEach((m) => {
@@ -212,6 +220,21 @@ export default {
 
 .match-container {
   min-width: 260px;
+}
+.fixed-back-button {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  z-index: 1000;
+  color: "primary";
+}
+
+
+@media (max-width: 768px) {
+  .fixed-back-button {
+    left: 10px;
+    top: 10px;
+  }
 }
 
 @media (max-width: 768px) {
