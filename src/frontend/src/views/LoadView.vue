@@ -8,7 +8,9 @@
             />
             <h2>Vorherige Turniere</h2>
         </div>
-
+                <div class="back-button-fixed">
+                <ZuruckButton />
+            </div>
         <div class="tournament-list">
             <div 
                 v-for="tournament in tournaments" 
@@ -21,9 +23,6 @@
             </div>
             <div v-if="tournaments.length === 0">
                 <em>Keine Turniere gefunden.</em>
-                <div class="back-button-fixed">
-                <ZuruckButton />
-            </div>
             </div>
         </div>
 
