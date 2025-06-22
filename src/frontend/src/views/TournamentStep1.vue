@@ -146,7 +146,7 @@ h2 {
     padding: 40px 50px;
     border: 2px solid #004d40;
     border-radius: 8px;
-    background-color: #f9fdfc;
+    background-color:#f0f0f0;
     font-family: Arial, sans-serif;
     color: #004d40;
 }
