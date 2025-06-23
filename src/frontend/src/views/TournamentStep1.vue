@@ -1,6 +1,11 @@
 <template>
     <div class="form-wrapper">
-        <h2>Turnier erstellen</h2>
+            <img
+                src="@/assets/STURA_HTWD_Logo.webp" 
+                alt="HTWD Logo" 
+                class="logo"
+            />
+        <h2>Turnierplanerstellung</h2>
 
         <div class="form-section">
             <FormField label="Turniername:">
@@ -54,20 +59,19 @@
         </div>
 
         <div class="buttons">
-            
+
             <ZuruckButton
             color="secondary"
-                size="large"
-                @click="goBack"
-                position
-                
+                size="small"
+                @click="goBack" position
+
             >
             Zurück
             </ZuruckButton>
 
             <HomeButton
                 color="secondary"
-                size="large"
+                size="small"
                 :disabled="form.name === ''"
                 @click="goToNext"
             >
@@ -114,6 +118,27 @@ export default {
 </script>
 
 <style scoped>
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #004d40;
+}
+
+.logo {
+    width: 120px;
+    max-width: 100%;
+    height: auto;
+}
+
+h2 {
+    margin: 0;
+    font-size: 26px;
+    color: #004d40;
+}
 .form-wrapper {
     position: relative;
     max-width: 800px;
@@ -121,7 +146,7 @@ export default {
     padding: 40px 50px;
     border: 2px solid #004d40;
     border-radius: 8px;
-    background-color: #f9fdfc;
+    background-color:#f0f0f0;
     font-family: Arial, sans-serif;
     color: #004d40;
 }
@@ -129,7 +154,7 @@ export default {
 h2 {
     font-size: 26px;
     margin-bottom: 30px;
-    color: #004d40;
+    color: black;
     border-bottom: 2px solid #004d40;
     padding-bottom: 10px;
     text-align: left;
@@ -208,5 +233,7 @@ button:hover {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+
 
 </style>

@@ -49,4 +49,7 @@ export default {
     bottom: 20px;
     left: 20px;
 }
+.parent {
+    transform: translate(0, 0);
+}
 </style>
