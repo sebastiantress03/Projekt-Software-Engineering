@@ -1,7 +1,6 @@
 = Architecture Notebook: {project-name}
 Sebastian Treß <s86372@htw-dresden.de>; Niklas Benjamin Große <niklasbenjamin.grosse@stud.htw-dresden.de>
 {localdatetime}
-:imagedir:
 include::../_includes/default-attributes.inc.adoc[]
 // Platzhalter für weitere Dokumenten-Attribute
 
@@ -19,103 +18,170 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 
 //Formulieren Sie eine Reihe von Zielen, die die Architektur in ihrer Struktur und ihrem Verhalten erfüllen muss. Identifizieren Sie kritische Fragen, die von der Architektur adressiert werden müssen, z.B. besondere Hardware-Abhängigkeiten, die vom Rest des Systems isoliert werden sollten oder Sicherstellung der Funktionsfähigkeit unter besonderen Bedingungen (z.B. Offline-Nutzung).
 
-Das System ist eine vollständige Turniersoftware, primär für den Sport Volleyball. Es soll die Organisation von Turnieren erleichtern, sowie die Durchführung und Auswertung von Spielen ermöglichen. Die Organisation soll mittels eines Turnierplangenerator erfolgen, der die Erstellung von Turnierplänen für unterschiedliche Anzahl an Spielfeldern Spielern und Leistungsgruppen ermöglicht. Die Turnierdurchführung soll durch die Erfassung von Spielergebnissen und die Einsicht von allen Teilnehmern ermöglicht werden. Die Auswertung soll die Ermittlung von Siegern und die Speicherung der Turnierergebnisse ermöglichen. Die Software soll offline und online nutzbar sein und auf unterschiedlichen Geräten und Betriebssystemen laufen. 
+Die Architektur verfolgt das Ziel, ein langlebiges und wartbares System zu schaffen, das flexibel genug ist, um zukünftige Erweiterungen und Anpassungen zu ermöglichen. Besonderer Wert wird auf Modularität gelegt, damit einzelne Komponenten unabhängig voneinander weiterentwickelt oder ausgetauscht werden können.
 
+Die Anwendung soll als Progressive Web App (PWA) konzipiert werden, um eine nahtlose Nutzung sowohl online als auch offline zu gewährleisten und damit eine hohe Verfügbarkeit am Turnierort sicherzustellen – auch bei eingeschränkter oder fehlender Internetverbindung.
 
-// - offline und online Nutzbar
-// - einheitliche Syntax für Programmcode
-// - übersichtliche Programmstruktur
-// - keine besonderen Geschwindigkeitsanforderungen 
-// - keine besonderen Sicherheitsanforderungen
-// - Modularer Aufbau um eine leichte Weiterentwicklung zu ermöglichen
-// - Datenspeicherung
-// - exportieren von Dateien
-// - soll für unterschiedlichen Betriebssystemen funktionieren 
-// - soll für unterschiedlichen Gerätetypen funktionieren (z.B. Handy, Laptop, Tablet, ... )
-// - Zugriff von mehreren Geräten soll möglich sein
-// - Einfach Kompilieren/Testen
+Ein weiterer wichtiger Aspekt ist die Plattformunabhängigkeit. Die Architektur soll sicherstellen, dass die Software auf unterschiedlichen Geräten (Smartphone, Tablet, Laptop) und Betriebssystemen (Windows, macOS, Linux) konsistent funktioniert.
 
-// - Erstellen von "Volleyball" Turnierplänen für den Stura 
-// - Anzahl Spielfelder variable
-// - Anzahl Spieler variable
-// - Auswahl, ob es Hin- und Rückspiele gibt
-// - muss offline funktionieren
-// - soll auf jedem Gerät (z.B. Mobil, Computer, ... ) und Betriebssystem Laufen
-// - Turnierpläne müssen exportierbar sein
-// - erfassen der Spielergebnissen
-// - Einsicht von allen Teilnehmern
-// - Spielpläne individueller Teams sollen einsehbar sein
-// - Pausen sollen bei den Teams gleichmäßig verteilt sein
-// - Turnier soll auswertbar und speicherbar sein
+Zur Förderung von Wiederverwendbarkeit und einfacher Wartbarkeit werden etablierte Open-Source-Technologien eingesetzt, insbesondere Vue.js für das Frontend und Python mit FastAPI im Backend. Die Verwendung von Docker-Containern sorgt für eine standardisierte und isolierte Laufzeitumgebung, die die Portabilität und das Deployment vereinfacht.
+
+Die Architektur ist darauf ausgelegt, die Datenintegrität und Synchronisation bei mehreren Nutzern zu gewährleisten, insbesondere im Kontext der Offline-Nutzung und späteren Datenabgleichs.
 
 
 == Annahmen und Abhängigkeiten
 //[List the assumptions and dependencies that drive architectural decisions. This could include sensitive or critical areas, dependencies on legacy interfaces, the skill and experience of the team, the availability of important resources, and so forth]
-Annahmen:
-//Jeder Nutzer hat ein Gerät mit Internetzugang. (dikutabel)
-Jeder Nutzer benutzt einen HTML5 fähigen Browser und hat JavaScript aktiviert.
-Der StuRa hat ein Zentrales Gerät, auf dem die Turnierapp installiert ist.
 
-Abhängigkeiten: +
-Wir sind darauf angewiesen, dass alle eingesetzten Frameworks und Bibliotheken weiterhin unterstützt werden.
+Annahmen:
+
+- Jeder Nutzer besitzt ein Gerät mit Internetzugang um sich den Spielplan lokal Speichern zu können
+- Jeder Nutzer verwendet einen HTML5-fähigen Browser mit aktiviertem JavaScript, um die Web-App uneingeschränkt nutzen zu können.
+- Jeder Nutzer besitzt ein Browser welcher PWAs unterstützt
+- Der StuRa ist in der Lage die PWA für Turniermitglieder zugänglich zu machen.
+- Für die Auswertung der Turnierdaten wird vorausgesetzt, dass zu bestimmten Zeitpunkten eine Internetverbindung besteht, damit die Daten zwischen den Geräten synchronisiert werden können.
+
+Abhängigkeiten:
+
+- Die Verfügbarkeit von Webbrowsern mit PWA-Unterstützung ist notwendig, damit die App plattformübergreifend genutzt werden kann.
+- Die eingesetzten Frameworks und Bibliotheken innerhalb der Container müssen weiterhin kompatibel mit den jeweiligen Laufzeitumgebungen bleiben.
+
 
 == Architektur-relevante Anforderungen
 //Fügen Sie eine Referenz / Link zu den Anforderungen ein, die implementiert werden müssen, um die Architektur zu erzeugen.
 
-- offline Funktionalitäten
-- soll für unterschiedlichen Gerätetypen funktionieren (z.B. Handy, Laptop, Tablet, ... )
-- soll für unterschiedlichen Betriebssystemen (Windows, macOS, und Linux) funktionieren 
-- Modularer Aufbau um eine leichte Weiterentwicklung zu ermöglichen
-- Speichern von Daten auf Gerät
-- Zugriff von mehreren Geräten soll möglich sein
+- Das System muss offline nutzbar sein, um auch ohne Internetverbindung beim Turnierbetrieb zuverlässig zu funktionieren.
+- Das System muss plattformübergreifend auf unterschiedlichen Gerätetypen (Smartphone, Tablet, Laptop) lauffähig sein.
+- Das System muss auf unterschiedlichen Betriebssystemen (Windows, macOS, Linux, Android, iOS) funktionsfähig sein.
+- Das System muss die Speicherung und Verwaltung von Turnierdaten lokal auf dem Gerät ermöglichen.
+- Mehrere Geräte sollen gleichzeitig auf die Daten zugreifen können (z.B. bei paralleler Nutzung während eines Turniers).
+- Das System muss modular aufgebaut sein, um zukünftige Erweiterungen und Anpassungen zu erleichtern.
 
 
 == Entscheidungen, Nebenbedingungen und Begründungen
 //[List the decisions that have been made regarding architectural approaches and the constraints being placed on the way that the developers build the system. These will serve as guidelines for defining architecturally significant parts of the system. Justify each decision or constraint so that developers understand the importance of building the system according to the context created by those decisions and constraints. This may include a list of DOs and DON’Ts to guide the developers in building the system.]
-. Das Interface und Design ist von der HTW-Mobil App, sowie von dem StuRa farbschema inspiriert, um eine intuitive und
-Ansprechende Oberfläche zu schaffen.
 
-. Wir haben uns dazu entschieden die Turnierapp in Form einer Progressiven Web App und nicht als Webapplikation umzusetzen, da eine Progressiven Web App nicht nur die Nutzung auf den unterschiedlichsten Geräten und Betriebssystemen wie Webapplikation ermöglicht, sondern auch offline Funktionalität besitzt.Dazu haben wir uns für die Verwendung von Vue.js entschieden, da es eine einfache und effiziente Möglichkeit bietet, um Webanwendungen zu erstellen. Diese wird auf einem Gerät des StuRa gehosted, somit kann auch ohne ein Internetzugang am Turnierort mit einem mobilen Hotspot auf die App zugegriffen werden.
+. *Progressive Web App (PWA):* +
+Wir haben uns für die Umsetzung als Progressive Web App entschieden, da diese den plattformübergreifenden Einsatz auf unterschiedlichen Geräten und Betriebssystemen ermöglicht und zudem native Offline-Funktionalität unterstützt.
 
-. Um die unterschiedlichen Turniere zu Speicherung und abrufbar zu machen haben wir uns dafür entschieden die Daten der Turniere in einer Datenbank unter Verwendung von SQLight zu Speichern. Dies ermöglicht eine effiziente und zentrale Speicherung der Spieldaten, sowie die Möglichkeit der Skalierung z.B. durch migration auf PostgreSQL.
-Da SQLight kein dedizierten Datenbankserver benötigt, wird das System zunächst auf dem Gerät des StuRa installiert und kann von dort aus genutzt werden. Es besteht dennoch die Möglichkeit, das System auf einem Server zu installieren und damit eine zentrale Speicherung der Daten zu ermöglichen.
+. *Frontend-Technologie (Vue.js):* +
+Vue.js wird als Frontend-Framework verwendet, da es eine moderne, performante und leichtgewichtige Lösung für interaktive Webanwendungen bietet. Die Community ist aktiv, die Lernkurve flach, was eine effiziente Entwicklung ermöglicht.
 
-. Um einen einfachen zugriff auf die Datenbank zu besitzen, haben wir uns dafür entschieden eine API zu verwenden.
+. *Backend-Technologie (Python, FastAPI):* +
+Das Backend wird in Python mit dem Framework FastAPI umgesetzt. FastAPI bietet eine sehr gute Performance durch asynchrone Verarbeitung, automatische Generierung der API-Dokumentation (OpenAPI / Swagger) und eine einfache Integration mit modernen Datenbanksystemen.
 
-. Wir haben unseren Fokus für die Auswahl der Technologien auf die kompatibilität mit Python gelegt, um einen möglichst einfachen und konsistenten Syntax und Code zu gewährleisten.
+. *Datenhaltung (SQLite):* +
+Für die lokale Speicherung der Turnierdaten nutzen wir SQLite, da es leichtgewichtig ist, keine dedizierte Serverinstallation benötigt und den Offline-Betrieb unterstützt. Bei wachsendem Bedarf ist eine Migration auf ein serverbasiertes DBMS wie PostgreSQL möglich.
+
+. *Schnittstellen (RESTful API):* +
+Die Kommunikation zwischen Frontend und Backend erfolgt über RESTful API-Endpunkte. Dies ermöglicht eine saubere Trennung zwischen Benutzeroberfläche und Logik und vereinfacht zukünftige Erweiterungen.
+
+. *Technologieauswahl (Python):* +
+Bei der Auswahl sämtlicher Technologien wurde auf eine enge Integration und Kompatibilität mit Python geachtet, um einen konsistenten Technologie-Stack mit einfacher Syntax zu gewährleisten.
 
 
 == Architekturmechanismen
-https://www2.htw-dresden.de/~anke/openup/core.tech.common.extend_supp/guidances/concepts/arch_mechanism_2932DFB6.html[Doku "Concept: Architectural Mechanism"]
+// https://www2.htw-dresden.de/~anke/openup/core.tech.common.extend_supp/guidances/concepts/arch_mechanism_2932DFB6.html[Doku "Concept: Architectural Mechanism"]
 //[List the architectural mechanisms and describe the current state of each one. Initially, each mechanism may be only name and a brief description. They will evolve until the mechanism is a collaboration or pattern that can be directly applied to some aspect of the design.]
 
 //Beispiele: relationales DBMS, Messaging-Dienste, Transaktionsserver, Webserver, Publish-Subscribe Mechanismus
 
 //Beschreiben Sie den Zweck, Eigenschaften und Funktion der Architekturmechanismen.
-- Erreichbarkeit
-* Betriebszeit
+- Erreichbarkeit:
+* Zweck: Sicherstellung, dass das System, dauerhaft und zuverlässig erreichbar ist
+* Eigenschaften: Hohe Betriebszeit
+* Funktion: Monitoring der Systemverfügbarkeit
+
 - Event Management
-* soll synchron und asynchron funktionieren
+* Zweck: Verwaltung von Ereignissen im System
+* Eigenschaften: Unterstützt sowohl synchrone als auch asynchrone Verarbeitung von Events
+* Funktion: Ermöglicht die Benachrichtigung und Reaktion auf Ereignisse
+
 - Information Exchange
-* Wie lange und wie oft passieren diese
+* Zweck: Austausch von Daten zwischen Systemkomponenten
+* Eigenschaften: Bestimmt die Frequenz und Dauer des Datenaustauschs
+* Funktion: Koordiniert den Datenfluss
+
 - Persistence
-* dauer der Speicherung
-* Umfang
+* Zweck: Dauerhafte Speicherung von Daten
+* Eigenschaften: Definiert Speicherort, Speicherdauer und Umfang der zu speichernden Daten
+* Funktion: Verwaltung von Datenbanken, Dateisystemen oder anderen Speichermedien
+
 - System Management 
+* Zweck: Überwachung und Steuerung des Gesamtsystems
+* Eigenschaften: Konfigurationsmanagement, Performance-Monitoring und Fehlerbehandlung
+* Funktion: Sicherstellung eines stabilen und effizienten Betriebs
+
 - Printing
-* Dateien als PDF exportieren
+* Zweck: Erzeugung von Ausdrucken und Exporten
+* Eigenschaften: Unterstützung von Dateiexporten
+* Funktion: Ermöglicht das Drucken von Berichten oder anderen Dokumenten
+
 - Scheduling
+* Zweck: Planung und Ausführung zeitgesteuerter Aufgaben
+* Eigenschaften: Verwaltung von Jobs und Timern
+* Funktion: Automatisierung wiederkehrender Prozesse
+
 - Transaction Management
+* Zweck: Verwaltung von Transaktionen zur Sicherstellung von Datenintegrität
+* Eigenschaften: Unterstützung von atomaren, konsistenten, isolierten und dauerhaften Transaktionen
+* Funktion: Gewährleistet korrekte Datenänderungen
 
 == Wesentliche Abstraktionen
 //[List and briefly describe the key abstractions of the system. This should be a relatively short list of the critical concepts that define the system. The key abstractions will usually translate to the initial analysis classes and important patterns.]
+- *Turnier:* +
+  Repräsentiert ein Volleyballturnier mit grundlegenden Eigenschaften wie Name, Uhrzeit, Leistungsgruppen und Pausen. Ein Turnier umfasst mehrere Spiele auf einem oder mehreren Spielfeldern. +
+  Erläuterung: Diese Abstraktion fasst alle für ein Turnier relevanten Daten zusammen und bildet die Grundlage für Planung und Auswertung.
 
+- *Team:* + 
+  Stellt eine Gruppe von Spielern dar, die an einem Turnier teilnehmen und Teil einer Leistungsgruppe sind. Teams haben Namen und können während des Turniers verwaltet werden. +
+  Erläuterung: Teams sind die Teilnehmer am Turnier, deren Verwaltung wichtig für Spielpaarungen und Auswertungen ist.
+
+- *Spiel:* +
+  Ein einzelnes Spiel zwischen zwei Teams, das mit einem Ergebnis versehen wird. Spiele sind Bestandteil eines Spielplans. Es können Hin- und Rückspiele existieren. +
+  Erläuterung: Spiele sind die kleinste Einheit im Turnier und enthalten die eigentlichen Wettbewerbsdaten.
+
+- *Spielplan:* +
+  Organisiert die zeitliche und räumliche Planung der Spiele innerhalb eines Turniers. Enthält eine Liste der Spiele mit Informationen zu Spielzeiten und Spielfeldern. + 
+  Erläuterung: Der Spielplan sorgt für eine strukturierte Darstellung und Durchführung der Spiele.
+
+- *Turnierplan (Turnierplan-Generator):* + 
+  Ein Algorithmus, der automatisch Spielpaarungen, Zeitpläne und Spielfelder erstellt, basierend auf Parametern wie Anzahl der Spielfelder, Größe der Leistungsgruppen und Anzahl der Pausen. +  
+  Erläuterung: Dieser Mechanismus automatisiert die komplexe Aufgabe der Turnierplanung und entlastet die Nutzer.
+
+- *Turnierauswertung:* +
+  Die Logik zur Ermittlung von Ergebnissen, Platzierungen und Statistiken aus den gespeicherten Spielergebnissen. +
+  Erläuterung: Die Auswertung ist wichtig, um Sieger zu ermitteln und den Turnierverlauf nachvollziehbar zu machen.
+
+- *Filterfunktion:* +
+  Ermöglicht das gezielte Anzeigen von Turnieren, Spielen oder Teams basierend auf bestimmten Kriterien, um die Übersichtlichkeit zu verbessern. + 
+  Erläuterung: Filter helfen bei der schnellen Navigation und der Anzeige relevanter Informationen.
+
+- *Offline-Funktionalität:* +
+  Die Fähigkeit der Anwendung, Spiele zu erfassen und Daten lokal zu speichern, um sie später zu synchronisieren. + 
+  Erläuterung: Die Offline-Funktion ist essenziell für Turniere an Orten mit instabiler oder fehlender Internetverbindung.
 
 == Schichten oder Architektur-Framework
 //[Describe the architectural pattern that you will use or how the architecture will be consistent and uniform. This could be a simple reference to an existing or well-known architectural pattern, such as the Layer framework, a reference to a high-level model of the framework, or a description of how the major system components should be put together.]
-- SQLite (SQL)
-- FastAPI (Python)
-- Vue (Java Script)
+
+Die Architektur folgt einem mehrschichtigen Aufbau, der die Trennung von Verantwortlichkeiten sicherstellt und die Wartbarkeit der Anwendung unterstützt. Im Folgenden werden die einzelnen Schichten beschrieben:
+
+=== Datenbank (SQLite)
+- Verantwortlich für die lokale Speicherung und Verwaltung der Anwendungsdaten.
+- Es wird SQLite eingesetzt, eine leichtgewichtige relationale Datenbank, die sich durch geringe Ressourcenanforderungen auszeichnet und sich somit gut für lokale Installationen eignet.
+- Die Datenbank wird direkt über das Backend mittels ORM (Object-Relational Mapping) angesprochen.
+
+=== Backend (Python)
+- Das Backend stellt die zentrale Logikschicht der Anwendung bereit.
+- Implementiert mit dem Python Web-Framework FastAPI, welches eine performante und asynchrone Bearbeitung von HTTP-Anfragen ermöglicht.
+
+=== Frontend (Vue.js)
+- Das Frontend ist mit Vue.js als clientseitiges JavaScript-Framework umgesetzt.
+- Die Benutzeroberfläche kommuniziert ausschließlich über die REST API mit dem Backend.
+
+=== Schnittstellen (FastAPI)
+- Die Kommunikation zwischen Frontend und Backend erfolgt vollständig über die REST-API von FastAPI.
+- Durch die lose Kopplung von Frontend und Backend ist eine spätere Erweiterung oder der Austausch einzelner Komponenten einfach realisierbar.
+- Automatische Dokumentation der API erfolgt über die integrierte OpenAPI-Spezifikation und ist über ein interaktives Web-Interface abrufbar (/docs), was die Entwicklung und Integration erleichtert.
 
 
 == Architektursichten (Views)
@@ -125,16 +191,43 @@ https://www2.htw-dresden.de/~anke/openup/core.tech.common.extend_supp/guidances/
 //Beschreibt die Struktur und das Verhalten Systemteilen, die hohen Einfluss auf die Architektur haben. Dies kann die Paketstruktur, kritische Schnittstellen, wichtige Klassen und Subsysteme sowie die Beziehungen zwischen diesen Elementen enthalten. Zudem sollten die physische und logische Sicht persistenter Daten beschrieben werden, wenn es diesen Aspekt im System gibt. Dies ist ein hier dokumentierter Teilaspekt des Entwurfs.
 
 .C4 Model Systemkontext Diagramm
-image::C4_Model_Layer1.png[]
-
+//image::C4_Model_Layer1.png[]
+[plantuml, C4_Model_Context, svg]
+----
+include::{plantumlsdir}/C4_Model_Context.puml[]
+----
+Das System-Kontext-Diagramm zeigt die Interaktion der Turniersoftware mit externen Akteuren.
+Zum einen ist der Turnierteilnehmer dargestellt, der die Web-App nutzt, um den Spielplan einzusehen und Spielergebnisse einzugeben. Zum anderen interagiert der Turnierhost, der für die Planung und Organisation verantwortlich ist, mit dem System.
+Die Turniersoftware selbst stellt das zentrale System dar, das Turniere verwaltet, Spielpläne generiert, Ergebnisse auswertet und die Daten bei Bedarf als PDF-Dateien exportiert.
+Alle Interaktionen sind so ausgelegt, dass sowohl Teilnehmer als auch Veranstalter gleichzeitig mit dem System arbeiten können.
 
 .C4 Model Container Diagramm
-image::C4_Model_Layer2.png[]
+//image::C4_Model_Layer2.png[]
+[plantuml, C4_Model_Container, svg]
+----
+include::{plantumlsdir}/C4_Model_Container.puml[]
+----
+Das Container-Diagramm zeigt die interne Architektur der Turniersoftware und die Verteilung der Funktionalitäten auf verschiedene Container.
+Die Benutzer, sowohl Turnierteilnehmer als auch Turnierhost, interagieren primär über die Progressive Web App (Vue.js). Diese ermöglicht die Erstellung, Anzeige und Verwaltung von Turnieren sowie die Eingabe und Auswertung von Spielergebnissen.
 
-// === Physische Sicht (Betriebssicht)
-//Beschreibt die physischen Knoten (Rechner) des Systems, der Prozesse, Threads und Komponenten, die in diesen Knoten ausgeführt werden. Diese Sicht wird nicht benötigt, wenn das System in einem einzelnen Prozess oder Thread ausgeführt wird.
+Die Web App kommuniziert über eine API Application (FastAPI) mit der Datenbank (SQLite). Die API interpretiert eingehende HTTP-Anfragen und sorgt für die sichere und konsistente Verarbeitung der Datenbankoperationen.
+Die Datenbank speichert alle relevanten Informationen, wie Turnierdaten, Spielpaarungen, Ergebnisse und Änderungen.
+Durch diese klare Trennung der Container wird sowohl eine hohe Flexibilität bei der Weiterentwicklung als auch die Offline-Nutzung der Web App ermöglicht.
 
+.C4 Model Components Diagramm
+// image::C4_Model_Layer3.png[]
+[plantuml, C4_Model_Components, svg]
+----
+include::{plantumlsdir}/C4_Model_Components.puml[]
+----
+Das Component-Diagramm zeigt die interne Struktur der API Application der Turniersoftware und verdeutlicht die Verantwortlichkeiten einzelner Komponenten (Controller).
+Die Progressive Web App interagiert mit drei spezifizierten Komponenten der API:
 
+- Der Tournament Controller verwaltet das Erstellen, Laden und Löschen von Turnierplänen.
 
-// === Use cases
-//Eine Liste oder ein Diagramm der Use Cases, die architektur-relevante Anforderungne enthalten.
+- Der Team Controller ist zuständig für Änderungen an Teamdaten, wie z. B. die Umbenennung von Teams.
+
+- Der Match Controller übernimmt die Verwaltung von Spielergebnissen und deren Aktualisierung.
+
+Jede dieser Komponenten greift auf die zentrale Datenbank (SQLite) zu, um die jeweiligen Informationen zu speichern oder abzurufen.
+Durch diese modulare Aufteilung wird eine klare Trennung der Verantwortlichkeiten innerhalb des Backends erreicht, was sowohl die Wartbarkeit als auch die Erweiterbarkeit der Anwendung erhöht.

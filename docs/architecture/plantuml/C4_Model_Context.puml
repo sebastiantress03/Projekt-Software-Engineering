@@ -1,0 +1,24 @@
+@startuml 
+!include <c4/C4_Container.puml>
+!include <office/Users/user.puml>
+!include <office/Users/mobile_user.puml>
+SHOW_PERSON_OUTLINE()
+LAYOUT_LEFT_RIGHT()
+
+hide stereotype
+skinparam linetype polyline
+skinparam ArrowStyle dashed
+
+
+Person(teilnehmer,"Turnierteilnehmer \n [Person]", "<$mobile_user>\nTurnierteilnehmer und Spieler in einem Team")
+Person(host, "Turnierhost \n [Person]", "<$user> \n Der Organisator und Leiter des Turniers")
+
+System(software, "Turniersoftware \n [Software System]","Erstellt Turniere, wertet diese aus und ermöglicht parallel zum Turnier aktualisierungen.")
+
+host-->teilnehmer: veranstalted Turnier
+teilnehmer-->software: Ruft Turnierablauf auf, trägt Spielergebnisse ein
+software-->teilnehmer: exportiert Turnierplan / Auswertung als PDF
+host-->software: Eingabe der Turnierparameter
+software-->host: exportiert Turnierplan / Auswertung als PDF
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+!include <c4/C4_Container.puml>  
+!include <office/Users/user.puml>
+!include <office/Users/mobile_user.puml>
+SHOW_PERSON_OUTLINE()
+
+hide stereotype
+skinparam linetype polyline
+skinparam ArrowStyle dashed
+skinparam BoundaryFontStyle bold
+
+Person(teilnehmer,"Turnierteilnehmer \n [Person]", "<$mobile_user>\nTurnierteilnehmer und Spieler in einem Team")
+Person(host, "Turnierhost \n [Person]", "<$user> \n Der Organisator und Leiter des Turniers")
+
+Enterprise_Boundary(c0,"Turniersoftware \n [Software System]") {
+    Container(webApp, "Progressive Web App", "Container: Vue.js", "Erstellung, laden, löschen, verwenden und Auswerten von Turnieren")
+    Container(api, "API Application", "Container: FastAPI", "Dient der Kommunikation zwischen dem Frontend und der Datenbank, Interpretiert HTTP-Anfragen")
+    ContainerDb(db, "Datenbank", "Container: SQLite", "Speichert Turnierinformationen, sowie Punktestände und Änderungen daran.")
+}
+
+host-->teilnehmer: Veranstalted Turnier
+teilnehmer-->webApp: Ruft Turnierablauf auf, trägt Spielergebnisse ein [HTTP, JS]
+webApp-->api: Kommuniziert mit API über HTTP \n [Rest, JS]
+db<-->api: übermittelt Daten
+host-->webApp: Eingabe der Tunierparameter \n [HTTP, JS]
+@enduml

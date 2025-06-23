@@ -66,18 +66,9 @@ def generate_tournament(tournament: GenerateTournament):
     # Funktion um Turnier ID zu erhalten
     tournament_id = data_request.get_tournament_id()
 
-
-    # TODO Hier müssen die Werte an den Algorithmus für die Erstellung des Turnierplans übergeben werden
-    
-    # Feste werte funktionieren nur mit einer Leistungsgruppe
-    # tournament_data = [[1, 1, "Team 1", "Team 2", "Team 3", tournament.stage_name[0], 0, 0, "12:30"],[2, 1, "Team 2", "Team 1", "Team 3", tournament.stage_name[0], 0, 0, "12:50"]]
-
     tournament_data = return_plan(tournament.num_fields, tournament.num_teams, tournament.start, tournament.period, tournament.return_match, tournament.warm_up, [] if tournament.break_length is None else tournament.break_length, tournament.num_breaks, [] if tournament.break_times is None else tournament.break_times, tournament.stage_name)
 
-    # game Aufbau [Spielnummer, Feldnummer, Team Name 1 Team, Team Name 2 Team, Team Name Schiedsrichter, Leistungsgruppe, Punkte Team 1, Punkte Team 2, Spieluhrzeit]
     # tournament_data [{'Spiel': 2, 'Feld': 'Field 1', 'Uhrzeit': '12:30', 'Team 1': 'STeam 1', 'Team 2': 'STeam 2', 'Schiedsrichter': 'STeam 3', 'Gruppe': 'Fun', 'Ergebnis Team 1': None, 'Ergebnis Team 2': None, 'Match Type': 'Hinspiel'},... ]
-    print(f"Backend api: {tournament_data}")
-
 
     # Funktion hinzufügen der Teams in Team Tabelle und auch die Spiele
     if tournament_id is not None:

@@ -1,0 +1,28 @@
+@startuml
+!include <c4/C4_Container.puml>  
+!include <office/Users/user.puml>
+!include <office/Users/mobile_user.puml>
+SHOW_PERSON_OUTLINE()
+
+hide stereotype
+skinparam linetype polyline
+skinparam ArrowStyle dashed
+skinparam BoundaryFontStyle bold
+
+Container(webApp, "Progressive Web App", "Container: Vue.js", "Erstellung, laden, löschen, verwenden und Auswerten von Turnieren")
+
+Enterprise_Boundary(c0,"API Application \n [Container]") {
+    Container(tournament_controller, "Tournament Controller", "Container: FastAPI", "Beinhaltet das erstellen, offenen und löschen von Turnierplänen")
+    Container(team_controller, "Team Controller", "Container: FastAPI", "Beinhaltet das ändern von Teamnamen")
+    Container(match_controller, "Match Controller", "Container: FastAPI", "Beinhaltet das ändern der Spielstände")    
+}
+
+ContainerDb(db, "Datenbank", "Container: SQLite", "Speichert Turnierinformationen, sowie Punktestände und Änderungen daran.")
+
+webApp-->tournament_controller: Löscht, öffnet oder erstellt Turnierpläne \n [Rest, JS]
+webApp-->team_controller: Namen von Teams werden verändert \n [Rest, JS]
+webApp-->match_controller: Spielergebnisse werden verändert \n [Rest, JS]
+tournament_controller-->db: Löscht und Erstellt bzw. holt sich ganze Turnierpläne \n [SQLite]
+team_controller-->db: Updatet Teamnamen \n [SQLite]
+match_controller-->db: Trägt Spielergebnisse bzw. Änderungen ein \n [SQLite]
+@enduml
