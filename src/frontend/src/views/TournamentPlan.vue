@@ -9,14 +9,15 @@
       <h2>Turnierplan</h2>
     </div>
 
-    
-    <div class="team-select" v-if="allTeams.length">
-      <label for="team">Wähle dein Team aus:</label>
-      <select id="team" v-model="selectedTeam">
+
+        <div class="team-select" v-if="allTeams.length">
+        <label for="team">Wähle dein Team aus:</label>
+        <select id="team" v-model="selectedTeam">
         <option disabled value="">-- bitte wählen --</option>
         <option v-for="team in allTeams" :key="team">{{ team }}</option>
-      </select>
+        </select>
     </div>
+
 
     <!-- Gruppierte Matches -->
     <div class="fields-scroll" v-if="matches.length">
@@ -35,6 +36,7 @@
     </div>
 
     <div class="buttons">
+      <ExportButton />
       <HomeButton color="primary" @click="goToNext">Auswertung</HomeButton>
     </div>
 
@@ -63,21 +65,24 @@
         </div>
       </div>
     </div>
+
     <div class="back-button-container">
       <ZuruckButton color="primary" @click="goBack">Zurück</ZuruckButton>
     </div>
   </div>
 </template>
 
+
 <script>
 import MatchCard from "../components/MatchCard.vue";
 import HomeButton from "../components/HomeButton.vue";
 import axios from "axios";
 import ZuruckButton from "@/components/ZuruckButton.vue";
+import ExportButton from "@/components/ExportButton.vue";
 
 export default {
   name: "TournamentPlan",
-  components: { MatchCard, HomeButton, ZuruckButton },
+  components: { MatchCard, HomeButton, ZuruckButton, ExportButton },
   props: ["id"],
   data() {
     return {
@@ -101,49 +106,94 @@ export default {
       }));
     },
   },
-  methods: {
-    goToNext() {
-      this.$router.push({ name: "Evaluation" });
-    },
-    openPopup(match) {
-      this.currentMatch = match;
-      this.showPopup = true;
-    },
-    closePopup() {
-      this.showPopup = false;
-    },
-    saveScore() {
-      this.showPopup = false;
-    },
-     goBack() {
-    this.$router.go(-1); // Oder spezifische Route wie '/tournaments'
+ methods: {
+  downloadCSV() {
+    // CSV-Daten zusammenstellen, z.B. alle Matches exportieren
+    if (!this.matches.length) {
+      alert("Keine Spieldaten zum Exportieren vorhanden.");
+      return;
+    }
+
+    const headers = ["Match", "Team A", "Team B", "Gruppe", "Spielfeld", "Startzeit", "Schiedsrichter", "Punkte Team A", "Punkte Team B"];
+    const rows = this.matches.map(m => [
+      `"${m.match}"`,
+      `"${m.teamA}"`,
+      `"${m.teamB}"`,
+      `"${m.group}"`,
+      `"${m.field}"`,
+      `"${m.startTime}"`,
+      `"${m.ref}"`,
+      m.scoreA !== null ? m.scoreA : "",
+      m.scoreB !== null ? m.scoreB : ""
+    ]);
+
+    let csvContent = headers.join(",") + "\n";
+    rows.forEach(row => {
+      csvContent += row.join(",") + "\n";
+    });
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", `turnier_export_${this.id || "export"}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   },
-    extractTeamsFromMatches(matches) {
-      const teamSet = new Set();
-      matches.forEach((m) => {
-        if (Array.isArray(m.team_names)) {
-          teamSet.add(m.team_names[0]);
-          teamSet.add(m.team_names[1]);
-        }
-      });
-      return Array.from(teamSet);
-    },
-    mapApiMatches(apiMatches) {
-      return apiMatches.map((m) => ({
-        match: `${m.team_names[0]} vs ${m.team_names[1]}`,
-        teamA: m.team_names[0],
-        teamB: m.team_names[1],
-        group: m.stage_name,
-        groupColor: m.stage_name?.toLowerCase() || "",
-        field: m.field,
-        startTime: m.play_time?.slice(0, 5) || "",
-        ref: m.team_names[2] || "",
-        scoreA: m.scores?.[0] ?? null,
-        scoreB: m.scores?.[1] ?? null,
-        gameID: m.gameID,
-      }));
-    },
+
+  goToNext() {
+    this.$router.push({ name: "Evaluation" });
   },
+
+  openPopup(match) {
+    this.currentMatch = match;
+    this.showPopup = true;
+  },
+
+  closePopup() {
+    this.showPopup = false;
+  },
+
+  saveScore() {
+    // Hier kannst du noch Logik hinzufügen, z.B. Speichern in Backend oder lokale Speicherung
+    this.showPopup = false;
+  },
+
+  goBack() {
+    this.$router.go(-1);
+  },
+
+  extractTeamsFromMatches(matches) {
+    const teamSet = new Set();
+    matches.forEach((m) => {
+      if (Array.isArray(m.team_names)) {
+        teamSet.add(m.team_names[0]);
+        teamSet.add(m.team_names[1]);
+      }
+    });
+    return Array.from(teamSet);
+  },
+
+  mapApiMatches(apiMatches) {
+    return apiMatches.map((m) => ({
+      match: `${m.team_names[0]} vs ${m.team_names[1]}`,
+      teamA: m.team_names[0],
+      teamB: m.team_names[1],
+      group: m.stage_name,
+      groupColor: m.stage_name?.toLowerCase() || "",
+      field: m.field,
+      startTime: m.play_time?.slice(0, 5) || "",
+      ref: m.team_names[2] || "",
+      scoreA: m.scores?.[0] ?? null,
+      scoreB: m.scores?.[1] ?? null,
+      gameID: m.gameID,
+    }));
+  },
+},
+
   async mounted() {
     try {
       const response = await axios.get(
@@ -158,6 +208,7 @@ export default {
     }
   },
 };
+
 </script>
 
 <style scoped>
@@ -340,5 +391,14 @@ button:hover {
   background-color: #387d75;
   color: white;
 }
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Abstand zwischen den Buttons */
+  margin-top: 30px;
+  flex-wrap: wrap; /* Für mobile Ansicht */
+}
+
 </style>
 
