@@ -8,7 +8,9 @@
             />
             <h2>Vorherige Turniere</h2>
         </div>
-
+                <div class="back-button-fixed">
+                <ZuruckButton />
+            </div>
         <div class="tournament-list">
             <div 
                 v-for="tournament in tournaments" 
@@ -60,9 +62,15 @@
 
 <script>
 import axios from "axios";
+import ZuruckButton from "@/components/ZuruckButton.vue";
+
+
 
 export default {
     name: "PreviousTournaments",
+    components: {
+        ZuruckButton,
+    },
     data() {
         return {
             tournaments: [],
@@ -248,4 +256,14 @@ export default {
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
+
+.back-button-fixed {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    transform: none;
+    z-index: 1000;
+
+}
+
 </style>

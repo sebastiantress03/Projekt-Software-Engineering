@@ -1,14 +1,18 @@
 <template>
   <div class="home">
     <div class="header">
-  <img src="@/assets/STURA_HTWD_Logo.webp" alt="HTWD Stura Logo" class="logo" />
-
+      <img src="@/assets/STURA_HTWD_Logo.webp" alt="HTWD Stura Logo" class="logo" />
       <h1>Turnierorganisationssoftware</h1>
     </div>
 
-    <div class="button-wrapper">
-      <HomeButton @click="goToCreate" class="desktop-only">✏️ Turnier erstellen</HomeButton>
-      <HomeButton @click="goToLoad">📁 Turnier laden</HomeButton>
+    <div class="button-grid">
+      <div class="button-item left-button">
+        <HomeButton @click="goToCreate">Turnierplan erstellen</HomeButton>
+      </div>
+      
+      <div class="button-item right-button">
+        <HomeButton @click="goToLoad">Turnierplan laden</HomeButton>
+      </div>
     </div>
   </div>
 </template>
@@ -46,9 +50,11 @@ export default {
 .header {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  ;
   margin-bottom: 40px;
-  gap: 20px;
+  gap: 15px;
+    align-items: center; /* vertikal zentrieren */
+  gap: 1rem;
 }
 
 .logo {
@@ -58,31 +64,57 @@ export default {
 h1 {
   font-size: 24px;
   color: #222;
+  font-weight: bold;
+  margin-bottom: 50px;
 }
 
-.button-wrapper {
-  display: flex;
-  flex-direction: row;
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 30px;
+  width: 100%;
+  max-width: 800px;
 }
 
-/* In mobiler Ansicht: nur „Turnier laden“ sichtbar */
+.button-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.left-button {
+  justify-content: flex-end;
+}
+
+.right-button {
+  justify-content: flex-start;
+}
+
+
+
+/* Mobile Anpassungen */
 @media screen and (max-width: 768px) {
-  .button-wrapper {
-    flex-direction: column;
+  .button-grid {
+    grid-template-columns: 1fr;
     gap: 20px;
   }
+  
+  .button-item {
+    justify-content: center !important;
+  }
 
-  .desktop-only {
-    display: none;
+  .header {
+    margin-bottom: 30px;
   }
 
   h1 {
     font-size: 20px;
+    margin-bottom: 30px;
   }
 
   .logo {
     width: 70px;
   }
+
 }
 </style>
