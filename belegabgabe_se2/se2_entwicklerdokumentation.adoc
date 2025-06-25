@@ -1,0 +1,42 @@
+// --- 1. Projektthema -------------------------
+= SE I - Belegabgabe: {project-name}
+// --- 2. Teammitglieder -----------------------
+Thomas Sweeney <s86208@htw-dresden.de>; Sebastian Treß <sebastian.tress@stud.htw-dresden.de>; Louai Alrefai <Louai.Alrefai@htw-dresden.de>; Oliver Theumer <s86407@htw-dresden.de>; Niklas Benjamin Große <niklasbenjamin.grosse@stud.htw-dresden.de>; Luke Reeder <luke.reeder@stud.htw-dresden.de>
+// --- 3. Abgabedatum --------------------------
+4. Juli 2025
+// ---------------------------------------------
+:docs: ../docs
+include::{docs}/_includes/default-attributes.inc.adoc[]
+// ---
+:doctype: book
+:toc:
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:sectnums:
+:icons: font
+//:source-highlighter: highlightjs
+:source-highlighter: rouge
+:rouge-style: github
+:xrefstyle: full
+:experimental:
+:chapter-signifier:
+:figure-caption: Abbildung
+:table-caption: Tabelle
+:listing-caption: Listing
+:!example-caption:
+:experimental:
+// Folders
+:imagesdir-reset: {imagesdir}
+:docs-test2: {docs}/test2
+:docs-requirements: {docs}/requirements
+:docs-project-management: {docs}/project_management
+:docs-architecture: {docs}/architecture
+:docs-test: {docs}/test
+:docs-development: {docs}/development
+
+// --- Architektur-Notizbuch ---
+:imagesdir:  {docs-architecture}/images
+include::{docs-architecture}/architecture_notebook.adoc[lines=1..1;4..-1,leveloffset=+1]
+
+// --- Softwaredokumentation
+include::{docs-architecture}/softwaredokumentation.adoc[lines=1..1;4..-1,leveloffset=+1]
