@@ -20,7 +20,7 @@ Dieses Dokument beschreibt die Philosophie, Entscheidungen, Nebenbedingungen, Be
 
 Die Architektur verfolgt das Ziel, ein langlebiges und wartbares System zu schaffen, das flexibel genug ist, um zukünftige Erweiterungen und Anpassungen zu ermöglichen. Besonderer Wert wird auf Modularität gelegt, damit einzelne Komponenten unabhängig voneinander weiterentwickelt oder ausgetauscht werden können.
 
-Die Anwendung soll als Progressive Web App (PWA) konzipiert werden, um eine nahtlose Nutzung sowohl online als auch offline zu gewährleisten und damit eine hohe Verfügbarkeit am Turnierort sicherzustellen – auch bei eingeschränkter oder fehlender Internetverbindung.
+Die Anwendung soll als Progressive Web App (PWA) konzipiert werden, um eine nahtlose Nutzung sowohl online als auch offline zu gewährleisten und damit eine hohe Verfügbarkeit am Turnierort sicherzustellen auch bei eingeschränkter oder fehlender Internetverbindung.
 
 Ein weiterer wichtiger Aspekt ist die Plattformunabhängigkeit. Die Architektur soll sicherstellen, dass die Software auf unterschiedlichen Geräten (Smartphone, Tablet, Laptop) und Betriebssystemen (Windows, macOS, Linux) konsistent funktioniert.
 
@@ -225,7 +225,7 @@ Die Progressive Web App interagiert mit drei spezifizierten Komponenten der API:
 
 - Der Tournament Controller verwaltet das Erstellen, Laden und Löschen von Turnierplänen.
 
-- Der Team Controller ist zuständig für Änderungen an Teamdaten, wie z. B. die Umbenennung von Teams.
+- Der Team Controller ist zuständig für Änderungen an Teamdaten, wie z.B. die Umbenennung von Teams.
 
 - Der Match Controller übernimmt die Verwaltung von Spielergebnissen und deren Aktualisierung.
 
