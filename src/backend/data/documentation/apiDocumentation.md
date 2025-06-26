@@ -63,7 +63,7 @@ Erstellung und Speicherung eines Turnierplans in eine Datenbank
     ],
     "num_teams": [
         6,
-        10
+        6
     ]
 }
 ```
@@ -353,7 +353,7 @@ Holt alle Änderungen, die an einem Spiel vorgenommen wurden, anhand der überge
 
 ## Löschen eines Turniers
 
-    POST /tournaments/delete_plan/{tournamentID}
+    DELETE /tournaments/delete_plan/{tournamentID}
 
 ### Erklärung
 

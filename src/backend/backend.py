@@ -247,7 +247,7 @@ def change_team_name(tournamentID: str, new_team_name: TeamUpdate ):
     
     
 # API Löschen der Spieldaten 
-@api.post("/tournaments/delete_plan/{tournamentID}")
+@api.delete("/tournaments/delete_plan/{tournamentID}")
 def delete_tournament(tournamentID: str):
     """
     Löscht ein Turnier inklusive Spielstände und Leistungsgruppen.

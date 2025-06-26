@@ -135,7 +135,7 @@ export default {
     try {
         // Lösche jedes Turnier einzeln
             const deletePromises = ids.map(id => 
-            axios.post(`${import.meta.env.VITE_API_URL}/tournaments/delete_plan/${id}`)
+            axios.delete(`${import.meta.env.VITE_API_URL}/tournaments/delete_plan/${id}`)
         );
         
         // Warte auf alle Löschvorgänge
