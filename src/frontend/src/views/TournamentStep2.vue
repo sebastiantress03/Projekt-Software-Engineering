@@ -2,40 +2,48 @@
     <div class="create">
         <h2>Gruppen & Pausen</h2>
 
-        <div v-for="(group, index) in stages" :key="index" class="group-block">
-            <FormField :label="`Gruppenname:`">
-                <input v-model="group.name" />
-            </FormField>
-            <FormField :label="`Anzahl Teams:`">
-                <input type="number" v-model.number="group.teams" min="2" />
-            </FormField>
-        </div>
-
-        <!-- <HomeButton @click="addStage">+ Gruppe hinzufügen</HomeButton> -->
-
-        <div class="break-section">
-            <h3>Pausenzeiten</h3>
-            <div v-for="(breakTime, i) in num_breaks" :key="i">
-                <FormField :label="`Beginn Pause ${i + 1}:`">
-                    <input type="time" v-model="break_times[i]" />
+        <form @submit.prevent="submit">
+            <div
+                v-for="(group, index) in stages"
+                :key="index"
+                class="group-block"
+            >
+                <FormField :label="`Gruppenname:`">
+                    <input v-model="group.name" />
                 </FormField>
-                <FormField :label="`Länge Pause ${i + 1} (Minuten):`">
-                    <input
-                        type="number"
-                        placeholder="Länge (Minuten)"
-                        v-model.number="break_length[i]"
-                    />
+                <FormField :label="`Anzahl Teams:`">
+                    <input type="number" v-model.number="group.teams" min="2" />
                 </FormField>
             </div>
-            <!-- <HomeButton @click="addBreak">+ Pause hinzufügen</HomeButton> -->
-        </div>
 
-        <div class="buttons">
-            <HomeButton color="secondary" @click="goBack">Zurück</HomeButton>
-            <HomeButton color="primary" @click="submit" :disabled="isDisabled"
-                >Daten übergeben</HomeButton
-            >
-        </div>
+            <!-- <HomeButton @click="addStage">+ Gruppe hinzufügen</HomeButton> -->
+
+            <div class="break-section">
+                <h3>Pausenzeiten</h3>
+                <div v-for="(breakTime, i) in num_breaks" :key="i">
+                    <FormField :label="`Beginn Pause ${i + 1}:`">
+                        <input type="time" v-model="break_times[i]" />
+                    </FormField>
+                    <FormField :label="`Länge Pause ${i + 1} (Minuten):`">
+                        <input
+                            type="number"
+                            placeholder="Länge (Minuten)"
+                            v-model.number="break_length[i]"
+                        />
+                    </FormField>
+                </div>
+                <!-- <HomeButton @click="addBreak">+ Pause hinzufügen</HomeButton> -->
+            </div>
+
+            <div class="buttons">
+                <HomeButton color="secondary" @click="goBack"
+                    >Zurück</HomeButton
+                >
+                <HomeButton color="primary" type="submit" :disabled="isDisabled"
+                    >Daten übergeben</HomeButton
+                >
+            </div>
+        </form>
     </div>
 </template>
 
