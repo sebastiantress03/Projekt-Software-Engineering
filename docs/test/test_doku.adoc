@@ -359,6 +359,7 @@ unerlaubte Abfolgen:
 - FTeam 4: 
 - FTeam 5: 
 - FTeam 6: 
+- FTeam 7:
 
 - STeam 1: 
 - STeam 2: 
@@ -366,6 +367,7 @@ unerlaubte Abfolgen:
 - STeam 4: 
 - STeam 5: 
 - STeam 6: 
+- STeam 7:
 
 *Status:* offen
 
@@ -444,7 +446,7 @@ Tests zur Bedienoberfläche, Eingabefunktionalität, Speicherung und Ergebnisanz
 . Button „Turnier erstellen“ drücken
 | **Erwartetes Ergebnis**| Turnier wird erfolgreich angelegt
 | **Tatsächliches Ergebnis** | OK
-| **Anmerkungen**        | Turnier wurde korrekt erstellt, keine Fehlerbeobachtungen, in der GUI fällt auf, dass die Hintergründe nicht passen, was nicht schön aussieht. 
+| **Anmerkungen**        | Turnier wurde korrekt erstellt, keine Fehlerbeobachtungen, in der GUI fällt auf, dass die Hintergründe nicht passen, was nicht schön aussieht. Zudem kommt man nicht zurück zur Startseite, wenn man das Turnier angelegt hat. 
 |===
 
 === SYS-M-02 – Turnier laden
@@ -496,6 +498,78 @@ Tests zur Bedienoberfläche, Eingabefunktionalität, Speicherung und Ergebnisanz
 | **Erwartetes Ergebnis**| Es wird eine Auswertung basierend auf den absolvierten Spielen angezeigt, Es gibt eine formatierte Tabelle, welche alle wichtigen Parameter gemäß der User-Story Turnier auswerten besitzt
 | **Tatsächliches Ergebnis** | FAIL
 | **Anmerkungen**        | Seite ohne Funktion, Formatierung der Seite ohne Ränder, G in der Tabelle für was?, keine Möglichkeit zurück zum Spielplan zu gelangen (fehlender Zurück-Button)
+|===
+
+=== SYS-M-05 – Auswertung anzeigen lassen Mobil-Version
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Auswertung anzeigen lassen auf dem Handy
+| **Datum**              | 12.06.2025
+| **Vorbedingungen**     | Es muss ein Turnier angelegt sein
+| **Schritte**           | 
+. Öffnen der App mit Browser-Dev-Tool mit der mobilen Ansicht
+. Betätigen des „Turnier laden“-Buttons  
+. Auswahl eines Turniers 
+. Durch drücken auf ein Turnier gelangt man in die Anzeige des Spielplan 
+. Durch drücken des Auswertungsbuttons gelangt man in die Auswertungs Seite
+| **Erwartetes Ergebnis**| Es wird eine Auswertung basierend auf den absolvierten Spielen angezeigt, Es gibt eine formatierte Tabelle, welche alle wichtigen Parameter gemäß der User-Story Turnier auswerten besitzt
+| **Tatsächliches Ergebnis** | FAIL
+| **Anmerkungen**        | Keine Funktion, keine Mobilversion vorhanden!
+|===
+
+=== SYS-M-06 – Spielplan anzeigen lassen Mobilversion
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Turnier anzeigen lassen in der Mobilversion
+| **Datum**              | 12.06.2025
+| **Vorbedingungen**     | Es muss ein Turnier angelegt sein
+| **Schritte**           | 
+. Öffnen der App mit Browser-Dev-Tool mit der mobilen Ansicht
+. Betätigen des „Turnier laden“-Buttons  
+. Auswahl eines Turniers 
+. Durch drücken auf ein Turnier gelangt man in die Anzeige
+| **Erwartetes Ergebnis**| Das Turnier wird korrekt formatiert, d.h. es gibt eine scrollbare Ansicht, welche jeweils ein Feld anzeigt
+| **Tatsächliches Ergebnis** | FAIL
+| **Anmerkungen**        | Felder werden nicht korrekt angezeigt. Responsive Design ist aber vorhanden gemäß Wireframe, eben bis auf Plan
+|===
+
+=== SYS-M-07 – Ergebnisse eines Spiels eintragen 
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Man möchte nach einem Spiel das Ergebnis eintragen und per klick speichern
+| **Datum**              | 12.06.2025
+| **Vorbedingungen**     | Es muss ein Turnier angelegt sein 
+| **Schritte**           | 
+. Öffnen der App 
+. Betätigen des „Turnier laden“-Buttons  
+. Auswahl eines Turniers 
+. Durch drücken auf ein Turnier gelangt man in die Anzeige
+. durch klick auf ein Spiel öffnet sich ein Pop-Up fenster 
+| **Erwartetes Ergebnis**| Pop-Up Fenser mit der Möglichkeit, dass man einen Spielstand eingibt. Button zum speichern ist vorhanden und man kann ihn betätigen. Mit der betätigen des Speichern-Buttons gelangt man zurück zum Spielplan und das Ergebnis wurde in die Datenbank eingetragen. 
+| **Tatsächliches Ergebnis** | FAIL
+| **Anmerkungen**        | Es wird zwar lokal gespeichert, aber nicht in die Datenbank geschrieben. Bei neuen laden des Turniers ist der Spielstand weg.
+|===
+
+=== SYS-M-08 – Nach Team filtern im Spielplan
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Man möchte naach Teams filtern könnten im Spielplan
+| **Datum**              | 12.06.2025
+| **Vorbedingungen**     | Es muss ein Turnier angelegt sein 
+| **Schritte**           | 
+. Öffnen der App 
+. Betätigen des „Turnier laden“-Buttons  
+. Auswahl eines Turniers 
+. Durch drücken auf ein Turnier gelangt man in die Anzeige
+. Durch drücken auf das Drop-Down-Menü unter Wähle dein Team aus kommt man in ein Auswahlfenster
+. Durch drücken auf das gewünschte Team im Auswahlfenster kommt man in die neues Spielplanansicht
+| **Erwartetes Ergebnis**| Es wird ein Spielplan angezeigt in der nur Spiele angezeigt werden in denen das Team nach dem gefiltert wird auch involviert ist. 
+| **Tatsächliches Ergebnis** | FAIL
+| **Anmerkungen**        | ohne Funktion. 
 |===
 
 
