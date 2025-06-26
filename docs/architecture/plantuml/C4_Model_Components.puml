@@ -19,9 +19,9 @@ Enterprise_Boundary(c0,"API Application \n [Container]") {
 
 ContainerDb(db, "Datenbank", "Container: SQLite", "Speichert Turnierinformationen, sowie Punktestände und Änderungen daran.")
 
-webApp-->tournament_controller: Löscht, öffnet oder erstellt Turnierpläne \n [Rest, JS]
-webApp-->team_controller: Namen von Teams werden verändert \n [Rest, JS]
-webApp-->match_controller: Spielergebnisse werden verändert \n [Rest, JS]
+webApp-->tournament_controller: Löscht, öffnet oder erstellt Turnierpläne \n [Rest, JSON]
+webApp-->team_controller: Namen von Teams werden verändert \n [Rest, JSON]
+webApp-->match_controller: Spielergebnisse werden verändert \n [Rest, JSON]
 tournament_controller-->db: Löscht und Erstellt bzw. holt sich ganze Turnierpläne \n [SQLite]
 team_controller-->db: Updatet Teamnamen \n [SQLite]
 match_controller-->db: Trägt Spielergebnisse bzw. Änderungen ein \n [SQLite]

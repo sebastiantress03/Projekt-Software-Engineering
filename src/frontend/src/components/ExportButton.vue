@@ -168,10 +168,10 @@ export default {
             `"${referee}"`,
             match.field || match.field_number || '',
             match.play_time || match.startTime || ''
-          ].join(',');
+          ].join(';');
         });
         
-        const csvContent = [headers.join(','), ...rows].join('\n');
+        const csvContent = [headers.join(';'), ...rows].join('\n');
         const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         
