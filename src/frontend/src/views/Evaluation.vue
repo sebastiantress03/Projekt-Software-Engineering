@@ -59,13 +59,21 @@
                 </table>
             </div>
         </div>
+        <button @click="goBack" class="back-button">
+    <slot>Zurück</slot>
+    </button>
     </div>
 </template>
 
 <script setup>
+
+import ZuruckButton from "@/components/ZuruckButton.vue";
 import { ref, computed, onMounted } from "vue";
 import sturaLogo from "../assets/STURA_HTWD_Logo.webp";
 
+const goBack = () => {
+    window.history.length > 1 ? window.history.back() : window.location.href = '/';
+};
 // Beispiel: Matches aus LocalStorage oder API laden
 const matches = ref([]);
 
@@ -149,6 +157,7 @@ onMounted(() => {
     if (stored) matches.value = JSON.parse(stored);
     // Oder: matches.value = await axios.get("/api/matches")
 });
+
 </script>
 
 <style scoped>
@@ -219,4 +228,32 @@ th {
     max-width: 150px;
     height: auto;
 }
+
+.back-button {
+    padding: 10px 20px;
+    background-color: #006666;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #008080;
+}
+
+.back-button-fixed {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 1000;
+}
+
+.winner-row {
+    background-color: #e6f7f5;
+    font-weight: bold;
+}
+
 </style>
