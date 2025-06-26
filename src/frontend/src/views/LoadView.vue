@@ -8,16 +8,18 @@
             />
             <h2>Vorherige Turniere</h2>
         </div>
-                <div class="back-button-fixed">
-                <ZuruckButton />
-            </div>
+        <div class="back-button-fixed">
+            <ZuruckButton />
+        </div>
         <div class="tournament-list">
-            <div 
-                v-for="tournament in tournaments" 
-                :key="tournament.id" 
+            <div
+                v-for="tournament in tournaments"
+                :key="tournament.id"
                 class="tournament-item"
                 @click="selectTournament(tournament)"
-                :class="{ 'selected': selectedTournaments.includes(tournament.id) }"
+                :class="{
+                    selected: selectedTournaments.includes(tournament.id),
+                }"
             >
                 {{ tournament.name || `Turnier #${tournament.id}` }}
             </div>
@@ -27,32 +29,26 @@
         </div>
 
         <div class="action-buttons">
-            <button 
+            <button
                 v-if="!selectMode"
-                class="delete-all-btn"
+                class="delete-all-btn desktop-only"
                 @click="enableSelectMode"
             >
                 Turniere löschen
             </button>
-            
+
             <div v-if="selectMode" class="selection-actions">
-                <button 
-                    class="cancel-btn"
-                    @click="cancelSelection"
-                >
+                <button class="cancel-btn" @click="cancelSelection">
                     Abbrechen
                 </button>
-                <button 
-                    class="confirm-delete-btn"
+                <button
+                    class="confirm-delete-btn desktop-only"
                     @click="confirmDeleteSelected"
                     :disabled="selectedTournaments.length === 0"
                 >
                     Ausgewählte löschen ({{ selectedTournaments.length }})
                 </button>
-                <button 
-                    class="delete-all-btn"
-                    @click="confirmDeleteAll"
-                >
+                <button class="delete-all-btn" @click="confirmDeleteAll">
                     Alle löschen
                 </button>
             </div>
@@ -64,8 +60,6 @@
 import axios from "axios";
 import ZuruckButton from "@/components/ZuruckButton.vue";
 
-
-
 export default {
     name: "PreviousTournaments",
     components: {
@@ -76,7 +70,7 @@ export default {
             tournaments: [],
             selectMode: false,
             selectedTournaments: [],
-            isDeleting: false
+            isDeleting: false,
         };
     },
     created() {
@@ -95,7 +89,10 @@ export default {
         },
         selectTournament(tournament) {
             if (!this.selectMode) {
-                this.$router.push({ name: "TournamentPlan", params: { id: tournament.id } });
+                this.$router.push({
+                    name: "TournamentPlan",
+                    params: { id: tournament.id },
+                });
                 return;
             }
 
@@ -116,45 +113,58 @@ export default {
         },
         confirmDeleteSelected() {
             if (this.selectedTournaments.length === 0) return;
-            
+
             const count = this.selectedTournaments.length;
-            if (confirm(`Möchten Sie wirklich ${count} Turnier(e) löschen?\nDiese Aktion kann nicht rückgängig gemacht werden.`)) {
+            if (
+                confirm(
+                    `Möchten Sie wirklich ${count} Turnier(e) löschen?\nDiese Aktion kann nicht rückgängig gemacht werden.`
+                )
+            ) {
                 this.deleteTournaments(this.selectedTournaments);
             }
         },
         confirmDeleteAll() {
             if (this.tournaments.length === 0) return;
-            
-            if (confirm(`Möchten Sie wirklich ALLE ${this.tournaments.length} Turniere löschen?\nDiese Aktion kann nicht rückgängig gemacht werden.`)) {
-                const allIds = this.tournaments.map(t => t.id);
+
+            if (
+                confirm(
+                    `Möchten Sie wirklich ALLE ${this.tournaments.length} Turniere löschen?\nDiese Aktion kann nicht rückgängig gemacht werden.`
+                )
+            ) {
+                const allIds = this.tournaments.map((t) => t.id);
                 this.deleteTournaments(allIds);
             }
         },
         async deleteTournaments(ids) {
-        this.isDeleting = true;
-    try {
-        // Lösche jedes Turnier einzeln
-            const deletePromises = ids.map(id => 
-            axios.delete(`${import.meta.env.VITE_API_URL}/tournaments/delete_plan/${id}`)
-        );
-        
-        // Warte auf alle Löschvorgänge
-        await Promise.all(deletePromises);
-        
-        // Aktualisiere die Liste
-        this.tournaments = this.tournaments.filter(t => !ids.includes(t.id));
-        this.selectMode = false;
-        this.selectedTournaments = [];
-        alert(`${ids.length} Turnier(e) erfolgreich gelöscht`);
-    } catch (error) {
-        console.error('Fehler beim Löschen:', error);
-        alert('Fehler beim Löschen der Turniere');
-    } finally {
-        this.isDeleting = false;
-    }
-}
+            this.isDeleting = true;
+            try {
+                // Lösche jedes Turnier einzeln
+                const deletePromises = ids.map((id) =>
+                    axios.delete(
+                        `${
+                            import.meta.env.VITE_API_URL
+                        }/tournaments/delete_plan/${id}`
+                    )
+                );
+
+                // Warte auf alle Löschvorgänge
+                await Promise.all(deletePromises);
+
+                // Aktualisiere die Liste
+                this.tournaments = this.tournaments.filter(
+                    (t) => !ids.includes(t.id)
+                );
+                this.selectMode = false;
+                this.selectedTournaments = [];
+                alert(`${ids.length} Turnier(e) erfolgreich gelöscht`);
+            } catch (error) {
+                console.error("Fehler beim Löschen:", error);
+                alert("Fehler beim Löschen der Turniere");
+            } finally {
+                this.isDeleting = false;
+            }
+        },
     },
-    
 };
 </script>
 
@@ -263,7 +273,36 @@ export default {
     bottom: 20px;
     transform: none;
     z-index: 1000;
-
 }
 
+.desktop-only {
+    display: block;
+}
+
+@media screen and (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+    .button-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .button-item {
+        justify-content: center !important;
+    }
+
+    .header {
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+    .logo {
+        width: 70px;
+    }
+}
 </style>
