@@ -133,16 +133,18 @@ export default {
     max-width: 700px;
     margin: 40px auto;
     padding: 30px;
-    background: #1b423e;
-    color: #f9f9f9;
+    background: #f0f0f0;
+    color: black;
+    border: 2px solid #004d40;
     border-radius: 10px;
 }
 .group-block,
 .break-section {
-    background: #fff;
+    background: #f0f0f0;
     padding: 15px;
-    color: #222;
+    color: #004d40;
     margin-bottom: 15px;
+    border: 1px solid #004d40;
     border-radius: 10px;
 }
 input {

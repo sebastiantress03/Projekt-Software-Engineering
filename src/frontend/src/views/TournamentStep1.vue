@@ -1,10 +1,6 @@
 <template>
     <div class="form-wrapper">
-            <img
-                src="@/assets/STURA_HTWD_Logo.webp" 
-                alt="HTWD Logo" 
-                class="logo"
-            />
+        <img src="@/assets/STURA_HTWD_Logo.webp" alt="HTWD Logo" class="logo" />
         <h2>Turnierplanerstellung</h2>
 
         <div class="form-section">
@@ -59,15 +55,7 @@
         </div>
 
         <div class="buttons">
-
-            <ZuruckButton
-            color="secondary"
-                size="small"
-                @click="goBack" position
-
-            >
-            Zurück
-            </ZuruckButton>
+            <ZuruckButton color="secondary" size="small"> Zurück </ZuruckButton>
 
             <HomeButton
                 color="secondary"
@@ -77,8 +65,6 @@
             >
                 Weiter zu Gruppen
             </HomeButton>
-
-
         </div>
     </div>
 </template>
@@ -90,7 +76,7 @@ import ZuruckButton from "@/components/ZuruckButton.vue";
 
 export default {
     name: "TournamentStep1",
-    components: { HomeButton, FormField, ZuruckButton},
+    components: { HomeButton, FormField, ZuruckButton },
     data() {
         return {
             form: {
@@ -118,7 +104,6 @@ export default {
 </script>
 
 <style scoped>
-
 .header {
     display: flex;
     align-items: center;
@@ -146,7 +131,7 @@ h2 {
     padding: 40px 50px;
     border: 2px solid #004d40;
     border-radius: 8px;
-    background-color:#f0f0f0;
+    background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     color: #004d40;
 }
@@ -191,12 +176,9 @@ select {
 }
 
 .buttons {
-
     display: flex;
     justify-content: space-between; /* statt flex-end */
     margin-top: 40px;
-
-
 }
 
 .button-container {
@@ -205,7 +187,6 @@ select {
     gap: 20px;
     margin-top: 40px;
 }
-
 
 button {
     padding: 12px 24px;
@@ -233,7 +214,4 @@ button:hover {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
-
-
 </style>
