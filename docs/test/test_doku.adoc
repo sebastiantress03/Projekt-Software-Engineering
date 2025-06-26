@@ -1,0 +1,509 @@
+= Testdokumentation: Turnierorganisationssoftware
+Oliver Theumer <s86407@htw-dresden.de>; [weitere Teammitglieder]
+{localdatetime}
+include::../_includes/default-attributes.inc.adoc[]
+
+== 1. Allgemeine Informationen
+
+=== 1.1 Ziel
+Ziel dieser Testdokumentation ist es, die Qualität der Turnierorganisationssoftware systematisch nachzuweisen sowie die zugrundeliegenden Testkonzepte und -strukturen nachvollziehbar zu dokumentieren.
+
+=== 1.2 Testkonzept
+
+*Was wurde getestet?* 
+
+Im Rahmen dieses Projekts wurden die zentralen Komponenten der Software getestet insbesondere:
+
+- der Algorithmus zur Spielplangenerierung
+- die Erfassung und Speicherung von Spielständen
+- die Berechnung der Turnierergebnisse
+- die grafische Oberfläche und Bedienung der Software
+- die Kommunikation zwischen Frontend und Backend (Schnittstellen)
+
+Diese Komponenten wurden unterschiedlichen Teststufen gemäß der Testpyramide zugeordnet: Unit-Tests für die Logik, Integrationstests für API-Datenflüsse und Systemtests für die Gesamtanwendung.
+
+*Wie wurde getestet?*  
+
+Die Erfüllung der Anforderungen wurde durch folgende Testmethoden überprüft:
+
+- manuelle Tests mit konkreten Szenarien (explorativ & strukturiert)
+- automatisierte Unit-Tests für die Algorithmusfunktionen
+- Integrationstests über API-Endpunkte mit realistischen Daten
+- statische und dynamische Tests für Verhalten und Usability
+
+*Wann wurde getestet?*  
+
+Die Tests wurden entlang des Entwicklungsprozesses iterativ durchgeführt:
+
+- vor Abschluss von User-Stories (z. B. Algorithmen oder Frontend-Elemente)
+- regelmäßig durch manuelle Durchläufe nach jedem Sprint (Ist-Stand-Analysen)
+
+Die Verantwortung für die Testdurchführung lag beim gesamten Team.
+
+=== 1.3 Testorganisation
+Die Testfälle wurden in strukturierter Form dokumentiert, wobei jedem Test eine eindeutige ID zugeordnet wurde. Die Tests wurden sowohl manuell über die Benutzeroberfläche als auch automatisiert über Testskripte durchgeführt. Falls fehler aufgetreten sind, wurden die Work-Items oder User-Stories nicht geschlossen, sondern angepasst und von in Review zurück zu ToDo geändert.
+
+
+
+== 2. Algorithmus: Manuelle Testfälle
+
+Hier werden Tests auf Grundlage von realen Turnierbeispielen durchgeführt, um die Logik zur Spielplanerstellung (z. B. mit Schiedsrichtern, Pausenverteilung, Gruppen etc.) zu validieren. Hier wurde fortlaufend getestet, allerdings nur die Vorlage überarbeitet und das Datum aktualisiert. Aufgrund von gehäuften Fehlerfällen und einem hohen Aufwand, die Rahmenbedingungen zu prüfen, sind wir auf Unittests im weiteren Verlauf umgestiegen. 
+
+=== Test Cases Übersicht für 6 Mannschaften, 2 Leistungengruppen und 3 Felder
+
+[cols="1,4,1,1", options="header"]
+|===
+| Nr. | Beschreibung | Status | Datum
+
+| TC-01 | Hin- und Rückspiel für jede Paarung in der Leistungsgruppe | erledigt/bestanden | 23.04.2025
+| TC-02 | Kein Team pfeift zweimal direkt hintereinander | erledigt/bestanden | 23.04.2025
+| TC-03 | Keine Folge: pfeifen – aussetzen – pfeifen | erledigt/bestanden | 23.04.2025
+| TC-04 | Kein Team setzt länger als ein Spiel aus | erledigt/bestanden | 23.04.2025
+| TC-05 | Gleichverteilung der Schiedsrichterrolle | erledigt/bestanden | 23.04.2025
+|===
+
+==== Test Case 01 
+
+*Ziel:* 
+Jedes Team spielt gegen jedes Team seiner Leistungsgruppe **ein** Hin- und Rückspiel.
+
+*Eingabewerte:*
+
+- Teams pro Gruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+
+- 2 Leistungsgruppen a 6 Teams
+- 3 Felder wobei Feld 1 und 2 jeweils nur mit einer Leistungsgruppe belegt sind und Feld 3 beiden Leistungsgruppen
+- 2 Spiele pro Team (Hin- und Rückspiel)
+- daraus ergeben sich: 15 Paarungen pro Gruppe * 2 = 30 Spiele pro Leistungsgruppe -> 60 Spiele insgesamt
+- keine dopplungen 
+- keine Mischungen zwischen Leistungsgruppen
+- keine Spiele gegen sich selbst
+
+*Tatsächliches Ergebnis:*
+
+- 2 Leistungsgruppen a 6 Teams
+- 3 Felder -> Verteilung ist ok 
+- 2 Spiele pro Team (Hin- und Rückspiel)
+- es gibt 60 Spiele
+- keine dopplungen gefunden 
+- keine Mischungen zwischen Leistungsgruppen aufgefallen 
+- keine Spiele gegen sich selbst gefunden
+- jede Mannschaft hat ihre erforderlichen Spiele zugewiesen bekommen 
+
+*Status:* erledigt/bestanden 
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+==== Test Case 02
+
+*Ziel:* 
+Kein Team pfeift mehr als einmal hintereinander. 
+
+*Eingabewerte:*
+
+- Teams pro Leistungsgruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+Ein Team pfeift maximal **ein** Hin und Rückspiel. Dannach kommt entweder Pause oder eigenes Spiel. 
+
+*Tatsächliches Ergebnis:*
+- Keine Abweichung der Regel gefunden. 
+
+*Status:* erledigt/bestanden
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+
+==== Test Case 03
+
+*Ziel:* 
+Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben. 
+
+*Eingabewerte:*
+
+- Teams pro Leistungsgruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben.
+
+*Tatsächliches Ergebnis:*
+- Keine Abweichung der Regel gefunden.
+
+*Status:* erledigt/bestanden
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den angegebenen Eingabewerten.
+
+
+==== Test Case 04
+
+*Ziel:* Ein Team soll nie länger als ein Spiel aussetzen (also nicht spielen oder pfeifen). 
+
+*Eingabewerte:*
+- Teams pro Leistungsgruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+
+erlaubte Abfolgen: 
+
+  - pfeifen - aussetzen - spielen
+  - spielen - aussetzen - pfeifen
+  - spielen - aussetzen - spielen
+  - spielen - spielen - pfeifen
+
+unerlaubte Abfolgen:
+
+  - pfeifen - aussetzen - aussetzen
+  - spielen - aussetzen - aussetzen
+  - aussetzen - aussetzen - spielen
+  - aussetzen - aussetzen - pfeifen
+
+*Tatsächliches Ergebnis:*
+- Keine doppelten Pausen gefunden.
+
+*Status:* erledigt/bestanden
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+==== Test Case 05
+
+*Ziel:* Überprüfung der Gleichverteilung der Schiedsrichter. 
+
+*Eingabewerte:*
+- Teams pro Leistungsgruppe: 6
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+- Jedes Team hat annähernd gleich oft den Posten des Schiedsrichters.
+
+*Tatsächliches Ergebnis:*
+
+- FTeam 1: 3
+- FTeam 2: 3
+- FTeam 3: 2
+- FTeam 4: 2
+- FTeam 5: 2
+- FTeam 6: 3
+
+- STeam 1: 2
+- STeam 2: 3
+- STeam 3: 2
+- STeam 4: 2
+- STeam 5: 3
+- STeam 6: 3
+
+*Status:* erledigt/bestanden 
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+=== Test Cases Übersicht für 7 Mannschaften, 2 Leistungengruppen und 3 Felder
+
+[cols="1,4,1,1", options="header"]
+|===
+| Nr. | Beschreibung | Status | Datum
+
+| TC-01 | Hin- und Rückspiel für jede Paarung in der Leistungsgruppe | erledigt/bestanden | 23.04.2025
+| TC-02 | Kein Team pfeift zweimal direkt hintereinander | erledigt/bestanden | 23.04.2025
+| TC-03 | Keine Folge: pfeifen – aussetzen – pfeifen | erledigt/nicht bestanden | 23.04.2025
+| TC-04 | Kein Team setzt länger als ein Spiel aus | erledigt/nicht bestanden | 23.04.2025
+| TC-05 | Gleichverteilung der Schiedsrichterrolle | offen | 23.04.2025
+|===
+
+==== Test Case 01 
+
+*Ziel:* 
+Jedes Team spielt gegen jedes Team seiner Leistungsgruppe **ein** Hin- und Rückspiel.
+
+*Eingabewerte:*
+
+- Teams pro Gruppe: 7
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+
+- 2 Leistungsgruppen a 7 Teams
+- 3 Felder wobei Feld 1 und 2 jeweils nur mit einer Leistungsgruppe belegt sind und Feld 3 beiden Leistungsgruppen
+- 2 Spiele pro Team (Hin- und Rückspiel)
+- keine dopplungen 
+- keine Mischungen zwischen Leistungsgruppen
+- keine Spiele gegen sich selbst
+
+*Tatsächliches Ergebnis:*
+
+- 2 Leistungsgruppen a 6 Teams
+- 3 Felder -> Verteilung ist ok 
+- 2 Spiele pro Team (Hin- und Rückspiel)
+- keine dopplungen gefunden 
+- keine Mischungen zwischen Leistungsgruppen aufgefallen 
+- keine Spiele gegen sich selbst gefunden
+- jede Mannschaft hat ihre erforderlichen Spiele zugewiesen bekommen 
+
+*Status:* erledigt/bestanden 
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+==== Test Case 02
+
+*Ziel:* 
+Kein Team pfeift mehr als einmal hintereinander. 
+
+*Eingabewerte:*
+
+- Teams pro Leistungsgruppe: 7
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+Ein Team pfeift maximal **ein** Hin und Rückspiel. Dannach kommt entweder Pause oder eigenes Spiel. 
+
+*Tatsächliches Ergebnis:*
+- Keine Abweichung der Regel gefunden. 
+
+*Status:* erledigt/bestanden
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+
+==== Test Case 03
+
+*Ziel:* 
+Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben. 
+
+*Eingabewerte:*
+
+- Teams pro Leistungsgruppe: 7
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+Ein Team soll niemals eine Abfolgen von pfeifen - aussetzen - pfeifen haben.
+
+*Tatsächliches Ergebnis:*
+- Abweichung bei F_Team 4 gefunden mit ungültiger Abfolge
+
+*Status:* erledigt/nicht bestanden
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator mit den angegebenen Eingabewerten.
+
+
+==== Test Case 04
+
+*Ziel:* Ein Team soll nie länger als ein Spiel aussetzen (also nicht spielen oder pfeifen). 
+
+*Eingabewerte:*
+- Teams pro Leistungsgruppe: 7
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+
+erlaubte Abfolgen: 
+
+  - pfeifen - aussetzen - spielen
+  - spielen - aussetzen - pfeifen
+  - spielen - aussetzen - spielen
+  - spielen - spielen - pfeifen
+
+unerlaubte Abfolgen:
+
+  - pfeifen - aussetzen - aussetzen
+  - spielen - aussetzen - aussetzen
+  - aussetzen - aussetzen - spielen
+  - aussetzen - aussetzen - pfeifen
+
+*Tatsächliches Ergebnis:*
+- mehrfach doppelte Pausen bei beiden Leistungsgruppen gefunden
+
+*Status:* erledigt/nicht bestanden
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+==== Test Case 05
+
+*Ziel:* Überprüfung der Gleichverteilung der Schiedsrichter. 
+
+*Eingabewerte:*
+- Teams pro Leistungsgruppe: 7
+- Gruppen: 2
+- Felder: 3
+- Rückspiel: ja
+
+*Erwartetes Ergebnis:*
+- Jedes Team hat annähernd gleich oft den Posten des Schiedsrichters.
+
+*Tatsächliches Ergebnis:*
+
+- FTeam 1: 
+- FTeam 2: 
+- FTeam 3: 
+- FTeam 4: 
+- FTeam 5: 
+- FTeam 6: 
+
+- STeam 1: 
+- STeam 2: 
+- STeam 3: 
+- STeam 4: 
+- STeam 5: 
+- STeam 6: 
+
+*Status:* offen
+
+*Bemerkung:* Manueller Test generiert aus dem Turnierplangenerator_4 mit den angegebenen Eingabewerten.
+
+== 3. Algorithmus: Unittests
+
+=== Beschreibung
+
+Dieser Abschnitt dokumentiert die automatisierten **Unittests** für die Turnierauswertungssoftware.  
+Die Tests wurden mit dem Python-Modul `unittest` implementiert und zielen darauf ab, die Einhaltung der Turnierlogik durch strukturierte, maschinell überprüfbare Kriterien zu garantieren.
+
+Im Fokus steht die Validierung von Spielplänen, die durch die zentrale Funktion `main()` und zugehörige Hilfsfunktionen wie `baue_status_lists()` und `get_statusverlaeufe()` generiert werden.  
+Die Unittests laufen nicht vollständig isoliert, sondern greifen auf interne Spielplanlogiken und Statuskonstruktionen zu.
+
+=== Ziele der Unittests
+
+Die Tests prüfen unter anderem folgende Anforderungen:
+- Kein Team spielt gegen sich selbst
+- Kein Team übernimmt zwei Schiedsrichterrollen direkt nacheinander
+- Kein Team hat die Sequenz *„pfeifen – aussetzen – pfeifen“*
+- Kein Team setzt länger als ein Spiel aus
+- Gleichmäßige Verteilung der Schiedsrichterrolle
+- Korrekte Spielanzahl gemäß Hin-/Rückspiel-Konfiguration
+- Spielpaarungen finden nur innerhalb einer Leistungsgruppe statt
+
+=== Projektstruktur und Speicherort
+
+Die Unittests liegen im Repository unter folgendem Pfad:
+
+`src/backend/data/unittest/`
+
+Die einzelnen Testdateien sind thematisch gruppiert und benannt nach der getesteten Logik.
+
+=== Übersicht: Aktuelle Tests und ToDos
+
+[cols="1,4,2"]
+|===
+| Test-ID | Testfallbeschreibung | Status
+
+| UT-01 | Kein Team spielt gegen sich selbst | Implementiert
+| UT-02 | Kein Team pfeift zweimal direkt hintereinander | Implementiert
+| UT-03 | Kein Team hat die Folge „pfeifen – aussetzen – pfeifen“ | Implementiert
+| UT-04 | Kein Team setzt länger als ein Spiel aus | Implementiert
+| UT-05 | Gleichverteilung der Schiedsrichterrolle über alle Teams | Implementiert
+| UT-06 | Korrekte Anzahl der Spiele bei Hin- und Rückspiel-Konfiguration | Implementiert
+| UT-07 | Ein Spiel beinhaltet nur Teams einer Leistungsgruppe | Implementiert
+|===
+
+=== Anmerkungen und zukünftige Schritte
+
+Aktuell fehlt ein strukturiertes Logging für die ausgeführten Unittests. Der Ablauf der Tests ist damit nicht nachvollziehbar dokumentiert.  
+Ein nächster sinnvoller Schritt ist daher die Implementierung eines ausführlichen Test-Loggings.
+
+Darauf aufbauend könnte eine Automatisierung der Tests mittels *GitHub Actions* erfolgen.  
+So würden die Unittests nach jeder Änderung an der Spielplanlogik automatisch ausgeführt.  
+Durch das Logging wären die Ergebnisse zwischen verschiedenen Versionen vergleichbar, was eine fundierte Bewertung der Stabilität und Korrektheit des Systems über den Projektverlauf hinweg ermöglichen würde.
+
+== 4. Manuelle Systemtests
+
+Tests zur Bedienoberfläche, Eingabefunktionalität, Speicherung und Ergebnisanzeige.
+
+=== SYS-M-01 – Turnier anlegen
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Turnier anlegen
+| **Datum**              | 10.06.2025
+| **Vorbedingungen**     | keine
+| **Schritte**           | 
+. Öffnen der App  
+. Betätigen des „Turnier erstellen“-Buttons  
+. Parameter eingeben (6 Mannschaften, 2 Leistungsgruppen, 3 Felder)  
+. Weiter drücken  
+. Teams und Leistungsgruppen auswählen  
+. Button „Turnier erstellen“ drücken
+| **Erwartetes Ergebnis**| Turnier wird erfolgreich angelegt
+| **Tatsächliches Ergebnis** | OK
+| **Anmerkungen**        | Turnier wurde korrekt erstellt, keine Fehlerbeobachtungen, in der GUI fällt auf, dass die Hintergründe nicht passen, was nicht schön aussieht. 
+|===
+
+=== SYS-M-02 – Turnier laden
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Turnier laden
+| **Datum**              | 10.06.2025
+| **Vorbedingungen**     | Es muss ein Turnier angelegt sein
+| **Schritte**           | 
+. Öffnen der App  
+. Betätigen des „Turnier laden“-Buttons  
+. Auswahl eines Turniers
+| **Erwartetes Ergebnis**| Alle angelegten Turniere werden korrekt angezeigt
+| **Tatsächliches Ergebnis** | FAIL
+| **Anmerkungen**        | Turniere erscheinen doppelt in der Liste. Fehler tritt immer auf. 
+|===
+
+=== SYS-M-03 – Spielplan anzeigen lassen
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Turnier anzeigen lassen
+| **Datum**              | 12.06.2025
+| **Vorbedingungen**     | Es muss ein Turnier angelegt sein
+| **Schritte**           | 
+. Öffnen der App  
+. Betätigen des „Turnier laden“-Buttons  
+. Auswahl eines Turniers 
+. Durch drücken auf ein Turnier gelangt man in die Anzeige
+| **Erwartetes Ergebnis**| Das Turnier wird korrekt formatiert, d.h. Felder nebeneinander und Spiele zeitlich sortiert untereinander angezeigt
+| **Tatsächliches Ergebnis** | FAIL
+| **Anmerkungen**        | Turniere werden komplett nebeneinander angezeigt, es gibt nur eine Zeile, es existiert kein zurück Button
+|===
+
+=== SYS-M-04 – Auswertung anzeigen lassen
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Auswertung anzeigen lassen
+| **Datum**              | 12.06.2025
+| **Vorbedingungen**     | Es muss ein Turnier angelegt sein
+| **Schritte**           | 
+. Öffnen der App  
+. Betätigen des „Turnier laden“-Buttons  
+. Auswahl eines Turniers 
+. Durch drücken auf ein Turnier gelangt man in die Anzeige des Spielplan 
+. Durch drücken des Auswertungsbuttons gelangt man in die Auswertungs Seite
+| **Erwartetes Ergebnis**| Es wird eine Auswertung basierend auf den absolvierten Spielen angezeigt, Es gibt eine formatierte Tabelle, welche alle wichtigen Parameter gemäß der User-Story Turnier auswerten besitzt
+| **Tatsächliches Ergebnis** | FAIL
+| **Anmerkungen**        | Seite ohne Funktion, Formatierung der Seite ohne Ränder, G in der Tabelle für was?, keine Möglichkeit zurück zum Spielplan zu gelangen (fehlender Zurück-Button)
+|===
+
+
+== 5. Schnittstellentests
+
+Integration von Frontend, API und Datenbank. Hier wird geprüft, ob die API korrekt reagiert und das Frontend die Daten korrekt darstellt.
+
+
+
+== 6. Zusammenfassung
+
