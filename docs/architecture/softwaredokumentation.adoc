@@ -32,8 +32,6 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst
 |===
 | API-Endpunkt |  Beschreibung des Endpunktes | Backendfunktion
 | `/tournament` | Erstellung und Speicherung eines Turnierplans in eine Datenbank | `generate_tournament()`
-| `/tournaments/delete_plan/{tournamentID}` | Das Turnier wird aus der Datenbank gelöscht mir den Dazugehörigen Spielständen und Leistungsgruppen. Dafür wird die TurnierID mit übergeben. |  `delete_tournament()`
-
 |===
 
 ==== GET-Endpunkte
@@ -53,6 +51,13 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst
 | API-Endpunkt | Beschreibung des Endpunktes | Backendfunktion
 | `/tournaments/match_plan/match/{matchID}` | Ändern von einzelnen Spielständen in der Datenbank. Die Adressierung des Spiels erfolgt über die SpielID als String welche mitgegeben wir. | `change_match_result()`
 | `/tournaments/match_plan/team/{tournamentID}` | Ändern der Namen von einzelnen Teams in der Datenbank. Die Adressierung des Team erfolgt über die TurnierID als String, welche mitgegeben wir damit zunächst überprüft werden kann ob in dem Turnier bereits ein Team mit dem Namen bereits existiert. | `change_team_name()`
+|===
+
+==== DELETE-Endpunkte
+[cols="2,3,2", options="header"]
+|===
+| API-Endpunkt | Beschreibung des Endpunktes | Backendfunktion
+| `/tournaments/delete_plan/{tournamentID}` | Das Turnier wird aus der Datenbank gelöscht mir den Dazugehörigen Spielständen und Leistungsgruppen. Dafür wird die TurnierID mit übergeben. |  `delete_tournament()`
 |===
 
 ==== Implementierung der REST-API

@@ -7,8 +7,8 @@
 :toclevels: 2
 :sectnums:
 :icons: font
-//:source-highlighter: highlightjs
-:source-highlighter: rouge
+:source-highlighter: highlightjs
+//:source-highlighter: pygments
 :rouge-style: github
 :xrefstyle: full
 :figure-caption: Abbildung
