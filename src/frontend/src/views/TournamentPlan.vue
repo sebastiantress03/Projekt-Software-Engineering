@@ -87,7 +87,7 @@ import ExportButton from "@/components/ExportButton.vue";
 
 export default {
     name: "TournamentPlan",
-    components: { MatchCard, HomeButton },
+    components: { MatchCard, HomeButton, ZuruckButton, ExportButton },
     props: ["id"],
     data() {
         return {
@@ -113,6 +113,9 @@ export default {
         goToNext() {
             this.$router.push({ name: "Evaluation" });
         },
+        goBack() {
+            this.$router.go(-1);
+        },
         openPopup(match) {
             this.currentMatch = { ...match };
             this.showPopup = true;
@@ -120,6 +123,58 @@ export default {
         closePopup() {
             this.showPopup = false;
         },
+        downloadCSV() {
+            // CSV-Daten zusammenstellen, z.B. alle Matches exportieren
+            if (!this.matches.length) {
+                alert("Keine Spieldaten zum Exportieren vorhanden.");
+                return;
+            }
+
+            const headers = [
+                "Match",
+                "Team A",
+                "Team B",
+                "Gruppe",
+                "Spielfeld",
+                "Startzeit",
+                "Schiedsrichter",
+                "Punkte Team A",
+                "Punkte Team B",
+            ];
+            const rows = this.matches.map((m) => [
+                `"${m.match}"`,
+                `"${m.teamA}"`,
+                `"${m.teamB}"`,
+                `"${m.group}"`,
+                `"${m.field}"`,
+                `"${m.startTime}"`,
+                `"${m.ref}"`,
+                m.scoreA !== null ? m.scoreA : "",
+                m.scoreB !== null ? m.scoreB : "",
+            ]);
+
+            let csvContent = headers.join(",") + "\n";
+            rows.forEach((row) => {
+                csvContent += row.join(",") + "\n";
+            });
+
+            const blob = new Blob([csvContent], {
+                type: "text/csv;charset=utf-8;",
+            });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute("href", url);
+            link.setAttribute(
+                "download",
+                `turnier_export_${this.id || "export"}.csv`
+            );
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+
         async saveScore() {
             // Finde das Match im matches-Array und aktualisiere die Werte
             const idx = this.matches.findIndex(
