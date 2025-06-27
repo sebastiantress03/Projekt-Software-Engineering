@@ -765,72 +765,52 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
     return sorted(best_schedule, key=lambda m: (time_obj(m["Uhrzeit"]), m["Feld"]))
 
 
-def insert_pauses(schedule, start_time, play_in_time, pause_interval, pause_length, pause_count):
-    """
-    Fügt feste Pausen zu definierten Zeiten in den Spielplan ein.
 
-    Parameter:
-        - schedule (list): Der Spielplan, in den Pausen eingefügt werden.
-        - start_time (str): Startzeit des Turniers (Format "%H:%M").
-        - play_in_time (int): Dauer der Einspielzeit in Minuten.
-        - pause_interval (int): Stunden bis zur nächsten Pause.
-        - pause_length (int): Dauer einer Pause in Minuten.
-        - pause_count (int): Anzahl der Pausen.
 
-    Rückgabewert:
-        - list: Neuer Spielplan mit eingefügten Pausen.
-
-    Fehlerbehandlung:
-        - Überspringt doppelte Pausenzeiten.
-
-    Hinweise:
-        - Pausen werden vor dem ersten Spiel nach Erreichen der definierten Zeit eingefügt.
-    """
+def insert_pauses(schedule, start_time, play_in_time, pause_times, pause_lengths, match_duration):
     from datetime import datetime, timedelta
 
-    time_format = "%H:%M"
-    start_dt = datetime.strptime(start_time, time_format) + timedelta(minutes=play_in_time)
-    pause_times = [start_dt + timedelta(hours=pause_interval * i) for i in range(1, pause_count + 1)]
+    fmt = "%H:%M"
+    dt = lambda t: datetime.strptime(t, fmt)
+    to_str = lambda t: t.strftime(fmt)
 
-    pause_times_str = [pt.strftime(time_format) for pt in pause_times]
+    # Einspielzeit
+    start_dt = dt(start_time)
+    warmup_end = start_dt + timedelta(minutes=play_in_time)
 
+    # Sortieren
+    schedule.sort(key=lambda m: dt(m["Uhrzeit"]))
 
-    updated_schedule = []
-    pause_inserted = set()
-    for match in schedule:
- 
-        while pause_times_str and match["Uhrzeit"] >= pause_times_str[0] and pause_times_str[0] not in pause_inserted:
-            updated_schedule.append({
-                "Spiel": len(updated_schedule) + 1,
-                "Feld": "All Fields",
-                "Uhrzeit": pause_times_str[0],
-                "Team 1": "Pause",
-                "Team 2": "Pause",
-                "Schiedsrichter": "Not required",
-                "Gruppe": "N/A",
-                "Ergebnis Team 1": None,
-                "Ergebnis Team 2": None,
-            })
-            pause_inserted.add(pause_times_str[0])
-            pause_times_str.pop(0)
-        updated_schedule.append(match)
+    # Spiele vor Warmup verschieben
+    for m in schedule:
+        m_dt = dt(m["Uhrzeit"])
+        if m_dt < warmup_end:
+            m["Uhrzeit"] = to_str(warmup_end + (m_dt - start_dt))
 
-    # Falls Pausezeiten am Ende liegen und noch nicht eingefügt wurden
-    for remaining_pause in pause_times_str:
-        updated_schedule.append({
-            "Spiel": len(updated_schedule) + 1,
-            "Feld": "All Fields",
-            "Uhrzeit": remaining_pause,
-            "Team 1": "Pause",
-            "Team 2": "Pause",
-            "Schiedsrichter": "Not required",
-            "Gruppe": "N/A",
-            "Ergebnis Team 1": None,
-            "Ergebnis Team 2": None,
-        })
+    # Pausen einfügen durch reines Verschieben der Uhrzeiten
+    for pause_time_str, pause_len in zip(pause_times, pause_lengths):
+        pause_dt = dt(pause_time_str)
 
-    return updated_schedule
+        # Falls ein Spiel gerade während der Pause läuft, Pause ans Ende des Spiels verschieben
+        for m in schedule:
+            m_start = dt(m["Uhrzeit"])
+            m_end = m_start + timedelta(minutes=match_duration)
+            if m_start < pause_dt < m_end:
+                pause_dt = m_end
+                break
 
+        # Alle Spiele, die danach beginnen, um die Pausenlänge verschieben
+        for m in schedule:
+            m_time = dt(m["Uhrzeit"])
+            if m_time >= pause_dt:
+                m["Uhrzeit"] = to_str(m_time + timedelta(minutes=pause_len))
+
+    # Final sortieren & nummerieren
+    schedule.sort(key=lambda m: dt(m["Uhrzeit"]))
+    for i, m in enumerate(schedule):
+        m["Spiel"] = i
+
+    return schedule
 
 
 
@@ -838,12 +818,12 @@ if __name__ == '__main__':
     fields = 2
     performance_groups = 2
     teams_per_group = 6
-    start_time = "12:00"
+    start_time = "13:00"
     match_duration = 15
     round_trip = True
     play_in_time = 30
     pause_length = 30
-    pause_count = 2
+    pause_count = 0
     pause_interval = 4
     group_names = ["Schwitzer", "Fun"]
     team_names = [
@@ -867,14 +847,15 @@ if __name__ == '__main__':
         team_names=team_names
     )
     schedule = optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
-
+    break_times = ["15:00", "16:00","18:00"]
+    pause_lengths = [30, 30, 30]
     schedule = insert_pauses(
         schedule=schedule,
         start_time=start_time,
         play_in_time=play_in_time,
-        pause_interval=pause_interval,
-        pause_length=pause_length,
-        pause_count=pause_count
+        pause_lengths=pause_lengths,
+        pause_times=break_times,
+        match_duration=match_duration
     )
 
 
@@ -926,9 +907,19 @@ def return_plan(fields: int, teams_per_group: List[int], start_time:str, match_d
     # Debug
     print(f"fields: {fields}, numberOfTeams: {numberOfTeams}, len(group_names): {len(group_names)}, start_time: {start_time}, match_duration: {match_duration},  round_trip: {round_trip}, play_in_time: {play_in_time}, pause_length: {pause_length}, pause_count: {pause_count},  pause_interval: {pause_interval}, group_names: {group_names}, team_names:{team_names}")
     # pause_length ist eine Liste und muss eigentlich auch als liste entgegen genommen werden
-    schedule, teams, field_assignment = create_tournament_plan(fields, numberOfTeams, len(group_names), start_time, match_duration, round_trip, play_in_time, 0 if len(pause_length) == 0 else pause_length[0], pause_count, pause_interval, group_names, team_names)
+    schedule, teams, field_assignment = create_tournament_plan(fields, numberOfTeams, len(group_names), start_time, match_duration, round_trip, play_in_time, 0, 0, 0, group_names, team_names)
 
     schedule = optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
+    
+    schedule = insert_pauses(
+        schedule=schedule,
+        start_time=start_time,
+        play_in_time=play_in_time,
+        pause_lengths=pause_length,
+        pause_times=break_times,
+        match_duration=match_duration
+    )
+
 
     return schedule
 
@@ -1024,4 +1015,4 @@ def create_html(schedule, fields):
 #html_output = create_html(schedule, fields)
 
 #with open("turnierplan.html", "w", encoding="utf-8") as file:
-#    file.write(html_output)
+    #file.write(html_output)
