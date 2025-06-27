@@ -768,7 +768,28 @@ def optimize_schedule(schedule, teams, match_duration, fields, field_assignment)
 
 
 def insert_pauses(schedule, start_time, play_in_time, pause_times, pause_lengths, match_duration):
-    from datetime import datetime, timedelta
+    """
+    Fügt geplante Pausen und Einspielzeiten in den Turnierplan ein.
+
+    Parameter:
+        - schedule (list): Liste der Spiel-Dictionaries mit Zeitangaben.
+        - start_time (str): Startzeit des Turniers im Format "%H:%M".
+        - play_in_time (int): Dauer der Einspielphase in Minuten.
+        - pause_times (list of str): Liste der Pausenbeginn-Zeitpunkte im Format "%H:%M".
+        - pause_lengths (list of int): Liste der Pausenlängen in Minuten, passend zu `pause_times`.
+        - match_duration (int): Dauer eines Spiels in Minuten.
+
+    Rückgabewert:
+        - list: Aktualisierter Spielplan mit verschobenen Zeiten und nummerierten Spielen.
+
+    Fehlerbehandlung:
+        - Keine direkte Validierung für Format oder Länge von `pause_times` und `pause_lengths`.
+
+    Hinweise:
+        - Einspielzeit wird als Zeitblock vor dem ersten Spiel berücksichtigt.
+        - Spiele, die während einer Pause laufen würden, verschieben den Pausenbeginn.
+        - Alle nachfolgenden Spiele werden entsprechend nach hinten verschoben.
+    """
 
     fmt = "%H:%M"
     dt = lambda t: datetime.strptime(t, fmt)
