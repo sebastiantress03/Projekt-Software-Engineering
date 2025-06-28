@@ -300,80 +300,46 @@ export default {
     width: 250px;
 }
 
-.fields-scroll {
+.fields-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.field-column {
+    flex: 1 1 300px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    align-items: stretch;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
-.group-title {
+.field-title {
     font-weight: bold;
-    font-size: 18px;
-    padding: 8px 0;
-    background-color: #f5f5f5;
-    border-bottom: 2px solid #ccc;
-}
-
-.group-matches {
-    display: flex;
-    overflow-x: auto;
-    gap: 20px;
-    padding-bottom: 10px;
-}
-
-.match-container {
-    min-width: 260px;
-}
-.fixed-back-button {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-    z-index: 1000;
-    color: "primary";
-}
-
-@media (max-width: 768px) {
-    .fixed-back-button {
-        left: 10px;
-        top: 10px;
-    }
-}
-
-@media (max-width: 768px) {
-    .group-matches {
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scroll-padding: 20px;
-        padding-bottom: 20px;
-    }
-
-    .match-container {
-        scroll-snap-align: center;
-        flex: 0 0 85%;
-    }
-}
-
-.score-entry {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.score-entry input {
-    width: 50px;
-    padding: 6px;
     text-align: center;
-    font-size: 16px;
-    cursor: pointer;
+    margin-bottom: 10px;
+    color: #387d75;
+    font-size: 18px;
+}
+
+.field-column > * {
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .buttons {
     display: flex;
     justify-content: center;
+    gap: 20px;
     margin-top: 30px;
+    flex-wrap: wrap;
 }
 
 button {
@@ -442,36 +408,63 @@ button:hover {
     background-color: #387d75;
     color: white;
 }
-.fields-grid {
+
+.score-entry {
     display: flex;
-    gap: 30px;
-    justify-content: center;
-    margin-bottom: 30px;
-    overflow-x: auto;
-}
-.field-column {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    min-width: 260px;
-    background: #f9f9f9;
-    border-radius: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-.field-title {
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
     font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #387d75;
-    font-size: 18px;
+    cursor: pointer;
 }
 
-.buttons {
+.score-entry input {
+    width: 50px;
+    padding: 6px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.back-button-container {
     display: flex;
     justify-content: center;
-    gap: 20px; /* Abstand zwischen den Buttons */
-    margin-top: 30px;
-    flex-wrap: wrap; /* Für mobile Ansicht */
+    margin-top: 20px;
+}
+
+.fixed-back-button {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 1000;
+    color: "primary";
+}
+
+@media (max-width: 768px) {
+    .fields-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        width: 100vw;
+        height: auto;
+        gap: 0;
+        justify-content: flex-start;
+    }
+
+    .field-column {
+        flex: 0 0 100vw;
+        scroll-snap-align: start;
+        margin-left: auto;
+        margin-right: auto;
+        overflow-x: hidden;
+    }
+
+    .fixed-back-button {
+        left: 10px;
+        top: 10px;
+    }
 }
 </style>
+
