@@ -12,7 +12,7 @@
         <div class="team-select" v-if="allTeams.length">
             <label for="team">Wähle dein Team aus:</label>
             <select id="team" v-model="selectedTeam">
-                <option disabled value="">-- bitte wählen --</option>
+                <option value="">Alle Teams</option>
                 <option v-for="team in allTeams" :key="team">{{ team }}</option>
             </select>
         </div>
@@ -111,7 +111,7 @@ export default {
     },
     methods: {
         goToNext() {
-            this.$router.push({ name: "Evaluation" });
+            this.$router.push({ name: "Evaluation", params: { id: this.id } });
         },
         goBack() {
             this.$router.go(-1);
@@ -186,7 +186,10 @@ export default {
                 this.matches[idx].scoreB = this.currentMatch.scoreB;
             }
             // Speichere die aktualisierten Matches im localStorage
-            localStorage.setItem("matches", JSON.stringify(this.matches));
+            localStorage.setItem(
+                `matches_${this.id}`,
+                JSON.stringify(this.matches)
+            );
 
             // Sende das Ergebnis ans Backend
             try {
@@ -253,11 +256,16 @@ export default {
             this.matches = this.mapApiMatches(apiMatches);
             this.allTeams = this.extractTeamsFromMatches(apiMatches);
 
-            // Speichere die Matches im localStorage
-            localStorage.setItem("matches", JSON.stringify(this.matches));
+            // Speichere die Matches für dieses Turnier
+            localStorage.setItem(
+                `matches_${this.id}`,
+                JSON.stringify(this.matches)
+            );
         } catch (e) {
-            this.matches = [];
-            this.allTeams = [];
+            // Versuche, aus dem LocalStorage zu laden
+            const stored = localStorage.getItem(`matches_${this.id}`);
+            this.matches = stored ? JSON.parse(stored) : [];
+            this.allTeams = this.extractTeamsFromMatches(this.matches);
         }
     },
 };
@@ -467,4 +475,3 @@ button:hover {
     }
 }
 </style>
-

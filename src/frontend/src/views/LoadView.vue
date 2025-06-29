@@ -78,14 +78,32 @@ export default {
     },
     methods: {
         fetchTournaments() {
-            axios
-                .get(`${import.meta.env.VITE_API_URL}/tournaments/`)
-                .then((response) => {
-                    this.tournaments = response.data.tournaments || [];
-                })
-                .catch(() => {
-                    this.tournaments = [];
-                });
+            // Prüfe, ob API-URL gesetzt ist (online)
+            if (import.meta.env.VITE_API_URL) {
+                axios
+                    .get(`${import.meta.env.VITE_API_URL}/tournaments/`)
+                    .then((response) => {
+                        this.tournaments = response.data.tournaments || [];
+                        // Speichere die komplette Liste im LocalStorage
+                        localStorage.setItem(
+                            "tournaments",
+                            JSON.stringify(this.tournaments)
+                        );
+                    })
+                    .catch(() => {
+                        // Falls Fehler: versuche aus LocalStorage zu laden
+                        const storedTournaments = localStorage.getItem("tournaments");
+                        this.tournaments = storedTournaments
+                            ? JSON.parse(storedTournaments)
+                            : [];
+                    });
+            } else {
+                // Offline: nur aus LocalStorage laden
+                const storedTournaments = localStorage.getItem("tournaments");
+                this.tournaments = storedTournaments
+                    ? JSON.parse(storedTournaments)
+                    : [];
+            }
         },
         selectTournament(tournament) {
             if (!this.selectMode) {

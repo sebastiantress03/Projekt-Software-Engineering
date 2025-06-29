@@ -18,7 +18,7 @@ const routes = [
         component: TournamentPlan,
         props: true, // <--- das hinzufügen!
     },
-    { path: "/evaluation", name: "Evaluation", component: Evaluation },
+    { path: "/evaluation/:id", name: "Evaluation", component: Evaluation, props: true },
 ];
 
 const router = createRouter({

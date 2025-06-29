@@ -96,7 +96,7 @@ h1 {
 }
 
 .desktop-only {
-    display: block;
+    display: flex;
 }
 
 @media screen and (max-width: 768px) {

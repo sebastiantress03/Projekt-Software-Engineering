@@ -19,7 +19,7 @@
         </div>
 
         <div class="section">
-            <h3>Gewinner:</h3>
+            <h3>Gewinner*innen:</h3>
             <div class="winner-box">
                 <div v-if="winners.length">
                     <div v-for="winner in winners" :key="winner">
@@ -41,7 +41,6 @@
                             <th>S</th>
                             <th>N</th>
                             <th>Punkte</th>
-                            <th>G</th>
                             <th>Diff</th>
                         </tr>
                     </thead>
@@ -52,7 +51,6 @@
                             <td>{{ row.s }}</td>
                             <td>{{ row.n }}</td>
                             <td>{{ row.p }}</td>
-                            <td>{{ row.g }}</td>
                             <td>{{ row.diff }}</td>
                         </tr>
                     </tbody>
@@ -60,19 +58,24 @@
             </div>
         </div>
         <button @click="goBack" class="back-button">
-    <slot>Zurück</slot>
-    </button>
+            <slot>Zurück</slot>
+        </button>
     </div>
 </template>
 
 <script setup>
-
 import ZuruckButton from "@/components/ZuruckButton.vue";
 import { ref, computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import sturaLogo from "../assets/STURA_HTWD_Logo.webp";
 
+const route = useRoute();
+const tournamentId = route.params.id;
+
 const goBack = () => {
-    window.history.length > 1 ? window.history.back() : window.location.href = '/';
+    window.history.length > 1
+        ? window.history.back()
+        : (window.location.href = "/");
 };
 // Beispiel: Matches aus LocalStorage oder API laden
 const matches = ref([]);
@@ -99,7 +102,7 @@ function calculateGroupTable(groupName) {
     // Initialisiere Statistik für jedes Team
     const stats = {};
     teams.forEach((team) => {
-        stats[team] = { team, s: 0, n: 0, p: 0, g: 0, diff: 0 };
+        stats[team] = { team, s: 0, n: 0, p: 0, diff: 0 };
     });
 
     // Spiele durchgehen und Statistik berechnen
@@ -107,29 +110,23 @@ function calculateGroupTable(groupName) {
         if (m.group !== groupName) return;
         if (m.scoreA == null || m.scoreB == null) return; // Nur gewertete Spiele
 
-        stats[m.teamA].g += m.scoreA;
-        stats[m.teamB].g += m.scoreB;
         stats[m.teamA].diff += m.scoreA - m.scoreB;
         stats[m.teamB].diff += m.scoreB - m.scoreA;
 
         if (m.scoreA > m.scoreB) {
             stats[m.teamA].s += 1;
             stats[m.teamB].n += 1;
-            stats[m.teamA].p += 3; // z.B. 3 Punkte für Sieg
+            stats[m.teamA].p += 1; // z.B. 3 Punkte für Sieg
         } else if (m.scoreA < m.scoreB) {
             stats[m.teamB].s += 1;
             stats[m.teamA].n += 1;
-            stats[m.teamB].p += 3;
-        } else {
-            // Unentschieden (optional)
-            stats[m.teamA].p += 1;
             stats[m.teamB].p += 1;
         }
     });
 
     // Sortiere nach Punkten, dann Differenz, dann erzielten Punkten
     const table = Object.values(stats).sort(
-        (a, b) => b.p - a.p || b.diff - a.diff || b.g - a.g
+        (a, b) => b.p - a.p || b.diff - a.diff
     );
 
     // Platzierung vergeben
@@ -143,21 +140,22 @@ function calculateGroupTable(groupName) {
 }
 
 // Computed für aktuelle Auswahl
-const winners = computed(() =>
-    selectedGroup.value ? calculateGroupTable(selectedGroup.value).winners : []
-);
+const winners = computed(() => {
+    if (!selectedGroup.value) return [];
+    const table = calculateGroupTable(selectedGroup.value).results;
+    // Zeige die Teams auf Platz 1, 2 und 3 (falls vorhanden)
+    return table.slice(0, 3).map((row) => row.team);
+});
 const results = computed(() =>
     selectedGroup.value ? calculateGroupTable(selectedGroup.value).results : []
 );
 
 // Beispiel: Matches laden (hier aus LocalStorage, sonst aus API)
 onMounted(() => {
-    // Ersetze das durch deinen echten Datenbezug!
-    const stored = localStorage.getItem("matches");
+    const stored = localStorage.getItem(`matches_${tournamentId}`);
     if (stored) matches.value = JSON.parse(stored);
     // Oder: matches.value = await axios.get("/api/matches")
 });
-
 </script>
 
 <style scoped>
@@ -255,5 +253,4 @@ th {
     background-color: #e6f7f5;
     font-weight: bold;
 }
-
 </style>
