@@ -14,8 +14,8 @@ include::{docs}/_includes/default-attributes.inc.adoc[]
 :toc-title: Inhaltsverzeichnis
 :sectnums:
 :icons: font
-//:source-highlighter: highlightjs
-:source-highlighter: rouge
+:source-highlighter: highlightjs
+//:source-highlighter: rouge
 :rouge-style: github
 :xrefstyle: full
 :experimental:
