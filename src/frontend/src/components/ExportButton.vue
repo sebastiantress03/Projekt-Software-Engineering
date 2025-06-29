@@ -88,7 +88,7 @@ export default {
       this.loading = true;
       this.error = null;
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/tournaments`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/tournaments/`);
         
         if (!response.data?.tournaments) {
           throw new Error("Ungültiges Datenformat erhalten");
