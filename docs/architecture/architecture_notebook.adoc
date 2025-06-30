@@ -61,7 +61,7 @@ Abhängigkeiten:
 //[List the decisions that have been made regarding architectural approaches and the constraints being placed on the way that the developers build the system. These will serve as guidelines for defining architecturally significant parts of the system. Justify each decision or constraint so that developers understand the importance of building the system according to the context created by those decisions and constraints. This may include a list of DOs and DON’Ts to guide the developers in building the system.]
 
 . *Progressive Web App (PWA):* +
-Wir haben uns für die Umsetzung als Progressive Web App entschieden, da diese den plattformübergreifenden Einsatz auf unterschiedlichen Geräten und Betriebssystemen ermöglicht und zudem native Offline-Funktionalität unterstützt.
+Wir haben uns für die Umsetzung als Progressive Web App entschieden, da dies einen plattformübergreifenden Einsatz auf unterschiedlichen Geräten und Betriebssystemen ermöglicht und zudem native Offline-Funktionalität unterstützt.
 
 . *Frontend-Technologie (Vue.js):* +
 Vue.js wird als Frontend-Framework verwendet, da es eine moderne, performante und leichtgewichtige Lösung für interaktive Webanwendungen bietet. Die Community ist aktiv, die Lernkurve flach, was eine effiziente Entwicklung ermöglicht.

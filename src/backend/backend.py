@@ -4,11 +4,17 @@ from data.apiClasses.apiClasses import *
 from fastapi.middleware.cors import CORSMiddleware
 from server import *
 from database_request import *
+from fastapi import APIRouter
 
 from data.turnierplangenerator_4 import return_plan
 
 server = Server()
-api = fastapi.FastAPI()
+router = APIRouter()
+api = fastapi.FastAPI(
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
+)
 data_request = DatabaseRequests()
 
 
@@ -268,3 +274,5 @@ def delete_tournament(tournamentID: str):
     data_request.delete_tournament(tournament_id)
 
     return HTTPException(status_code=200,detail="SUCCESS")
+
+api.include_router(router, prefix="/api")

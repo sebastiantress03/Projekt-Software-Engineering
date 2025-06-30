@@ -19,8 +19,8 @@ Enterprise_Boundary(c0,"Turniersoftware \n [Software System]") {
 }
 
 host-->teilnehmer: Veranstalted Turnier
-teilnehmer-->webApp: Ruft Turnierablauf auf, trägt Spielergebnisse ein
+teilnehmer-->webApp: Ruft Turnierablauf auf, trägt Spielergebnisse ein \n [HTTP]
 webApp-->api: Kommuniziert mit API über HTTP \n [Rest, JSON]
 db<-->api: übermittelt Daten
-host-->webApp: Eingabe der Tunierparameter
+host-->webApp: Eingabe der Tunierparameter  \n [HTTP]
 @enduml
