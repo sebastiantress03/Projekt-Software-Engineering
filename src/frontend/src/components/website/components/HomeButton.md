@@ -113,7 +113,123 @@ PUT /tournaments/match_plan/match/:gameID
 | 2 | Zeigt sie als interaktive Buttons an |
 | 3 | Bei Auswahl Navigation zur TurnierPlan-Ansicht |
 
+## LoescheButton  
+**Datei:** `/components/LoescheButton.vue`  
+**Zweck:** Generischer Löschbutton-Komponente für einzelne Elemente (z. B. Turniere)
 
+```vue
+<template>
+  <button class="delete-btn" @click="handleDelete">
+    Löschen
+  </button>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "LoescheButton",
+  props: {
+    id: { type: [String, Number], required: true },
+    endpoint: { type: String, required: true }
+  },
+  emits: ["deleted"],
+  methods: {
+    async handleDelete() {
+      const confirmed = confirm("Bist du sicher, dass du dieses Element löschen möchtest?");
+      if (!confirmed) return;
+      try {
+        await axios.delete(`${import.meta.env.VITE_API_URL}${this.endpoint}/${this.id}`);
+        this.$emit("deleted", this.id);
+      } catch (error) {
+        console.error("Fehler beim Löschen:", error);
+        alert("Löschen fehlgeschlagen.");
+      }
+    }
+  }
+};
+</script>
+
+<style scoped>
+.delete-btn {
+  background-color: #ff4d4d;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+.delete-btn:hover {
+  background-color: #e60000;
+}
+</style>
+```
+
+---
+
+## PreviousTournaments  
+**Datei:** `/views/PreviousTournaments.vue`  
+**Zweck:** Anzeige und Verwaltung (Anzeigen, Laden, Löschen einzelner oder mehrerer Turniere)
+
+### Erweiterung inkl. Selektion & Löschlogik
+
+- **Komponenten-Import:**
+
+```js
+import LoescheButton from "@/components/LoescheButton.vue";
+```
+
+- **Template ergänzt:**  
+  - Löschmodus aktivieren  
+  - Auswahl einzelner Turniere  
+  - Buttons: Löschen, Abbrechen, Alle löschen
+
+- **Methoden für Auswahl & Löschung:**
+
+```js
+enableSelectMode() { ... }
+cancelSelection() { ... }
+confirmDeleteSelected() { ... }
+confirmDeleteAll() { ... }
+
+async deleteTournaments(ids) { ... }
+```
+
+- **Axios-Abfragen im Backend:**
+
+```http
+DELETE /tournaments/{id}
+DELETE /tournaments/delete_plan/{id}
+```
+
+## ExportButton  
+**Datei:** `/views/ExportButton.vue`  
+**Zweck:** Exportiert Turnier- und Spielplandaten als CSV
+
+### Funktionalitäten:
+
+- Öffnet ein Dialogfenster mit:
+  - Auswahl von Turnieren  
+  - Anzeige der Spielanzahl  
+  - Export-Button
+
+- **Methoden:**
+
+```js
+async openExportDialog() { ... }
+async fetchTournaments() { ... }
+async onTournamentSelect() { ... }
+async exportToCSV() { ... }
+```
+
+- **CSV-Struktur:**
+
+```
+Spiel ID;Gruppe;Team A;Team B;Ergebnis;Schiedsrichter;Feld;Startzeit
+```
+
+---
 
 
 ## TurnierErstellungsschritte <a name="turnier-erstellungsschritte"></a>
