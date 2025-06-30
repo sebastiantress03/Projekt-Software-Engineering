@@ -1,0 +1,131 @@
+= Turnierorganisationssoftware Anwenderdokumentation
+:imagesdir: ./Screenshots
+:toc: left
+:toclevels: 2
+
+== Einführung
+
+Diese Dokumentation führt Sie Schritt für Schritt durch die Bedienung der Turnierorganisationssoftware. Sie erfahren, wie Sie Turniere erstellen, konfigurieren, durchführen und abschließend auswerten oder exportieren.
+
+== 1. Hauptmenü
+
+image::./Hauptmenu.png[alt="Hauptmenü", width=600]
+
+*Anleitung:*
+
+1. Klicken Sie auf `"Turnierplan erstellen"` für neue Turniere
+2. Wählen Sie `"Turnierplan laden"` für bereits gespeicherte Turniere
+
+[NOTE]
+====
+Das Hauptmenü ist Ihr Startpunkt für alle Funktionen.
+====
+
+== 2. Turnierkonfiguration
+
+image::./Screenshot 2025-06-30 013752.png[][alt="Turnierkonfiguration", width=600]
+
+.Schritte:
+
+1. Geben Sie den *Turniernamen* ein (z. B. "HTW Dresden")
+2. Legen Sie die *Anzahl der Felder* fest
+3. Aktivieren Sie *"Hin- & Rückrunde"* wenn gewünscht
+4. Klicken Sie auf *"Weiter zu Gruppen"*
+
+[WARNING]
+====
+Die Spielzeit sollte realistisch geplant werden (empfohlen: 10–15 Minuten pro Spiel).
+====
+
+== 3. Gruppen einrichten
+
+image::./Screenshot 2025-06-30 013836.png[][alt="Gruppenkonfiguration", width=600]
+
+|===
+| Gruppenname | Name der Spielgruppe (z. B. "Stura")
+| Anzahl Teams | Anzahl der teilnehmenden Teams
+| Pausenzeiten | Planen Sie ausreichend Pausen ein
+|===
+
+Klicken Sie auf *"Daten übergeben"*, um die Gruppeneinstellungen zu speichern.
+
+Nach der Dateneingabe gelangen Sie zurück zum Hauptmenü, wo Sie über *„Turnierplan anzeigen“* Ihr erstelltes Turnier einsehen können.
+
+== 4. Turnierplan anzeigen
+
+image::./Screenshot 2025-06-30 172238.png[alt="Turnierplan", width=600]
+
+Wenn sich der Benutzer im Hauptmenü befindet, kann er auf **„Turnierplan laden“** klicken. Es öffnet sich ein Fenster, in dem alle zuvor erstellten Turniere angezeigt werden.
+
+=== Turnier löschen
+image::Screenshot 2025-06-30 172103.png[alt="Löschfunktion", width=600]
+
+In der Turnierauswahlansicht stehen folgende Löschfunktionen zur Verfügung:
+
+- Einzelnes Turnier löschen
+- Mehrere Turniere gleichzeitig löschen
+- Alle Turniere löschen
+
+Diese Funktionen helfen beim Aufräumen und Verwalten alter Daten.
+
+== 5. Turnier auswählen und laden
+image::Screenshot 2025-06-30 014006.png[alt="Turnierplan", width=600]
+- Der Benutzer kann ein beliebiges Turnier aus der Liste auswählen
+- Nach der Auswahl wird der entsprechende Turnierplan angezeigt
+- Die Ansicht zeigt:
+    - Alle Spielbegegnungen
+    - Uhrzeiten
+    - Feldzuweisungen
+    - Ergebnisse (initial 0:0)
+
+=== Ergebnisse eintragen
+image::Screenshot 2025-06-30 014036.png[alt="Ergebniss eintragen", width=600]
+Sobald ein Turnier geladen wurde:
+
+- Klicken Sie auf ein Spiel im Turnierplan
+- Es öffnet sich ein Eingabefenster
+- Geben Sie die Punkte oder Tore für beide Teams ein
+- Klicken Sie auf **„Speichern“** oder **„Abbrechen“**
+
+Die gespeicherten Ergebnisse werden automatisch im Turnierplan aktualisiert.
+
+[NOTE]
+====
+Nach dem Laden eines Turniers sind auch die Optionen **„Auswerten“** und **„Exportieren“** verfügbar.
+====
+
+== 6. Auswertung und Export
+Nach der Ergebniseintragung können Sie zwischen zwei Aktionen wählen:
+
+=== Turnier auswerten
+
+Klicken Sie auf **„Auswerten“**, um zur Auswertungsansicht zu wechseln.
+
+image::./Screenshot 2025-06-30 014132.png[][alt="Turnierauswertung", width=600]
+
+*Funktionen der Auswertung:*
+
+- Auswahl der gewünschten *Leistungsgruppe* (Gruppe)
+- Berechnung der:
+  - Platzierungen
+  - Punkte (z. B. Sieg = 1 Punkt, Niederlage = 0 Punkte)
+  - Differenzen (z. B. Tordifferenz)
+- Anzeige der Gewinner*innen
+
+=== Turnierplan exportieren
+image::Screenshot 2025-06-30 014101.png[alt="Exportfunktion", width=600]
+
+Alternativ können Sie auf **„Exportieren“** klicken:
+
+1. Wählen Sie den zu exportierenden Turnierplan
+2. Speichern Sie ihn als `.csv`-Datei (z. B. zur Bearbeitung in Excel)
+
+[NOTE]
+====
+Der CSV-Export eignet sich zur Archivierung oder zur Weiterverarbeitung der Spiel- und Ergebnisdaten.
+====
+
+== 7. Zurück zum Hauptmenü
+
+Mit einem Klick auf **„Zurück“** gelangen Sie jederzeit ins Hauptmenü, um neue Turniere zu erstellen, vorhandene zu laden oder Turnierpläne erneut zu bearbeiten.
+
