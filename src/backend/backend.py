@@ -10,7 +10,7 @@ from data.turnierplangenerator_4 import return_plan
 
 server = Server()
 router = APIRouter()
-api = fastapi. FastAPI(
+api = fastapi.FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc",
     openapi_url="/api/openapi.json"
