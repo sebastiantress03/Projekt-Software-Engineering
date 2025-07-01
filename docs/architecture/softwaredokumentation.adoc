@@ -11,6 +11,10 @@ entsprechenden Funktionen und Methoden kommentiert.
 
 == Frontend
 
+++++
+include::{htmlsdir}/Frontend_Documentation_Components.html[]
+++++
+
 == Backend
 
 === Benutzerinteraktion mittels REST-API
@@ -23,7 +27,7 @@ Die REST-API bildet die zentrale Schnittstelle für alle Funktionen wie Turniere
 
 === Endpunkte der REST-API
 
-Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst
+Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. https://github.com/sebastiantress03/Projekt-Software-Engineering/blob/main/src/backend/data/documentation/backend%20API%20documentation.html[Dokumentation backend.py] +
 
 :sectnums!:
 ==== POST-Endpunkte
@@ -117,9 +121,101 @@ def get_tournaments():
 |===
 :sectnums:
 
+++++
+include::{htmlsdir}/backend_py_documentation.html[]
+++++
+
 // TODO Backend Funktionen
+=== API Klassen
+
+:sectnums!:
+==== ReturnMatchOption
+
+[cols="1,1,2,3", options="header"]
+|===
+| Variabel | Datentyp | validator Bedingung | Beschreibung 
+| TRUE     | Enum     | "true" oder "false" als String | Gibt an, ob Rückspiele zurückgegeben werden
+| FALSE    | Enum     | "true" oder "false" als String | Gibt an, dass nur Hinspiele zurückgegeben werden
+|===
+==== GenerateTournament
+
+[cols="1,1,2,3", options="header"]
+|===
+| Variabel    | Datentyp          | validator Bedingung                             | Beschreibung 
+| name        | str               | keine                                          | Name des Turniers
+| num_fields  | int               | Mindestens 1 und maximal 5                      | Anzahl der Spielfelder
+| return_match| ReturnMatchOption  | "true" oder "false" als String                  | Gibt an, ob Rückspiele mit eingeplant werden
+| start       | str               | Format "HH:MM"                                  | Uhrzeit des Turnierstarts
+| period      | int               | Zwischen 0 und 60 Minuten                        | Dauer eines Spiels in Minuten
+| warm_up     | int               | Zwischen 0 und 60 Minuten                        | Aufwärmzeit am Anfang in Minuten
+| num_breaks  | int               | Mindestens 0                                    | Anzahl der Pausen im Turnier
+| break_length| Optional[List[int]]| Werte zwischen 1 und 60, Länge = num_breaks    | Längen der Pausen in Minuten
+| break_times | Optional[List[str]]| Format "HH:MM", Länge = num_breaks              | Uhrzeiten der Pausen
+| stage_name  | List[str]         | Besteht aus Strings                             | Namen der Leistungsgruppen
+| num_teams   | List[int]         | Besteht aus Integern                            | Teamanzahl je Leistungsgruppe
+|===
+
+==== Match
+
+[cols="1,1,2,3", options="header"]
+|===
+| Variabel    | Datentyp | validator Bedingung        | Beschreibung 
+| score_team1 | int      | Muss >= 0                  | Punkte von Team 1
+| score_team2 | int      | Muss >= 0                  | Punkte von Team 2
+| time_change | str      | Format "HH:MM"             | Uhrzeit der Ergebnisänderung
+|===
+
+==== TournamentPlan
+
+[cols="1,1,2,3", options="header"]
+|===
+| Variabel | Datentyp | validator Bedingung | Beschreibung 
+| Variabel     | Datentyp | validator Bedingung           | Beschreibung 
+| game_id      | int      | >= 1                         | Eindeutige Spielnummer
+| field_number | int      | 1 bis 5                      | Spielfeldnummer
+| team1_id     | int      | >= 0                        | ID von Team 1
+| team2_id     | int      | >= 0                        | ID von Team 2
+| referee_id   | int      | >= 0                        | ID des Schiedsrichters
+| team1        | str      | Muss ein String sein         | Bezeichnung Team 1 (Leistungsgruppe + Nummer)
+| team2        | str      | Muss ein String sein         | Bezeichnung Team 2
+| referee      | str      | Muss ein String sein         | Name des Schiedsrichters
+| stage_name   | str      | Muss ein String sein         | Leistungsgruppenname
+| score_team1  | int      | >= 0                        | Punkte Team 1
+| score_team2  | int      | >= 0                        | Punkte Team 2
+| time_of_game | str      | Format "HH:MM"               | Spielzeit
+|===
+
+==== TeamUpdate
+
+[cols="1,1,2,3", options="header"]
+|===
+| Variabel | Datentyp | validator Bedingung | Beschreibung 
+| team_id  | int      | Muss Integer sein      | Eindeutige Team-ID
+| new_name | str      | Muss String sein       | Neuer Teamname
+|===
+
+=== Database Request
+++++
+include::{htmlsdir}/database_request_py_documentation.html[]
+++++
 
 
+=== Server
+++++
+include::{htmlsdir}/server_py_documentation.html[]
+++++
+
+=== Turnierplangererator
+++++
+include::{htmlsdir}/turnierplangenerator_py_documentation.html[]
+++++
+
+=== Turnierüberarbeitung
+++++
+include{htmlsdir}/turnierueberarbeitung_py_documentation.html[]
+++++
+
+:sectnums:
 
 == Datenbank
 
