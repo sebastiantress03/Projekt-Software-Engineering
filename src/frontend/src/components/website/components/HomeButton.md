@@ -7,115 +7,132 @@
    - [TurnierAuswertung](#turnier-auswertung)
    - [TurnierPlan](#turnier-plan)
    - [VorherigeTurniere](#vorherige-turniere)
+   - [LoescheButton](#loeschebutton)
+   - [PreviousTournaments (Erweitert)](#previoustournaments-erweitert)
+   - [ExportButton](#exportbutton)
    - [TurnierErstellungsschritte](#turnier-erstellungsschritte)
 3. [API-Dokumentation](#api-dokumentation)
 4. [Styleguide](#styleguide)
 5. [Entwicklungsanleitung](#entwicklungsanleitung)
 
 
-## Systemübersicht <a name="system-uebersicht"></a>
-Eine umfassende Vue.js-Anwendung zur Verwaltung von Sportturnieren mit Funktionen für:
-- Turniererstellung und -konfiguration
-- Spielplanung
-- Ergebnisverfolgung und -auswertung
-- Teammanagement
+## 1. Systemübersicht <a name="system-uebersicht"></a>
 
-## Komponentendokumentation <a name="komponentendokumentation"></a>
+Das Turnierverwaltungssystem ist eine umfassende Anwendung, die speziell für die effiziente Organisation und Durchführung von Sportturnieren konzipiert wurde. Es bietet eine intuitive Benutzeroberfläche, die auf dem modernen JavaScript-Framework Vue.js basiert, und interagiert mit einem robusten Backend, um alle Aspekte der Turnierverwaltung abzudecken. Die Kernfunktionen des Systems umfassen:
 
-### TurnierErstellen <a name="turnier-erstellen"></a>
-**Datei:** `/views/CreateTournament.vue`  
-**Zweck:** Komplette Oberfläche zur Turniererstellung
+*   **Turniererstellung und -konfiguration**: Ermöglicht Benutzern die Definition detaillierter Turnierparameter, einschließlich Turniername, Anzahl der Spielfelder, Rückspiele, Startzeiten, Spiel- und Aufwärmzeiten sowie Pausenkonfigurationen. Dies gewährleistet eine flexible Anpassung an verschiedene Turnierformate.
+*   **Spielplanung**: Automatisiert die Erstellung von Spielplänen basierend auf den eingegebenen Turnierdaten. Der Spielplan berücksichtigt die Anzahl der Teams pro Gruppe und die Verfügbarkeit der Spielfelder, um eine faire und effiziente Spielabfolge zu gewährleisten.
+*   **Ergebnisverfolgung und -auswertung**: Bietet Funktionen zur Echtzeit-Erfassung von Spielergebnissen und zur automatischen Berechnung von Tabellenständen. Die Auswertung umfasst detaillierte Statistiken wie Siege, Niederlagen, Punkte, Gegentore und Tordifferenzen, die eine transparente Leistungsübersicht ermöglichen.
+*   **Teammanagement**: Unterstützt die Verwaltung von Teams innerhalb der Gruppen, einschließlich der Zuweisung von Teamnamen und der Festlegung der Teamanzahl pro Gruppe. Dies erleichtert die Strukturierung des Turniers und die Organisation der Teilnehmer.
+*   **Historische Turnierdaten**: Ermöglicht den Zugriff auf und die Anzeige von zuvor gespeicherten Turnieren, was eine Nachverfolgung und Analyse vergangener Veranstaltungen ermöglicht. Benutzer können frühere Turnierpläne einsehen und bei Bedarf exportieren.
+
+Das System ist modular aufgebaut, wobei das Frontend für die Benutzerinteraktion und das Backend für die Datenverarbeitung und -speicherung zuständig ist. Diese Trennung sorgt für Skalierbarkeit und Wartbarkeit der Anwendung.
+
+
+
+
+## 2. Komponentendokumentation <a name="komponentendokumentation"></a>
+
+Dieser Abschnitt beschreibt die zentralen Vue.js-Komponenten, aus denen die Benutzeroberfläche des Turnierverwaltungssystems aufgebaut ist. Jede Komponente ist so konzipiert, dass sie eine spezifische Funktionalität kapselt, was die Wiederverwendbarkeit und Wartbarkeit des Codes verbessert.
+
+### 2.1. TurnierErstellen <a name="turnier-erstellen"></a>
+
+Die Komponente `TurnierErstellen` stellt die zentrale Benutzeroberfläche zur Erfassung aller notwendigen Parameter für die Erstellung eines neuen Turniers dar. Sie ist als formularbasierte Ansicht implementiert, die eine intuitive und geführte Dateneingabe ermöglicht.
 
 #### Datenstruktur
+
+Die Komponente verwaltet die folgenden Datenfelder, die für die Konfiguration eines Turniers erforderlich sind:
+
 ```javascript
 {
-  tournament_name: "",       // Pflichtfeld
-  number_of_fields: 1,       // Minimum: 1
-  return_match: "true",      // "true" oder "false"
-  time_to_start: "09:00",    // Format: HH:mm
-  game_time: 10,             // Minuten
-  warm_up_time: 5,           // Minuten
-  number_of_breaks: 1,       // Anzahl Pausen
-  break_length: [5],         // Minuten pro Pause
-  break_times: [""],         // Startzeiten (HH:mm)
-  stage_name: ["Gruppe A"],  // Gruppennamen
-  number_of_teams: [4]       // Teams pro Gruppe
+  tournament_name: "",       // (String) Name des Turniers (Pflichtfeld)
+  number_of_fields: 1,       // (Number) Anzahl der verfügbaren Spielfelder (Minimum: 1)
+  return_match: "true",      // (String) Gibt an, ob Rückspiele stattfinden sollen ("true" oder "false")
+  time_to_start: "09:00",    // (String) Startzeit des Turniers im Format HH:mm
+  game_time: 10,             // (Number) Dauer eines Spiels in Minuten
+  warm_up_time: 5,           // (Number) Aufwärmzeit vor jedem Spiel in Minuten
+  number_of_breaks: 1,       // (Number) Anzahl der geplanten Pausen
+  break_length: [5],         // (Array<Number>) Dauer jeder Pause in Minuten
+  break_times: [""],         // (Array<String>) Startzeiten der Pausen im Format HH:mm
+  stage_name: ["Gruppe A"],  // (Array<String>) Namen der einzelnen Gruppen oder Phasen
+  number_of_teams: [4]       // (Array<Number>) Anzahl der Teams in jeder Gruppe
 }
 ```
-### Methoden
 
-| Methode | Parameter | Beschreibung |
-|---------|-----------|--------------|
-| `updateStages` | Keine | Aktualisiert die Gruppenliste bei Änderung der Gruppenanzahl |
-| `updateBreaks` | Keine | Aktualisiert die Pausenliste bei Änderung der Pausenanzahl |
-| `submit` | Keine | Validiert das Formular und gibt die Daten in der Konsole aus ||
+#### Methoden
 
+| Methode        | Parameter | Beschreibung                                                                                                |
+| :------------- | :-------- | :---------------------------------------------------------------------------------------------------------- |
+| `updateStages` | Keine     | Aktualisiert dynamisch die Liste der Gruppenfelder basierend auf der angegebenen Anzahl der Gruppen.          |
+| `updateBreaks` | Keine     | Aktualisiert dynamisch die Liste der Pausenfelder basierend auf der angegebenen Anzahl der Pausen.            |
+| `submit`       | Keine     | Führt eine Validierung der Formulardaten durch und sendet die Konfiguration an das Backend zur Verarbeitung. |
 
-### TurnierAuswertung <a name="turnier-auswertung"></a>
-**Datei:** `/views/Evaluation.vue`  
-**Zweck:** Zeigt Turnierergebnisse und Gewinner an
+### 2.2. TurnierAuswertung <a name="turnier-auswertung"></a>
+
+Diese Komponente ist für die Visualisierung der Turnierergebnisse und die Ermittlung der Gewinner zuständig. Sie bietet eine übersichtliche Darstellung der Tabellenstände und ermöglicht es den Benutzern, die Ergebnisse nach Gruppen zu filtern.
 
 #### Dynamische Eigenschaften
-| Eigenschaft | Typ | Beschreibung |
-|-------------|-----|--------------|
-| `selectedGroup` | String | Aktuell ausgewählte Gruppe |
-| `winners` | Computed<String[]> | Liste der Gewinner für die ausgewählte Gruppe |
-| `results` | Computed<Object[]> | Spielergebnisse für die ausgewählte Gruppe |
+
+| Eigenschaft     | Typ                | Beschreibung                                                                                             |
+| :-------------- | :----------------- | :------------------------------------------------------------------------------------------------------- |
+| `selectedGroup` | `String`           | Speichert die aktuell vom Benutzer ausgewählte Gruppe, um die angezeigten Ergebnisse zu filtern.         |
+| `winners`       | `Computed<String[]>` | Eine berechnete Eigenschaft, die eine Liste der Gewinner für die aktuell ausgewählte Gruppe zurückgibt. |
+| `results`       | `Computed<Object[]>` | Eine berechnete Eigenschaft, die die detaillierten Spielergebnisse für die ausgewählte Gruppe enthält.   |
 
 #### Testdatenstruktur
+
+Die Komponente erwartet eine Datenstruktur, die die Ergebnisse pro Gruppe organisiert:
+
 ```javascript
 {
-  [gruppenName]: {
-    winners: ["Team Alpha", "Team Beta"],
-    results: [
+  "[gruppenName]": {
+    "winners": ["Team Alpha", "Team Beta"],
+    "results": [
       {
-        platz: 1,           // Position
-        team: "Team Alpha", // Teamname
-        s: 10,              // Siege
-        n: 1,               // Niederlagen
-        p: 130,             // Punkte
-        g: 90,              // Gegentore
-        diff: 40            // Tordifferenz
+        "platz": 1,           // (Number) Endplatzierung des Teams
+        "team": "Team Alpha", // (String) Name des Teams
+        "s": 10,              // (Number) Anzahl der Siege
+        "n": 1,               // (Number) Anzahl der Niederlagen
+        "p": 130,             // (Number) Gesamtpunktzahl
+        "g": 90,              // (Number) Anzahl der Gegentore
+        "diff": 40            // (Number) Tordifferenz
       }
     ]
   }
 }
 ```
 
-## TurnierPlan <a name="turnierplan"></a>
-**Datei:** `/views/TournamentPlan.vue`  
-**Zweck:** Anzeige des Spielplans und Ergebnis-Eingabe
+### 2.3. TurnierPlan <a name="turnier-plan"></a>
 
-### Hauptfunktionen
-- Interaktive Spielkarten mit Teaminformationen
-- Ergebnis-Eingabe über Modal-Popup
-- Teamauswahl-Dropdown
-- Visuelle Gruppierung nach Spielfeldern
+Die Ansicht `TurnierPlan` ist das Herzstück der interaktiven Turnierverwaltung. Sie visualisiert den gesamten Spielplan und ermöglicht die Eingabe von Spielergebnissen in Echtzeit.
 
-### API-Integration
-```javascript
-// Turnierdaten laden
-GET /tournaments/:id
+#### Hauptfunktionen
 
-// Spielergebnis aktualisieren
-PUT /tournaments/match_plan/match/:gameID
-```
+*   **Interaktive Spielkarten**: Jedes Spiel wird als eine Karte dargestellt, die wichtige Informationen wie die beteiligten Teams, die geplante Startzeit und das Spielfeld anzeigt.
+*   **Ergebniseingabe**: Durch Klicken auf eine Spielkarte öffnet sich ein modales Fenster, in dem die Ergebnisse für das jeweilige Spiel eingegeben und gespeichert werden können.
+*   **Team-Filterung**: Ein Dropdown-Menü ermöglicht die Filterung des Spielplans nach einem bestimmten Team, um dessen Spiele schnell zu finden.
+*   **Visuelle Gruppierung**: Die Spiele sind visuell nach den Spielfeldern gruppiert, auf denen sie stattfinden, was eine klare und intuitive Übersicht schafft.
 
+#### API-Integration
 
-## VorherigeTurniere <a name="vorherige-turniere"></a>
-**Datei:** `/views/PreviousTournaments.vue`  
-**Zweck:** Anzeige gespeicherter Turniere
+| Methode | Endpunkt                          | Beschreibung                                      |
+| :------ | :-------------------------------- | :------------------------------------------------ |
+| `GET`   | `/tournaments/:id`                | Lädt die detaillierten Daten eines Turniers.      |
+| `PUT`   | `/tournaments/match_plan/match/:gameID` | Aktualisiert das Ergebnis eines bestimmten Spiels. |
 
-### Datenfluss
-| Schritt | Aktion |
-|---------|--------|
-| 1 | Lädt Turnierliste von der API |
-| 2 | Zeigt sie als interaktive Buttons an |
-| 3 | Bei Auswahl Navigation zur TurnierPlan-Ansicht |
+### 2.4. VorherigeTurniere <a name="vorherige-turniere"></a>
 
-## LoescheButton  
-**Datei:** `/components/LoescheButton.vue`  
-**Zweck:** Generischer Löschbutton-Komponente für einzelne Elemente (z. B. Turniere)
+Diese Komponente bietet eine Übersicht über alle in der Vergangenheit erstellten und gespeicherten Turniere. Sie dient als Archiv und ermöglicht den schnellen Zugriff auf historische Daten.
+
+#### Datenfluss
+
+1.  **Laden der Turnierliste**: Beim Laden der Komponente wird eine Anfrage an die API gesendet, um eine Liste aller gespeicherten Turniere abzurufen.
+2.  **Anzeige als Buttons**: Jedes Turnier wird als ein klickbarer Button dargestellt, der den Namen des Turniers anzeigt.
+3.  **Navigation zum Turnierplan**: Bei Auswahl eines Turniers wird der Benutzer zur `TurnierPlan`-Ansicht weitergeleitet, die den detaillierten Spielplan des ausgewählten Turniers anzeigt.
+
+### 2.5. LoescheButton <a name="loeschebutton"></a>
+
+Der `LoescheButton` ist eine generische und wiederverwendbare Komponente, die eine standardisierte Funktionalität zum Löschen von Elementen bereitstellt. Sie kann für das Löschen von Turnieren, Teams oder anderen Entitäten verwendet werden.
 
 ```vue
 <template>
@@ -136,14 +153,14 @@ export default {
   emits: ["deleted"],
   methods: {
     async handleDelete() {
-      const confirmed = confirm("Bist du sicher, dass du dieses Element löschen möchtest?");
+      const confirmed = confirm("Sind Sie sicher, dass Sie dieses Element löschen möchten?");
       if (!confirmed) return;
       try {
         await axios.delete(`${import.meta.env.VITE_API_URL}${this.endpoint}/${this.id}`);
         this.$emit("deleted", this.id);
       } catch (error) {
         console.error("Fehler beim Löschen:", error);
-        alert("Löschen fehlgeschlagen.");
+        alert("Das Löschen ist fehlgeschlagen.");
       }
     }
   }
@@ -166,101 +183,79 @@ export default {
 </style>
 ```
 
----
+### 2.6. PreviousTournaments (Erweitert) <a name="previoustournaments-erweitert"></a>
 
-## PreviousTournaments  
-**Datei:** `/views/PreviousTournaments.vue`  
-**Zweck:** Anzeige und Verwaltung (Anzeigen, Laden, Löschen einzelner oder mehrerer Turniere)
+Die erweiterte Version der `PreviousTournaments`-Ansicht integriert eine Auswahl- und Löschlogik, die es Benutzern ermöglicht, mehrere Turniere gleichzeitig zu verwalten.
 
-### Erweiterung inkl. Selektion & Löschlogik
+#### Erweiterungen
 
-- **Komponenten-Import:**
+*   **Komponenten-Import**: Importiert den `LoescheButton` für die Löschfunktionalität.
+*   **Template-Anpassungen**: Das Template wurde um einen Löschmodus erweitert, der die Auswahl einzelner Turniere über Checkboxen ermöglicht. Zusätzliche Buttons für "Löschen", "Abbrechen" und "Alle löschen" wurden hinzugefügt.
+*   **Methoden für Auswahl & Löschung**: Neue Methoden wie `enableSelectMode`, `cancelSelection`, `confirmDeleteSelected`, `confirmDeleteAll` und `deleteTournaments` wurden implementiert, um die Auswahl- und Löschlogik zu steuern.
 
-```js
-import LoescheButton from "@/components/LoescheButton.vue";
-```
+#### API-Integration
 
-- **Template ergänzt:**  
-  - Löschmodus aktivieren  
-  - Auswahl einzelner Turniere  
-  - Buttons: Löschen, Abbrechen, Alle löschen
+| Methode | Endpunkt                        | Beschreibung                               |
+| :------ | :------------------------------ | :----------------------------------------- |
+| `DELETE`| `/tournaments/{id}`             | Löscht ein einzelnes, spezifisches Turnier. |
+| `DELETE`| `/tournaments/delete_plan/{id}` | Löscht den Spielplan eines Turniers.       |
 
-- **Methoden für Auswahl & Löschung:**
+### 2.7. ExportButton <a name="exportbutton"></a>
 
-```js
-enableSelectMode() { ... }
-cancelSelection() { ... }
-confirmDeleteSelected() { ... }
-confirmDeleteAll() { ... }
+Diese Komponente ermöglicht den Export von Turnier- und Spielplandaten in das CSV-Format, um eine externe Weiterverarbeitung und Analyse zu ermöglichen.
 
-async deleteTournaments(ids) { ... }
-```
+#### Funktionalitäten
 
-- **Axios-Abfragen im Backend:**
+*   **Export-Dialog**: Öffnet ein Dialogfenster, in dem Benutzer die zu exportierenden Turniere auswählen können. Der Dialog zeigt auch die Gesamtzahl der Spiele an, die exportiert werden.
+*   **Methoden**: Beinhaltet Methoden wie `openExportDialog`, `fetchTournaments`, `onTournamentSelect` und `exportToCSV`, um den Exportprozess zu steuern.
 
-```http
-DELETE /tournaments/{id}
-DELETE /tournaments/delete_plan/{id}
-```
+#### CSV-Struktur
 
-## ExportButton  
-**Datei:** `/views/ExportButton.vue`  
-**Zweck:** Exportiert Turnier- und Spielplandaten als CSV
+Die exportierte CSV-Datei hat die folgende Spaltenstruktur:
 
-### Funktionalitäten:
+`Spiel ID;Gruppe;Team A;Team B;Ergebnis;Schiedsrichter;Feld;Startzeit`
 
-- Öffnet ein Dialogfenster mit:
-  - Auswahl von Turnieren  
-  - Anzeige der Spielanzahl  
-  - Export-Button
+### 2.8. TurnierErstellungsschritte <a name="turnier-erstellungsschritte"></a>
 
-- **Methoden:**
+Der Prozess der Turniererstellung ist in zwei logische Schritte unterteilt, um die Benutzerfreundlichkeit zu verbessern und die Komplexität zu reduzieren.
 
-```js
-async openExportDialog() { ... }
-async fetchTournaments() { ... }
-async onTournamentSelect() { ... }
-async exportToCSV() { ... }
-```
+#### Schritt 1 (`/views/TournamentStep1.vue`)
 
-- **CSV-Struktur:**
+*   **Funktion**: Erfasst die grundlegenden Turnierkonfigurationen.
+*   **Validierungsregeln**: Stellt sicher, dass der Turniername ausgefüllt ist, alle numerischen Werte positiv sind und die Zeitformate korrekt eingegeben werden.
 
-```
-Spiel ID;Gruppe;Team A;Team B;Ergebnis;Schiedsrichter;Feld;Startzeit
-```
+#### Schritt 2 (`/views/TournamentStep2.vue`)
 
----
+*   **Funktion**: Ermöglicht die detaillierte Konfiguration von Gruppen und Pausen.
+*   **Validierungsregeln**: Stellt sicher, dass Gruppennamen vorhanden sind, jede Gruppe mindestens zwei Teams hat und die Pausendauern gültig sind.
 
 
-## TurnierErstellungsschritte <a name="turnier-erstellungsschritte"></a>
 
-### Schritt 1 (`/views/TournamentStep1.vue`)
-| Funktion | Validierungsregeln |
-|----------|--------------------|
-| Grundlegende Turnierkonfiguration | - Turniername erforderlich<br>- Positive numerische Werte<br>- Gültige Zeitformate |
 
-### Schritt 2 (`/views/TournamentStep2.vue`)
-| Funktion | Validierungsregeln |
-|----------|--------------------|
-| Detaillierte Gruppen- und Pausenkonfiguration | - Gruppennamen erforderlich<br>- Mind. 2 Teams/Gruppe<br>- Gültige Pausendauern |
+## 3. API-Dokumentation <a name="api-dokumentation"></a>
 
-## API-Dokumentation <a name="api-dokumentation"></a>
+Die API (Application Programming Interface) dient als Schnittstelle zwischen dem Frontend und dem Backend des Turnierverwaltungssystems. Sie ermöglicht den Datenaustausch und die Ausführung von serverseitigen Operationen. Die API ist nach den Prinzipien von REST (Representational State Transfer) gestaltet und verwendet das JSON-Format für den Datenaustausch.
 
-### Endpunkte
+### 3.1. Endpunkte
 
-| Endpunkt               | Methode | Beschreibung                   | Parameter         |
-|------------------------|---------|--------------------------------|-------------------|
-| `/tournaments/`        | GET     | Liste aller Turniere           | Keine            |
-| `/tournaments/:id`     | GET     | Turnierdetails abrufen         | `id`             |
-| `/tournament/`         | POST    | Neues Turnier erstellen        | Turnier-Objekt   |
-| `/match/:gameID`       | PUT     | Spielergebnis aktualisieren    | Ergebnis-Objekt  |
+Die folgende Tabelle listet die verfügbaren API-Endpunkte, die unterstützten HTTP-Methoden und deren jeweilige Funktionen auf:
 
-### Anfrage-/Antwort-Beispiele
+| Endpunkt                  | Methode | Beschreibung                                         | Parameter         |
+| :------------------------ | :------ | :--------------------------------------------------- | :---------------- |
+| `/tournaments/`           | `GET`   | Ruft eine Liste aller verfügbaren Turniere ab.         | Keine             |
+| `/tournaments/:id`        | `GET`   | Ruft die detaillierten Informationen eines spezifischen Turniers ab. | `id` (Pfad)       |
+| `/tournament/`            | `POST`  | Erstellt ein neues Turnier basierend auf den übergebenen Daten. | Turnier-Objekt (Body) |
+| `/match/:gameID`          | `PUT`   | Aktualisiert das Ergebnis eines bestimmten Spiels.     | Ergebnis-Objekt (Body) |
+| `/tournaments/:id`        | `DELETE`| Löscht ein spezifisches Turnier.                      | `id` (Pfad)       |
+| `/tournaments/:id/export` | `GET`   | Exportiert die Daten eines Turniers im CSV-Format.   | `format=csv` (Query) |
 
-**Turnier erstellen (POST /tournament/)**
+### 3.2. Anfrage- und Antwortbeispiele
 
-```javascript
-// Anfrage
+#### Turnier erstellen (`POST /tournament/`)
+
+**Anfrage-Body:**
+
+```json
 {
   "name": "Winterturnier",
   "num_fields": 2,
@@ -275,76 +270,33 @@ Spiel ID;Gruppe;Team A;Team B;Ergebnis;Schiedsrichter;Feld;Startzeit
   "stage_name": ["Gruppe A", "Gruppe B"],
   "num_teams": [4, 4]
 }
+```
 
-// Antwort
+**Antwort-Body (Erfolg):**
+
+```json
 {
   "status": "erfolg",
   "tournament_id": 123
 }
 ```
 
-## Styleguide <a name="styleguide"></a>
 
-### Design-System
+
+## 4. Styleguide <a name="styleguide"></a>
+
+Der Styleguide definiert die visuellen und gestalterischen Richtlinien für die Frontend-Entwicklung. Er stellt sicher, dass die Benutzeroberfläche ein konsistentes und ansprechendes Erscheinungsbild aufweist.
+
+### 4.1. Design-System
 
 #### Farbpalette
-- **Primär:** `#004d40` (Dunkles Petrol)
-- **Sekundär:** `#00796b` (Mittleres Petrol)
-- **Akzent:** `#26a69a` (Helles Petrol)
+
+*   **Primärfarbe**: `#004d40` (Dunkles Petrol) - Wird für Hauptelemente wie Header und wichtige Buttons verwendet.
+*   **Sekundärfarbe**: `#00796b` (Mittleres Petrol) - Wird für sekundäre Elemente und Hover-Effekte eingesetzt.
+*   **Akzentfarbe**: `#26a69a` (Helles Petrol) - Dient zur Hervorhebung von aktiven Elementen und für Call-to-Action-Buttons.
 
 #### Typografie
-- **Hauptschrift:** Segoe UI
-- **Fallback:** Arial, sans-serif
-- **Grundgröße:** 16px
-#
-### Wiederverwendbare Komponenten
 
-#### HomeButton
-**Eigenschaften:**
-| Name      | Typ     | Werte | Beschreibung|
-|-----------|---------|----------------------------|-------------|
-| `color`   | String  | `primary`, `secondary`     | Bestimmt die Button-Farbe  |
-| `size`    | String  | `small`, `medium`, `large` | Bestimmt die Button-Größe  |
-| `disabled`| Boolean | `true`, `false`            | Deaktiviert den Button     |
-#
-**Ereignisse:**
-| Name     | Beschreibung                          |
-|----------|---------------------------------------|
-| `click`  | Wird bei Button-Klick ausgelöst       |
-#
-#### FormField
-**Eigenschaften:**
-| Name         | Typ     | Beschreibung                          |
-|--------------|---------|---------------------------------------|
-| `label`      | String  | Beschriftung des Eingabefelds         |
-| `type`       | String  | `text`, `number`, `time` (Eingabetyp) |
-| `modelValue` | Variabel| Gebundener Wert des Eingabefelds      |
-#
-
-## Entwicklungsanleitung <a name="entwicklungsanleitung"></a>
-
-### Setup
-```bash
-# Abhängigkeiten installieren
-npm install
-
-# Entwicklungsserver starten
-npm run dev
-```
-```
-# Produktions-Build erstellen
-npm run build
-
-# Code-Linting und automatische Fehlerbehebung
-npm run lint
-```
-
-```
-# Unit-Tests ausführen
-npm run test:unit
-
-# End-to-End-Tests ausführen
-npm run test:e2e
-```
-
-
+*   **Hauptschriftart**: `Segoe UI` - Die bevorzugte Schriftart für alle Textelemente.
+*   **Fallback-Schriftart**: 
+(Content truncated due to size limit. Use line ranges to read in chunks)
