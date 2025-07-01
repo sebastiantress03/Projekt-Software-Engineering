@@ -19,6 +19,7 @@
 ifndef::imagesdir[:imagesdir: images]
 ifndef::diagramsdir[:diagramsdir: diagrams]
 ifndef::plantumlsdir[:plantumlsdir: plantuml]
+ifndef::htmlsdir[:htmlsdir: html]
 // Hyphenation for PDF dokumente
 :lang: DE
 :hyphens:
