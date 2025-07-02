@@ -968,6 +968,28 @@ def return_plan(fields: int, teams_per_group: List[int], start_time:str, match_d
 
 
 def create_html(schedule, fields):
+    """
+    Generiert eine HTML-Tabelle als String, die den Turnierplan übersichtlich darstellt.
+
+    Parameter:
+        - schedule (List[dict]): Liste von Spielplänen, wobei jedes Spiel ein Dictionary mit mindestens folgenden Schlüsseln ist:
+            - 'Uhrzeit' (str): Startzeit des Spiels
+            - 'Feld' (str): Spielfeldbezeichnung (z. B. "Field 1" oder "All Fields")
+            - 'Team 1' (str): Name des ersten Teams
+            - 'Team 2' (str): Name des zweiten Teams
+            - 'Match Type' (str): Spieltyp (z. B. "Hinspiel", "Rückspiel")
+            - 'Schiedsrichter' (str): Name des Schiedsrichters bzw. Schiedsrichter-Teams
+        - fields (int): Anzahl der Spielfelder, die im Plan dargestellt werden sollen
+
+    Rückgabe:
+        - html (str): Vollständiger HTML-String mit einer formatieren Tabelle, die den Turnierplan nach Uhrzeit und Feldern sortiert anzeigt.
+          Für jedes Spielfeld werden Spielpaarungen und zugehörige Schiedsrichter in getrennten Spalten dargestellt.
+
+    Besonderheiten:
+        - Spiele mit dem Feld "All Fields" werden als Pause oder Einspielzeit interpretiert und entsprechend für alle Felder dargestellt.
+        - Das erzeugte HTML beinhaltet grundlegendes Styling für bessere Lesbarkeit.
+    """
+    
     html = """
     <!DOCTYPE html>
     <html lang="en">
