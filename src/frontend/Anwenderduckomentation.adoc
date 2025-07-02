@@ -130,7 +130,7 @@ Alternativ können Sie auf **„Exportieren“** klicken:
 Der CSV-Export eignet sich zur Archivierung oder zur Weiterverarbeitung der Spiel- und Ergebnisdaten.
 ====
 
-== 7. Zurück zum Hauptmenü
+== 7. Zurück zur vorherigen Ansicht
 
 Mit einem Klick auf **„Zurück“** gelangen Sie jederzeit ins Vorherige Seite.
 
