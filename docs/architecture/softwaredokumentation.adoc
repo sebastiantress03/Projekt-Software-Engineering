@@ -11,6 +11,7 @@ entsprechenden Funktionen und Methoden kommentiert.
 
 == Frontend
 
+// html links mit Bildern austauschen
 ++++
 include::{htmlsdir}/Frontend_Documentation_Components.html[]
 ++++
@@ -194,28 +195,59 @@ include::{htmlsdir}/backend_py_documentation.html[]
 | new_name | str      | Muss String sein       | Neuer Teamname
 |===
 
-=== Database Request
-++++
-include::{htmlsdir}/database_request_py_documentation.html[]
-++++
+:sectnums:
 
+=== Database Request
+//++++
+//include::{htmlsdir}/database_request_py_documentation.html[]
+//++++
+image::database_requests_insert_tournament.png[]
+image::database_requests_insert_stages.png[]
+image::database_requests_get_tournament_id.png[]
+image::database_requests_insert_tournament_data.png[]
+image::database_requests_get_existing_tournaments.png[]
+image::database_requests_get_tournament_plan.png[]
+image::database_requests_get_matches.png[]
+image::database_requests_change_results.png[]
+image::database_requests_get_match_changes.png[]
+image::database_requests_change_team_name.png[]
+image::database_requests_delete_tournament.png[]
 
 === Server
-++++
-include::{htmlsdir}/server_py_documentation.html[]
-++++
+//++++
+//include::{htmlsdir}/server_py_documentation.html[]
+//++++
+image::server_initializing_database.png[]
+image::server_query.png[]
+image::server_query.png[]
 
 === Turnierplangererator
-++++
-include::{htmlsdir}/turnierplangenerator_py_documentation.html[]
-++++
+//++++
+//include::{htmlsdir}/turnierplangenerator_py_documentation.html[]
+//++++
+image::turnierplangenerator_calculate_waiting_time.png[]
+image::turnierplangenerator_assign_fields_to_groups.png[]
+image::turnierplangenerator_create_tournament_plan.png[]
+image::turnierplangenerator_insert_pauses.png[]
+//image::turnierplangenerator_return_plan.png[]
+// return plan fehlt
 
 === Turnierüberarbeitung
-++++
-include{htmlsdir}/turnierueberarbeitung_py_documentation.html[]
-++++
-
-:sectnums:
+//++++
+//include{htmlsdir}/turnierueberarbeitung_py_documentation.html[]
+//++++
+image::turnierueberarbeitung_extrahiere_zeiten.png[]
+image::turnierueberarbeitung_initialisiere_status_lists.png[]
+image::turnierueberarbeitung_slot_index.png[]
+image::turnierueberarbeitung_baue_status_lists.png[]
+image::turnierueberarbeitung_sortiere_schedule.png[]
+image::turnierueberarbeitung_drucke_schedule.png[]
+image::turnierueberarbeitung_aufruf_tournament.png[]
+image::turnierueberarbeitung_get_statusverlaufe.png[]
+image::turnierueberarbeitung_analysiere_verlauf.png[]
+image::turnierueberarbeitung_main.png[]
+image::turnierueberarbeitung_show_bestplan.png[]
+image::turnierueberarbeitung_rekonstruiere_teams.png[]
 
 == Datenbank
 
