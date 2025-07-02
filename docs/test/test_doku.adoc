@@ -3,12 +3,12 @@ Oliver Theumer <s86407@htw-dresden.de>; [weitere Teammitglieder]
 {localdatetime}
 include::../_includes/default-attributes.inc.adoc[]
 
-== 1. Allgemeine Informationen
+== Allgemeine Informationen
 
-=== 1.1 Ziel
+=== Ziel
 Ziel dieser Testdokumentation ist es, die Qualität der Turnierorganisationssoftware systematisch nachzuweisen sowie die zugrundeliegenden Testkonzepte und -strukturen nachvollziehbar zu dokumentieren.
 
-=== 1.2 Testkonzept
+=== Testkonzept
 
 *Was wurde getestet?* 
 
@@ -40,12 +40,12 @@ Die Tests wurden entlang des Entwicklungsprozesses iterativ durchgeführt:
 
 Die Verantwortung für die Testdurchführung lag beim gesamten Team.
 
-=== 1.3 Testorganisation
+=== Testorganisation
 Die Testfälle wurden in strukturierter Form dokumentiert, wobei jedem Test eine eindeutige ID zugeordnet wurde. Die Tests wurden sowohl manuell über die Benutzeroberfläche als auch automatisiert über Testskripte durchgeführt. Falls fehler aufgetreten sind, wurden die Work-Items oder User-Stories nicht geschlossen, sondern angepasst und von in Review zurück zu ToDo geändert.
 
 
 
-== 2. Algorithmus: Manuelle Testfälle
+== Algorithmus: Manuelle Testfälle
 
 Hier werden Tests auf Grundlage von realen Turnierbeispielen durchgeführt, um die Logik zur Spielplanerstellung (z. B. mit Schiedsrichtern, Pausenverteilung, Gruppen etc.) zu validieren. Hier wurde fortlaufend getestet, allerdings nur die Vorlage überarbeitet und das Datum aktualisiert. Aufgrund von gehäuften Fehlerfällen und einem hohen Aufwand, die Rahmenbedingungen zu prüfen, sind wir auf Unittests im weiteren Verlauf umgestiegen. 
 
@@ -747,11 +747,27 @@ Tests zur Bedienoberfläche, Eingabefunktionalität, Speicherung und Ergebnisanz
 | **Anmerkungen**        | Filter für alle Teams ergänzt, andere Funktionalitäten sind weiterhin nutzbar 
 |===
 
-== 5. Schnittstellentests
+=== SYS-M-09 – Funktionstest für die gleichzeitige Verarbeitung von Ergebnisänderungen
+
+[cols="1,5"]
+|===
+| **Beschreibung**       | Wir wollten testen, ob alles sicher läuft, wenn mehrere Personen gleichzeitig eine Ergebnisänderung speichern
+| **Datum**              | 26.06.2025
+| **Vorbedingungen**     | Es muss ein Turnier angelegt sein + alle müssen online sein 
+| **Schritte**           | 
+Alle haben sich ein Spiel ausgewählt, in dem sie ein Spielstand ändern wollen. Dann drücken alle gleichzeitig auf den Speichern-Button im Eingabefeld
+| **Erwartetes Ergebnis**| Es treten keine Fehler auf. Es sollte eine sofortige Sychronisation stattfinden, sodass man auch alle anderen geänderten Spielstände sofort sieht. 
+| **Tatsächliches Ergebnis** | OK
+| **Anmerkungen**        | keine Fehler gefunden, es wurde alles synchronisiert. Wir waren 6 Leute. 
+|===
+
+
+
+== Schnittstellentests
 
 Integration von Frontend, API und Datenbank. Hier wird geprüft, ob die API korrekt reagiert und das Frontend die Daten korrekt darstellt.
 
 
 
-== 6. Zusammenfassung
+== Zusammenfassung
 
