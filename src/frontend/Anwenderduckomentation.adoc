@@ -9,7 +9,7 @@ Diese Dokumentation führt Sie Schritt für Schritt durch die Bedienung der Turn
 
 == 1. Hauptmenü
 
-image::./Hauptmenu.png[alt="Hauptmenü", width=600]
+image::./Screenshot 2025-07-02 225006.png[][alt="Hauptmenü", width=600]
 
 *Anleitung:*
 
@@ -23,7 +23,7 @@ Das Hauptmenü ist Ihr Startpunkt für alle Funktionen.
 
 == 2. Turnierkonfiguration
 
-image::./Screenshot 2025-06-30 013752.png[][alt="Turnierkonfiguration", width=600]
+image::./Screenshot 2025-07-02 224313.png[][alt="Turnierkonfiguration", width=600]
 
 .Schritte:
 
@@ -39,7 +39,7 @@ Die Spielzeit sollte realistisch geplant werden (empfohlen: 10–15 Minuten pro 
 
 == 3. Gruppen einrichten
 
-image::./Screenshot 2025-06-30 013836.png[][alt="Gruppenkonfiguration", width=600]
+image::./Screenshot 2025-07-02 224518.png[][alt="Gruppenkonfiguration", width=600]
 
 |===
 | Gruppenname | Name der Spielgruppe (z. B. "Stura")
@@ -53,12 +53,13 @@ Nach der Dateneingabe gelangen Sie zurück zum Hauptmenü, wo Sie über *„Turn
 
 == 4. Turnierplan anzeigen
 
-image::./Screenshot 2025-06-30 172238.png[alt="Turnierplan", width=600]
+image::./Screenshot 2025-07-02 225107.png[][alt="Turnierplan", width=600]
+
 
 Wenn sich der Benutzer im Hauptmenü befindet, kann er auf **„Turnierplan laden“** klicken. Es öffnet sich ein Fenster, in dem alle zuvor erstellten Turniere angezeigt werden.
 
 === Turnier löschen
-image::Screenshot 2025-06-30 172103.png[alt="Löschfunktion", width=600]
+image::./Screenshot 2025-07-02 225909.png[][alt="Löschfunktion", width=600]
 
 In der Turnierauswahlansicht stehen folgende Löschfunktionen zur Verfügung:
 
@@ -69,7 +70,7 @@ In der Turnierauswahlansicht stehen folgende Löschfunktionen zur Verfügung:
 Diese Funktionen helfen beim Aufräumen und Verwalten alter Daten.
 
 == 5. Turnier auswählen und laden
-image::Screenshot 2025-06-30 014006.png[alt="Turnierplan", width=600]
+image::./Screenshot 2025-07-02 225451.png[][][alt="Turnierplan", width=600]
 - Der Benutzer kann ein beliebiges Turnier aus der Liste auswählen
 - Nach der Auswahl wird der entsprechende Turnierplan angezeigt
 - Die Ansicht zeigt:
@@ -78,8 +79,10 @@ image::Screenshot 2025-06-30 014006.png[alt="Turnierplan", width=600]
     - Feldzuweisungen
     - Ergebnisse (initial 0:0)
 
+image::./Screenshot 2025-07-02 230153.png[][alt="Turnierplan", width=600]
+
 === Ergebnisse eintragen
-image::Screenshot 2025-06-30 014036.png[alt="Ergebniss eintragen", width=600]
+image::./image.png[][alt="Ergebniss eintragen", width=600]
 Sobald ein Turnier geladen wurde:
 
 - Klicken Sie auf ein Spiel im Turnierplan
@@ -101,7 +104,7 @@ Nach der Ergebniseintragung können Sie zwischen zwei Aktionen wählen:
 
 Klicken Sie auf **„Auswerten“**, um zur Auswertungsansicht zu wechseln.
 
-image::./Screenshot 2025-06-30 014132.png[][alt="Turnierauswertung", width=600]
+image::./Screenshot 2025-07-02 231141.png[][alt="Turnierauswertung", width=600]
 
 *Funktionen der Auswertung:*
 
@@ -113,8 +116,10 @@ image::./Screenshot 2025-06-30 014132.png[][alt="Turnierauswertung", width=600]
 - Anzeige der Gewinner*innen
 
 === Turnierplan exportieren
-image::Screenshot 2025-06-30 014101.png[alt="Exportfunktion", width=600]
+image::./Screenshot 2025-07-02 231300.png[][alt="Exportfunktion", width=600]
 
+image::./Screenshot 2025-07-02 231815.png[][alt="Exportfunktion", width=600]
+image::./Screenshot 2025-07-02 231931.png[][alt="Exportfunktion", width=600]
 Alternativ können Sie auf **„Exportieren“** klicken:
 
 1. Wählen Sie den zu exportierenden Turnierplan
@@ -127,5 +132,10 @@ Der CSV-Export eignet sich zur Archivierung oder zur Weiterverarbeitung der Spie
 
 == 7. Zurück zum Hauptmenü
 
-Mit einem Klick auf **„Zurück“** gelangen Sie jederzeit ins Hauptmenü, um neue Turniere zu erstellen, vorhandene zu laden oder Turnierpläne erneut zu bearbeiten.
+Mit einem Klick auf **„Zurück“** gelangen Sie jederzeit ins Vorherige Seite.
+
+== 8. Filterfunktion im Spielplan verwenden
+1. Klicken Sie auf das Filtersymbol (a)
+2. Wählen Sie z. B. Gruppe A aus
+3. Die Ansicht aktualisiert sich automatisch
 
