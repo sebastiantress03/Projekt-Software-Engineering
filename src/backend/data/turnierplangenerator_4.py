@@ -174,7 +174,6 @@ def create_tournament_plan(
     next_pause_time = current_time + timedelta(hours=pause_interval)
 
     def filter_least_played_matches(remaining_matches, team_status):
-
         """
         Filtert die verbleibenden Spiele und gibt die mit der geringsten Anzahl an bisherigen Spieleinsätzen der beteiligten Teams zurück.
 
@@ -906,6 +905,40 @@ if __name__ == '__main__':
 
 
 def return_plan(fields: int, teams_per_group: List[int], start_time:str, match_duration:int, round_trip:str, play_in_time:int, pause_length:List[int], pause_count:int, break_times:List[str], group_names:List):
+    """
+    Generiert einen Spielplan für ein Turnier auf Basis der gegebenen Parameter.
+
+    Parameter:
+        - fields (int): Anzahl der verfügbaren Spielfelder.
+        - teams_per_group (List[int]): Liste mit der Anzahl an Teams pro Gruppe.
+        - start_time (str): Startzeit des Turniers im Format "HH:MM".
+        - match_duration (int): Dauer eines Spiels in Minuten.
+        - round_trip (str): Gibt an, ob Hin- und Rückrunde gespielt wird.
+        - play_in_time (int): Zeit in Minuten für das Einspielen vor dem Spiel.
+        - pause_length (List[int]): Liste mit Pausenlängen.
+        - pause_count (int): Anzahl der Pausen, die während des Turniers gemacht werden sollen.
+        - break_times (List[str]): Liste geplanter Pausenzeiten im Format "HH:MM".
+        - group_names (List): Namen der Gruppen.
+
+    Rückgabe:
+        - schedule (List[dict]): Spielplan bestehend aus Spielen mit folgenden Schlüsseln:
+            - 'Spiel' (int): Spielnummer.
+            - 'Feld' (str): Bezeichnung des Spielfelds.
+            - 'Uhrzeit' (str): Startzeit des Spiels.
+            - 'Team 1' (str): Name des ersten Teams.
+            - 'Team 2' (str): Name des zweiten Teams.
+            - 'Schiedsrichter' (str): Name des Schiedsrichter-Teams.
+            - 'Gruppe' (str): Gruppenname.
+            - 'Ergebnis Team 1' (Optional[int]): Spielergebnis Team 1 (initial `None`).
+            - 'Ergebnis Team 2' (Optional[int]): Spielergebnis Team 2 (initial `None`).
+            - 'Match Type' (str): Typ des Spiels ("Hinspiel" oder "Rückspiel").
+
+    Hinweise:
+        - Die tatsächliche Planung erfolgt durch `create_tournament_plan(...)` und wird anschließend durch
+          `optimize_schedule(...)` optimiert.
+        - Die Teamnamen werden automatisch generiert ("FTeam_0", "STeam_1").
+    """
+
 
     pause_interval = 2
     team_names = []
