@@ -12,9 +12,9 @@ entsprechenden Funktionen und Methoden kommentiert.
 == Frontend
 
 // html links mit Bildern austauschen
-++++
-include::{htmlsdir}/Frontend_Documentation_Components.html[]
-++++
+//++++
+//include::{htmlsdir}/Frontend_Documentation_Components.html[]
+//++++
 
 == Backend
 
@@ -47,7 +47,7 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. ht
 | `/tournaments/` | Lade existierende Turniernamen aus der Datenbank. | `get_tournaments()`
 | `/tournaments/{tournamentID}` | Übermittelt existierenden Turnierplan aus der Datenbank, indem die TurnierID, als String, des Turniers das geladen werden soll mit übergeben wird. | `get_match_plan(tournamentID: str)`
 | `/tournaments/match_plan/{matchID}` | Holt aktuelle Spielstand aus der Datenbank mittels der übergabe der SpielID als String. |  `get_match(matchID: str)`
-| `/tournaments/match_plan/match_changes/{matchID}` | Holt alle Änderungen, die an einem Spiel vorgenommen wurden, anhand der übergebenen Spiel-ID als String. | `get_match_result_changes(matchID: str)`
+| `/tournaments/match_plan/match_changes/{matchID}` | Holt alle Änderungen, die an einem Spiel vorgenommen wurden, anhand der übergebenen SpielID als String. | `get_match_result_changes(matchID: str)`
 |===
 
 ==== PUT-Endpunkte
@@ -91,7 +91,7 @@ def get_tournaments():
     Rückgabewert:
         - JSON-Objekt mit dem Schlüssel "tournaments":
             - Eine Liste von Turnieren mit je:
-                - "id" (int): Turnier-ID
+                - "id" (int): Turnier ID
                 - "name" (str): Name des Turniers
 
     Fehler:
@@ -122,11 +122,19 @@ def get_tournaments():
 |===
 :sectnums:
 
-++++
-include::{htmlsdir}/backend_py_documentation.html[]
-++++
+=== Backend
+//++++
+//include::{htmlsdir}/backend_py_documentation.html[]
+//++++
+image::backend_generate_tournament.png[]
+image::backend_get_tournaments.png[]
+image::backend_get_match_plan.png[]
+image::backend_get_match.png[]
+image::backend_get_match_result_changes.png[]
+image::backend_change_match_result.png[]
+image::backend_change_team_name.png[]
+image::backend_delete_tournament.png[]
 
-// TODO Backend Funktionen
 === API Klassen
 
 :sectnums!:
@@ -191,7 +199,7 @@ include::{htmlsdir}/backend_py_documentation.html[]
 [cols="1,1,2,3", options="header"]
 |===
 | Variabel | Datentyp | validator Bedingung | Beschreibung 
-| team_id  | int      | Muss Integer sein      | Eindeutige Team-ID
+| team_id  | int      | Muss Integer sein      | Eindeutige TeamID
 | new_name | str      | Muss String sein       | Neuer Teamname
 |===
 
@@ -229,8 +237,8 @@ image::turnierplangenerator_calculate_waiting_time.png[]
 image::turnierplangenerator_assign_fields_to_groups.png[]
 image::turnierplangenerator_create_tournament_plan.png[]
 image::turnierplangenerator_insert_pauses.png[]
-//image::turnierplangenerator_return_plan.png[]
-// return plan fehlt
+image::turnierplangenerator_return_plan.png[]
+image::turnierplangenerator_create_html.png[]
 
 === Turnierüberarbeitung
 //++++
