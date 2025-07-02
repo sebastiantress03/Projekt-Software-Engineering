@@ -11,10 +11,142 @@ entsprechenden Funktionen und Methoden kommentiert.
 
 == Frontend
 
-// html links mit Bildern austauschen
-//++++
-//include::{htmlsdir}/Frontend_Documentation_Components.html[]
-//++++
+=== Komponenten
+
+Dieser Abschnitt beschreibt die zentralen Vue.js-Komponenten, aus denen die Benutzeroberfläche des Turnierverwaltungssystems aufgebaut ist. Jede Komponente ist so konzipiert, dass sie eine spezifische Funktionalität kapselt, was die Wiederverwendbarkeit und Wartbarkeit des Codes verbessert.
+
+==== MatchCard.vue
+
+
+==== ZurueckButton.vue
+
+
+==== AbbruchButton.vue
+
+
+==== LoescheButton.vue
+
+Der *LoescheButton* ist eine generische und wiederverwendbare Komponente, die eine standardisierte Funktionalität zum Löschen von Elementen bereitstellt. Sie kann für das Löschen von Turnieren, Teams oder anderen Entitäten verwendet werden.
+
+==== ExportButton.vue 
+
+
+==== 
+
+=== View
+
+==== CreateTournament.vue
+
+Die Komponente *TurnierErstellen* stellt die zentrale Benutzeroberfläche zur Erfassung aller notwendigen Parameter für die Erstellung eines neuen Turniers dar. Sie ist als formularbasierte Ansicht implementiert, die eine intuitive und geführte Dateneingabe ermöglicht.
+
+[:sectnums!:]
+
+===== Datenstruktur
+
+Die Komponente verwaltet die folgenden Datenfelder, die für die Konfiguration eines Turniers erforderlich sind:
+
+[source,json]
+----
+{
+    tournament_name: "",       // (String) Name des Turniers (Pflichtfeld)
+    number_of_fields: 1,       // (Number) Anzahl der verfügbaren Spielfelder (Minimum: 1)
+    return_match: "true",      // (String) Gibt an, ob Rückspiele stattfinden sollen ("true" oder "false")
+    time_to_start: "09:00",    // (String) Startzeit des Turniers im Format HH:mm
+    game_time: 10,             // (Number) Dauer eines Spiels in Minuten
+    warm_up_time: 5,           // (Number) Aufwärmzeit vor jedem Spiel in Minuten
+    number_of_breaks: 1,       // (Number) Anzahl der geplanten Pausen
+    break_length: [5],         // (Array<Number>) Dauer jeder Pause in Minuten
+    break_times: [""],         // (Array<String>) Startzeiten der Pausen im Format HH:mm
+    stage_name: ["Gruppe A"],  // (Array<String>) Namen der einzelnen Gruppen oder Phasen
+    number_of_teams: [4]       // (Array<Number>) Anzahl der Teams in jeder Gruppe
+}
+----
+
+===== Methode
+
+[cols="1,1,4", options="header"]
+|===
+| Methode       | Parameter | Beschreibung 
+| updateStages  | Keine     | Aktualisiert dynamisch die Liste der Gruppenfelder basierend auf der angegebenen Anzahl der Gruppen.
+| updateBreaks  | Keine     | Aktualisiert dynamisch die Liste der Pausenfelder basierend auf der angegebenen Anzahl der Pausen.
+| submit        | Keine     | Führt eine Validierung der Formulardaten durch und sendet die Konfiguration an das Backend zur Verarbeitung.
+|===
+
+[:sectnums:]
+
+==== Evaluation.vue
+
+Diese Komponente ist für die Visualisierung der Turnierergebnisse und die Ermittlung der Gewinner zuständig. Sie bietet eine übersichtliche Darstellung der Tabellenstände und ermöglicht es den Benutzern, die Ergebnisse nach Gruppen zu filtern.
+
+===== Methode
+
+[cols="1,1,4", options="header"]
+|===
+| Methode       | Parameter          | Beschreibung 
+| selectedGroup	| String	         | Speichert die aktuell vom Benutzer ausgewählte Gruppe, um die angezeigten Ergebnisse zu filtern.
+| winners	    | Computed<String[]> | Eine berechnete Eigenschaft, die eine Liste der Gewinner für die aktuell ausgewählte Gruppe zurückgibt.
+| results	    | Computed<Object[]> | Eine berechnete Eigenschaft, die die detaillierten Spielergebnisse für die ausgewählte Gruppe enthält.
+|===
+
+
+==== TournamentPlan.vue
+
+Die Ansicht *TurnierPlan* ist das Herzstück der interaktiven Turnierverwaltung. Sie visualisiert den gesamten Spielplan und ermöglicht die Eingabe von Spielergebnissen in Echtzeit.
+
+==== LoadView.vue
+
+Diese Komponente bietet eine Übersicht über alle in der Vergangenheit erstellten und gespeicherten Turniere. Sie dient als Archiv und ermöglicht den schnellen Zugriff auf historische Daten. Ebenfalls bietet es die Möglichkeit an Turniere zu löschen. 
+
+===== Funktionalitäten
+- *Laden der Turnierliste:* Beim Laden der Komponente wird eine Anfrage an die API gesendet, um eine Liste aller gespeicherten Turniere abzurufen.
+- *Anzeige als Buttons:* Jedes Turnier wird als ein klickbarer Button dargestellt, der den Namen des Turniers anzeigt.
+- *Navigation zum Turnierplan:* Bei Auswahl eines Turniers wird der Benutzer zur TurnierPlan-Ansicht weitergeleitet, die den detaillierten Spielplan des ausgewählten Turniers anzeigt.
+- *Löschen von Turnieren:* Mithilfe der Komponente LoescheButton.vue ist der Benutzer in der Lage Turniere zu Löschen 
+
+==== TournamentStep1.vue
+
+Erfasst die grundlegenden Konfigurationsdaten eines Turniers im ersten Schritt der Turniererstellung.
+
+===== Funktionalitäten
+- Eingabe des Turniernamens
+- Angabe Anzahl der Felder
+- Angabe Existiert ein Rückspiel
+- Angabe Anzahl Leistungsgruppen (max. 2)
+- Uhrzeit Turnierstart
+- Angabe Dauer eines Spiels (in min)
+- Angabe Aufwärmzeit (in min)
+- Anzahl Pausen 
+
+===== Verwendete Komponenten
+- WeiterButton.vue - Button für Weiter
+- ZurueckButton.vue - Button für Zurück
+
+==== TournamentStep2.vue
+
+Ermöglicht die detaillierte Konfiguration von Gruppen und Pausen.
+
+===== Funktionalitäten
+- Gruppennamen der Leistungsgruppen festlegen
+- Teamgröße der Leitungsgruppen einstellen (Für Algorithmus sollte die Teams gleich groß sein)
+- Uhrzeit der Pausen angeben
+- Länge der Pause angeben
+
+===== Verwendete Komponenten
+- HomeButton.vue - Button 
+- FormField.vue - Button 
+
+=== API-Dokumentation
+
+Die API (Application Programming Interface) dient als Schnittstelle zwischen dem Frontend und dem Backend des Turnierverwaltungssystems. Sie ermöglicht den Datenaustausch und die Ausführung von serverseitigen Operationen. Die API ist nach den Prinzipien von REST (Representational State Transfer) gestaltet und verwendet das JSON-Format für den Datenaustausch.
+
+==== Endpunkte
+
+Die folgende Tabelle listet die verfügbaren API-Endpunkte, die unterstützten HTTP-Methoden und deren jeweilige Funktionen auf:
+
+[cols="1,1,4", options="header"]
+|===
+|
+|===
 
 == Backend
 
