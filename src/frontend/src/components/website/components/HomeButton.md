@@ -65,7 +65,7 @@ Die Komponente verwaltet die folgenden Datenfelder, die für die Konfiguration e
 | :------------- | :-------- | :---------------------------------------------------------------------------------------------------------- |
 | `updateStages` | Keine     | Aktualisiert dynamisch die Liste der Gruppenfelder basierend auf der angegebenen Anzahl der Gruppen.          |
 | `updateBreaks` | Keine     | Aktualisiert dynamisch die Liste der Pausenfelder basierend auf der angegebenen Anzahl der Pausen.            |
-| `submit`       | Keine     | Führt eine Validierung der Formulardaten durch und sendet die Konfiguration an das Backend zur Verarbeitung. |
+
 
 ### 2.2. TurnierAuswertung <a name="turnier-auswertung"></a>
 
@@ -222,12 +222,12 @@ Der Prozess der Turniererstellung ist in zwei logische Schritte unterteilt, um d
 #### Schritt 1 (`/views/TournamentStep1.vue`)
 
 *   **Funktion**: Erfasst die grundlegenden Turnierkonfigurationen.
-*   **Validierungsregeln**: Stellt sicher, dass der Turniername ausgefüllt ist, alle numerischen Werte positiv sind und die Zeitformate korrekt eingegeben werden.
+
 
 #### Schritt 2 (`/views/TournamentStep2.vue`)
 
 *   **Funktion**: Ermöglicht die detaillierte Konfiguration von Gruppen und Pausen.
-*   **Validierungsregeln**: Stellt sicher, dass Gruppennamen vorhanden sind, jede Gruppe mindestens zwei Teams hat und die Pausendauern gültig sind.
+
 
 
 
