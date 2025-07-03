@@ -1,5 +1,5 @@
 = Testdokumentation: Turnierorganisationssoftware
-Oliver Theumer <s86407@htw-dresden.de>, Sebastian; [weitere Teammitglieder]
+Oliver Theumer <s86407@htw-dresden.de>, Sebastian Treß <s86372@htw-dresden.de>; [weitere Teammitglieder]
 {localdatetime}
 include::../_includes/default-attributes.inc.adoc[]
 
