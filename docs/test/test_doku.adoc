@@ -380,8 +380,8 @@ unerlaubte Abfolgen:
 Dieser Abschnitt dokumentiert die automatisierten **Unittests** für die Turnierauswertungssoftware.  
 Die Tests wurden mit dem Python-Modul `unittest` implementiert und zielen darauf ab, die Einhaltung der Turnierlogik durch strukturierte, maschinell überprüfbare Kriterien zu garantieren.
 
-Im Fokus steht die Validierung von Spielplänen, die durch die zentrale Funktion `main()` und zugehörige Hilfsfunktionen wie `baue_status_lists()` und `get_statusverlaeufe()` generiert werden.  
-Die Unittests laufen nicht vollständig isoliert, sondern greifen auf interne Spielplanlogiken und Statuskonstruktionen zu.
+Der Schwerpunkt liegt auf der Überprüfung der Spielpläne, die durch zentrale Logiken und unterstützende Mechanismen erstellt werden.  
+Die Unittests sind eng mit den internen Strukturen und Abläufen der Spielplanerstellung verbunden und testen deren korrekte Umsetzung.
 
 === Ziele der Unittests
 
@@ -922,5 +922,5 @@ Die Tests wurden in Postman als Collection organisiert und können über die Pos
 | Erwartetes Ergebnis ist nicht eingetroffen
 |===
 
-== Zusammenfassung
+
 
