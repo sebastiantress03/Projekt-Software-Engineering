@@ -13,4 +13,4 @@ Das https://www.figma.com/design/vGZx4tiIYAEevqN5n978A7/Wireframe-Modell-v2?node
 Falls der Link zu dem aktuellen https://www.figma.com/design/vGZx4tiIYAEevqN5n978A7/Wireframe-Modell-v2?node-id=601-9[Wireframe-Modell] nicht funktionieren sollte, ist dies unten zu finden. (Stand: 21.01.2025):
 
 .Wireframe
-image::Wireframe Modell v3.png[]
+image::Wireframe_Modell_v3.png[]

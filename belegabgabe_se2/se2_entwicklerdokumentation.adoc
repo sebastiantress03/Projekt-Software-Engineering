@@ -34,10 +34,18 @@ include::{docs}/_includes/default-attributes.inc.adoc[]
 :docs-test: {docs}/test
 :docs-development: {docs}/development
 
-
 // --- Architektur-Notizbuch ---
-:imagesdir:  {docs-architecture}/images
+:imagesdir: {docs-architecture}/images
+//:plantumlsdir: {docs-architecture}/plantuml
 include::{docs-architecture}/architecture_notebook.adoc[lines=1..1;4..-1,leveloffset=+1]
 
+// --- UX-Design ---
+:imagesdir: {docs-requirements}/images
+include::{docs-requirements}/ux-concept.adoc[lines=1..1;4..-1,leveloffset=+1]
+
+// --- Personas ---
+include::{docs-requirements}/personas.adoc[lines=1..1;4..-1,leveloffset=+1]
+
 // --- Softwaredokumentation
+:imagesdir: {docs-architecture}/images
 include::{docs-architecture}/softwaredokumentation.adoc[lines=1..1;4..-1,leveloffset=+1]

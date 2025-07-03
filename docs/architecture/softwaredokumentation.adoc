@@ -31,7 +31,6 @@ Der *LoescheButton* ist eine generische und wiederverwendbare Komponente, die ei
 ==== ExportButton.vue 
 
 
-==== 
 
 === View
 
@@ -39,7 +38,6 @@ Der *LoescheButton* ist eine generische und wiederverwendbare Komponente, die ei
 
 Die Komponente *TurnierErstellen* stellt die zentrale Benutzeroberfläche zur Erfassung aller notwendigen Parameter für die Erstellung eines neuen Turniers dar. Sie ist als formularbasierte Ansicht implementiert, die eine intuitive und geführte Dateneingabe ermöglicht.
 
-[:sectnums!:]
 
 ===== Datenstruktur
 
@@ -71,8 +69,6 @@ Die Komponente verwaltet die folgenden Datenfelder, die für die Konfiguration e
 | updateBreaks  | Keine     | Aktualisiert dynamisch die Liste der Pausenfelder basierend auf der angegebenen Anzahl der Pausen.
 | submit        | Keine     | Führt eine Validierung der Formulardaten durch und sendet die Konfiguration an das Backend zur Verarbeitung.
 |===
-
-[:sectnums:]
 
 ==== Evaluation.vue
 
@@ -345,7 +341,7 @@ image::backend_delete_tournament.png[]
 | new_name | str      | Muss String sein       | Neuer Teamname
 |===
 
-:sectnums:
+
 
 === Database_Request.py
 

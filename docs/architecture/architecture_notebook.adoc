@@ -191,22 +191,22 @@ Die Architektur folgt einem mehrschichtigen Aufbau, der die Trennung von Verantw
 //Beschreibt die Struktur und das Verhalten Systemteilen, die hohen Einfluss auf die Architektur haben. Dies kann die Paketstruktur, kritische Schnittstellen, wichtige Klassen und Subsysteme sowie die Beziehungen zwischen diesen Elementen enthalten. Zudem sollten die physische und logische Sicht persistenter Daten beschrieben werden, wenn es diesen Aspekt im System gibt. Dies ist ein hier dokumentierter Teilaspekt des Entwurfs.
 
 .C4 Model Systemkontext Diagramm
-//image::C4_Model_Layer1.png[]
-[plantuml, C4_Model_Context, svg]
-----
-include::{plantumlsdir}/C4_Model_Context.puml[]
-----
+image::C4_Model_Layer1.png[]
+//[plantuml, C4_Model_Context, svg]
+//----
+//include::{plantumlsdir}/C4_Model_Context.puml[]
+//----
 Das System-Kontext-Diagramm zeigt die Interaktion der Turniersoftware mit externen Akteuren.
 Zum einen ist der Turnierteilnehmer dargestellt, der die Web-App nutzt, um den Spielplan einzusehen und Spielergebnisse einzugeben. Zum anderen interagiert der Turnierhost, der für die Planung und Organisation verantwortlich ist, mit dem System.
 Die Turniersoftware selbst stellt das zentrale System dar, das Turniere verwaltet, Spielpläne generiert, Ergebnisse auswertet und die Daten bei Bedarf als PDF-Dateien exportiert.
 Alle Interaktionen sind so ausgelegt, dass sowohl Teilnehmer als auch Veranstalter gleichzeitig mit dem System arbeiten können.
 
 .C4 Model Container Diagramm
-//image::C4_Model_Layer2.png[]
-[plantuml, C4_Model_Container, svg]
-----
-include::{plantumlsdir}/C4_Model_Container.puml[]
-----
+image::C4_Model_Layer2.png[]
+//[plantuml, C4_Model_Container, svg]
+//----
+//include::{plantumlsdir}/C4_Model_Container.puml[]
+//----
 Das Container-Diagramm zeigt die interne Architektur der Turniersoftware und die Verteilung der Funktionalitäten auf verschiedene Container.
 Die Benutzer, sowohl Turnierteilnehmer als auch Turnierhost, interagieren primär über die Progressive Web App (Vue.js). Diese ermöglicht die Erstellung, Anzeige und Verwaltung von Turnieren sowie die Eingabe und Auswertung von Spielergebnissen.
 
@@ -215,11 +215,11 @@ Die Datenbank speichert alle relevanten Informationen, wie Turnierdaten, Spielpa
 Durch diese klare Trennung der Container wird sowohl eine hohe Flexibilität bei der Weiterentwicklung als auch die Offline-Nutzung der Web App ermöglicht.
 
 .C4 Model Components Diagramm
-// image::C4_Model_Layer3.png[]
-[plantuml, C4_Model_Components, svg]
-----
-include::{plantumlsdir}/C4_Model_Components.puml[]
-----
+image::C4_Model_Layer3.png[]
+//[plantuml, C4_Model_Components, svg]
+//----
+//include::{plantumlsdir}/C4_Model_Components.puml[]
+//----
 Das Component-Diagramm zeigt die interne Struktur der API Application der Turniersoftware und verdeutlicht die Verantwortlichkeiten einzelner Komponenten (Controller).
 Die Progressive Web App interagiert mit drei spezifizierten Komponenten der API:
 
