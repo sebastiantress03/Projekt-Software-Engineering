@@ -1,0 +1,203 @@
+// --- 1. Projektthema -------------------------
+= Betriebsdokumentation:
+// --- 2. Teammitglieder -----------------------
+Thomas Sweeney <s86208@htw-dresden.de>; Sebastian Treß <sebastian.tress@stud.htw-dresden.de>; Louai Alrefai <Louai.Alrefai@htw-dresden.de>; Oliver Theumer <s86407@htw-dresden.de>; Niklas Benjamin Große <niklasbenjamin.grosse@stud.htw-dresden.de>; Luke Reeder <luke.reeder@stud.htw-dresden.de>
+// --- 3. Abgabedatum --------------------------
+4. Juli 2025
+// ---------------------------------------------
+:docs: ../docs
+include::{docs}/_includes/default-attributes.inc.adoc[]
+// ---
+:doctype: book
+:toc:
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:sectnums:
+:icons: font
+:source-highlighter: highlightjs
+//:source-highlighter: rouge
+:rouge-style: github
+:xrefstyle: full
+:experimental:
+:chapter-signifier:
+:figure-caption: Abbildung
+:table-caption: Tabelle
+:listing-caption: Listing
+:!example-caption:
+:experimental:
+// Folders
+:imagesdir-reset: {imagesdir}
+:docs-test2: {docs}/test2
+:docs-requirements: {docs}/requirements
+:docs-project-management: {docs}/project_management
+:docs-architecture: {docs}/architecture
+:docs-test: {docs}/test
+:docs-development: {docs}/development
+
+
+== Allgemeine Informationen
+
+Diese Betriebsdokumentation beschreibt die relevanten Aspekte für den Betrieb, die Wartung und die Verwaltung der containerisierten Progressive Web App (PWA). Die Anwendung basiert auf folgenden Technologien:
+
+* *Frontend*: Vue.js
+* *Backend*: FastAPI (Python)
+* *Datenbank*: SQLite
+* *Containerisierung*: Docker & Docker Compose
+
+Diese Dokumentation richtet sich an Systemadministratoren und Entwickler, die für die Bereitstellung, Wartung und Weiterentwicklung der Anwendung zuständig sind.
+
+== Systemvoraussetzungen
+
+=== Hardwareanforderungen
+
+Die Anwendung stellt keine besonderen Hardwareanforderungen.
+
+=== Softwareanforderungen
+
+Die Anwendung ist plattformunabhängig und lässt sich auf allen gängigen Betriebssystemen betreiben. Es wird der Einsatz von Container-Technologien vorausgesetzt.
+
+* Betriebssystem: Windows, macOS oder Linux
+* Docker Engine: Version 20.10 oder höher
+* Docker Compose: Version 1.29 oder höher
+* Optional: Python 3.10+ (für manuelle Verwaltung oder lokale Entwicklung)
+* Webbrowser: Aktuelle Version von Chrome, Firefox, Edge oder Safari
+
+== Bereitstellungsübersicht
+
+Die gesamte Anwendung ist in vorkonfigurierte Docker-Container verpackt. Die Bereitstellung erfolgt über eine `compose.yaml`-Datei, welche die Dienste für Frontend, Backend und Datenbank aufeinander abstimmt. Dadurch ist eine schnelle und konsistente Inbetriebnahme in unterschiedlichen Umgebungen möglich.
+
+== Systemeinrichtung
+
+Die Anwendung wird über vorkonfigurierte Docker-Images betrieben, die öffentlich in der GitHub Container Registry (GHCR) verfügbar sind. Dadurch ist keine lokale Codebasis oder ein manueller Build notwendig – die Einrichtung erfolgt ausschließlich über Docker Compose.
+
+=== Voraussetzungen
+
+Auf dem Zielsystem müssen folgende Tools installiert sein:
+
+* Docker Engine (ab Version 20.10)
+* Docker Compose (ab Version 1.29)
+
+Zur Überprüfung der Installation:
+
+[source,sh]
+----
+docker --version
+docker compose version
+----
+Die Installation von Docker und Docker Compose erfolgt in der Regel über die Paketverwaltung des jeweiligen Betriebssystems. Detaillierte Anleitungen finden sich in der offiziellen Docker-Dokumentation.
+
+Ein GitHub-Konto ist nicht erforderlich, da die Docker-Images öffentlich bereitgestellt sind.
+
+=== Einrichtungsschritte
+
+. Projektverzeichnis mit der `compose.yaml` auf das Zielsystem kopieren:
++
+[source,sh]
+----
+git clone git@github.com:sebastiantress03/Projekt-Software-Engineering.git
+cd Projekt-Software-Engineering/src/
+----
+
+. Docker Compose starten. Dabei werden die Images automatisch aus der GitHub Container Registry heruntergeladen:
++
+[source,sh]
+----
+docker compose up --no-build -d
+----
+
+. Die Anwendung ist anschließend erreichbar unter:
++
+* Web-Frontend: http://localhost:80
+* Backend-API (Swagger UI): http://localhost:8000/api/docs
+
+=== Dienste & Images
+
+Die in der `compose.yaml` verwendeten Images stammen direkt aus der GitHub Container Registry (`ghcr.io`) und sind wie folgt eingebunden:
+
+.Beispiel:
+[source,yaml]
+----
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: /api/
+    image: ghcr.io/sebastiantress03/turnierplan-frontend:latest
+    ports:
+      - "80:80"
+    container_name: frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    image: ghcr.io/sebastiantress03/turnierplan-backend:latest
+    ports:
+      - "8000:8000"
+    container_name: backend
+    restart: unless-stopped
+    volumes:
+      - ./data/db:/app/data/db
+----
+
+Hinweis: Die `build:`-Einträge in der `compose.yaml` dienen primär der lokalen Entwicklung. Bei produktiven Setups werden die veröffentlichten Images aus der Registry verwendet.
+
+=== Überprüfung
+
+Nach dem Start kannst du die Funktionalität prüfen durch:
+
+* Aufruf der Benutzeroberfläche im Browser: http://localhost:80
+* Zugriff auf die Backend-API: http://localhost:8000/api/docs
+* Statusprüfung der Container:
++
+[source,sh]
+----
+docker compose ps
+----
+
+=== Stoppen und Entfernen
+
+Die Anwendung kann gestoppt und die Container entfernt werden mit:
+
+[source,sh]
+----
+docker compose down
+----
+
+Optional: Mit `-v` können auch benutzerdefinierte Volumes entfernt werden (z.B. SQLite-Datenbank):
+
+[source,sh]
+----
+docker compose down -v
+----
+
+== Systembetreuung
+
+=== FAQ für den Betrieb
+
+* Warum startet ein Container nicht?  
+  Prüfen Sie mit `docker compose ps` und `docker logs <containername>` die Status- und Fehlermeldungen.
+
+* Das Frontend ist nicht erreichbar – was tun?  
+  Prüfen Sie, ob der Frontend-Container läuft und der Port (Standard 80) nicht blockiert ist.
+
+* Wie aktualisiere ich die Anwendung?  
+  Führen Sie `docker compose pull` gefolgt von `docker compose up -d` aus, um die neuesten Images zu laden und neu zu starten.
+
+=== Fehlerdiagnose
+
+* Logs anzeigen:
+  `docker logs <containername>`  
+* Status prüfen:
+  `docker compose ps`  
+* Container neustarten:
+  `docker compose restart <containername>`
+
+=== Datensicherung und Wiederherstellung
+
+* Die SQLite-Datenbank wird im Verzeichnis `./data/db` abgelegt.  
+* Für Backups kopieren Sie diesen Ordner auf ein Backup-Medium.  
+* Zur Wiederherstellung stoppen Sie die Container (`docker compose down`), ersetzen das Datenverzeichnis durch das Backup und starten die Container neu (`docker compose up -d`).
