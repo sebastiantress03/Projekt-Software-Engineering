@@ -3,6 +3,7 @@ Sebastian Treß <s86372@htw-dresden.de>; Niklas Benjamin Große <niklasbenjamin.
 {localdatetime}
 include::../_includes/default-attributes.inc.adoc[]
 
+
 == Allgemeine Informationen
 
 Die Softwaredokumentation beinhaltet die Beschreibung aller Klassen bzw. aller Dokumente und
@@ -17,22 +18,138 @@ Dieser Abschnitt beschreibt die zentralen Vue.js-Komponenten, aus denen die Benu
 
 ==== MatchCard.vue
 
+Zeigt die Informationen eines einzelnen Spiels (Match) an, inklusive Teams, Gruppe, Feld, Uhrzeit, Schiedsrichter und Ergebnis.
+
+===== Props
+
+[cols="1,1,3", options="header"]
+|===
+| Name       | Typ        | Beschreibung
+|match        | Object     | Das Match-Objekt mit Feldern wie teamA, teamB, group, field, startTime, ref, scoreA, scoreB, groupColor, match (String für Anzeige).
+|===
+
+===== Events
+
+[cols="1,1,3", options="header"]
+|===
+| Name       | Typ        | Beschreibung
+| handleClick | click | löst `open-popup` aus, in der entsprechenden View.
+|===
+
+===== Beispiel
+
+[source,vue]
+----
+<MatchCard
+    :match="matchObj"
+    @open-popup="handlePopup"
+/>
+----
+
 
 ==== ZurueckButton.vue
 
+Ein Navigationsbutton, der zur vorherigen Seite oder einer definierten Route zurückführt.
 
-==== AbbruchButton.vue
+===== Events
 
+[cols="1,1,3", options="header"]
+|===
+| Name       | Typ        | Beschreibung
+| goBack | click | Navigiert zur vorherigen Route.
+|===
 
-==== LoescheButton.vue
+==== Beispiel
 
-Der *LoescheButton* ist eine generische und wiederverwendbare Komponente, die eine standardisierte Funktionalität zum Löschen von Elementen bereitstellt. Sie kann für das Löschen von Turnieren, Teams oder anderen Entitäten verwendet werden.
+[source,vue]
+----
+<ZurueckButton />
+----
 
 ==== ExportButton.vue 
 
+Öffnet einen Dialog zum Exportieren von Turnierdaten als CSV. Ermöglicht die Auswahl eines Turniers und exportiert dessen Spielplan.
 
+===== Beispiel
+
+[source,vue]
+----
+<ExportButton :tournament="tournament" />
+----
+
+==== FormField.vue
+
+Eine Layout-Komponente zur Darstellung eines Formularfeldes mit Label und Inhalt über einen Slot.
+
+===== Props
+
+[cols="1,1,3", options="header"]
+|===
+| Name       | Typ        | Beschreibung
+| label      | String     | Der Text, der als Label links vom Inhalt angezeigt wird.
+|===
+
+===== Slots
+
+[cols="1,1,3", options="header"]
+|===
+| Name       | Typ        | Beschreibung
+| default   | Kein | Der Inhalt (z.B. ein Eingabefeld), der rechts vom Label angezeigt wird.
+|===
+
+===== Beispiel
+
+[source,vue]
+----
+<FormField label="Turniername">
+    <input type="text" v-model="name" />
+</FormField>
+----
+
+==== HomeButton.vue
+Ein wiederverwendbarer Button mit konfigurierbarem Typ, Stil (Farbe, Größe) und deaktivierbarem Zustand.
+
+===== Props
+
+[cols="1,1,3", options="header"]
+|===
+| Name       | Typ        | Beschreibung
+| type       | String     | Der Typ des Buttons (z.B. "primary", "secondary").
+| color      | String     | Die Farbe des Buttons (z.B. "blue", "red").
+| size       | String     | Die Größe des Buttons (z.B. "small", "medium", "large").
+| disabled   | Boolean    | Gibt an, ob der Button deaktiviert ist (Standard: false).
+|===
+
+===== Events
+
+[cols="1,1,3", options="header"]
+|===
+| Name       | Typ        | Beschreibung
+| click      | click      | Wird ausgelöst, wenn der Button angeklickt wird
+|===
+
+===== Beispiel
+
+[source,vue]
+----
+<HomeButton type="primary" color="blue" size="large" @click="navigateToCreateTournament">
+    Turnier erstellen
+</HomeButton>
+----
 
 === View
+
+==== Home.vue
+
+Die View *Home* dient als Einstiegspunkt der Anwendung und bietet auf der Desktop Ansicht die Möglichkeit, Turniere zu erstellen und zu laden. Während in der mobilen Ansicht nur die Möglichkeit besteht, Turniere zu laden.
+
+===== Funktionalitäten
+- Navigieren zu Turnier Erstellung
+- Navigieren zu Turniere Laden
+
+===== Verwendete Komponenten
+- *HomeButton.vue:* Button für die Navigation zur Turniererstellung
+- *HomeButton.vue:* Button für die Navigation um Turniere zu Laden.
 
 ==== CreateTournament.vue
 
@@ -41,7 +158,7 @@ Die Komponente *TurnierErstellen* stellt die zentrale Benutzeroberfläche zur Er
 
 ===== Datenstruktur
 
-Die Komponente verwaltet die folgenden Datenfelder, die für die Konfiguration eines Turniers erforderlich sind:
+Die View *CreateTournament* verwendet eine JSON-Struktur, um die Eingabedaten zu organisieren. Diese Struktur wird später an das Backend übermittelt, um ein neues Turnier zu generieren. Die wichtigsten Felder sind:
 
 [source,json]
 ----
@@ -67,7 +184,7 @@ Die Komponente verwaltet die folgenden Datenfelder, die für die Konfiguration e
 | Methode       | Parameter | Beschreibung 
 | updateStages  | Keine     | Aktualisiert dynamisch die Liste der Gruppenfelder basierend auf der angegebenen Anzahl der Gruppen.
 | updateBreaks  | Keine     | Aktualisiert dynamisch die Liste der Pausenfelder basierend auf der angegebenen Anzahl der Pausen.
-| submit        | Keine     | Führt eine Validierung der Formulardaten durch und sendet die Konfiguration an das Backend zur Verarbeitung.
+| submit        | Keine     | Führt eine Validierung auf Vollständigkeit der Formulardaten durch und sendet die Konfiguration an das Backend zur Verarbeitung.
 |===
 
 ==== Evaluation.vue
@@ -87,17 +204,32 @@ Diese Komponente ist für die Visualisierung der Turnierergebnisse und die Ermit
 
 ==== TournamentPlan.vue
 
-Die Ansicht *TurnierPlan* ist das Herzstück der interaktiven Turnierverwaltung. Sie visualisiert den gesamten Spielplan und ermöglicht die Eingabe von Spielergebnissen in Echtzeit.
+Die View *TurnierPlan* ist das Herzstück der interaktiven Turnierverwaltung. Sie visualisiert den gesamten Spielplan und ermöglicht die Eingabe von Spielergebnissen in Echtzeit.
+
+===== Funktionalitäten
+- *Anzeige des Spielplans:* Der Spielplan wird in einem tabellarischen Format dargestellt, das eine klare Übersicht über alle Spiele und deren Ergebnisse bietet.
+- *Eingabe von Spielergebnissen:* Benutzer können Ergebnisse für jedes Spiel in Echtzeit eingeben, was eine sofortige Aktualisierung des Spielplans ermöglicht.
+- *Navigation zu den MatchCards:* Jedes Spiel ist als klickbare Karte implementiert, die bei Auswahl eine detaillierte Ansicht des Spiels anzeigt.
+
+===== Verwendete Komponenten
+- *MatchCard.vue:* Stellt die einzelnen Spiele dar und ermöglicht die Eingabe von Ergebnissen.
+- *HomeButton.vue:* Button für die Navigation weiter zur Auswertung.
+- *HomeButton.vue:* für die Buttons im Popup, um die Eingabe der Ergebnisse zu bestätigen.
+- *ZurueckButton.vue:* Button für die Navigation zurück zur Turniererstellung.
+- *ExportButton.vue:* Ermöglicht den Export des Turnierplans in eine CSV-Datei
 
 ==== LoadView.vue
 
-Diese Komponente bietet eine Übersicht über alle in der Vergangenheit erstellten und gespeicherten Turniere. Sie dient als Archiv und ermöglicht den schnellen Zugriff auf historische Daten. Ebenfalls bietet es die Möglichkeit an Turniere zu löschen. 
+Diese View bietet eine Übersicht über alle in der Vergangenheit erstellten und gespeicherten Turniere. Sie dient als Archiv und ermöglicht den schnellen Zugriff auf historische Daten. Ebenfalls bietet es die Möglichkeit an Turniere zu löschen. 
 
 ===== Funktionalitäten
 - *Laden der Turnierliste:* Beim Laden der Komponente wird eine Anfrage an die API gesendet, um eine Liste aller gespeicherten Turniere abzurufen.
 - *Anzeige als Buttons:* Jedes Turnier wird als ein klickbarer Button dargestellt, der den Namen des Turniers anzeigt.
 - *Navigation zum Turnierplan:* Bei Auswahl eines Turniers wird der Benutzer zur TurnierPlan-Ansicht weitergeleitet, die den detaillierten Spielplan des ausgewählten Turniers anzeigt.
 - *Löschen von Turnieren:* Mithilfe der Komponente LoescheButton.vue ist der Benutzer in der Lage Turniere zu Löschen 
+
+===== Verwendete Komponenten
+- *ZurueckButton.vue:* Button für die Navigation zurück zur Startseite.
 
 ==== TournamentStep1.vue
 
@@ -114,8 +246,9 @@ Erfasst die grundlegenden Konfigurationsdaten eines Turniers im ersten Schritt d
 - Anzahl Pausen 
 
 ===== Verwendete Komponenten
-- WeiterButton.vue - Button für Weiter
-- ZurueckButton.vue - Button für Zurück
+- *HomeButton.vue:* Button für Weiter zur nächsten Seite
+- *ZurueckButton.vue:*  Button für Zurück zur Startseite
+- *FormField.vue:* Eingabefelder für Parameter
 
 ==== TournamentStep2.vue
 
@@ -130,8 +263,8 @@ Ermöglicht die detaillierte Konfiguration von Gruppen und Pausen.
 
 ===== Verwendete Komponenten
 
-- HomeButton.vue - Button 
-- FormField.vue - Button 
+- *HomeButton.vue* Button für Zurück zur vorherigen Seite und für die Übergabe der Daten an das Backend
+- *FormField.vue:*  Eingabefelder für Parameter 
 
 === API-Dokumentation
 
@@ -139,11 +272,19 @@ Die API (Application Programming Interface) dient als Schnittstelle zwischen dem
 
 ==== Endpunkte
 
-Die folgende Tabelle listet die verfügbaren API-Endpunkte, die unterstützten HTTP-Methoden und deren jeweilige Funktionen auf:
+Die folgende Tabelle listet die verfügbaren API-Endpunkte, die unterstützten HTTP-Methoden und deren jeweilige Beschreibung  und Übergabe Parametern auf:
 
-[cols="1,1,4", options="header"]
+[cols="1,1,4,1", options="header"]
 |===
-|
+|Endpunkt | Methode | Beschreibung | Parameter
+| `/tournament/` | POST | Erstellt ein neues Turnier basierend auf den übergabe Parametern | `tournament` (GenerateTournament-Objekt)
+| `/tournaments/` | GET | Ruft eine Liste aller existierenden Turniere ab. | Keine
+| `/tournaments/{tournamentID}` | GET | Lädt den Spielplan eines spezifischen Turniers anhand der TurnierID. | `tournamentID` (String)
+| `/tournaments/match_plan/{matchID}` | GET | Ruft den aktuellen Spielstand eines Spiels anhand der SpielID ab. | `matchID` (String)
+| `/tournaments/match_plan/match_changes/{matchID}` | GET | Ruft alle Änderungen eines Spiels anhand der SpielID ab. | `matchID` (String)
+| `/tournaments/match_plan/match/{matchID}` | PUT | Aktualisiert den Spielstand eines Spiels anhand der SpielID. | `matchID` (String), `match_result` (Match-Objekt)
+| `/tournaments/match_plan/team/{tournamentID}` | PUT | Aktualisiert den Namen eines Teams in einem Turnier. | `tournamentID` (String), `new_team_name` (TeamUpdate-Objekt)
+| `/tournaments/delete_plan/{tournamentID}` | DELETE | Löscht ein Turnier und alle zugehörigen Daten. | `tournamentID` (String)
 |===
 
 == Backend
@@ -158,7 +299,8 @@ Die REST-API bildet die zentrale Schnittstelle für alle Funktionen wie Turniere
 
 === Endpunkte der REST-API
 
-Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. https://github.com/sebastiantress03/Projekt-Software-Engineering/blob/main/src/backend/data/documentation/backend%20API%20documentation.html[Dokumentation backend.py] +
+Die wichtigsten REST-API-Endpunkte sind in den folgenden Tabellen zusammengefasst.  
+Detaillierte Informationen zu den einzelnen Routen und ihrer Nutzung findest du in der https://github.com/sebastiantress03/Projekt-Software-Engineering/blob/main/src/backend/data/documentation/apiDocumentation.md[API-Dokumentation des Backends].
 
 :sectnums!:
 ==== POST-Endpunkte
@@ -196,6 +338,7 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. ht
 | API-Endpunkt | Beschreibung des Endpunktes | Backendfunktion
 | `/tournaments/delete_plan/{tournamentID}` | Das Turnier wird aus der Datenbank gelöscht mir den Dazugehörigen Spielständen und Leistungsgruppen. Dafür wird die TurnierID mit übergeben. |  `delete_tournament(tournamentID: str)`
 |===
+:sectnums:
 
 ==== Implementierung der REST-API
 
@@ -256,13 +399,11 @@ def get_tournaments():
 | Statuscode | Bedeutung 
 | 200 OK | Erfolgreiche Verarbeitung der Anfrage
 |===
-:sectnums:
 
-=== Backend.py
+=== Modulübersicht und Quellcodedateien
 
-//++++
-//include::{htmlsdir}/backend_py_documentation.html[]
-//++++
+==== Backend.py
+
 image::backend_generate_tournament.png[]
 image::backend_get_tournaments.png[]
 image::backend_get_match_plan.png[]
@@ -272,10 +413,13 @@ image::backend_change_match_result.png[]
 image::backend_change_team_name.png[]
 image::backend_delete_tournament.png[]
 
-=== APIClasses.py
+Den HTML-Export der Dokumentation findest du hier:
+https://github.com/sebastiantress03/Projekt-Software-Engineering/blob/main/docs/architecture/html/backend_py_documentation.html[backend_py_documentation.html]
+
+==== APIClasses.py
 
 :sectnums!:
-==== ReturnMatchOption
+===== ReturnMatchOption
 
 [cols="1,1,2,3", options="header"]
 |===
@@ -284,7 +428,7 @@ image::backend_delete_tournament.png[]
 | FALSE    | Enum     | "true" oder "false" als String | Gibt an, dass nur Hinspiele zurückgegeben werden
 |===
 
-==== GenerateTournament
+===== GenerateTournament
 
 [cols="1,1,2,3", options="header"]
 |===
@@ -302,7 +446,7 @@ image::backend_delete_tournament.png[]
 | num_teams   | List[int]         | Besteht aus Integern                            | Teamanzahl je Leistungsgruppe
 |===
 
-==== Match
+===== Match
 
 [cols="1,1,2,3", options="header"]
 |===
@@ -312,7 +456,7 @@ image::backend_delete_tournament.png[]
 | time_change | str      | Format "HH:MM"             | Uhrzeit der Ergebnisänderung
 |===
 
-==== TournamentPlan
+===== TournamentPlan
 
 [cols="1,1,2,3", options="header"]
 |===
@@ -332,7 +476,7 @@ image::backend_delete_tournament.png[]
 | time_of_game | str      | Format "HH:MM"               | Spielzeit
 |===
 
-==== TeamUpdate
+===== TeamUpdate
 
 [cols="1,1,2,3", options="header"]
 |===
@@ -341,13 +485,10 @@ image::backend_delete_tournament.png[]
 | new_name | str      | Muss String sein       | Neuer Teamname
 |===
 
+:sectnums:
 
+==== Database_Request.py
 
-=== Database_Request.py
-
-//++++
-//include::{htmlsdir}/database_request_py_documentation.html[]
-//++++
 image::database_requests_insert_tournament.png[]
 image::database_requests_insert_stages.png[]
 image::database_requests_get_tournament_id.png[]
@@ -360,20 +501,20 @@ image::database_requests_get_match_changes.png[]
 image::database_requests_change_team_name.png[]
 image::database_requests_delete_tournament.png[]
 
-=== Server.py
+Den HTML-Export der Dokumentation findest du hier:
+https://github.com/sebastiantress03/Projekt-Software-Engineering/blob/main/docs/architecture/html/database_request_py_documentation.html[database_request_py_documentation.html]
 
-//++++
-//include::{htmlsdir}/server_py_documentation.html[]
-//++++
+==== Server.py
+
 image::server_initializing_database.png[]
 image::server_query.png[]
 image::server_query.png[]
 
-=== turnierplangenerator_4.py
+Den HTML-Export der Dokumentation findest du hier:
+https://github.com/sebastiantress03/Projekt-Software-Engineering/blob/main/docs/architecture/html/server_py_documentation.html[server_py_documentation.html]
 
-//++++
-//include::{htmlsdir}/turnierplangenerator_py_documentation.html[]
-//++++
+==== turnierplangenerator_4.py
+
 image::turnierplangenerator_calculate_waiting_time.png[]
 image::turnierplangenerator_assign_fields_to_groups.png[]
 image::turnierplangenerator_create_tournament_plan.png[]
@@ -381,11 +522,11 @@ image::turnierplangenerator_insert_pauses.png[]
 image::turnierplangenerator_return_plan.png[]
 image::turnierplangenerator_create_html.png[]
 
-=== Turnierüberarbeitung
+Der HTML-Export der Dokumentation findest du hier:
+https://github.com/sebastiantress03/Projekt-Software-Engineering/blob/main/docs/architecture/html/turnierplangenerator_py_documentation.html[turnierplangenerator_py_documentation.html]
 
-//++++
-//include{htmlsdir}/turnierueberarbeitung_py_documentation.html[]
-//++++
+==== Turnierüberarbeitung.py
+
 image::turnierueberarbeitung_extrahiere_zeiten.png[]
 image::turnierueberarbeitung_initialisiere_status_lists.png[]
 image::turnierueberarbeitung_slot_index.png[]
@@ -398,6 +539,9 @@ image::turnierueberarbeitung_analysiere_verlauf.png[]
 image::turnierueberarbeitung_main.png[]
 image::turnierueberarbeitung_show_bestplan.png[]
 image::turnierueberarbeitung_rekonstruiere_teams.png[]
+
+Der HTML-Export der Dokumentation findest du hier:
+https://github.com/sebastiantress03/Projekt-Software-Engineering/blob/main/docs/architecture/html/turnierueberarbeitung_py_documentation.html[turnierueberarbeitung_py_documentation.html]
 
 == Datenbank
 
