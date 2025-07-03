@@ -11,9 +11,144 @@ entsprechenden Funktionen und Methoden kommentiert.
 
 == Frontend
 
-++++
-include::{htmlsdir}/Frontend_Documentation_Components.html[]
-++++
+=== Komponenten
+
+Dieser Abschnitt beschreibt die zentralen Vue.js-Komponenten, aus denen die Benutzeroberfläche des Turnierverwaltungssystems aufgebaut ist. Jede Komponente ist so konzipiert, dass sie eine spezifische Funktionalität kapselt, was die Wiederverwendbarkeit und Wartbarkeit des Codes verbessert.
+
+==== MatchCard.vue
+
+
+==== ZurueckButton.vue
+
+
+==== AbbruchButton.vue
+
+
+==== LoescheButton.vue
+
+Der *LoescheButton* ist eine generische und wiederverwendbare Komponente, die eine standardisierte Funktionalität zum Löschen von Elementen bereitstellt. Sie kann für das Löschen von Turnieren, Teams oder anderen Entitäten verwendet werden.
+
+==== ExportButton.vue 
+
+
+==== 
+
+=== View
+
+==== CreateTournament.vue
+
+Die Komponente *TurnierErstellen* stellt die zentrale Benutzeroberfläche zur Erfassung aller notwendigen Parameter für die Erstellung eines neuen Turniers dar. Sie ist als formularbasierte Ansicht implementiert, die eine intuitive und geführte Dateneingabe ermöglicht.
+
+[:sectnums!:]
+
+===== Datenstruktur
+
+Die Komponente verwaltet die folgenden Datenfelder, die für die Konfiguration eines Turniers erforderlich sind:
+
+[source,json]
+----
+{
+    tournament_name: "",       // (String) Name des Turniers (Pflichtfeld)
+    number_of_fields: 1,       // (Number) Anzahl der verfügbaren Spielfelder (Minimum: 1)
+    return_match: "true",      // (String) Gibt an, ob Rückspiele stattfinden sollen ("true" oder "false")
+    time_to_start: "09:00",    // (String) Startzeit des Turniers im Format HH:mm
+    game_time: 10,             // (Number) Dauer eines Spiels in Minuten
+    warm_up_time: 5,           // (Number) Aufwärmzeit vor jedem Spiel in Minuten
+    number_of_breaks: 1,       // (Number) Anzahl der geplanten Pausen
+    break_length: [5],         // (Array<Number>) Dauer jeder Pause in Minuten
+    break_times: [""],         // (Array<String>) Startzeiten der Pausen im Format HH:mm
+    stage_name: ["Gruppe A"],  // (Array<String>) Namen der einzelnen Gruppen oder Phasen
+    number_of_teams: [4]       // (Array<Number>) Anzahl der Teams in jeder Gruppe
+}
+----
+
+===== Methode
+
+[cols="1,1,4", options="header"]
+|===
+| Methode       | Parameter | Beschreibung 
+| updateStages  | Keine     | Aktualisiert dynamisch die Liste der Gruppenfelder basierend auf der angegebenen Anzahl der Gruppen.
+| updateBreaks  | Keine     | Aktualisiert dynamisch die Liste der Pausenfelder basierend auf der angegebenen Anzahl der Pausen.
+| submit        | Keine     | Führt eine Validierung der Formulardaten durch und sendet die Konfiguration an das Backend zur Verarbeitung.
+|===
+
+[:sectnums:]
+
+==== Evaluation.vue
+
+Diese Komponente ist für die Visualisierung der Turnierergebnisse und die Ermittlung der Gewinner zuständig. Sie bietet eine übersichtliche Darstellung der Tabellenstände und ermöglicht es den Benutzern, die Ergebnisse nach Gruppen zu filtern.
+
+===== Methode
+
+[cols="1,1,4", options="header"]
+|===
+| Methode       | Parameter          | Beschreibung 
+| selectedGroup	| String	         | Speichert die aktuell vom Benutzer ausgewählte Gruppe, um die angezeigten Ergebnisse zu filtern.
+| winners	    | Computed<String[]> | Eine berechnete Eigenschaft, die eine Liste der Gewinner für die aktuell ausgewählte Gruppe zurückgibt.
+| results	    | Computed<Object[]> | Eine berechnete Eigenschaft, die die detaillierten Spielergebnisse für die ausgewählte Gruppe enthält.
+|===
+
+
+==== TournamentPlan.vue
+
+Die Ansicht *TurnierPlan* ist das Herzstück der interaktiven Turnierverwaltung. Sie visualisiert den gesamten Spielplan und ermöglicht die Eingabe von Spielergebnissen in Echtzeit.
+
+==== LoadView.vue
+
+Diese Komponente bietet eine Übersicht über alle in der Vergangenheit erstellten und gespeicherten Turniere. Sie dient als Archiv und ermöglicht den schnellen Zugriff auf historische Daten. Ebenfalls bietet es die Möglichkeit an Turniere zu löschen. 
+
+===== Funktionalitäten
+- *Laden der Turnierliste:* Beim Laden der Komponente wird eine Anfrage an die API gesendet, um eine Liste aller gespeicherten Turniere abzurufen.
+- *Anzeige als Buttons:* Jedes Turnier wird als ein klickbarer Button dargestellt, der den Namen des Turniers anzeigt.
+- *Navigation zum Turnierplan:* Bei Auswahl eines Turniers wird der Benutzer zur TurnierPlan-Ansicht weitergeleitet, die den detaillierten Spielplan des ausgewählten Turniers anzeigt.
+- *Löschen von Turnieren:* Mithilfe der Komponente LoescheButton.vue ist der Benutzer in der Lage Turniere zu Löschen 
+
+==== TournamentStep1.vue
+
+Erfasst die grundlegenden Konfigurationsdaten eines Turniers im ersten Schritt der Turniererstellung.
+
+===== Funktionalitäten
+- Eingabe des Turniernamens
+- Angabe Anzahl der Felder
+- Angabe Existiert ein Rückspiel
+- Angabe Anzahl Leistungsgruppen (max. 2)
+- Uhrzeit Turnierstart
+- Angabe Dauer eines Spiels (in min)
+- Angabe Aufwärmzeit (in min)
+- Anzahl Pausen 
+
+===== Verwendete Komponenten
+- WeiterButton.vue - Button für Weiter
+- ZurueckButton.vue - Button für Zurück
+
+==== TournamentStep2.vue
+
+Ermöglicht die detaillierte Konfiguration von Gruppen und Pausen.
+
+===== Funktionalitäten
+
+- Gruppennamen der Leistungsgruppen festlegen
+- Teamgröße der Leitungsgruppen einstellen (Für Algorithmus sollte die Teams gleich groß sein)
+- Uhrzeit der Pausen angeben
+- Länge der Pause angeben
+
+===== Verwendete Komponenten
+
+- HomeButton.vue - Button 
+- FormField.vue - Button 
+
+=== API-Dokumentation
+
+Die API (Application Programming Interface) dient als Schnittstelle zwischen dem Frontend und dem Backend des Turnierverwaltungssystems. Sie ermöglicht den Datenaustausch und die Ausführung von serverseitigen Operationen. Die API ist nach den Prinzipien von REST (Representational State Transfer) gestaltet und verwendet das JSON-Format für den Datenaustausch.
+
+==== Endpunkte
+
+Die folgende Tabelle listet die verfügbaren API-Endpunkte, die unterstützten HTTP-Methoden und deren jeweilige Funktionen auf:
+
+[cols="1,1,4", options="header"]
+|===
+|
+|===
 
 == Backend
 
@@ -46,10 +181,11 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. ht
 | `/tournaments/` | Lade existierende Turniernamen aus der Datenbank. | `get_tournaments()`
 | `/tournaments/{tournamentID}` | Übermittelt existierenden Turnierplan aus der Datenbank, indem die TurnierID, als String, des Turniers das geladen werden soll mit übergeben wird. | `get_match_plan(tournamentID: str)`
 | `/tournaments/match_plan/{matchID}` | Holt aktuelle Spielstand aus der Datenbank mittels der übergabe der SpielID als String. |  `get_match(matchID: str)`
-| `/tournaments/match_plan/match_changes/{matchID}` | Holt alle Änderungen, die an einem Spiel vorgenommen wurden, anhand der übergebenen Spiel-ID als String. | `get_match_result_changes(matchID: str)`
+| `/tournaments/match_plan/match_changes/{matchID}` | Holt alle Änderungen, die an einem Spiel vorgenommen wurden, anhand der übergebenen SpielID als String. | `get_match_result_changes(matchID: str)`
 |===
 
 ==== PUT-Endpunkte
+
 [cols="2,3,2", options="header"]
 |===
 | API-Endpunkt | Beschreibung des Endpunktes | Backendfunktion
@@ -58,6 +194,7 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. ht
 |===
 
 ==== DELETE-Endpunkte
+
 [cols="2,3,2", options="header"]
 |===
 | API-Endpunkt | Beschreibung des Endpunktes | Backendfunktion
@@ -65,6 +202,7 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. ht
 |===
 
 ==== Implementierung der REST-API
+
 Die REST-API des Backends ist mit FastAPI implementiert, einem modernen und performanten Python-Framework für die Entwicklung von Web-APIs. FastAPI bietet integrierte Unterstützung für asynchrone Verarbeitung, automatische Generierung von OpenAPI-Spezifikationen sowie Validierung und Dokumentation von Eingabe- und Ausgabeparametern.
 
 Die API ist modular aufgebaut und nutzt verschiedene Endpunkte zur Bereitstellung der Funktionalität rund um die Verwaltung von Turnieren, Spielplänen und Spielständen. Die Datenzugriffsschicht wurde individuell als eigene Klasse *DatabaseRequests* implementiert, um die Kommunikation mit der Datenbank flexibel und übersichtlich zu gestalten.
@@ -72,6 +210,7 @@ Die API ist modular aufgebaut und nutzt verschiedene Endpunkte zur Bereitstellun
 FastAPI-Middleware wie *CORSMiddleware* sorgt für die flexible Steuerung von Zugriffsrechten, um Frontend-Anwendungen den Zugriff auf die API zu ermöglichen.
 
 Beispiel: API-Endpunkt zur Erstellung eines Turniers
+
 [source,python]
 ----
 from fastapi import FastAPI, HTTPException
@@ -90,7 +229,7 @@ def get_tournaments():
     Rückgabewert:
         - JSON-Objekt mit dem Schlüssel "tournaments":
             - Eine Liste von Turnieren mit je:
-                - "id" (int): Turnier-ID
+                - "id" (int): Turnier ID
                 - "name" (str): Name des Turniers
 
     Fehler:
@@ -103,6 +242,7 @@ def get_tournaments():
 ----
 
 ==== Mögliche Fehlermeldungen und Statuscodes
+
 [cols="1,2,3", options="header"]
 |===
 | Fehlercode | Ursache | Kontext / Beschreibung
@@ -114,6 +254,7 @@ def get_tournaments():
 - Keine Daten gefunden (z.B. Spiel nicht existent) +
 - Allgemeine Serverfehler bei API-Aufrufen
 |===
+
 [cols="2", options="header"]
 |===
 | Statuscode | Bedeutung 
@@ -121,12 +262,21 @@ def get_tournaments():
 |===
 :sectnums:
 
-++++
-include::{htmlsdir}/backend_py_documentation.html[]
-++++
+=== Backend.py
 
-// TODO Backend Funktionen
-=== API Klassen
+//++++
+//include::{htmlsdir}/backend_py_documentation.html[]
+//++++
+image::backend_generate_tournament.png[]
+image::backend_get_tournaments.png[]
+image::backend_get_match_plan.png[]
+image::backend_get_match.png[]
+image::backend_get_match_result_changes.png[]
+image::backend_change_match_result.png[]
+image::backend_change_team_name.png[]
+image::backend_delete_tournament.png[]
+
+=== APIClasses.py
 
 :sectnums!:
 ==== ReturnMatchOption
@@ -137,6 +287,7 @@ include::{htmlsdir}/backend_py_documentation.html[]
 | TRUE     | Enum     | "true" oder "false" als String | Gibt an, ob Rückspiele zurückgegeben werden
 | FALSE    | Enum     | "true" oder "false" als String | Gibt an, dass nur Hinspiele zurückgegeben werden
 |===
+
 ==== GenerateTournament
 
 [cols="1,1,2,3", options="header"]
@@ -190,32 +341,67 @@ include::{htmlsdir}/backend_py_documentation.html[]
 [cols="1,1,2,3", options="header"]
 |===
 | Variabel | Datentyp | validator Bedingung | Beschreibung 
-| team_id  | int      | Muss Integer sein      | Eindeutige Team-ID
+| team_id  | int      | Muss Integer sein      | Eindeutige TeamID
 | new_name | str      | Muss String sein       | Neuer Teamname
 |===
 
-=== Database Request
-++++
-include::{htmlsdir}/database_request_py_documentation.html[]
-++++
+:sectnums:
 
+=== Database_Request.py
 
-=== Server
-++++
-include::{htmlsdir}/server_py_documentation.html[]
-++++
+//++++
+//include::{htmlsdir}/database_request_py_documentation.html[]
+//++++
+image::database_requests_insert_tournament.png[]
+image::database_requests_insert_stages.png[]
+image::database_requests_get_tournament_id.png[]
+image::database_requests_insert_tournament_data.png[]
+image::database_requests_get_existing_tournaments.png[]
+image::database_requests_get_tournament_plan.png[]
+image::database_requests_get_matches.png[]
+image::database_requests_change_results.png[]
+image::database_requests_get_match_changes.png[]
+image::database_requests_change_team_name.png[]
+image::database_requests_delete_tournament.png[]
 
-=== Turnierplangererator
-++++
-include::{htmlsdir}/turnierplangenerator_py_documentation.html[]
-++++
+=== Server.py
+
+//++++
+//include::{htmlsdir}/server_py_documentation.html[]
+//++++
+image::server_initializing_database.png[]
+image::server_query.png[]
+image::server_query.png[]
+
+=== turnierplangenerator_4.py
+
+//++++
+//include::{htmlsdir}/turnierplangenerator_py_documentation.html[]
+//++++
+image::turnierplangenerator_calculate_waiting_time.png[]
+image::turnierplangenerator_assign_fields_to_groups.png[]
+image::turnierplangenerator_create_tournament_plan.png[]
+image::turnierplangenerator_insert_pauses.png[]
+image::turnierplangenerator_return_plan.png[]
+image::turnierplangenerator_create_html.png[]
 
 === Turnierüberarbeitung
-++++
-include{htmlsdir}/turnierueberarbeitung_py_documentation.html[]
-++++
 
-:sectnums:
+//++++
+//include{htmlsdir}/turnierueberarbeitung_py_documentation.html[]
+//++++
+image::turnierueberarbeitung_extrahiere_zeiten.png[]
+image::turnierueberarbeitung_initialisiere_status_lists.png[]
+image::turnierueberarbeitung_slot_index.png[]
+image::turnierueberarbeitung_baue_status_lists.png[]
+image::turnierueberarbeitung_sortiere_schedule.png[]
+image::turnierueberarbeitung_drucke_schedule.png[]
+image::turnierueberarbeitung_aufruf_tournament.png[]
+image::turnierueberarbeitung_get_statusverlaufe.png[]
+image::turnierueberarbeitung_analysiere_verlauf.png[]
+image::turnierueberarbeitung_main.png[]
+image::turnierueberarbeitung_show_bestplan.png[]
+image::turnierueberarbeitung_rekonstruiere_teams.png[]
 
 == Datenbank
 
