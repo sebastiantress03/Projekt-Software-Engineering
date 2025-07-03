@@ -24,7 +24,6 @@
 export default {
     name: "FormField",
     props: {
-
         /**
          * Das Textlabel, das links neben dem Eingabefeld angezeigt wird.
          */
@@ -34,6 +33,7 @@ export default {
 </script>
 
 <style scoped>
+/* Layout-Container für Formularfeld */
 .form-field {
     display: flex;
     justify-content: space-between;
@@ -43,6 +43,8 @@ export default {
     font-size: 15px;
     color: #004d40;
 }
+
+/* Label-Bereich */
 .form-label {
     min-width: 160px;
 }

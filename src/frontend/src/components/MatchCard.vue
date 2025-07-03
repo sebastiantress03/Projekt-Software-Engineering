@@ -22,6 +22,19 @@
 </template>
 
 <script>
+/**
+ * @component MatchCard
+ * @description
+ * Zeigt die Informationen eines einzelnen Spiels (Match) an, inklusive Teams, Gruppe, Feld, Uhrzeit, Schiedsrichter und Ergebnis.
+ *
+ * @props
+ * @prop {Object} match - Das Match-Objekt mit Feldern wie teamA, teamB, group, field, startTime, ref, scoreA, scoreB, groupColor, match (String für Anzeige).
+ *
+ * @emits open-popup - Wird ausgelöst, wenn auf die MatchCard geklickt wird, und gibt das Match-Objekt zurück.
+ *
+ * @example
+ * <MatchCard :match="matchObj" @open-popup="handlePopup" />
+ */
 export default {
     name: "MatchCard",
     props: {
@@ -39,6 +52,7 @@ export default {
 </script>
 
 <style scoped>
+/* Basis-Styling für die Match-Karte */
 .match-card {
     background: #f9f9f9;
     border-radius: 10px;
@@ -49,10 +63,14 @@ export default {
     transition: box-shadow 0.2s;
     border-left: 6px solid #387d75;
 }
+
+/* Hover-Effekt */
 .match-card:hover {
     box-shadow: 0 4px 16px rgba(27, 66, 62, 0.18);
     background: #e6f2ef;
 }
+
+/* Header-Bereich (Gruppe, Feld, Zeit) */
 .match-header {
     display: flex;
     justify-content: space-between;
@@ -60,6 +78,8 @@ export default {
     margin-bottom: 6px;
     font-size: 14px;
 }
+
+/* Gruppen-Badge */
 .group {
     font-weight: bold;
     padding: 2px 8px;
@@ -67,6 +87,8 @@ export default {
     background: #387d75;
     color: #fff;
 }
+
+/* Gruppenvarianten */
 .group.fun {
     background: #fbc02d;
     color: #222;
@@ -75,6 +97,8 @@ export default {
     background: #e57373;
     color: #fff;
 }
+
+/* Feld und Zeit */
 .field {
     color: #1b423e;
     font-size: 13px;
