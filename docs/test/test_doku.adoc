@@ -1,5 +1,5 @@
 = Testdokumentation: Turnierorganisationssoftware
-Oliver Theumer <s86407@htw-dresden.de>; [weitere Teammitglieder]
+Oliver Theumer <s86407@htw-dresden.de>, Sebastian; [weitere Teammitglieder]
 {localdatetime}
 include::../_includes/default-attributes.inc.adoc[]
 
@@ -850,7 +850,7 @@ Die Tests wurden in Postman als Collection organisiert und können über die Pos
 | 2. Aufruf ohne Turnier ID
 | statuscode 400 Bad Request Ungültige TurnierID
 | statuscode 400 Bad Request Ungültige TurnierID
-| Erwartetes Ergebnis ist eingetroffen
+| Erwartetes Ergebnis ist eingetroffen 
 |===
 
 ==== Schnittstelle: PUT /tournaments/match_plan/match/{matchID}
