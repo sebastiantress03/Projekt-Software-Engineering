@@ -767,7 +767,160 @@ Alle haben sich ein Spiel ausgewählt, in dem sie ein Spielstand ändern wollen.
 
 Integration von Frontend, API und Datenbank. Hier wird geprüft, ob die API korrekt reagiert und das Frontend die Daten korrekt darstellt.
 
+=== Testumfang
 
+- Überprüfung der HTTP-Methoden (GET, POST, PUT, DELETE)
+- Validierung der Request- und Response-Parameter
+- Prüfung von Statuscodes und Fehlermeldungen
+- Authentifizierung und Autorisierung (falls implementiert)
+- Funktionale Tests der wichtigsten API-Endpunkte (z. B. Benutzerverwaltung, Datenabfrage)
+
+=== Testdurchführung
+
+Die Tests wurden in Postman als Collection organisiert und können über die Postman-Oberfläche ausgeführt werden. Folgende Schritte wurden beachtet:
+
+. Import der Postman-Collection in die Postman-App
+. Konfiguration der Basis-URL entsprechend der lokalen oder Testumgebung
+. Ausführung der Tests und Überprüfung der Ergebnisse (Statuscode, Antwortdaten)
+. Dokumentation etwaiger Fehler und Abweichungen
+
+==== Schnittstelle: POST /tournament/
+
+[cols="2,2,2,4", options="header"]
+|===
+| Testfall | Erwartetes Ergebnis | Tatsächliches Ergebnis | Bemerkungen
+
+| 1. Turnier anlegen mit Validen Werten
+| Statuscode 200
+| Statuscode 200
+| Erwartetes Ergebnis ist eingetroffen
+
+| 2. Turnier anlegen mit nicht Validen Wert
+| Statuscode 422 Unprocessable Entity mit detaillierter Fehlermeldung
+| Statuscode 422 Unprocessable Entity mit detaillierter Fehlermeldung
+| Absicherung funktioniert
+
+|===
+
+==== Schnittstelle: GET /tournaments/
+
+[cols="2,2,2,4", options="header"]
+|===
+| Testfall | Erwartetes Ergebnis | Tatsächliches Ergebnis | Bemerkungen
+
+| 1. Existierende Turniere Abfragen
+| tournaments Objekt mit der Id und Name der Turniere
+| tournaments Objekt mit der Id und Name der Turniere
+| Erwartetes Ergebnis ist eingetroffen
+
+| 2. Abfrage ohne Turniere
+| Leeres tournaments Objekt
+| Leeres tournaments Objekt
+| Erwartetes Ergebnis ist eingetroffen
+|===
+
+==== Schnittstelle: GET /tournaments/{tournamentID}
+
+[cols="2,2,2,4", options="header"]
+|===
+| Testfall | Erwartetes Ergebnis | Tatsächliches Ergebnis | Bemerkungen
+
+| 1. Existierende Turnier ID für Abfragen verwendet
+| vollständiger Turnierplan in tournament Objekt
+| vollständiger Turnierplan in tournament Objekt
+| Erwartetes Ergebnis ist eingetroffen
+
+| 2. Nicht Existierende Turnier ID für Abfragen verwendet
+| Leeres tournament Objekt
+| Leeres tournament Objekt
+| Erwartetes Ergebnis ist eingetroffen
+|===
+
+==== Schnittstelle: GET /tournaments/match_plan/{matchID}
+
+[cols="2,2,2,4", options="header"]
+|===
+| Testfall | Erwartetes Ergebnis | Tatsächliches Ergebnis | Bemerkungen
+
+| 1. Existierende Match ID für Abfragen verwendet
+| score Objekt mit den Spielständen von Team 1 und Team 2
+| score Objekt mit den Spielständen von Team 1 und Team 2
+| Erwartetes Ergebnis ist eingetroffen
+
+| 2. Aufruf ohne Turnier ID
+| statuscode 400 Bad Request Ungültige TurnierID
+| statuscode 400 Bad Request Ungültige TurnierID
+| Erwartetes Ergebnis ist eingetroffen
+|===
+
+==== Schnittstelle: PUT /tournaments/match_plan/match/{matchID}
+
+[cols="2,2,2,4", options="header"]
+|===
+| Testfall | Erwartetes Ergebnis | Tatsächliches Ergebnis | Bemerkungen
+
+| 1. Existierende Match ID für Update mit gültigen Übergabeparametern
+| Statuscode 200 OK mit aktualisiertem score Objekt
+| Statuscode 200 OK mit aktualisiertem score Objekt 
+| Erwartetes Ergebnis ist eingetroffen
+
+| 2. Existierende Match ID für Update mit gültigen Übergabeparametern
+| statuscode 500 mit detail Object und der Anmerkung "Datenbankfehler beim ändern von Daten"
+| statuscode 500 mit detail Object und der Anmerkung "Datenbankfehler beim ändern von Daten"
+| Erwartetes Ergebnis ist eingetroffen (ist aber noch optimierbar)
+
+|===
+
+==== Schnittstelle: GET /tournaments/match_plan/match_changes/{matchID}
+
+[cols="2,2,2,4", options="header"]
+|===
+| Testfall | Erwartetes Ergebnis | Tatsächliches Ergebnis | Bemerkungen
+
+| 1. Existierende Match ID für Abfragen verwendet mit existierenden Änderungen
+| changes Objekt mit allen vorgenommenen den Änderungen am Spiel
+| changes Objekt mit allen vorgenommenen den Änderungen am Spiel
+| Erwartetes Ergebnis ist eingetroffen
+
+| 2. Existierende Match ID für Abfragen verwendet ohne existierende Änderungen
+| changes Objekt mit leeren Änderungen
+| changes Objekt mit leeren Änderungen  
+| Erwartetes Ergebnis ist eingetroffen
+
+|===
+
+==== Schnittstelle; PUT /tournaments/match_plan/team/{tournamentID}
+
+[cols="2,2,2,4", options="header"]
+|===
+| Testfall | Erwartetes Ergebnis | Tatsächliches Ergebnis | Bemerkungen
+| 1. Existierende Turnier ID für Update mit gültigen Übergabeparametern
+| Statuscode 200 OK mit aktualisiertem Team Objekt
+| Statuscode 200 OK mit aktualisiertem Team Objekt
+| Erwartetes Ergebnis ist eingetroffen
+
+| 2. Existierende Turnier ID für Update mit ungültigen Übergabeparametern
+| statuscode 422 Bad Request mit detaillierter Fehlermeldung
+| statuscode 422 Bad Request mit detaillierter Fehlermeldung
+| Erwartetes Ergebnis ist eingetroffen
+
+|===
+
+==== Schnittstelle: DELETE /tournaments/match_plan/match/{matchID}
+
+[cols="2,2,2,4", options="header"]
+|===
+| Testfall | Erwartetes Ergebnis | Tatsächliches Ergebnis | Bemerkungen
+| 1. Existierende Turnier ID für Löschung verwendet
+| Statuscode 200 OK mit Bestätigung der Löschung
+| Statuscode 200 OK mit Bestätigung der Löschung
+| Erwartetes Ergebnis ist eingetroffen
+
+| 2. Nicht existierende Turnier ID für Löschung verwendet
+| Statuscode 404 Not Found mit detaillierter Fehlermeldung
+| Statuscode 200 OK
+| Erwartetes Ergebnis ist nicht eingetroffen
+|===
 
 == Zusammenfassung
 

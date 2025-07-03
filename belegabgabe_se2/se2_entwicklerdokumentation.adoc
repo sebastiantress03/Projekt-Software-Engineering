@@ -1,5 +1,5 @@
 // --- 1. Projektthema -------------------------
-= SE I - Belegabgabe: {project-name}
+= Entwicklerdokumentation: {project-name}
 // --- 2. Teammitglieder -----------------------
 Thomas Sweeney <s86208@htw-dresden.de>; Sebastian Treß <sebastian.tress@stud.htw-dresden.de>; Louai Alrefai <Louai.Alrefai@htw-dresden.de>; Oliver Theumer <s86407@htw-dresden.de>; Niklas Benjamin Große <niklasbenjamin.grosse@stud.htw-dresden.de>; Luke Reeder <luke.reeder@stud.htw-dresden.de>
 // --- 3. Abgabedatum --------------------------
@@ -34,7 +34,6 @@ include::{docs}/_includes/default-attributes.inc.adoc[]
 :docs-test: {docs}/test
 :docs-development: {docs}/development
 
-= Entwicklerdokumentation
 
 // --- Architektur-Notizbuch ---
 :imagesdir:  {docs-architecture}/images
