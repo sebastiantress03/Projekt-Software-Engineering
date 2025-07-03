@@ -13,8 +13,8 @@ image::./Screenshot 2025-07-02 225006.png[][alt="Hauptmenü", width=600]
 
 *Anleitung:*
 
-1. Klicken Sie auf `"Turnierplan erstellen"` für neue Turniere
-2. Wählen Sie `"Turnierplan laden"` für bereits gespeicherte Turniere
+1. Klicken Sie auf `"Turnierplan erstellen"` für neue Turniere (führt zu <<_2_Turnierkonfiguration, 2. Turnierkonfiguration>>)
+//2. Wählen Sie `"Turnierplan laden"` für bereits gespeicherte Turniere (führt zu `4. Turnierplan laden`)
 
 [NOTE]
 ====
@@ -23,16 +23,21 @@ Das Hauptmenü ist Ihr Startpunkt für alle Funktionen.
 
 == 2. Turnierkonfiguration
 
-image::./Screenshot 2025-07-02 224313.png[][alt="Turnierkonfiguration", width=600]
+image::./Screenshot 2025-07-02 224313.png[alt="Turnierkonfiguration", width=600]
 
 .Schritte:
 
-1. Geben Sie den *Turniernamen* ein (z. B. "HTW Dresden")
-2. Legen Sie die *Anzahl der Felder* fest
-3. Aktivieren Sie *"Hin- & Rückrunde"* wenn gewünscht
-4. Klicken Sie auf *"Weiter zu Gruppen"*
+1. Geben Sie den *Turniernamen* ein (z. B. *HTW Dresden*).
+2. Legen Sie die *Anzahl der Felder* fest.
+3. Aktivieren Sie die Option *„Hin- & Rückrunde“*, wenn gewünscht.
+4. Klicken Sie auf *„Weiter zu Gruppen“* (führt zu <<_3_gruppen_einrichten,3. Gruppen einrichten>>).
+5. Geben Sie die *Anzahl der Gruppen* ein.
+6. Tragen Sie die gewünschte *Startzeit* ein.
+7. Legen Sie die *Spielzeit* in Minuten fest.
+8. Legen Sie die *Aufwärmzeit* in Minuten fest.
+9. Geben Sie die Anzahl der *Pausen* ein.
 
-[WARNING]
+[NOTE]
 ====
 Die Spielzeit sollte realistisch geplant werden (empfohlen: 10–15 Minuten pro Spiel).
 ====
@@ -45,11 +50,17 @@ image::./Screenshot 2025-07-02 224518.png[][alt="Gruppenkonfiguration", width=60
 | Gruppenname | Name der Spielgruppe (z. B. "Stura")
 | Anzahl Teams | Anzahl der teilnehmenden Teams
 | Pausenzeiten | Planen Sie ausreichend Pausen ein
+|Länge Pause| Dauer einer Pause in Minuten
 |===
 
-Klicken Sie auf *"Daten übergeben"*, um die Gruppeneinstellungen zu speichern.
+[NOTE]
+====
+- Pausenzeiten von mehr als 60 Minuten sind Unzulässig.
+- Die Leistungsgruppen sollten eine gleichgroße  Teamgröße haben.
+====
+Klicken Sie auf *"Daten übergeben"*, um das Turnier zu erstellen.
 
-Nach der Dateneingabe gelangen Sie zurück zum Hauptmenü, wo Sie über *„Turnierplan anzeigen“* Ihr erstelltes Turnier einsehen können.
+Nach der Dateneingabe gelangen Sie zurück zum `Hauptmenü`, wo Sie über *„Turnierplan anzeigen“* Ihr erstelltes Turnier einsehen können.
 
 == 4. Turnierplan anzeigen
 
@@ -58,31 +69,45 @@ image::./Screenshot 2025-07-02 225107.png[][alt="Turnierplan", width=600]
 
 Wenn sich der Benutzer im Hauptmenü befindet, kann er auf **„Turnierplan laden“** klicken. Es öffnet sich ein Fenster, in dem alle zuvor erstellten Turniere angezeigt werden.
 
+image::./Screenshot 2025-07-03 214407.png[][alt="Löschfunktion", width=600]
+
 === Turnier löschen
+image::./Screenshot 2025-07-03 214608.png[][alt="Löschfunktion", width=600]
+
+Die Interaktion mit dem Button ermöglicht es Turniere zu löschen.
+
+
 image::./Screenshot 2025-07-02 225909.png[][alt="Löschfunktion", width=600]
 
 In der Turnierauswahlansicht stehen folgende Löschfunktionen zur Verfügung:
 
-- Einzelnes Turnier löschen
-- Mehrere Turniere gleichzeitig löschen
+- Einzelnes Turnier löschen ( durch eine Interaktion mit dem Turnier Button )
+- Mehrere Turniere gleichzeitig löschen ( durch eine Interaktion mit mehreren Turnier Button)
 - Alle Turniere löschen
+- Um den Löschvorgang abzubrechen betätigen Sie den Abbruch Button.
 
 Diese Funktionen helfen beim Aufräumen und Verwalten alter Daten.
 
 == 5. Turnier auswählen und laden
+
 image::./Screenshot 2025-07-02 225451.png[][][alt="Turnierplan", width=600]
+
 - Der Benutzer kann ein beliebiges Turnier aus der Liste auswählen
 - Nach der Auswahl wird der entsprechende Turnierplan angezeigt
 - Die Ansicht zeigt:
-    - Alle Spielbegegnungen
-    - Uhrzeiten
-    - Feldzuweisungen
-    - Ergebnisse (initial 0:0)
+    ** Alle Spielbegegnungen
+    ** Uhrzeiten
+    ** Feldzuweisungen
+    ** Ergebnisse (initial 0:0)
 
+image::./Screenshot 2025-07-03 215827.png[][alt="Turnierplan", width=600]
 
 *Filterfunktion*
 
 - Klicken Sie auf das Filtersymbol
+
+image::./Screenshot 2025-07-02 230153.png[][alt="Turnierplan", width=600]
+
 - Wählen Sie eine Gruppe aus
 - Die Ansicht aktualisiert sich automatisch
 
@@ -93,6 +118,9 @@ image::Screenshot 2025-07-03 193018.png[][alt="Turnierplan", width=600]
 Sobald ein Turnier geladen wurde:
 
 - Klicken Sie auf ein Spiel im Turnierplan
+
+image::./Screenshot 2025-07-03 220716.png[][alt="Turnierplan", width=600]
+
 - Es öffnet sich ein Eingabefenster
 - Geben Sie die Punkte oder Tore für beide Teams ein
 - Klicken Sie auf **„Speichern“** oder **„Abbrechen“**
@@ -129,6 +157,9 @@ image::./Screenshot 2025-07-02 231550.png[][alt="Turnierauswertung", width=600]
 *Filterfunktion*
 
 - Klicken Sie auf das Filtersymbol
+
+image::./Screenshot 2025-07-03 192350.png[][alt="Turnierplan", width=600]
+
 - Wählen Sie eine Gruppe aus
 - Die Ansicht aktualisiert sich automatisch
 
@@ -270,9 +301,9 @@ image::./Mobileansicht/Turnierauswertung_Filter.png[][alt="Exportfunktion", widt
 
 - Auswahl der gewünschten *Leistungsgruppe* (Gruppe)
 - Berechnung der:
-  - Platzierungen
-  - Punkte (z. B. Sieg = 1 Punkt, Niederlage = 0 Punkte)
-  - Differenzen (z. B. Tordifferenz)
+  ** Platzierungen
+  ** Punkte (z. B. Sieg = 1 Punkt, Niederlage = 0 Punkte)
+  ** Differenzen (z. B. Tordifferenz)
 - Anzeige der Gewinner*innen
 
 image::./Mobileansicht/Turniere Ausgewerrer.png[][alt="Exportfunktion", width=600]
