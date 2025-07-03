@@ -126,12 +126,14 @@ Erfasst die grundlegenden Konfigurationsdaten eines Turniers im ersten Schritt d
 Ermöglicht die detaillierte Konfiguration von Gruppen und Pausen.
 
 ===== Funktionalitäten
+
 - Gruppennamen der Leistungsgruppen festlegen
 - Teamgröße der Leitungsgruppen einstellen (Für Algorithmus sollte die Teams gleich groß sein)
 - Uhrzeit der Pausen angeben
 - Länge der Pause angeben
 
 ===== Verwendete Komponenten
+
 - HomeButton.vue - Button 
 - FormField.vue - Button 
 
@@ -183,6 +185,7 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. ht
 |===
 
 ==== PUT-Endpunkte
+
 [cols="2,3,2", options="header"]
 |===
 | API-Endpunkt | Beschreibung des Endpunktes | Backendfunktion
@@ -191,6 +194,7 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. ht
 |===
 
 ==== DELETE-Endpunkte
+
 [cols="2,3,2", options="header"]
 |===
 | API-Endpunkt | Beschreibung des Endpunktes | Backendfunktion
@@ -198,6 +202,7 @@ Die wichtigsten API-Endpunkte sind in den folgenden Tabellen zusammengefasst. ht
 |===
 
 ==== Implementierung der REST-API
+
 Die REST-API des Backends ist mit FastAPI implementiert, einem modernen und performanten Python-Framework für die Entwicklung von Web-APIs. FastAPI bietet integrierte Unterstützung für asynchrone Verarbeitung, automatische Generierung von OpenAPI-Spezifikationen sowie Validierung und Dokumentation von Eingabe- und Ausgabeparametern.
 
 Die API ist modular aufgebaut und nutzt verschiedene Endpunkte zur Bereitstellung der Funktionalität rund um die Verwaltung von Turnieren, Spielplänen und Spielständen. Die Datenzugriffsschicht wurde individuell als eigene Klasse *DatabaseRequests* implementiert, um die Kommunikation mit der Datenbank flexibel und übersichtlich zu gestalten.
@@ -205,6 +210,7 @@ Die API ist modular aufgebaut und nutzt verschiedene Endpunkte zur Bereitstellun
 FastAPI-Middleware wie *CORSMiddleware* sorgt für die flexible Steuerung von Zugriffsrechten, um Frontend-Anwendungen den Zugriff auf die API zu ermöglichen.
 
 Beispiel: API-Endpunkt zur Erstellung eines Turniers
+
 [source,python]
 ----
 from fastapi import FastAPI, HTTPException
@@ -236,6 +242,7 @@ def get_tournaments():
 ----
 
 ==== Mögliche Fehlermeldungen und Statuscodes
+
 [cols="1,2,3", options="header"]
 |===
 | Fehlercode | Ursache | Kontext / Beschreibung
@@ -247,6 +254,7 @@ def get_tournaments():
 - Keine Daten gefunden (z.B. Spiel nicht existent) +
 - Allgemeine Serverfehler bei API-Aufrufen
 |===
+
 [cols="2", options="header"]
 |===
 | Statuscode | Bedeutung 
@@ -254,7 +262,8 @@ def get_tournaments():
 |===
 :sectnums:
 
-=== Backend
+=== Backend.py
+
 //++++
 //include::{htmlsdir}/backend_py_documentation.html[]
 //++++
@@ -267,7 +276,7 @@ image::backend_change_match_result.png[]
 image::backend_change_team_name.png[]
 image::backend_delete_tournament.png[]
 
-=== API Klassen
+=== APIClasses.py
 
 :sectnums!:
 ==== ReturnMatchOption
@@ -278,6 +287,7 @@ image::backend_delete_tournament.png[]
 | TRUE     | Enum     | "true" oder "false" als String | Gibt an, ob Rückspiele zurückgegeben werden
 | FALSE    | Enum     | "true" oder "false" als String | Gibt an, dass nur Hinspiele zurückgegeben werden
 |===
+
 ==== GenerateTournament
 
 [cols="1,1,2,3", options="header"]
@@ -337,7 +347,8 @@ image::backend_delete_tournament.png[]
 
 :sectnums:
 
-=== Database Request
+=== Database_Request.py
+
 //++++
 //include::{htmlsdir}/database_request_py_documentation.html[]
 //++++
@@ -353,7 +364,8 @@ image::database_requests_get_match_changes.png[]
 image::database_requests_change_team_name.png[]
 image::database_requests_delete_tournament.png[]
 
-=== Server
+=== Server.py
+
 //++++
 //include::{htmlsdir}/server_py_documentation.html[]
 //++++
@@ -361,7 +373,8 @@ image::server_initializing_database.png[]
 image::server_query.png[]
 image::server_query.png[]
 
-=== Turnierplangererator
+=== turnierplangenerator_4.py
+
 //++++
 //include::{htmlsdir}/turnierplangenerator_py_documentation.html[]
 //++++
@@ -373,6 +386,7 @@ image::turnierplangenerator_return_plan.png[]
 image::turnierplangenerator_create_html.png[]
 
 === Turnierüberarbeitung
+
 //++++
 //include{htmlsdir}/turnierueberarbeitung_py_documentation.html[]
 //++++
