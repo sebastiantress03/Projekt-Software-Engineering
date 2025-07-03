@@ -79,10 +79,17 @@ image::./Screenshot 2025-07-02 225451.png[][][alt="Turnierplan", width=600]
     - Feldzuweisungen
     - Ergebnisse (initial 0:0)
 
-image::./Screenshot 2025-07-02 230153.png[][alt="Turnierplan", width=600]
 
-=== Ergebnisse eintragen
-image::./image.png[][alt="Ergebniss eintragen", width=600]
+*Filterfunktion*
+
+- Klicken Sie auf das Filtersymbol
+- Wählen Sie eine Gruppe aus
+- Die Ansicht aktualisiert sich automatisch
+
+image::Screenshot 2025-07-03 193018.png[][alt="Turnierplan", width=600]
+
+=== 5.1 Ergebnisse eintragen
+
 Sobald ein Turnier geladen wurde:
 
 - Klicken Sie auf ein Spiel im Turnierplan
@@ -92,6 +99,9 @@ Sobald ein Turnier geladen wurde:
 
 Die gespeicherten Ergebnisse werden automatisch im Turnierplan aktualisiert.
 
+image::./image.png[][alt="Ergebniss eintragen", width=600]
+
+
 [NOTE]
 ====
 Nach dem Laden eines Turniers sind auch die Optionen **„Auswerten“** und **„Exportieren“** verfügbar.
@@ -100,12 +110,13 @@ Nach dem Laden eines Turniers sind auch die Optionen **„Auswerten“** und **�
 == 6. Auswertung und Export
 Nach der Ergebniseintragung können Sie zwischen zwei Aktionen wählen:
 
-=== Turnier auswerten
+=== 6.1 Turnier auswerten
 
 Klicken Sie auf **„Auswerten“**, um zur Auswertungsansicht zu wechseln.
 
 image::./Screenshot 2025-07-02 231141.png[][alt="Turnierauswertung", width=600]
 
+image::./Screenshot 2025-07-02 231550.png[][alt="Turnierauswertung", width=600]
 *Funktionen der Auswertung:*
 
 - Auswahl der gewünschten *Leistungsgruppe* (Gruppe)
@@ -115,8 +126,21 @@ image::./Screenshot 2025-07-02 231141.png[][alt="Turnierauswertung", width=600]
   - Differenzen (z. B. Tordifferenz)
 - Anzeige der Gewinner*innen
 
-=== Turnierplan exportieren
+*Filterfunktion*
+
+- Klicken Sie auf das Filtersymbol
+- Wählen Sie eine Gruppe aus
+- Die Ansicht aktualisiert sich automatisch
+
+
+=== 6.2 Turnierplan exportieren
 image::./Screenshot 2025-07-02 231300.png[][alt="Exportfunktion", width=600]
+
+*Filterfunktion*
+
+- Klicken Sie auf das Filtersymbol
+- Wählen Sie eine Gruppe aus
+- Die Ansicht aktualisiert sich automatisch
 
 image::./Screenshot 2025-07-02 231815.png[][alt="Exportfunktion", width=600]
 image::./Screenshot 2025-07-02 231931.png[][alt="Exportfunktion", width=600]
@@ -130,12 +154,135 @@ Alternativ können Sie auf **„Exportieren“** klicken:
 Der CSV-Export eignet sich zur Archivierung oder zur Weiterverarbeitung der Spiel- und Ergebnisdaten.
 ====
 
-== 7. Zurück zur vorherigen Ansicht
+== 7.Navigation
 
 Mit einem Klick auf **„Zurück“** gelangen Sie jederzeit ins Vorherige Seite.
 
-== 8. Filterfunktion im Spielplan verwenden
-1. Klicken Sie auf das Filtersymbol (a)
-2. Wählen Sie z. B. Gruppe A aus
-3. Die Ansicht aktualisiert sich automatisch
+
+== Benutzersicht
+
+=== 1. Hauptmenü
+
+image::./Mobileansicht/Home.png[][alt="Hauptmenü", width=600]
+
+*Anleitung:*
+
+Wählen Sie `"Turnierplan laden"`, um gespeicherte Turniere aufzurufen.
+
+
+=== 2. Turnier auswählen und laden
+
+image::./Mobileansicht/Vorherige Turniere.png[][alt="Turnierplan", width=600]
+
+Hier werden Vorherige erstellte Turniere angezeigt. 
+
+- Der Benutzer kann ein beliebiges Turnier aus der Liste auswählen
+- Nach der Auswahl wird der entsprechende Turnierplan angezeigt
+- Die Ansicht zeigt:
+    - Alle Spielbegegnungen
+    - Uhrzeiten
+    - Feldzuweisungen
+    - Ergebnisse (initial 0:0)
+
+image::./Mobileansicht/Turnierplan.png[][alt="Turnierplan", width=600]
+
+*Filterfunktion*
+
+- Klicken Sie auf das Filtersymbol
+- Wählen Sie eine Gruppe aus
+- Die Ansicht aktualisiert sich automatisch
+
+image::./Mobileansicht/TurnierplanFilter.png[][alt="Turnierplan", width=600]
+
+=== 3. Ergebnisse eintragen
+
+Sobald Sie sich ihr Beliebiges Turnier ausgewählt haben:
+
+- Klicken Sie auf ein Spiel im Turnierplan
+
+
+image::./Mobileansicht/Teamsauswählen zum Punkteneintragen.png[][alt="Ergebniss eintragen", width=600]
+
+- Es öffnet sich ein Eingabefenster
+- Geben Sie die Punkte oder Tore für beide Teams ein
+- Klicken Sie auf **„Speichern“** oder **„Abbrechen“**
+
+image::./Mobileansicht/Punkteneintragen.png[][alt="Ergebniss eintragen", width=600]
+
+Die gespeicherten Ergebnisse werden automatisch im Turnierplan aktualisiert.
+
+[NOTE]
+====
+Nach dem Laden eines Turniers sind auch die Optionen **„Auswerten“** und **„Exportieren“** verfügbar.
+====
+
+=== 4. Turnierplan exportieren
+image::./Mobileansicht/ExportButton.png[][alt="Exportfunktion", width=600]
+
+nach der Auswahldes ExportsButtons wird ein kleines Fenster erscheinen, womit man durch das Filterfunktion dann auswählen kann. 
+
+
+
+
+*Filterfunktion*
+
+- Klicken Sie auf das Filtersymbol
+- Wählen Sie eine Gruppe aus
+- Die Ansicht aktualisiert sich automatisch
+
+
+image::./Mobileansicht/AuswahlTurnierexport.png[][alt="Exportfunktion", width=600]
+
+
+Nach der Auswahl ein Beliebiges Turnier 
+
+image::./Mobileansicht/exportieren.png[][alt="Exportfunktion", width=600]
+
+Sie können  auf **„Exportieren“** klicken:
+
+
+2. Speichern Sie ihn als `.csv`-Datei (z. B. zur Bearbeitung in Excel)
+
+[NOTE]
+====
+Der CSV-Export eignet sich zur Archivierung oder zur Weiterverarbeitung der Spiel- und Ergebnisdaten.
+====
+
+
+=== 5. Auswertung
+
+Nach der Ergebniseintragung können Sie zwischen zwei Aktionen wählen:
+Klicken Sie auf **„Auswerten“**, um zur Auswertungsansicht zu wechseln.
+
+image::Mobileansicht/AuswertungsButton.png[][alt="Exportfunktion", width=600]
+
+Nach der Auswahl von AuswertenButton gelangen Sie hier in dieser Einsicht. 
+
+image::./Mobileansicht/Auswerten.png[][alt="Exportfunktion", width=600]
+
+*Filterfunktion*
+
+- Klicken Sie auf das Filtersymbol
+- Wählen Sie eine Gruppe aus
+- Die Ansicht aktualisiert sich automatisch
+
+image::./Mobileansicht/Turnierauswertung_Filter.png[][alt="Exportfunktion", width=600]
+
+- Auswahl der gewünschten *Leistungsgruppe* (Gruppe)
+- Berechnung der:
+  - Platzierungen
+  - Punkte (z. B. Sieg = 1 Punkt, Niederlage = 0 Punkte)
+  - Differenzen (z. B. Tordifferenz)
+- Anzeige der Gewinner*innen
+
+image::./Mobileansicht/Turniere Ausgewerrer.png[][alt="Exportfunktion", width=600]
+
+
+
+
+
+
+
+
+
 
