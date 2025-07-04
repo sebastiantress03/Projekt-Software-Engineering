@@ -63,8 +63,8 @@ Die minimale Systemvoraussetzung ist:
 Die Anwendung ist plattformunabhängig und lässt sich auf allen gängigen Betriebssystemen betreiben. Es wird der Einsatz von Container-Technologien vorausgesetzt.
 
 * Betriebssystem: Windows, macOS oder Linux
-* Docker Engine: Version 20.10 oder höher
-* Docker Compose: Version 1.29 oder höher
+* Docker Engine: Version 27.5 oder höher
+* Docker Compose: Version 2.36 oder höher
 * Optional: Python 3.10+ (für manuelle Verwaltung oder lokale Entwicklung)
 * Webbrowser: Aktuelle Version von Chrome, Firefox, Edge oder Safari
 
