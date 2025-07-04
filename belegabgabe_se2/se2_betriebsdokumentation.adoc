@@ -53,6 +53,7 @@ Diese Dokumentation richtet sich an Systemadministratoren und Entwickler, die f�
 Die Anwendung stellt keine besonderen Hardwareanforderungen.
 
 Die minimale Systemvoraussetzung ist:
+
 * Ein Prozessor, welcher Virtualisierung unterstützt
 * Ein X86-64-Bit-Prozessor (Intel oder AMD)
 * Mindestens 4 GB RAM (8 GB empfohlen für bessere Performance)
@@ -162,6 +163,8 @@ Nach dem Start kannst du die Funktionalität prüfen durch:
 ----
 docker compose ps
 ----
+
+<<<
 
 === Stoppen und Entfernen
 
