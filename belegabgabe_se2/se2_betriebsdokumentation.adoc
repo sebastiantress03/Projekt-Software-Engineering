@@ -42,7 +42,7 @@ Diese Betriebsdokumentation beschreibt die relevanten Aspekte für den Betrieb, 
 * *Frontend*: Vue.js
 * *Backend*: FastAPI (Python)
 * *Datenbank*: SQLite
-* *Containerisierung*: Docker & Docker Compose
+* *Containerisierung*: Docker und Docker Compose
 
 Diese Dokumentation richtet sich an Systemadministratoren und Entwickler, die für die Bereitstellung, Wartung und Weiterentwicklung der Anwendung zuständig sind.
 
@@ -51,6 +51,12 @@ Diese Dokumentation richtet sich an Systemadministratoren und Entwickler, die f�
 === Hardwareanforderungen
 
 Die Anwendung stellt keine besonderen Hardwareanforderungen.
+
+Die minimale Systemvoraussetzung ist:
+* Ein Prozessor, welcher Virtualisierung unterstützt
+* Ein X86-64-Bit-Prozessor (Intel oder AMD)
+* Mindestens 4 GB RAM (8 GB empfohlen für bessere Performance)
+* Mindestens 1 GB freier Speicherplatz für Docker-Images und Daten
 
 === Softwareanforderungen
 
@@ -68,15 +74,14 @@ Die gesamte Anwendung ist in vorkonfigurierte Docker-Container verpackt. Die Ber
 
 == Systemeinrichtung
 
-Die Anwendung wird über vorkonfigurierte Docker-Images betrieben, die öffentlich in der GitHub Container Registry (GHCR) verfügbar sind. Dadurch ist keine lokale Codebasis oder ein manueller Build notwendig – die Einrichtung erfolgt ausschließlich über Docker Compose.
+Die Anwendung wird über vorkonfigurierte Docker-Images betrieben, die öffentlich in der GitHub Container Registry (GHCR) verfügbar sind. Dadurch ist keine lokale Codebasis oder ein manueller Build notwendig. Die Einrichtung erfolgt ausschließlich über Docker Compose.
 
 === Voraussetzungen
 
 Auf dem Zielsystem müssen folgende Tools installiert sein:
 
-* Docker Engine (ab Version 20.10)
-* Docker Compose (ab Version 1.29)
-
+* Docker Engine (ab Version 27.5)
+* Docker Compose (ab Version 2.36)
 Zur Überprüfung der Installation:
 
 [source,sh]
@@ -84,6 +89,7 @@ Zur Überprüfung der Installation:
 docker --version
 docker compose version
 ----
+
 Die Installation von Docker und Docker Compose erfolgt in der Regel über die Paketverwaltung des jeweiligen Betriebssystems. Detaillierte Anleitungen finden sich in der offiziellen Docker-Dokumentation.
 
 Ein GitHub-Konto ist nicht erforderlich, da die Docker-Images öffentlich bereitgestellt sind.
@@ -92,10 +98,9 @@ Ein GitHub-Konto ist nicht erforderlich, da die Docker-Images öffentlich bereit
 
 . Projektverzeichnis mit der `compose.yaml` auf das Zielsystem kopieren:
 +
-[source,sh]
+[source,bash]
 ----
-git clone git@github.com:sebastiantress03/Projekt-Software-Engineering.git
-cd Projekt-Software-Engineering/src/
+curl -O https://raw.githubusercontent.com/sebastiantress03/Projekt-Software-Engineering/refs/heads/main/src/compose.yml
 ----
 
 . Docker Compose starten. Dabei werden die Images automatisch aus der GitHub Container Registry heruntergeladen:
@@ -149,7 +154,7 @@ Hinweis: Die `build:`-Einträge in der `compose.yaml` dienen primär der lokalen
 
 Nach dem Start kannst du die Funktionalität prüfen durch:
 
-* Aufruf der Benutzeroberfläche im Browser: http://localhost:80
+* Aufruf der Benutzeroberfläche im Browser: http://localhost
 * Zugriff auf die Backend-API: http://localhost:8000/api/docs
 * Statusprüfung der Container:
 +
@@ -162,7 +167,7 @@ docker compose ps
 
 Die Anwendung kann gestoppt und die Container entfernt werden mit:
 
-[source,sh]
+[source,sh] 
 ----
 docker compose down
 ----
@@ -179,25 +184,23 @@ docker compose down -v
 === FAQ für den Betrieb
 
 * Warum startet ein Container nicht?  
-  Prüfen Sie mit `docker compose ps` und `docker logs <containername>` die Status- und Fehlermeldungen.
+  Prüfe mit `docker compose ps` und `docker logs <containername>` die Status- und Fehlermeldungen.
 
 * Das Frontend ist nicht erreichbar – was tun?  
-  Prüfen Sie, ob der Frontend-Container läuft und der Port (Standard 80) nicht blockiert ist.
+  Prüfe, ob der Frontend-Container läuft und der Port (Standard 80) nicht blockiert ist.
 
 * Wie aktualisiere ich die Anwendung?  
-  Führen Sie `docker compose pull` gefolgt von `docker compose up -d` aus, um die neuesten Images zu laden und neu zu starten.
+  Führe `docker compose pull` gefolgt von `docker compose up --no-build -d` aus, um die neuesten Images zu laden und neu zu starten.
 
 === Fehlerdiagnose
 
 * Logs anzeigen:
-  `docker logs <containername>`  
+  `docker compose logs`  
 * Status prüfen:
-  `docker compose ps`  
-* Container neustarten:
-  `docker compose restart <containername>`
+  `docker compose ps` 
 
 === Datensicherung und Wiederherstellung
 
 * Die SQLite-Datenbank wird im Verzeichnis `./data/db` abgelegt.  
 * Für Backups kopieren Sie diesen Ordner auf ein Backup-Medium.  
-* Zur Wiederherstellung stoppen Sie die Container (`docker compose down`), ersetzen das Datenverzeichnis durch das Backup und starten die Container neu (`docker compose up -d`).
+* Zur Wiederherstellung stoppen Sie die Container (`docker compose down`), ersetzen das Datenverzeichnis durch das Backup und starten die Container neu (`docker compose up --no-build -d`).
